@@ -28,6 +28,7 @@
 (require 'org)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
+(define-key global-map "\C-cc" 'org-capture)
 (setq org-log-done t)
 (setq org-export-backends '(md gfm beamer ascii taskjuggler html latex odt org))
 
