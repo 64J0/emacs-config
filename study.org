@@ -5,6 +5,12 @@
 Org is a highly flexible structured plain text file format, composed of a few simple, yet versatile,
 structures - constructed to be both simple enough for the novice and powerful enough for the expert.
 
+Tools I want to get better during august:
+
+- [] F#
+- [] Emacs
+- [] Git
+
 * F# docs
 
 ** Functions
@@ -88,3 +94,116 @@ can use F# code from any .NET compatible language such as C#; and run it on Mono
 .NET framework on windows.
 
 [<EntryPoint>] -> This syntax defines a .NET attribute.
+
+| I'll not continue reading this book since its content is not well explained. |
+
+* Emacs docs
+
+  Ref: [[https://orgmode.org/guide][ORG COMPACT GUIDE]]
+
+** TABLES
+  Org comes with a fast and intuitive table editor. Spreadsheet-link calculations are supported in
+  connection with the Emacs Calc package. [[https://www.gnu.org/software/emacs/manual/html_node/calc/index.html#Top][GNU Emacs calculator]].
+
+  A table is re-aligned automatically each time you press /TAB/ or /RET/ or /C-c C-c/ inside the
+  table. /TAB/ also moves to the next field (/RET/ to the next row) and creates new table rows at
+  the end of the table or before horizontal lines. The indentation of the table is set by the first
+  line.
+
+  #+BEGIN_SRC org
+    |Name|Phone|Age|
+    |-
+    
+    + /TAB/
+    
+    =
+    
+    | Name | Phone | Age |
+    |------+-------+-----|
+    |      |       |     |
+  #+END_SRC
+
+  When typing text into a field, Org treats /DEL/, /Backspace/, and all character keys in a special
+  way, so that inserting and deleting avoids shifting other fields. Also, when typing immediately after
+  point was moved into a new field with /TAB/, the field is automatically made blank.
+
+  **Some commands:**
+
+  /C-c C-c/
+    Re-align the table without moving point.
+
+  /TAB/
+    Re-align the table, move to the next field. Creates a new row if necessary.
+
+  /S-TAB/
+    Re-align, move to previous field.
+
+  /RET/
+    Re-align the table and move down to next row. Creates a new row if necessary.
+
+  /S-UP/
+  /S-DOWN/
+  /S-LEFT/
+  /S-RIGHT/
+    Move a cell up, down, left, and right by swapping with adjacent cell.
+
+  /M-LEFT, M-RIGHT/
+    Move the current column left/right.
+
+  /M-S-LEFT/
+    Kill the current column.
+
+  /M-S-RIGHT/
+    Insert a new column to the left of point position.
+
+  /M-UP, M-DOWN/
+    Move the current row up/down.
+
+  /M-S-UP/
+    Kill the current row or horizontal line.
+
+  /M-S-DOWN/
+    Insert a new row above the current row. With a prefix argument, the line is created below the
+    current one.
+
+  /C-c -/
+    Insert a horizontal line below current row. With a prefix argument, the line is created above the
+    current line.
+
+  /C-c RET/
+    Insert a horizontal line below current row, and move the point into the row below that line.
+
+  /C-c ^/
+    Sort the table lines in the region. The position of point indicates the column to be used for
+    sorting, and the range of lines is the range between the nearest horizontal separator lines, or
+    the entire table.
+  
+** HYPERLINKS
+
+  Org provides links inside a file, external links to other files, and much more. Also, Org
+  recognizes plain URIs, possibly wrapped within angle brackets, and activate them as clickable
+  links. The general link format, however, looks like this.
+   
+  #+BEGIN_SRC org
+    [[LINK][DESCRIPTION]]
+    
+    [[LINK]]
+  #+END_SRC
+
+  **Some commands:**
+
+  /C-c C-l/
+    Insert a link. This prompts for a link to be inserted into the buffer. You can just type a link,
+    or use history keys /UP/ and /DOWN/ to access stored links. You will be prompted for the
+    description part of the link.
+  
+  /C-c C-l/
+    Edit the invisible /LINK/ part, with the point on the link.
+
+  /C-c C-o/
+    Open link at point.
+
+  /C-c &/
+    Jump back to a recorded position. A position is recorded by the commands following internal links,
+    and by /C-c %/. Using this command several times in direct succession moves through a ring of
+    previously recorded positions.
