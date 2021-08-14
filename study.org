@@ -1,0 +1,90 @@
+#+title: Studies
+#+author: Me
+#+date: 2021-07-31
+
+Org is a highly flexible structured plain text file format, composed of a few simple, yet versatile,
+structures - constructed to be both simple enough for the novice and powerful enough for the expert.
+
+* F# docs
+
+** Functions
+
+   Functions are the fundamental unit of program execution in any programming language. In F#,
+   all functions are considered values; in fact, they are known as /function values/.
+
+   #+BEGIN_SRC fsharp
+     // Non-recursive function definition
+     let [inline] function-name parameter-list [: return-type] = function-body
+     // Recursive function definition
+     let rec function-name parameter-list = recursive-function body
+   #+END_SRC
+
+   *Scope*
+
+   At any level of scope other than module scope, it is not an error to reuse a value or function
+   name. If you reuse a name, the name declared later shadows the name declared earlier. However,
+   at the top level scope in a module, names must be unique.
+
+   *Partial application of arguments*
+
+   If you supply fewer than the specified number of arguments, you create a new function that
+   expects the remaining arguments. This method of handling arguments is referred to as /currying/
+   and is characteristic of functional programming languages like F#.
+
+   #+BEGIN_SRC fsharp
+     let cylinderVolume (radius: float) (length: float) : float =
+	 let pi = 3.14159
+	 length * pi * radius * radius
+     let smallPipeRadius = 2.0
+     let bigPipeRadius = 3.0
+     let smallPipeVolume = cylinderVolume smallPipeRadius
+     let bigPipeVolume = cylinderVolume bigPipeRadius
+   #+END_SRC
+
+   Because functions are values, they can be used as arguments to other functions or in other
+   contexts where values are used.
+
+   *Lambda expressions*
+
+   A /lambda expression/ in an unnamed function.
+
+   #+BEGIN_SRC fsharp
+     let apply (fn: int -> int) value = fn value
+     let lambdaFun = fun x -> x + 1
+     apply lambdaFun 2
+     // result: 3
+   #+END_SRC
+
+   *Function composition and pipelining*
+
+   The composition of two functions *fn1* and *fn2* is another function that represents the
+   application of *fn1* followed the application of *fn2*.
+
+   #+BEGIN_SRC fsharp
+     let fn1 x = x + 1
+     let fn2 y = y * 2
+     let compfn = fn1 >> fn2
+     let result = compfn 100
+     // result: 202
+   #+END_SRC
+
+   Pipelining enables function calls to be chained together as successive operations. Pipelining
+   works as follows:
+
+   #+BEGIN_SRC fsharp
+     let result = 100 |> fn1 |> fn2
+     // result: 202
+   #+END_SRC
+
+   *Recursive functions*
+
+   For some recursive functions, it is necessary to refactor a more "pure" definition to one that
+   is [[https://cs.stackexchange.com/questions/6230/what-is-tail-recursion][tail recursive]]. This prevents unnecessary recomputations.
+
+* Learning F# (book)
+
+The F# compiler -- which is open source -- compiles your programs into IL, which means that you
+can use F# code from any .NET compatible language such as C#; and run it on Mono, .NET Core, or the
+.NET framework on windows.
+
+[<EntryPoint>] -> This syntax defines a .NET attribute.
