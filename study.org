@@ -11,7 +11,10 @@ Tools I want to get better during august:
 - [] Emacs
 - [] Git
 
-* F# docs
+---
+Started 2021-08:
+
+* TODO F# docs
 
 ** Functions
 
@@ -87,7 +90,8 @@ Tools I want to get better during august:
    For some recursive functions, it is necessary to refactor a more "pure" definition to one that
    is [[https://cs.stackexchange.com/questions/6230/what-is-tail-recursion][tail recursive]]. This prevents unnecessary recomputations.
 
-* Learning F# (book)
+* DONE Learning F# (book)
+  CLOSED: [2021-08-15 dom 10:02]
 
 The F# compiler -- which is open source -- compiles your programs into IL, which means that you
 can use F# code from any .NET compatible language such as C#; and run it on Mono, .NET Core, or the
@@ -97,7 +101,7 @@ can use F# code from any .NET compatible language such as C#; and run it on Mono
 
 | I'll not continue reading this book since its content is not well explained. |
 
-* Emacs docs
+* TODO Emacs docs
 
   Ref: [[https://orgmode.org/guide][ORG COMPACT GUIDE]]
 
@@ -127,7 +131,7 @@ can use F# code from any .NET compatible language such as C#; and run it on Mono
   way, so that inserting and deleting avoids shifting other fields. Also, when typing immediately after
   point was moved into a new field with /TAB/, the field is automatically made blank.
 
-  **Some commands:**
+  *Some commands:*
 
   /C-c C-c/
     Re-align the table without moving point.
@@ -190,7 +194,7 @@ can use F# code from any .NET compatible language such as C#; and run it on Mono
     [[LINK]]
   #+END_SRC
 
-  **Some commands:**
+  *Some commands:*
 
   /C-c C-l/
     Insert a link. This prompts for a link to be inserted into the buffer. You can just type a link,
@@ -207,3 +211,46 @@ can use F# code from any .NET compatible language such as C#; and run it on Mono
     Jump back to a recorded position. A position is recorded by the commands following internal links,
     and by /C-c %/. Using this command several times in direct succession moves through a ring of
     previously recorded positions.
+
+** /TODO ITEMS/
+
+   Org mode does not require TODO lists to live in separate documents. Instead, TODO items are part
+   of a notes file, because they usually come up while taking notes.
+
+   Basically, any headline becomes a TODO item when it starts with the word 'TODO':
+
+   #+BEGIN_SRC org
+     **** TODO Write letter to Sam Fortune
+   #+END_SRC
+
+   You can use TODO keywords to indicate @emph{sequential} working progress states. [[https://orgmode.org/guide/Multi_002dstate-Workflow.html#Multi_002dstate-Workflow][Doc link]].
+
+   *Checkboxes:*
+
+   Every item in a plain list can be made into a checkbox by starting it with the string '[ ]'.
+   Checkboxes are not included into the global TODO list, so they are often great to split a task
+   into a number of simple steps.
+
+   *Some commands:*
+
+   /C-c C-t/
+     Rotate the TODO state of the current item among
+     (unmarked) -> TODO -> DONE -> (unmarked)
+
+   /S-RIGHT/
+   /S-LEFT/
+     Select the following/preceding TODO state, similar to cycling
+
+   /C-c / t/
+     View TODO items in a sparse tree. Folds the entire buffer, but shows all TODO items-with not-DONE
+     state-and the headings hierarchy above them.
+
+   /M-x org-agenda t/
+     Show the global TODO list. Collects the TODO items (with not-DONE states) from all agenda files
+     into a single buffer.
+
+   /S-M-RET/
+     Insert a new TODO entry below the current one.
+
+   
+     
