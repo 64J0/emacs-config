@@ -90,6 +90,13 @@ Started 2021-08:
    For some recursive functions, it is necessary to refactor a more "pure" definition to one that
    is [[https://cs.stackexchange.com/questions/6230/what-is-tail-recursion][tail recursive]]. This prevents unnecessary recomputations.
 
+** Classes
+
+   [[https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/classes][F# docs - Classes]]
+
+   Classes represent the fundamental description of .NET object types; the class is the primary type
+   concept that supports object-oriented programming in F#.
+
 * DONE Learning F# (book)
   CLOSED: [2021-08-15 dom 10:02]
 
@@ -252,5 +259,281 @@ can use F# code from any .NET compatible language such as C#; and run it on Mono
    /S-M-RET/
      Insert a new TODO entry below the current one.
 
+* TODO SAFE
+
+  The SAFE acronym is made up of four separate components:
+
+  * Saturn -> for back-end services in F#
+
+      The Saturn library builds on top of the solid foundation of both the F#-friendly Giraffe and the
+      high performance, rock-solid ASP.NET Core web server to provide a set of optional abstractions
+      which make configuring web applications and constructing complex routes extremely easy to
+      achieve.
+
+      Saturn can host RESTful API endpoints, drive static websites or server-generated content, all
+      inside an easy-to-learn functional programming model.
+
+  * Azure -> as a hosting platform plus associated platform services
+  * Fable -> for running F# in the web browser
+
+      Is an F# to Javascript compiler, designed to produce readable and standard code. Fable allows
+      you to create applications for the browser written entirely in F#, whilst also allowing you
+      to interact with native Javascript as needed.
+  
+  * Elmish -> for client-side user interfaces
+
+* DONE [DB] Optimistic vs pessimistic lock
+  CLOSED: [2021-08-22 dom 10:53]
+  [[https://stackoverflow.com/questions/129329/optimistic-vs-pessimistic-locking/129397#129397][Discussion on StackOverflow]]
+
+  - Optimistic locking:
+
+    1. Read a record (with version number) ->
+    2. Check that the version hasn't changed ->
+    3.1 Write the data (uncorrupted hash);
+    3.2 Abort the transaction and the user need to restart it (corrupted hash);
+
+    This strategy is most applicable to high volume systems and three-tier architectures where
+    you do not necessarily maintain a connection to the database for your session. In this
+    situation the client cannot actually maintain database locks as the connections are taken
+    from a pool and you may not be using the same connection from one access to the next.
+
+  - Pessimistic locking:
+
+    1. Lock the record for your exclusive use until you have finished it.
+
+    It has much better integrity with than optimistic locking but requires you to be careful with
+    your application design to avoid _deadlocks_. To use pessimistic locking you need either a
+    direct connection to the database (as would typically be the case in a two tier client server
+    application) or an externally available transaction ID that can be used independently of the
+    connection.
+    
+* TODO QEMU + NixOS
+  With the help of Magueta.
+
+** [[https://www.computerhope.com/jargon/b/bios.htm][BIOS]]
+
+   BIOS means short for *Basic Input/Output System*, is a *ROM (Read Only Memory)* chip found on
+   motherboards that allows you to access and set up your computer system at the most basic
+   level.
+
+   The BIOS includes instructions on how to load basic computer hardware. It also includes a test
+   referred to as a POST (Power-On Self-Test) that helps verify the computer meets requirements
+   to boot up properly. If the computer does not pass the POST, you head a combination of beeps
+   indicating what is malfunctioning in the computer.
+
+   1. POST - Test the computer hardware and make sure no errors exist before loading the OS.
+   2. Bootstrap loader - Locate the OS. If a capable OS is located, the BIOS will pass control
+      to it.
+   3. BIOS drivers - Low-level drivers that give the computer basic operational control over
+      your computer's hardware.
+   4. BIOS setup or CMOS setup - Configuration program that allows you to configure hardware
+      settings including system settings, such as date, time, and computer passwords.
+
+   The main function of a PC BIOS:
+** UEFI
+
+   UEFI stands for Unified Extensible Firmware Interface. It is a publicly available specification
+   that defines a software interface between an operating system and platform firmware.
    
-     
+   UEFI replaces the legacy BIOS firmware interface originally present in all IBM pc's, with most
+   UEFI firmware implementations providing support for legacy BIOS services. UEFI can support
+   remote diagnostics and repair of computers, even with no operating system installed.
+** [[https://www.redhat.com/en/topics/virtualization/what-is-KVM][KVM]]
+
+   KVM stands for Kernel-based Virtual Machine. It's an open source virtualization technology
+   built into Linux. Specifically, KVM lets you turn Linux into a hypervisor that allows a host
+   machine to run multiple, isolated virtual environments called guests or virtual machines (VMs).
+
+   *KVM is part of Linux.*
+** [[https://www.qemu.org/][QEMU]]
+
+  [[https://qemu-project.gitlab.io/qemu/][Link to the docs.]]
+
+  According to the site, QEMU is a generic and open source machine emulator and virtualizer.
+
+  1. Emulator -
+
+     Hardware or software that enables one computer system (called the host) to behave
+     like another computer system (called the guest). An emulator typically enables the host
+     system to run software or use peripheral devices designed for the guest system. Emulation
+     refers to the ability of a computer program in an electronic device to emulate (or imitate)
+     another program or device.
+  2. Virtualizer -
+
+     Virtualization means a variety of technologies for managing computer resources
+     by providing a software interface, known as an "abstraction layer", between the software
+     (operating system and applications) and the hardware. Virtualization turns "physical" RAM
+     and storage into "logical" resources.
+
+     2.1. Hardware virtualization -
+
+     This is what most computer people are referring to when they talk about virtualization. It
+     partitions the computer's RAM into separate and isolated "virtual machines" (VMs) simulating
+     multiple computers within one physical computer. Hardware virtualization enables multiple
+     copies of the same or different operating systems to run in the computer and prevents the OS
+     and its application in one VM from interfering with the OS and applications in another VM.
+
+     2.2. Network and storage virtualization -
+
+     In a network, virtualization consolidates multiple devices into a logical view so they can
+     be managed from a single console. Virtualization also enables multiple storage devices to be
+     accessed the same way no matter their type or location.
+
+     2.3. Application virtualization -
+
+     Application virtualization refers to several techniques that make
+     running applications protected, flexible and easy to manage.
+  
+     2.4. OS virtualization -
+
+     Under the control of one operating system, a server is split into
+     "containers" that each handle an application.
+  
+  With this tool it's possible to:
+  - Run operating systems for any machine, on any supported architechture.
+    It provides a virtual model of an entire machine (CPU, memory and emulated devices) to run
+    a guest OS.
+  - Run programs for another Linux/BSD target, on any supported architechture.
+  - Run KVM and Xen virtual machines with near native performance.
+
+  [[https://www.youtube.com/watch?v=AAfFewePE7c&ab_channel=DenshiVideo][[YouTube - QEMU: A proper guide!]​]]
+** Partition information
+
+   In this section I'll be sharing other necessary topics to
+   understand the complete installation of the NixOS image.
+*** Swap memory
+
+    [[https://www.enterprisestorageforum.com/hardware/what-is-memory-swapping/][Ref link.]]
+
+    Memory swapping is a computer techonology that enables an
+    operating system to provide more memory to a running application
+    or process than is available in physical *random access memory*
+    (RAM). When the physical system memory is exhausted, the operating
+    system can opt to make use of memory swapping techniques to get
+    additional memory.
+
+    Memory swapping works by making use of virtual memory and storage
+    space in an approach that provides additional resources when
+    required. In short, this additional memory enables the computer to
+    run faster and crunch data better.
+
+    With memory swapping, the operating system makes use of storage
+    disk space to provide functional equivalent of memory storage
+    space.
+
+    The process of memory swapping is managed by an operating system
+    or by a virtual machine hypervisor.
+
+    Advantages of memory swapping:
+
+    - More memory: memory swapping is a critical component of memory
+management, enabling an operating system to handle requests that would
+otherwise overwhelm a system.
+
+    - Continuous operations: swap file memory can be written to disk
+in a continuous manner, enabling faster lookup times for operations.
+
+    - System optimization: application processes of lesser importance
+and demand can be relegated to swap space, saving the higher
+performance physical memory for higher value operations.
+
+    Limitations of memory swapping:
+
+    - Performance: disk storage space, when called up by memory
+swapping, does not offer the same performance as physical RAM for
+process execution.
+
+    - Disk limitations: swap files are reliant on the stabiity and
+availability of storage media, which might not be as stable as system
+memory.
+
+    - Capacity: memory swapping is limited by the available swap space
+that has been allocated by an operating system or hypervisor.
+*** LVM volumes
+
+    In Linux, Logical Volume Manager (LVM) is a device mapper
+    framework that provides logical volume management for the Linux
+    kernel. Most modern Linux distributions are LVM-aware to the point
+    of being able to have their root file systems on a logical volume.
+*** Systemd
+
+    [[https://en.wikipedia.org/wiki/Systemd][Reference link.]]
+
+    systemd is a software suite that provides an array of system
+    components for Linux operating systems. Its main aim is to unify
+    service configuration and behavior across Linux distributions;
+    systemd's primary component is a "system and service manager" - an
+    init system used to bootstrap user space and manage user
+    processes. It also provides replacements for various daemons and
+    utilities, including device management, login management, network
+    connection management, and event logging. The name systemd adheres
+    to the Unix convention of naming daemons by appending the letter d.
+*** Software RAID devices
+
+    [[https://en.wikipedia.org/wiki/RAID][Reference link.]]
+
+    RAID stands for "Redundant Array of Inexpensive Disks", is a data
+    storage virtualization technology that combines multiple physical
+    disk drive components into one or more logical units for the
+    purposes of data redundancy, performance improvement, or
+    both. This was in contrast to the previous concept of highly
+    reliable mainframe disk drives referred to as "single large
+    expensive disk" (SLED).
+*** UEFI (GPT) x Legacy Boot (MBR)
+*** Formatting
+** Steps
+  
+  Choose an interface for the system
+  - i3wm gaps
+  - dwm -> built with C code
+  - install the minimum system and install the interface later
+
+  Download the minimal image and configure it to use with QEMU.
+
+  #+BEGIN_SRC bash
+    # download the minimal image:
+    $ wget https://channels.nixos.org/nixos-21.05/latest-nixos-minimal-x86_64-linux.iso
+    # it will download a file named: latest-nixos-minimal-x86_64-linux.iso
+    
+    # config the image
+    # cmd template -> qemu-img create -f qcow2 NOME.img XG
+    $ qemu-img create -f qcow2 nixos-test.img 20G
+    # command used to create, convert and modify disk images
+    # -f:
+    #   Stands for format option. qcow2 stands for copy on write 2nd generation.
+    
+    
+    # bootstrap the machine
+    # cmd template -> qemu-system-x86_64 -boot d -cdrom image.iso -m 512 -hda mydisk.img
+    $ qemu-system-x86_64 -enable-kvm -boot d \
+    $ -cdrom latest-nixos-minimal-x86_64-linux.iso \
+    $ -m 2G -cpu host -smp 2 -hda nixos-test.img
+    # command used to boot an image
+    # to get the help use the -h flag
+    # -enable-kvm:
+    #   Enable KVM full virtualization support. This option is only available if KVM support
+    #   is enabled when compiling.
+    # -boot
+    #   Specify boot order drives as a string of drive letters. Valid drive letters depend on
+    #   the target architechture. The x86 PC uses: a, b (floppy 1 and 2), c (first hard disk)
+    #   d (first CD-ROM), n-p (Etherboot from network adapter 1-4), hard disk boot is the default.
+    # -cdrom
+    #   Use file as CD-ROM image (you cannot use -hdc and -cdrom at the same time). You can use
+    #   the host CD-ROM by using /dev/cdrom as filename.
+    # -m
+    #   Set the quantity of RAM.
+    # -hda
+    #   Use file as hard disk 0, 1, 2 or image.
+    
+    # start the vm after closing it
+    $ qemu-system-x86_64 -enable-kvm -boot d \
+    $ -m 2G -cpu host -smp 2 -hda nixos-test.img
+  #+END_SRC
+
+  Follow the installation steps provided by the docs. [[https://nixos.org/manual/nixos/stable/index.html#sec-installation][Link here.]]
+  
+  Some useful keyboard commands:
+
+  - /Ctrl-alt-g/ -> free the mouse from inside the image.
+  - /Ctrl-alt-f/ -> toggle switch fullscreen.
