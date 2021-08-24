@@ -1,4 +1,3 @@
-
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
@@ -56,5 +55,14 @@
 
 ;; MISC
 ;;
-;; break long lines automatically
-(setq-default truncate-lines nil)
+;; auto-fill-mode
+(setq-default auto-fill-function 'do-auto-fill)
+;; Cleaning the interface
+;; remove the initial screen
+(setq inhibit-startup-message t)
+;; remove top menu
+(menu-bar-mode -1)
+;; add line numbers to the left
+(global-linum-mode t)
+;; font-size
+(set-face-attribute 'default nil :height 120)
