@@ -308,10 +308,12 @@ can use F# code from any .NET compatible language such as C#; and run it on Mono
     application) or an externally available transaction ID that can be used independently of the
     connection.
     
-* TODO QEMU + NixOS
+* DONE QEMU + NixOS
+  CLOSED: [2021-08-26 qui 21:23]
   With the help of Magueta.
 
-** [[https://www.computerhope.com/jargon/b/bios.htm][BIOS]]
+** DONE [[https://www.computerhope.com/jargon/b/bios.htm][BIOS]]
+   CLOSED: [2021-08-26 qui 19:08]
 
    BIOS means short for *Basic Input/Output System*, is a *ROM (Read Only Memory)* chip found on
    motherboards that allows you to access and set up your computer system at the most basic
@@ -330,8 +332,11 @@ can use F# code from any .NET compatible language such as C#; and run it on Mono
    4. BIOS setup or CMOS setup - Configuration program that allows you to configure hardware
       settings including system settings, such as date, time, and computer passwords.
 
-   The main function of a PC BIOS:
-** UEFI
+   The BIOS does things like configure the keyboard, mouse, and other hardware, set the system clock, 
+   test the memory, and so on. Then it look for a drive and loads the boot loader on the drive, which
+   is either an MBR or GPT partition table.
+** DONE UEFI
+   CLOSED: [2021-08-26 qui 19:08]
 
    UEFI stands for Unified Extensible Firmware Interface. It is a publicly available specification
    that defines a software interface between an operating system and platform firmware.
@@ -339,14 +344,16 @@ can use F# code from any .NET compatible language such as C#; and run it on Mono
    UEFI replaces the legacy BIOS firmware interface originally present in all IBM pc's, with most
    UEFI firmware implementations providing support for legacy BIOS services. UEFI can support
    remote diagnostics and repair of computers, even with no operating system installed.
-** [[https://www.redhat.com/en/topics/virtualization/what-is-KVM][KVM]]
+** DONE [[https://www.redhat.com/en/topics/virtualization/what-is-KVM][KVM]]
+   CLOSED: [2021-08-26 qui 19:08]
 
    KVM stands for Kernel-based Virtual Machine. It's an open source virtualization technology
    built into Linux. Specifically, KVM lets you turn Linux into a hypervisor that allows a host
    machine to run multiple, isolated virtual environments called guests or virtual machines (VMs).
 
    *KVM is part of Linux.*
-** [[https://www.qemu.org/][QEMU]]
+** DONE [[https://www.qemu.org/][QEMU]]
+   CLOSED: [2021-08-26 qui 19:08]
 
   [[https://qemu-project.gitlab.io/qemu/][Link to the docs.]]
 
@@ -398,7 +405,8 @@ can use F# code from any .NET compatible language such as C#; and run it on Mono
   - Run KVM and Xen virtual machines with near native performance.
 
   [[https://www.youtube.com/watch?v=AAfFewePE7c&ab_channel=DenshiVideo][[YouTube - QEMU: A proper guide!]​]]
-** Partition information
+** DONE Partition information
+   CLOSED: [2021-08-26 qui 21:22]
 
    In this section I'll be sharing other necessary topics to
    understand the complete installation of the NixOS image.
@@ -481,8 +489,73 @@ that has been allocated by an operating system or hypervisor.
     reliable mainframe disk drives referred to as "single large
     expensive disk" (SLED).
 *** UEFI (GPT) x Legacy Boot (MBR)
-*** Formatting
-** Steps
+
+    [[https://www.freecodecamp.org/news/mbr-vs-gpt-whats-the-difference-between-an-mbr-partition-and-a-gpt-partition-solved/][Reference link.]]
+
+    The main difference between UEFI and legacy boot is that **UEFI** is the 
+    latest method of booting a computer that is designed to replace BIOS 
+    while the **legacy boot** is the process of booting the computer using
+    BIOS firmware.
+
+    Also, UEFI more is recommended because it includes more security features
+    (with less complex code) than the legacy BIOS mode.
+
+    GPT and MBR are related to the partition used in the OS.
+
+    Q: So, what's a partition?
+
+    A: Is a virtual division of a hard disk drive (HDD) or a solid state drive
+    (SSD). Each partition can vary in size and typically serves a different
+    function.
+
+    In Linux there's typically a root partition (`/`), one for swap which helps
+    with memory management, and large /home partition. the /home partition is
+    similar to the C: partition in Windows in that it's where you install most
+    of your programs and store files.
+
+    Program to check the partitions: **GParted**.
+
+    An overview of MBR and GPT partitions
+
+    Before a drive can be divided into individual partitions, it needs to be
+    configured to use a specific partition scheme or table.
+
+    A partition table tells the OS how the partitions and data on the drive are
+    organized. MBR stands for Master Boot Record, and is a bit of reserved space
+    at the beginning of the drive that contains the information about how the
+    partitions are organized. The MBR also contains code to launch the OS, and
+    it's sometimes called the Boot Loader.
+
+    GPT is an abbreviation of GUID Partition Table, and is a newer standard that's
+    slowly replacing MBR. Unlike MBR partition table, GPT stores the data about
+    how all the partitions are organized and how to boot the OS throughout the
+    drive. That way if one partition is erased or corrupted, it's still possible
+    to boot and recover some of the data.
+
+    Some differences:
+
+    * The maximum capacity of MBR partition tables is only about 2 TB. You can use
+      a drive that's larger than 2 TB with MBR, but only the first 2 TB of the drive
+      will be used. The rest of the storage on the drive will be wasted.
+
+    * In contrast, GPT partition tables offer a maximum capacity of 9.7 ZB, where
+      1 ZB = 1 billion TB.
+
+    * MBR partition tables can have a maximum of 4 separate partitions. However,
+      one of those partitions can be configured to be an extended partition, which
+      is a partition that can be split up into an 23 additional partitions. So the
+      absolute maximum number of partitions an MBR partition table can have is 26
+      partitions.
+
+    * GPT partition tables allow for up to 128 separate partitions, which is more
+      than enough for most real world applications.
+
+    * As MBR is older, it's usually paired with older Legacy BIOS systems, while
+      GPT is found on newer UEFI systems. This means that MBR partitions have
+      better software and hardware compatibility, though GPT is starting to catch
+      up.
+** DONE Steps
+   CLOSED: [2021-08-26 qui 21:23]
   
   Choose an interface for the system
   - i3wm gaps

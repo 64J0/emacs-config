@@ -1,68 +1,63 @@
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
+(setq inhibit-startup-message t)
+(menu-bar-mode -1)
+(global-linum-mode t)
+(set-face-attribute 'default nil :height 140)
+
+(require 'package)
+(setq package-enable-at-startup nil)
+
+(add-to-list 'package-archives
+	     '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
+(add-to-list 'package-archives
+	     '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives
+	     '("org"  . "https://orgmode.org/elpa/"))
+
 (package-initialize)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(org-agenda-files (quote ("~/org/work.org")))
- '(package-archives
-   (quote
-    (("" . "https://melpa.org/packages/")
-     ("gnu" . "https://elpa.gnu.org/packages/"))))
- '(package-selected-packages (quote (fsharp-mode magit helm org-drill))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
-;; ORG CONFIG
-;;
-(require 'org)
+(use-package try
+  :ensure t)
+
+(use-package which-key
+  :ensure t
+  :config (which-key-mode))
+
+(use-package helm
+  :ensure t)
+
+(use-package org
+  :ensure t)
+
+;; HELM CONFIG
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
+
+(load-theme 'dracula t)
+
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (define-key global-map "\C-cc" 'org-capture)
 (setq org-log-done t)
 (setq org-export-backends '(md gfm beamer ascii taskjuggler html latex odt org))
 
-;; MELPA CONFIG
-;;
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(package-initialize)
+;; helm
+;; org
+;; f# config
+;; dracula-theme
 
-;; HELM CONFIG
-;;
-(global-set-key (kbd "M-x") 'helm-M-x)
-;; better buffer navigation w/ help
-(global-set-key (kbd "C-x b") 'helm-buffers-list)
-
-;;; F# CONFIG
-;;;
-(unless (package-installed-p 'fsharp-mode)
-  (package-install 'fsharp-mode))
-(require 'fsharp-mode)
-;; highlight indentation
-(add-hook 'fsharp-mode-hook 'highlight-indentation-mode)
-;; change tab default size
-(setq-default fsharp-indent-offset 4)
-
-;; MISC
-;;
-;; auto-fill-mode
-(setq-default auto-fill-function 'do-auto-fill)
-;; Cleaning the interface
-;; remove the initial screen
-(setq inhibit-startup-message t)
-;; remove top menu
-(menu-bar-mode -1)
-;; add line numbers to the left
-(global-linum-mode t)
-;; font-size
-(set-face-attribute 'default nil :height 120)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages (quote (dracula-theme helm try use-package))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

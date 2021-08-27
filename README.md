@@ -8,11 +8,14 @@
 
 [Emacs website](https://www.gnu.org/software/emacs/)
 
----
-### Create a link from a place to other
-
 ```bash
-ln /home/user1/Desktop/file1.txt home/user1/Documents/
-```
+# download emacs version 27.2
+$ wget https://ftp.gnu.org/pub/gnu/emacs/emacs-27.2.tar.gz
 
-OBS: It's not possible to use git with a symbolic link inside the folder we want to record.
+# extract the content
+$ tar xvzf emacs-27.2.tar.gz
+$ cd emacs-27.2/
+$ ./configure
+$ make
+$ sudo make install
+```
