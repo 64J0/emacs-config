@@ -610,3 +610,17 @@ that has been allocated by an operating system or hypervisor.
 
   - /Ctrl-alt-g/ -> free the mouse from inside the image.
   - /Ctrl-alt-f/ -> toggle switch fullscreen.
+* TODO F# async model 
+  Produce a presentation about the F# async model. Scheduled presentation date:
+  - 2021-09-16.
+
+** Theory
+
++ The main differences between _Task_ and _Async_ CE
+** Examples
+
++ How to deal with asynchronous code using callbacks
++ How to deal with asynchronous code using modern approachs
+* TODO Basic database concepts
+
+- Language used: _Tutorial D_

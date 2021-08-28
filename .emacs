@@ -15,6 +15,7 @@
 
 (package-initialize)
 
+;; https://github.com/jwiegley/use-package
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -29,14 +30,13 @@
 (use-package helm
   :ensure t)
 
-(use-package org
-  :ensure t)
-
-;; HELM CONFIG
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
 
 (load-theme 'dracula t)
+
+(use-package org
+  :ensure t)
 
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
@@ -44,17 +44,39 @@
 (setq org-log-done t)
 (setq org-export-backends '(md gfm beamer ascii taskjuggler html latex odt org))
 
-;; helm
-;; org
+(use-package auto-complete
+  :ensure t
+  :init
+  (progn
+    (ac-config-default)
+    (global-auto-complete-mode t)))
+
+(use-package neotree
+  :ensure t
+  :bind (("C-\\" . 'neotree-toggle)))
+
+(global-set-key (kbd "C-<tab>") 'other-window)
+(global-set-key (kbd "M-<down>") 'enlarge-window)
+(global-set-key (kbd "M-<up>") 'shrink-window)
+(global-set-key (kbd "M-<left>") 'enlarge-window-horizontally)
+(global-set-key (kbd "M-<right>") 'shrink-window-horizontally)
+
 ;; f# config
-;; dracula-theme
+(use-package fsharp-mode
+  :defer t
+  :ensure t)
+
+(setq-default fsharp-indent-offset 4)
+(add-hook 'fsharp-mode-hook 'highlight-indentation-mode)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (dracula-theme helm try use-package))))
+ '(package-selected-packages
+   (quote
+    (fsharp-mode neotree auto-complete dracula-theme helm try use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
