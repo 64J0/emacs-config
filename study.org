@@ -2,17 +2,18 @@
 #+author: Me
 #+date: 2021-07-31
 
-Org is a highly flexible structured plain text file format, composed of a few simple, yet versatile,
-structures - constructed to be both simple enough for the novice and powerful enough for the expert.
+Org is a  highly flexible structured plain text  file format, composed
+of a  few simple, yet versatile,  structures - constructed to  be both
+simple enough for the novice and powerful enough for the expert.
 
 Tools I want to get better during august:
 
-- [] F#
-- [] Emacs
-- [] Git
-
 ---
-Started 2021-08:
+08-2021:
+
+- [x] F#
+- [x] Emacs
+- [x] Git
 
 * TODO F# docs
 
@@ -276,15 +277,17 @@ can use F# code from any .NET compatible language such as C#; and run it on Mono
   * Azure -> as a hosting platform plus associated platform services
   * Fable -> for running F# in the web browser
 
-      Is an F# to Javascript compiler, designed to produce readable and standard code. Fable allows
-      you to create applications for the browser written entirely in F#, whilst also allowing you
-      to interact with native Javascript as needed.
+      Is an  F# to Javascript  compiler, designed to  produce readable
+    and standard code. Fable allows you to create applications for the
+    browser  written  entirely in  F#,  whilst  also allowing  you  to
+    interact with native Javascript as needed.
   
   * Elmish -> for client-side user interfaces
 
 * DONE [DB] Optimistic vs pessimistic lock
-  CLOSED: [2021-08-22 dom 10:53]
-  [[https://stackoverflow.com/questions/129329/optimistic-vs-pessimistic-locking/129397#129397][Discussion on StackOverflow]]
+  CLOSED:              [2021-08-22             dom              10:53]
+  [[https://stackoverflow.com/questions/129329/optimistic-vs-pessimistic-locking/129397#129397][Discussion
+  on StackOverflow]]
 
   - Optimistic locking:
 
@@ -610,17 +613,198 @@ that has been allocated by an operating system or hypervisor.
 
   - /Ctrl-alt-g/ -> free the mouse from inside the image.
   - /Ctrl-alt-f/ -> toggle switch fullscreen.
-* TODO F# async model 
-  Produce a presentation about the F# async model. Scheduled presentation date:
-  - 2021-09-16.
+* TODO Basic database concepts
+
+- Language used: _Tutorial D_
+
+** Why is faster to do the computations in the database instead of doing with F#?
+
+1. We don't pay the network price.
+2. Database runs a series of optimized operations to work with data, generally a
+*B-tree* and indexes. When we manipulate data inside F# we are loading everything into
+a big chunk of memory. In the best case we will be using O(n) memory where n is the
+size of the data.
+
+** Intro
+
+#+BEGIN_SRC bash
+  | id | H1 | H2 | H3 | # HEADING
+  | ~  | ~  | ~  | ~  | # row content = tuple
+  | ~  | ~  | ~  | ~  |
+  | ~  | ~  | ~  | ~  |
+  | ~  | ~  | ~  | ~  |
+  | ~  | ~  | ~  | ~  |
+
+  # table degree = no. of heading (ex.: 4)
+  # cardinality = no. of tuples (ex.: 4)
+#+END_SRC
+
+Assumptions:
+
+  * Relations never contains duplicate tuples (mathematical set).
+  * The tuples of a relation are unordered, top to bottom.
+  * The attributes (heading) of a relation are unordered, left to right.
+  * Relations (not tables) are always normalized (in 1NF). Which just means that
+    every tuple in the body conforms to the heading.
+  * To perform a join operation the tables must be joinable, i.e.: relations are
+    joinable if and only if attributes with the same name are of the same type.
+  * Cartesian product is a special case of JOIN. Also, intersect is a special case
+    of JOIN as well.
+
+An aggregate operator is not, in general, a relational operator (because the
+result usually isn't a relation). It's an operator that derives a single value
+from the "aggregate" (i.e., the set or bag) of values of some attribute of some
+relation - or, for COUNT, from the entire relation.
+
+  * Integrity constraint
+
+An integrity constraint is, loosely, a boolean expression that must evaluate to
+TRUE. This is one of the most important properties of a database. With this we can
+trust that the result we are reading from this tool is correct.
+
+System can't enforce truth, can only enforce consistency.
+
+  * Predicates
+
+Heading corresponds to a predicate (truth valued function). Predicates are related
+to the understanding of tables in a database.
+
+  * RELATIONS vs. TYPES: TYPES are sets of things we can talk about; RELATIONS are
+    (true) statements about those things!
+
+    1. Types and relations are both NECESSARY
+    2. They're not the same thing
+    3. They're SUFFICIENT (as well as necessary)
+
+A DB (plus its operators) is a logical system!!!
+
+** The relational model:
+
+1. An open ended set of types (including in particular type BOOLEAN)
+2. A relational type generator and an intended interpretation for relations of
+   types generated thereby
+3. Facilities for defining relation variables of such generated relation types
+4. A relational assignment operation for assigning relation values to such
+   relation variables
+5. A relationally complete (but otherwise open ended) set of generic operators
+   for deriving relation values from other relation values
+
+* TODO F# async model
+  Produce  a  presentation  about   the  F#  async  model.   Scheduled
+  presentation date: 2021-09-16.
+
+References:
+
+[[https://docs.microsoft.com/en-us/dotnet/fsharp/tutorials/asynchronous-and-concurrent-programming/async#how-to-work-with-net-async-and-taskt][.NET   docs   -   Async   Programming  in   F#]]   [[https://devblogs.microsoft.com/pfxteam/executioncontext-vs-synchronizationcontext/][ExecutionContext   vs
+SynchronizationContext]]  [[https://docs.microsoft.com/en-us/archive/msdn-magazine/2013/march/async-await-best-practices-in-asynchronous-programming][Async/Await -  Best Practices  in Asynchronous
+Programming]]  [[http://tomasp.net/blog/async-csharp-differences.aspx/][Asynchronous  C#  and  F#  (II.):  How  do  they  differ?]]
+[[https://fsharpforfunandprofit.com/posts/concurrency-async-and-parallel/][Asynchronous   programming]]   [[https://github.com/rspeele/TaskBuilder.fs][TaskBuilder.fs]]    [[https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/async-padl-revised-v2.pdf][The   F#   Asynchronous
+Programming Model]] [[https://docs.microsoft.com/en-us/dotnet/api/system.threading.executioncontext?view=net-5.0][ExecutionContext Class]]
 
 ** Theory
 
-+ The main differences between _Task_ and _Async_ CE
+Some definitions:
+
+ * Concurrency: when multiple computations execute in overlapping time periods.
+ * Parallelism: when multiple computations or several parts of a single computation
+   run at exactly the same time.
+ * Asynchrony: when one or more computations can execute separately from the main
+   program flow.
+
+---
+Etymology of the word "asynchronous":
+
+ * "a", meaning "not".
+ * "synchronous", meaning "at the same time".
+
+---
+In practical terms, asynchornous computations in F# are scheduled to execute
+*independently of the main program flow*. This independent execution doesn't imply
+concurrency or parallelism, nor does it imply that a computation always happens in
+the background. In fact, asynchronous computations can even execute synchronously,
+depending on the nature of the computation and the environment the computation is
+executing in.
+
+---
+In F#, asynchronous programming is centered around three core concepts:
+
+ * The ~Async<'T>~ type, which represents a composable asynchronous computation.
+ * The ~Async~ module functions, which let you schedule asynchronous work, compose
+   the asynchronous computations, and transform asynchronous results.
+ * The ~async { }~ computation expression, which provides a convenient syntax for
+   building and controlling asynchronous computations.
+
+Example:
+
+#+BEGIN_SRC fsharp
+  open System
+  open System.IO
+
+  // string -> Async<unit>
+  let printTotalFileBytes path =
+    async {
+      let! bytes = 
+        File.ReadAllBytesAsync(path)
+	|> Async.AwaitTask
+      let fileName = Path.GetFileName(path)
+      printfn $"File {fileName} has %d{bytes.Length} bytes"
+    }
+
+ [<EntryPoint>]
+ let main argv =
+   printTotalFileBytes "path-to-file.txt"
+   |> Async.RunSynchronously
+
+   Console.Read() |> ignore
+   0
+#+END_SRC
+
+In F#, asynchronous computations can be thought of as *Cold tasks*. They must be
+explicitly started to actually execute. This has some advantages, as it allows you
+to combine and sequence asynchronous work much more easily than in C# or Visual Basic.
+
+[[https://docs.microsoft.com/en-us/dotnet/fsharp/tutorials/asynchronous-and-concurrent-programming/async#important-async-module-functions][Important Async module function]]
+
++ The main differences between _Task_ and _Async_ CE.
+
+This is related to the interoperate with .NET. C# and the majority of .NET libraries use
+the Task<TResult> and Task types as their core abstractions rather than Async<'T>, you
+must cross a boundary between these two approaches to asynchrony.
+
+How to work with .NET async and Task<T> i.e.: async computation that have return values:
+
+You can use Async.AwaitTask to await a .NET asynchronous computation, or the Async.
+StartAsTask to pass an asynchronous computation to a .NET caller.
+
+How to work with .NET async and Task i.e.: .NET async computation that do not return a
+value:
+
+You can use the Async.AwaitTask that accepts a Task as input and this custom function
+to start and await Task types from an F# async computation.
+
+#+BEGIN_SRC fsharp
+  // Async<unit> -> Task
+  let startTaskFromAsyncUnit (comp: Async<unit>) =
+    Async.StartAsTask comp :> Task
+#+END_SRC
+
+---
+Relationship to multi-threading:
+
+1. There is no affinity between an asynchronous computation and a thread, unless explicitly
+started on the current thread. For example, a computation may actually run on its caller's
+thread, depending on the nature of the work. A computation could also "jump" between
+threads, borrowing them for a small amount of time to do useful work in between periods
+of "waiting" (such as when a network call is in transit).
+
+Although F# provides some abilities to start an asynchronous computation on the current
+thread (or explicitly not on the current thread), asynchrony generally is not associated
+with a particular threading strategy.
+
+2. Asynchronous programming in F# is not an abstraction for multi-threading.
+
 ** Examples
 
 + How to deal with asynchronous code using callbacks
 + How to deal with asynchronous code using modern approachs
-* TODO Basic database concepts
-
-- Language used: _Tutorial D_
++ How the context influence the asynchronous (thread)

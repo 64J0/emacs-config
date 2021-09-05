@@ -43,6 +43,7 @@
 (define-key global-map "\C-cc" 'org-capture)
 (setq org-log-done t)
 (setq org-export-backends '(md gfm beamer ascii taskjuggler html latex odt org))
+(setq org-support-shift-select 'always)
 
 (use-package auto-complete
   :ensure t
