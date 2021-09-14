@@ -3,6 +3,12 @@
 (global-linum-mode t)
 (set-face-attribute 'default nil :height 140)
 
+(global-set-key (kbd "C-<tab>") 'other-window)
+(global-set-key (kbd "M-<down>") 'enlarge-window)
+(global-set-key (kbd "M-<up>") 'shrink-window)
+(global-set-key (kbd "M-<left>") 'enlarge-window-horizontally)
+(global-set-key (kbd "M-<right>") 'shrink-window-horizontally)
+
 (require 'package)
 (setq package-enable-at-startup nil)
 
@@ -28,22 +34,35 @@
   :config (which-key-mode))
 
 (use-package helm
-  :ensure t)
-
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-x b") 'helm-buffers-list)
+  :ensure t
+  :bind (("M-x" . helm-M-x)
+	 ("C-x b" . helm-buffers-list)))
 
 (load-theme 'dracula t)
 
 (use-package org
+  :ensure t
+  :bind (("C-c l" . org-store-link)
+	 ("C-c a" . org-agenda)
+	 ("C-c c" . org-capture))
+  :config
+  (setq org-log-done t)
+  (setq org-export-backends '(md gfm beamer ascii taskjuggler html latex odt org))
+  (setq org-support-shift-select 'always))
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((sql . t)))
+
+(use-package htmlize
   :ensure t)
 
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(define-key global-map "\C-cc" 'org-capture)
-(setq org-log-done t)
-(setq org-export-backends '(md gfm beamer ascii taskjuggler html latex odt org))
-(setq org-support-shift-select 'always)
+(use-package highlight-indent-guides
+  :ensure t
+  :config
+  (setq-default highlight-indent-guides-method 'character)
+  :init
+  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
 
 (use-package auto-complete
   :ensure t
@@ -56,19 +75,46 @@
   :ensure t
   :bind (("C-\\" . 'neotree-toggle)))
 
-(global-set-key (kbd "C-<tab>") 'other-window)
-(global-set-key (kbd "M-<down>") 'enlarge-window)
-(global-set-key (kbd "M-<up>") 'shrink-window)
-(global-set-key (kbd "M-<left>") 'enlarge-window-horizontally)
-(global-set-key (kbd "M-<right>") 'shrink-window-horizontally)
-
 ;; f# config
-(use-package fsharp-mode
-  :defer t
+(use-package eglot
   :ensure t)
 
-(setq-default fsharp-indent-offset 4)
-(add-hook 'fsharp-mode-hook 'highlight-indentation-mode)
+(use-package fsharp-mode
+  :ensure t
+  :mode ("\\.fs\\'" . fsharp-mode)
+  :config
+  (setq-default fsharp-indent-offset 4)
+  (setq inferior-fsharp-program "dotnet fsi")
+  :init
+  (add-hook 'fsharp-mode-hook 'highlight-indentation-mode))
+
+(use-package eglot-fsharp
+  :ensure t
+  :init
+  (add-hook 'inferior-fsharp-mode-hook 'turn-on-comint-history))
+
+(use-package dotnet
+  :ensure t)
+
+(use-package org-drill
+  :ensure t
+  :commands (org-drill))
+
+;; for pdf
+(use-package pdf-tools
+  :ensure t
+  :config (pdf-tools-install))
+
+;; browsers - not used yet
+(defun external-browser! ()
+  "Makes an external browser the `browse-url-browser-function'."
+  (interactive)
+  (setq browse-url-browser-function 'browse-url-chrome))
+
+(defun internal-browser! ()
+  "Makes an internal browser the `browse-url-browser-function'."
+  (interactive)
+  (setq browse-url-browser-function 'eww-browse-url))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -77,7 +123,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (fsharp-mode neotree auto-complete dracula-theme helm try use-package))))
+    (org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

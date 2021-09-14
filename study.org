@@ -6,7 +6,7 @@ Org is a  highly flexible structured plain text  file format, composed
 of a  few simple, yet versatile,  structures - constructed to  be both
 simple enough for the novice and powerful enough for the expert.
 
-Tools I want to get better during august:
++ Tools I want to get better during August 2021:
 
 ---
 08-2021:
@@ -613,7 +613,8 @@ that has been allocated by an operating system or hypervisor.
 
   - /Ctrl-alt-g/ -> free the mouse from inside the image.
   - /Ctrl-alt-f/ -> toggle switch fullscreen.
-* TODO Basic database concepts
+* DONE Basic database concepts
+  CLOSED: [2021-09-07 ter 19:48]
 
 - Language used: _Tutorial D_
 
@@ -644,8 +645,8 @@ Assumptions:
   * Relations never contains duplicate tuples (mathematical set).
   * The tuples of a relation are unordered, top to bottom.
   * The attributes (heading) of a relation are unordered, left to right.
-  * Relations (not tables) are always normalized (in 1NF). Which just means that
-    every tuple in the body conforms to the heading.
+  * Relations (not tables) are always normalized (in 1NF - normal for). Which 
+    just means that every tuple in the body conforms to the heading.
   * To perform a join operation the tables must be joinable, i.e.: relations are
     joinable if and only if attributes with the same name are of the same type.
   * Cartesian product is a special case of JOIN. Also, intersect is a special case
@@ -689,50 +690,156 @@ A DB (plus its operators) is a logical system!!!
 5. A relationally complete (but otherwise open ended) set of generic operators
    for deriving relation values from other relation values
 
+** Transactions
+
+A transaction is a piece of program execution: a logical unit of work. Begins by
+executing a BEGIN TRANSACTION statement. Ends by executing either a COMMIT or
+a ROLLBACK statement.
+
+All database updates (actually database reads too) must be done within the context
+of some transaction.
+
+The ACID properties:
+
+1. Atomicity: Transactions are all or nothing. Logical unit of work.
+2. Consistency: Transactions transform a consistent state of the DB into another
+   consistent state, without necessarily preserving consistency at all intermediate
+   points. Logical unit of integrity.
+3. Isolation: Any given transaction's update are concealed from all other
+   transactions until the given transaction commits. Logical unit of concurrency.
+4. Durability: Once a transaction commits, its updates survive in the DB, even
+   if there's a subsequent system crash. Logical unit of recovery.
+
+** Database design
+
+Design theory is part of the relational theory in general, but it isn't part of the
+relational model as such... It's a separate theory that's built on top of that model.
+
+Recall:
+
+  * Relations are always normalized (i.e., in "1NF"). Which just means every tuple in 
+    the body conforms to the heading.
 * TODO F# async model
   Produce  a  presentation  about   the  F#  async  model.   Scheduled
   presentation date: 2021-09-16.
 
 References:
 
-[[https://docs.microsoft.com/en-us/dotnet/fsharp/tutorials/asynchronous-and-concurrent-programming/async#how-to-work-with-net-async-and-taskt][.NET   docs   -   Async   Programming  in   F#]]   [[https://devblogs.microsoft.com/pfxteam/executioncontext-vs-synchronizationcontext/][ExecutionContext   vs
-SynchronizationContext]]  [[https://docs.microsoft.com/en-us/archive/msdn-magazine/2013/march/async-await-best-practices-in-asynchronous-programming][Async/Await -  Best Practices  in Asynchronous
-Programming]]  [[http://tomasp.net/blog/async-csharp-differences.aspx/][Asynchronous  C#  and  F#  (II.):  How  do  they  differ?]]
-[[https://fsharpforfunandprofit.com/posts/concurrency-async-and-parallel/][Asynchronous   programming]]   [[https://github.com/rspeele/TaskBuilder.fs][TaskBuilder.fs]]    [[https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/async-padl-revised-v2.pdf][The   F#   Asynchronous
-Programming Model]] [[https://docs.microsoft.com/en-us/dotnet/api/system.threading.executioncontext?view=net-5.0][ExecutionContext Class]]
+[1] - [[https://docs.microsoft.com/en-us/dotnet/fsharp/tutorials/asynchronous-and-concurrent-programming/async#how-to-work-with-net-async-and-taskt][Async programming in F#]] - Very good
+[2] - [[https://devblogs.microsoft.com/pfxteam/executioncontext-vs-synchronizationcontext/][ExecutionContext vs SynchronizationContext]] - Too complex
+[3] - [[https://docs.microsoft.com/en-us/archive/msdn-magazine/2013/march/async-await-best-practices-in-asynchronous-programming][Async/Await - Best Practices in Asynchronous Programming]] - Too C#/old
+[4] - [[https://fsharpforfunandprofit.com/posts/concurrency-async-and-parallel/][Asynchronous programming]] - Very good
+[5] - [[https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/async-padl-revised-v2.pdf][The F# Asynchronous Programming Model]] - Very good but with some complex parts
+[6] - [[https://github.com/rspeele/TaskBuilder.fs][TaskBuilder.fs docs]] - Very good
+[7] - [[http://tomasp.net/blog/csharp-fsharp-async-intro.aspx/][Asynchronous C# and F# (I.): Simultaneous introduction]]
+[8] - [[http://tomasp.net/blog/async-csharp-differences.aspx/][Asynchronous C# and F# (II.): How do they differ?]]
+[9] - [[http://tomasp.net/blog/async-compilation-internals.aspx/][Asynchronous C# and F# (III.): How does it work?]]
 
 ** Theory
 
-Some definitions:
+*** Definitions:
 
- * Concurrency: when multiple computations execute in overlapping time periods.
- * Parallelism: when multiple computations or several parts of a single computation
-   run at exactly the same time.
- * Asynchrony: when one or more computations can execute separately from the main
-   program flow.
++ Concurrency: when multiple computations execute in sequential time periods.
++ Parallelism: when multiple computations or several parts of a single computation
+  run at exactly the same time.
++ Asynchrony: when one or more computations can execute separately from the main
+  program flow. Asynchrony is independent of the utilization of multiple threads.
 
----
-Etymology of the word "asynchronous":
+[1]
 
- * "a", meaning "not".
- * "synchronous", meaning "at the same time".
+*** Etymology of the word "asynchronous":
 
----
-In practical terms, asynchornous computations in F# are scheduled to execute
-*independently of the main program flow*. This independent execution doesn't imply
-concurrency or parallelism, nor does it imply that a computation always happens in
-the background. In fact, asynchronous computations can even execute synchronously,
-depending on the nature of the computation and the environment the computation is
-executing in.
++ "a", meaning "not".
++ "synchronous", meaning "at the same time".
 
----
-In F#, asynchronous programming is centered around three core concepts:
+[1]
 
- * The ~Async<'T>~ type, which represents a composable asynchronous computation.
- * The ~Async~ module functions, which let you schedule asynchronous work, compose
-   the asynchronous computations, and transform asynchronous results.
- * The ~async { }~ computation expression, which provides a convenient syntax for
-   building and controlling asynchronous computations.
+*** Asynchronous model within F#:
+
+Since OS threads are expensive  because they allocate system resources
+and  large   stacks,  while   lightweight  threading  alone   is  less
+interoperable because it slows down  in CPU-intensive native code. And
+asynchronous programming  using callbacks  is difficult,  the approach
+adopted  by F#  since 2007  is to  add an  asynchronous modality  as a
+first-class  feature  to  a  general purpose  language  design,  where
+"modality" mens  reusing the  control flow syntax  of a  host language
+with a different computational interpretation.
+
+This modality has control constructs that are syntactically a superset
+of  the core  language and  these are  given an  asynchronous semantic
+interpretation. For F#, this allows  asynchronous code to be described
+fluently  in   familiar  language   syntax,  without   disturbing  the
+foundation  of CPU-intensive  programming  that allows  F# to  compile
+efficiently  to  Common   IL,  and  hence  to  native   code,  and  to
+interoperate well with .NET and C libraries.
+
+[5]
+
+*** Use cases:
+
++ Presenting a server process that can service a significant number of 
+  concurrent incoming requests, while minimizing the system resources 
+  occupied while request processing awaits inputs from systems or services 
+  external to that process.
++ Maintaining a responsive UI or main thread while concurrently progressing 
+  background work.
+
+[1]
+
+*** Practical terms:
+
+In practical terms,  asynchronous computations in F#  are scheduled to
+execute *independently of the main program flow*.
+
+This independent execution doesn't imply concurrency or parallelism,
+nor does it imply that a computation always happens in the
+background. 
+
+In  fact, asynchronous  computations can  even execute  synchronously,
+depending on  the nature  of the computation  and the  environment the
+computation is executing in.
+
+Although there  are few  garantees about when  or how  an asynchronous
+computation executes,  there are some approaches  to orchestrating and
+scheduling them.
+
+Example:
+
+#+BEGIN_SRC fsharp
+let getWebPage (url: string) = 
+  async {
+    let req = WebRequest.Create url
+    let! resp = req.AsyncGetResponse()
+    let stream = resp.GetResponseStream()
+    let reader = new StreamReader(stream)
+    return! reader.AsyncReadToEnd() }
+#+END_SRC
+
+The above example uses several asynchronous operations provided by the
+F# library,  namely *AsyncGetResponse*  and *AsyncReadToEnd*.  Both of
+these are  I/O primitives  that are  typically used  at the  leaves of
+asynchronous operations.
+
+The key  facet of an  asynchronous I/O primitive  is that it  does not
+block  an  OS  thread  while  executing,  but  instead  schedules  the
+continuation of the asynchronous computation as a callback in response
+to an event.
+
+[1, 5]
+
+*** Core concepts:
+
+In  F#,  asynchronous  programming   is  centered  around  three  core
+concepts:
+
++ The ~Async<'T>~ type, which represents a composable asynchronous computation.
++ The ~Async~ module functions, which let you schedule asynchronous work, compose
+  the asynchronous computations, and transform asynchronous results.
++ The ~async { }~ computation expression, which provides a convenient syntax for
+  building and controlling asynchronous computations. All expressions of the form
+  ~async {...}~ are of the type ~Async<T>~ for some ~T~.
+
+[1, 5]
 
 Example:
 
@@ -759,28 +866,130 @@ Example:
    0
 #+END_SRC
 
-In F#, asynchronous computations can be thought of as *Cold tasks*. They must be
-explicitly started to actually execute. This has some advantages, as it allows you
-to combine and sequence asynchronous work much more easily than in C# or Visual Basic.
+In  F#,  asynchronous   computations  can  be  thought   of  as  *Cold
+tasks*. They must be explicitly  started to actually execute. This has
+some advantages, as it allows you to combine and sequence asynchronous
+work much more easily than in C# or Visual Basic.
 
-[[https://docs.microsoft.com/en-us/dotnet/fsharp/tutorials/asynchronous-and-concurrent-programming/async#important-async-module-functions][Important Async module function]]
+[1]
 
-+ The main differences between _Task_ and _Async_ CE.
+*** Grammar of asynchronous expressions:
 
-This is related to the interoperate with .NET. C# and the majority of .NET libraries use
-the Task<TResult> and Task types as their core abstractions rather than Async<'T>, you
-must cross a boundary between these two approaches to asynchrony.
+[[/home/gajo/org/imgs/fsharp-async-grammar.png]]
 
-How to work with .NET async and Task<T> i.e.: async computation that have return values:
+[5]
 
-You can use Async.AwaitTask to await a .NET asynchronous computation, or the Async.
-StartAsTask to pass an asynchronous computation to a .NET caller.
+*** Asynchronous execution:
 
-How to work with .NET async and Task i.e.: .NET async computation that do not return a
-value:
+Because  F#  asynchronous computations  are  a  specification of  work
+rather than a  representation of work that is  already executing, they
+must be explicitly started with a starting function.
 
-You can use the Async.AwaitTask that accepts a Task as input and this custom function
-to start and await Task types from an F# async computation.
++ Parallel
++ Sequential
+
+[[https://docs.microsoft.com/en-us/dotnet/fsharp/tutorials/asynchronous-and-concurrent-programming/async#important-async-module-functions][Async starting methods]]
+
+[1]
+
+*** Exception Handling and Resource Compensation:
+
+Without  a language  support, the  exception handling  in asynchronous
+computation is  extremely difficult. With language  support it becomes
+simple: the  ~try ... with~  and ~try  ... finally~ constructs  can be
+used in async expressions in the natural way:
+
+#+BEGIN_SRC fsharp
+async { 
+  try
+    let! primary = getWebPage "https://primary.server.com"
+    return primary.Length
+  with e ->
+    let! backup = getWebPage "https://backup.server.com"
+    return backup.Length
+}
+#+END_SRC
+
+Here,  a failure  anywhere in  the  download from  the primary  server
+results in  the execution of  the exception handler and  download from
+the backup server.
+
++ Definition:
+
+~Deterministic resource disposal~ is a language construct that ensures
+that resources  (such as file  handles) are disposed  at the end  of a
+lexical scope. In F#  this is the construct *use val  = expr in expr*,
+translated to *let val = expr  in try expr finally val.Dispose()*. The
+resource *val* is freed on exit from the lexical scope.
+
+Resource  cleanup  in  asynchronous  code is  also  difficult  without
+language support. Many OO design  patterns for async programming use a
+"state" object to  hold the state elements of  a composed asynchronous
+computation,  but this  is non-compositional.  With language  support,
+state becomes implied by closure, and resource cleanup becomes simple.
+
+[5]
+
+*** Cancellation
+
+A cancellation mechanism  allows computations to be sent  a message to
+"stop" execution, e.g. "thread abort" in .NET. Cancellation mechanisms
+are  always a  difficult  topic in  imperative programming  languages,
+because  compiled,  efficient  native code  often  exhibits  extremely
+subtle properties  when pre-emptively  cancelled at  arbitrary machine
+instructions.  However, for  asynchronous computations  we can  assume
+that primitive asynchronous operations are the norm (e.g. waiting on a
+network   request),  and   it  is   reasonable  to   support  reliable
+cancellation  at these  operations. Furthermore,  it is  reasonable to
+implicitly  support  cooperative  cancellation at  specific  syntactic
+points, and additionally through user-defined cancellation checks.
+
+F# async supports  the implicit propagation of  a ~cancellation token~
+through   the  execution   of   an   asynchronous  computation.   Each
+cancellation  token is  derived  from a  ~cancellation capability~  (a
+*CancellationTokenSource*   in  .NET),   used  to   set  the   overall
+cancellation condition. A  cancellation token can be given  to lots of
+functions.
+
+#+BEGIN_SRC fsharp
+let capability = new CancellationTokenSource()
+let tasks = Async.Parallel [ getWebPage "https://google.com"
+                             getWebPage "https://bing.com" ]
+
+// Start the work
+Async.Start (tasks, cancellationToken = capability.Token)
+// Ok, the work is in progress, now cancel it...
+capability.Cancel()
+#+END_SRC
+
+Cancellation is checked  at each I/O primitive,  subject to underlying
+.NET library and O/S support, and before the execution of each return,
+let!, use!,  try/with, try/finally, do!  and async { ...  } construct,
+and before  each iteration of an  asynchronous while or for  loop. For
+getWebPage this means cancellation can occur at several places. But it
+cannot  occur  during core-language  code  (e.g.  expressions such  as
+library calls, executed for side-effects), and it cannot occur in such
+a  way that  the  resource-reclamation  implied by  the  use and  use!
+expression  constructs is  skipped.  Cancellation  is not  necessarily
+immediately effective: in  a multi-core or distributed  setting it may
+take arbitrarily long to propagate the cancellation message.
+
+[5]
+
+*** The main differences between _Task_ and _Async_ CE:
+
+This is related to the interoperate  with .NET. C# and the majority of
+.NET libraries use the ~Task<TResult>~  and ~Task~ types as their core
+abstractions rather  than ~Async<'T>~,  so you  must cross  a boundary
+between these two approaches to asynchrony.
+
+You   can  use   *Async.AwaitTask*  to   await  a   .NET  asynchronous
+computation,  or  the  *Async.StartAsTask*  to  pass  an  asynchronous
+computation to a .NET caller.
+
+You can  use the *Async.AwaitTask*  that accepts  a Task as  input and
+this custom  function to start and  await Task types from  an F# async
+computation.
 
 #+BEGIN_SRC fsharp
   // Async<unit> -> Task
@@ -788,23 +997,339 @@ to start and await Task types from an F# async computation.
     Async.StartAsTask comp :> Task
 #+END_SRC
 
----
-Relationship to multi-threading:
+In practice  I have seem most  of the code using  the Task computation
+expression  provided  by  the  TaskBuilder.fs to  handle  .NET  ~Task~
+s. According  to its docs,  F#'s ~Async~ behaves a  little differently
+from ~Task~, which can be confusing  if you're used to the latter. So,
+the goal  of the ~task~ computation  expression builder is to  let you
+write asynchronous blocks that behave  just like ~async~ methods in C#
+do.
 
-1. There is no affinity between an asynchronous computation and a thread, unless explicitly
-started on the current thread. For example, a computation may actually run on its caller's
-thread, depending on the nature of the work. A computation could also "jump" between
-threads, borrowing them for a small amount of time to do useful work in between periods
-of "waiting" (such as when a network call is in transit).
+[1, 6]
 
-Although F# provides some abilities to start an asynchronous computation on the current
-thread (or explicitly not on the current thread), asynchrony generally is not associated
-with a particular threading strategy.
+*** Relationship to multi-threading:
 
-2. Asynchronous programming in F# is not an abstraction for multi-threading.
+  1. There is no affinity between an asynchronous computation and a thread, 
+     unless explicitly started  on the current thread.  For example, a
+     computation may actually run on its caller's thread, depending on
+     the nature of  the work. A computation could  also "jump" between
+     threads, borrowing them  for a small amount of time  to do useful
+     work in between periods of "waiting" (such as when a network call
+     is in transit).
+
+     Although  F# provides  some  abilities to  start an  asynchronous
+     computation  on the  current  thread (or  explicitly  not on  the
+     current thread),  asynchrony generally  is not associated  with a
+     particular threading strategy.
+
+     Each  running computation  in  .NET implicitly  has  access to  a
+     synchronization  context, which  for  our purposes  is  a way  of
+     taking a function closure and running it "somewhere". We use this
+     to execute asynchronous callbacks.
+
+  2. Asynchronous programming in F# is not an abstraction for multi-
+     threading.
+
+[1, 5]
+
 
 ** Examples
 
-+ How to deal with asynchronous code using callbacks
+*** How to deal with asynchronous code using callbacks
+
++ Asynchronous programming using callbacks is difficult.
+
+[5]
+
 + How to deal with asynchronous code using modern approachs
 + How the context influence the asynchronous (thread)
+* DONE Terminal commands
+  CLOSED: [2021-09-05 dom 20:43]
+  
+- [x] find
+GNU  find   searches  the   directory  tree   rooted  at   each  given
+starting-point by evaluating the given  expression from left to right,
+according to  the rules of  precedence (see section  OPERATORS), until
+the outcome is known (the left  hand side is false for and operations,
+true for or), at which point find  moves on to the next file name.  If
+no starting-point is specified, `.' is assumed.
+
+- [x] xargs
+xargs reads items from the  standard input, delimited by blanks (which
+can be  protected with double  or single quotes  or a back‐  slash) or
+newlines, and executes the command  (default is /bin/echo) one or more
+times with any initial-arguments followed  by items read from standard
+input.  Blank lines on the stan‐ dard input are ignored.
+
+- [x] sed
+Sed is a stream editor.  A stream editor is used to perform basic text
+transformations on an input stream (a  file or input from a pipeline).
+While in some  ways similar to an editor which  permits scripted edits
+(such as ed), sed  works by making only one pass  over the in‐ put(s),
+and is consequently more efficient.  But it is sed's ability to filter
+text  in a  pipeline which  particularly distinguishes  it from  other
+types of editors.
+
+- [x] cut
+Print selected parts of lines from each FILE to standard output.
+With no FILE, or when FILE is -, read standard input.
+
+- [x] tr
+Translate,  squeeze, and/or  delete  characters  from standard  input,
+writing to standard output.
+
+- [x] sort
+Write sorted concatenation of all FILE(s) to standard output.
+With no FILE, or when FILE is -, read standard input.
+* DONE Postgres lock
+  CLOSED: [2021-09-11 sáb 12:17]
+
+[[https://www.citusdata.com/blog/2018/02/15/when-postgresql-blocks/][PostgreSQL rocks, except when it blocks: Understanding locks]]
+[[https://www.citusdata.com/blog/2018/02/22/seven-tips-for-dealing-with-postgres-locks/][When Postgres blocks: 7 tips for dealing with locks]]
+[[https://skyvia.com/gallery/list-of-all-queries-currently-running-on-postgresql][List of all queries currently running on PostgreSQL]]
+[[https://medium.com/little-programming-joys/finding-and-killing-long-running-queries-on-postgres-7c4f0449e86d][Finding and killing long running queries on PostgreSQL]]
+
+** Check PG locks
+
+Sometimes you notice a command is taking awfully long, but the process
+is not actually doing anything. In that case it might be waiting for a
+lock and you should have a look at *pg_locks*.
+
+To see which query is waiting for a  lock, the PG wiki has a [[https://wiki.postgresql.org/wiki/Lock_Monitoring][number of
+useful queries for displaying lock information]].
+
+Get all the information from PG:
+
+#+BEGIN_SRC sql
+  SELECT * FROM pg_stat_activity;
+#+END_SRC
+
+** Do's and don'ts
+
+1. Never add a column with a default value
+   Adding a  column takes a very  aggressive lock on the  table, which
+   blocks  read  and write.  If  you  add  a  column with  a  default,
+   PostgreSQL will rewrite the whole table  to fill in the default for
+   every row, which  can take hours on large tables.  In the meantime,
+   all queries will block, so your database will be unavailable.
+
+   #+BEGIN_SRC sql
+     -- Don't do this:
+     ALTER TABLE items ADD COLUMN last_update timestamptz DEFAULT now();
+
+     -- Do this instead:
+     ALTER TABLE items ADD COLUMN last_update timestamptz;
+     UPDATE items SET last_update = now();
+
+     -- A better approach would be to update using small batches
+     do {
+       numRowsUpdated = executeUpdate(
+         "UPDATE items SET last_update = ? " +
+	 "WHERE ctid IN (SELECT ctid FROM items WHERE last_update IS NULL LIMIT 5000)",
+	 now);
+     } while (numRowsUpdate > 0);
+   #+END_SRC
+
+2. Beware of lock queues, use lock timeouts
+   Every lock in PG has a queue. If a transaction B tries to acquire a
+   lock that is already held by  transaction A with a conflicting lock
+   level,  then  transaction  B  will  wait in  the  lock  queue.  Now
+   something interesting  happens: if another transaction  C comes in,
+   then it will not  only have to check for conflict  with A, but also
+   with transaction B, and any other transaction in the lock queue.
+
+   This means that even if  your DDL command (Data Definition Language
+   commands consists  of the SQL commands  that can be used  to define
+   database operations) can  run very quickly, it might be  in a queue
+   for a  long time waiting  for queries  to finish, and  queries that
+   start after it will be blocked behind it.
+
+   #+BEGIN_SRC sql
+     -- When you can have long-running SELECT queries on a table, don't do this:
+     ALTER TABLE items ADD COLUMN last_update timestamptz;
+
+     -- Instead, do this:
+     SET lock_timeout TO '2s'
+     ALTER TABLE items ADD COLUMN last_update timestamptz;
+   #+END_SRC
+
+   By setting *lock_timeout*, the DDL command  will fail if it ends up
+   waiting  for a  lock, and  thus blocking  queries for  more than  2
+   seconds. The downside is that your *ALTER TABLE* might not succeed,
+   but you can try again later.
+
+   You  may want  to  query  *pg_stat_activity* to  see  if there  are
+   long-running queries before starting the DDL command.
+
+3. Create indexes CONCURRENTLY
+   Creating an index  on a large dataset can take  hours or even days,
+   and the  regular *CREATE INDEX*  command blocks all writes  for the
+   duration of the command. While it doesn't block *SELECT* s, this is
+   still pretty bad and there's a better way:
+
+   #+BEGIN_SRC sql
+     -- Don't do this:
+     -- blocks all writes
+     CREATE INDEX items_value_idx ON items USING GIN (value jsonb_path_ops);
+
+     -- Instead do this:
+     -- only block other DDL
+     CREATE INDEX CONCURRENTLY items_value_idx ON items USING GIN (value jsonb_path_ops);
+   #+END_SRC
+
+   Creating an index  concurrently does have a  downside. If something
+   goes  wrong  it  does  not  roll  back  and  leaves  an  unfinished
+   ("invalid") index behind. If that  happens, don't worry, simply run
+   *DROP  INDEX CONCURRENTLY  items_value_idx*  and try  to create  it
+   again.
+
+4. Take aggressive locks as late as possible
+   When you need to run a  command that acquires aggressive locks on a
+   table, try to do it as late in the transaction as possible to allow
+   queries to continue for as long as possible.
+
+   #+BEGIN_SRC sql
+     -- For example, if yu want to completely replace the contents of a table:
+
+     -- Don't do this:
+     BEGIN;
+     -- reads and writes blocked from here:
+     TRUNCATE items;
+     -- long-running operation:
+     \COPY items from 'newdata.csv' WITH CSV
+     COMMIT;
+
+     -- Instead load the data into a new table and then replace the old table:
+     BEGIN;
+     CREATE TABLE items_new (LIKE items INCLUDING ALL);
+     -- long-running operation:
+     \COPY items_new FROM 'newdata.csv' WITH CSV
+     -- reads and writes blocked from here:
+     DROP TABLE items;
+     ALTER TABLE items_new RENAME TO items;
+     COMMIT;
+   #+END_SRC
+
+   There is  one problem, we didn't  block writes from the  start, and
+   the old *items* table might have changed by the time we drop it. To
+   prevent that, we  can explicitly take a lock the  table that blocks
+   writes, but not reads:
+
+   #+BEGIN_SRC sql
+     BEGIN;
+     LOCK items IN EXCLUSIVE MODE;
+     ...
+   #+END_SRC
+
+5. Adding a primary key with minimal locking
+   Postgres makes  it very easy to  create a primary key  using *ALTER
+   TABLE*, but  while the index  for the  primary key is  being built,
+   which can take a long time if  the table is large, all queries will
+   be blocked.
+
+   #+BEGIN_SRC sql
+     -- Don't do this
+     -- blocks queries for a long time
+     ALTER TABLE items ADD PRIMARY KEY (id);
+
+     -- Do this instead:
+     -- takes a long time, but doesn't block queries
+     CREATE UNIQUE INDEX CONCURRENTLY items_pk ON items (id);
+     -- blocks queries, but only very briefly
+     ALTER TABLE items ADD CONSTRAINT items_pk PRIMARY KEY USING INDEX items_pk;
+   #+END_SRC
+
+   By breaking down primary key creation into two steps, it has almost
+   not impact on the user.
+
+6. Never VACUUM FULL
+   The PG user experience can  be a little surprising sometimes. While
+   *VACUUM FULL* sounds  like something you want to do  clear the dust
+   of your db, a more appropriate command would have been:
+
+   #+BEGIN_SRC sql
+     PLEASE FREEZE MY DATABASE FOR HOURS;
+   #+END_SRC
+
+   *VACUUM FULL*  rewrites the  entire table to  disk, which  can take
+   hours of days,  and blocks all queries while doing  it. While there
+   are some  valid use cases for  *VACUUM FULL*, such as  a table that
+   used to be big, but is now small and still takes up a lot of space,
+   it is probably not your use case.
+
+   While  you should  aim to  tune  your autovacuum  settings and  use
+   indexes to make your queries fast, you may occasionally want to run
+   *VACUUM*, but NOT *VACUUM FULL*.
+
+7. Avoid deadlocks by ordering commands
+   If you've been using PG for a while, chances are you've seen errors
+   like:
+
+   #+BEGIN_SRC sql
+     ERROR:  deadlock detected
+     DETAIL:  Process 13661 waits for ShareLock on transaction 45942; blocked by process 13483.
+     Process 13483 waits for ShareLock on transaction 45937; blocked by process 13661.
+   #+END_SRC
+
+   This happens when  concurrent transactions take the same  lock in a
+   different order. For example:
+
+   #+BEGIN_SRC sql
+     -- one transaction issues the following command:
+     BEGIN;
+     UPDATE items SET counter = counter + 1 WHERE key = 'hello'; -- grabs lock on hello
+     UPDATE items SET counter = counter + 1 WHERE key = 'world'; -- blocks waiting for world
+     END;
+
+     -- simultaneously, another transaction might be issuing the same commands, but in a different order:
+     BEGIN
+     UPDATE items SET counter = counter + 1 WHERE key = 'world'; -- grabs lock on world
+     UPDATE items SET counter = counter + 1 WHERE key = 'hello';  -- blocks waiting for hello
+     END; 
+   #+END_SRC
+
+   If these  transaction blocks  run simultaneously, chances  are that
+   they get  stuck waiting for each  other and would never  finish. PG
+   will recognise this situation after a  second or so and will cancel
+   one of  the transactions  to let  the other  one finish.  When this
+   happen, you  should take a look  at your application to  see if you
+   can  make  transactions  always  follow the  same  order.  If  both
+   transactions  first modify  *hello*, then  *world*, then  the first
+   transaction will block the second one on the *hello* lock before it
+   can grab any other locks.
+** Finding and killng long running queries on PG
+
+In order to find them you can use the following query:
+
+#+BEGIN_SRC sql
+  SELECT
+    pid,
+    now() - pg_stat_activity.query_start AS duration,
+    query,
+    state
+  FROM pg_stat_activity
+  WHERE (now() - pg_stat_activity.query_start) > interval '5 minutes';
+#+END_SRC
+
+If the  state is  idle you don't  need to worry  about it,  but active
+queries may be the reason behind low performances on your database.
+
+In order to cancel the long running queries you should execute:
+
+#+BEGIN_SRC sql
+  SELECT pg_cancel_backend(__pid__);
+#+END_SRC
+
+Where   the   pid   parameter   is   the   value   returned   in   the
+*pg_stat_activity*.  It may  take  a  few seconds  to  stop the  query
+entirely using the *pg_cancel_backend* command.
+
+If you think that the process is stuck you can kill it by running:
+
+#+BEGIN_SRC sql
+  SELECT pg_terminate_backend(__pid__);
+#+END_SRC
+
+*Be careful with that!* pg_terminate_backend is  the kill -9 in PG. It
+ will terminate the  entire process which can lead to  a full database
+ restart in order to recover consistency.
