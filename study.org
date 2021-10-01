@@ -6,16 +6,29 @@ Org is a  highly flexible structured plain text  file format, composed
 of a  few simple, yet versatile,  structures - constructed to  be both
 simple enough for the novice and powerful enough for the expert.
 
-+ Tools I want to get better during August 2021:
++ Tools I want to get better by month:
 
----
-08-2021:
-
+* 08-2021:
 - [x] F#
 - [x] Emacs
 - [x] Git
 
+* 09-2021:
+- [x] Personal story
+- [x] SQL practice
+- [x] Relational theory
+
+* 10-2021:
+- [ ] Operational system
+- [ ] Economics
+- [ ] Personal story
+
+* 11-2021:
+- [ ] Emacs
+- [ ] Machine learning
+
 * TODO F# docs
+  :INACTIVE:
 
 ** Functions
 
@@ -110,7 +123,8 @@ can use F# code from any .NET compatible language such as C#; and run it on Mono
 | I'll not continue reading this book since its content is not well explained. |
 
 * TODO Emacs docs
-
+  :INACTIVE:
+  
   Ref: [[https://orgmode.org/guide][ORG COMPACT GUIDE]]
 
 ** TABLES
@@ -261,7 +275,8 @@ can use F# code from any .NET compatible language such as C#; and run it on Mono
      Insert a new TODO entry below the current one.
 
 * TODO SAFE
-
+  :INACTIVE:
+  
   The SAFE acronym is made up of four separate components:
 
   * Saturn -> for back-end services in F#
@@ -311,8 +326,7 @@ can use F# code from any .NET compatible language such as C#; and run it on Mono
     application) or an externally available transaction ID that can be used independently of the
     connection.
     
-* DONE QEMU + NixOS
-  CLOSED: [2021-08-26 qui 21:23]
+* QEMU + NixOS
   With the help of Magueta.
 
 ** DONE [[https://www.computerhope.com/jargon/b/bios.htm][BIOS]]
@@ -613,7 +627,7 @@ that has been allocated by an operating system or hypervisor.
 
   - /Ctrl-alt-g/ -> free the mouse from inside the image.
   - /Ctrl-alt-f/ -> toggle switch fullscreen.
-* DONE Basic database concepts
+* DONE [DB][Course] Basic database concepts
   CLOSED: [2021-09-07 ter 19:48]
 
 - Language used: _Tutorial D_
@@ -719,7 +733,8 @@ Recall:
 
   * Relations are always normalized (i.e., in "1NF"). Which just means every tuple in 
     the body conforms to the heading.
-* TODO F# async model
+* DONE F# async model
+  CLOSED: [2021-09-15 qua 20:07]
   Produce  a  presentation  about   the  F#  async  model.   Scheduled
   presentation date: 2021-09-16.
 
@@ -762,7 +777,7 @@ interoperable because it slows down  in CPU-intensive native code. And
 asynchronous programming  using callbacks  is difficult,  the approach
 adopted  by F#  since 2007  is to  add an  asynchronous modality  as a
 first-class  feature  to  a  general purpose  language  design,  where
-"modality" mens  reusing the  control flow syntax  of a  host language
+"modality" means  reusing the control  flow syntax of a  host language
 with a different computational interpretation.
 
 This modality has control constructs that are syntactically a superset
@@ -775,16 +790,51 @@ interoperate well with .NET and C libraries.
 
 [5]
 
-*** Use cases:
+*** Core concepts:
 
-+ Presenting a server process that can service a significant number of 
-  concurrent incoming requests, while minimizing the system resources 
-  occupied while request processing awaits inputs from systems or services 
-  external to that process.
-+ Maintaining a responsive UI or main thread while concurrently progressing 
-  background work.
+In  F#,  asynchronous  programming   is  centered  around  three  core
+concepts:
+
++ The ~Async<'T>~ type, which represents a composable asynchronous computation.
++ The ~Async~ module functions, which let you schedule asynchronous work, compose
+  the asynchronous computations, and transform asynchronous results.
++ The ~async { }~ computation expression, which provides a convenient syntax for
+  building and controlling asynchronous computations. All expressions of the form
+  ~async {...}~ are of the type ~Async<T>~ for some ~T~.
+
+[1, 5]
+
+Example:
+
+#+BEGIN_SRC fsharp
+  open System
+  open System.IO
+
+  // string -> Async<unit>
+  let printTotalFileBytes path =
+    async {
+      let! bytes = 
+        File.ReadAllBytesAsync(path)
+	|> Async.AwaitTask
+      let fileName = Path.GetFileName(path)
+      printfn $"File {fileName} has %d{bytes.Length} bytes"
+    }
+
+ [<EntryPoint>]
+ let main argv =
+   printTotalFileBytes "path-to-file.txt"
+   |> Async.RunSynchronously
+
+   Console.Read() |> ignore
+   0
+#+END_SRC
 
 [1]
+
+In  F#,  asynchronous   computations  can  be  thought   of  as  *Cold
+tasks*. They must be explicitly  started to actually execute. This has
+some advantages, as it allows you to combine and sequence asynchronous
+work much more easily than in C# or Visual Basic.
 
 *** Practical terms:
 
@@ -827,52 +877,6 @@ to an event.
 
 [1, 5]
 
-*** Core concepts:
-
-In  F#,  asynchronous  programming   is  centered  around  three  core
-concepts:
-
-+ The ~Async<'T>~ type, which represents a composable asynchronous computation.
-+ The ~Async~ module functions, which let you schedule asynchronous work, compose
-  the asynchronous computations, and transform asynchronous results.
-+ The ~async { }~ computation expression, which provides a convenient syntax for
-  building and controlling asynchronous computations. All expressions of the form
-  ~async {...}~ are of the type ~Async<T>~ for some ~T~.
-
-[1, 5]
-
-Example:
-
-#+BEGIN_SRC fsharp
-  open System
-  open System.IO
-
-  // string -> Async<unit>
-  let printTotalFileBytes path =
-    async {
-      let! bytes = 
-        File.ReadAllBytesAsync(path)
-	|> Async.AwaitTask
-      let fileName = Path.GetFileName(path)
-      printfn $"File {fileName} has %d{bytes.Length} bytes"
-    }
-
- [<EntryPoint>]
- let main argv =
-   printTotalFileBytes "path-to-file.txt"
-   |> Async.RunSynchronously
-
-   Console.Read() |> ignore
-   0
-#+END_SRC
-
-In  F#,  asynchronous   computations  can  be  thought   of  as  *Cold
-tasks*. They must be explicitly  started to actually execute. This has
-some advantages, as it allows you to combine and sequence asynchronous
-work much more easily than in C# or Visual Basic.
-
-[1]
-
 *** Grammar of asynchronous expressions:
 
 [[/home/gajo/org/imgs/fsharp-async-grammar.png]]
@@ -891,6 +895,53 @@ must be explicitly started with a starting function.
 [[https://docs.microsoft.com/en-us/dotnet/fsharp/tutorials/asynchronous-and-concurrent-programming/async#important-async-module-functions][Async starting methods]]
 
 [1]
+
+*** Cancellation
+
+A cancellation mechanism  allows computations to be sent  a message to
+"stop" execution, e.g. "thread abort" in .NET. Cancellation mechanisms
+are  always a  difficult  topic in  imperative programming  languages,
+because  compiled,  efficient  native code  often  exhibits  extremely
+subtle properties  when pre-emptively  cancelled at  arbitrary machine
+instructions.  However, for  asynchronous computations  we can  assume
+that primitive asynchronous operations are the norm (e.g. waiting on a
+network   request),  and   it  is   reasonable  to   support  reliable
+cancellation  at these  operations. Furthermore,  it is  reasonable to
+implicitly  support  cooperative  cancellation at  specific  syntactic
+points, and additionally through user-defined cancellation checks.
+
+F# async supports  the implicit propagation of  a ~cancellation token~
+through   the  execution   of   an   asynchronous  computation.   Each
+cancellation  token is  derived  from a  ~cancellation capability~  (a
+*CancellationTokenSource*   in  .NET),   used  to   set  the   overall
+cancellation condition. A  cancellation token can be given  to lots of
+functions.
+
+#+BEGIN_SRC fsharp
+  let capability = new CancellationTokenSource()
+  let tasks = Async.Parallel [ getWebPage "https://google.com"
+			       getWebPage "https://bing.com" ]
+  
+  // Start the work
+  Async.Start (tasks, cancellationToken = capability.Token)
+  
+  // Ok, the work is in progress, now cancel it...
+  capability.Cancel()
+#+END_SRC
+
+Cancellation is checked  at each I/O primitive,  subject to underlying
+.NET library and O/S support, and before the execution of each return,
+let!, use!,  try/with, try/finally, do!  and async { ...  } construct,
+and before  each iteration of an  asynchronous while or for  loop. For
+getWebPage this means cancellation can occur at several places. But it
+cannot  occur  during core-language  code  (e.g.  expressions such  as
+library calls, executed for side-effects), and it cannot occur in such
+a  way that  the  resource-reclamation  implied by  the  use and  use!
+expression  constructs is  skipped.  Cancellation  is not  necessarily
+immediately effective: in  a multi-core or distributed  setting it may
+take arbitrarily long to propagate the cancellation message.
+
+[5]
 
 *** Exception Handling and Resource Compensation:
 
@@ -927,52 +978,6 @@ language support. Many OO design  patterns for async programming use a
 "state" object to  hold the state elements of  a composed asynchronous
 computation,  but this  is non-compositional.  With language  support,
 state becomes implied by closure, and resource cleanup becomes simple.
-
-[5]
-
-*** Cancellation
-
-A cancellation mechanism  allows computations to be sent  a message to
-"stop" execution, e.g. "thread abort" in .NET. Cancellation mechanisms
-are  always a  difficult  topic in  imperative programming  languages,
-because  compiled,  efficient  native code  often  exhibits  extremely
-subtle properties  when pre-emptively  cancelled at  arbitrary machine
-instructions.  However, for  asynchronous computations  we can  assume
-that primitive asynchronous operations are the norm (e.g. waiting on a
-network   request),  and   it  is   reasonable  to   support  reliable
-cancellation  at these  operations. Furthermore,  it is  reasonable to
-implicitly  support  cooperative  cancellation at  specific  syntactic
-points, and additionally through user-defined cancellation checks.
-
-F# async supports  the implicit propagation of  a ~cancellation token~
-through   the  execution   of   an   asynchronous  computation.   Each
-cancellation  token is  derived  from a  ~cancellation capability~  (a
-*CancellationTokenSource*   in  .NET),   used  to   set  the   overall
-cancellation condition. A  cancellation token can be given  to lots of
-functions.
-
-#+BEGIN_SRC fsharp
-let capability = new CancellationTokenSource()
-let tasks = Async.Parallel [ getWebPage "https://google.com"
-                             getWebPage "https://bing.com" ]
-
-// Start the work
-Async.Start (tasks, cancellationToken = capability.Token)
-// Ok, the work is in progress, now cancel it...
-capability.Cancel()
-#+END_SRC
-
-Cancellation is checked  at each I/O primitive,  subject to underlying
-.NET library and O/S support, and before the execution of each return,
-let!, use!,  try/with, try/finally, do!  and async { ...  } construct,
-and before  each iteration of an  asynchronous while or for  loop. For
-getWebPage this means cancellation can occur at several places. But it
-cannot  occur  during core-language  code  (e.g.  expressions such  as
-library calls, executed for side-effects), and it cannot occur in such
-a  way that  the  resource-reclamation  implied by  the  use and  use!
-expression  constructs is  skipped.  Cancellation  is not  necessarily
-immediately effective: in  a multi-core or distributed  setting it may
-take arbitrarily long to propagate the cancellation message.
 
 [5]
 
@@ -1032,6 +1037,17 @@ do.
 
 [1, 5]
 
+*** Use cases:
+
++ Presenting a server process that can service a significant number of 
+  concurrent incoming requests, while minimizing the system resources 
+  occupied while request processing awaits inputs from systems or services 
+  external to that process.
++ Maintaining a responsive UI or main thread while concurrently progressing 
+  background work.
+
+[1]
+
 
 ** Examples
 
@@ -1043,7 +1059,7 @@ do.
 
 + How to deal with asynchronous code using modern approachs
 + How the context influence the asynchronous (thread)
-* DONE Terminal commands
+* DONE [Linux] Terminal commands
   CLOSED: [2021-09-05 dom 20:43]
   
 - [x] find
@@ -1081,7 +1097,7 @@ writing to standard output.
 - [x] sort
 Write sorted concatenation of all FILE(s) to standard output.
 With no FILE, or when FILE is -, read standard input.
-* DONE Postgres lock
+* DONE [DB] Postgres lock
   CLOSED: [2021-09-11 sáb 12:17]
 
 [[https://www.citusdata.com/blog/2018/02/15/when-postgresql-blocks/][PostgreSQL rocks, except when it blocks: Understanding locks]]
@@ -1333,3 +1349,384 @@ If you think that the process is stuck you can kill it by running:
 *Be careful with that!* pg_terminate_backend is  the kill -9 in PG. It
  will terminate the  entire process which can lead to  a full database
  restart in order to recover consistency.
+* DONE [DB][Course] Relational theory + SQL
+  CLOSED: [2021-09-22 qua 21:29]
+** 1. Types
+** 2. Relations
+** 3. Relational algebra
+*** Matching
+*** Semijoin
+*** Extend
+   ~What if supplier status values were tripled?~
+*** Image relations
+    "Image" in  some relation of some  tuple (usually a tuple  in some
+    other relation)
+*** Group 
+*** SUM (summarization)
+*** AVG
+*** Relational comparisons
+** 4. Relational variables
+*** Multiple assignment
+   Multiple assignment operator lets  us carry out several assignments
+   as a  single operation, without  any integrity checking  being done
+   until all assignments have been executed.
+
+   1. Evaluate source expressions
+   2. Execute individual assignments "simultaneously"
+   3. Do integrity checking
+
+*** Views
+    Nice to avoid repeated queries.  .~
+** 4.1 The relational model
+   1. An open ended collection of types, including in particular type
+      BOOLEAN
+   2. A relational type generator and an intended interpretation for
+      relations of types generated thereby
+   3. Facilities for defining relation variables of such generated
+      relation types
+   4. A relational assignment operation for assigning relation values
+      to such relation variables
+   5. A relationally complete, but otherwise open ended, collection of
+      generic relational operators for deriving relation values from
+      other relation values.
+** 5. Time and the database
+*** Data warehouse
+*** Database research on this topic
+    A note on the research (there's been some controversy)
+    
+    Two approaches:
+    
+    Threat  temporal  data  as  special  and  depart  from  relational
+    principles?
+
+    OR...
+
+    Abide firmly by those principles?
+** 6. What's the problem with temporal databases
+   "Temporal" constraints and queries -  not to mention updates! - can
+   be expressed, but they quickly get very complicated indeed.
+
+   We need  some carefully  thought out  and well  designed shorthands
+   which typically don't exist in today's commercial DBMSs.
+** 7. Intervals
+   Crucial  insight: Need  to deal  with intervals  as such  (i.e., as
+   values in their own right), instead of pair of FROM-TO values.
+
+   + All those notations represent the same interval:
+
+   [d04:d10] - closed:closed = d04 d05 d06 d07 d08 d09 d10
+
+   [d04:d11) - closed:open = d04 d05 d06 d07 d08 d09 d10
+
+   (d03:d10] - open:closed = d04 d05 d06 d07 d08 d09 d10
+
+   (d03:d11) - open:open = d04 d05 d06 d07 d08 d09 d10
+
+   The table with the interval is being called ~during~.
+
+*** Intervals aren't necessarily temporal
+    Tax brackets  are represented by taxable  income ranges (intervals
+    whose contained points are money values)
+
+    Machines  operate within  certain temperature  and voltage  ranges
+    (intervals whose  contained points are temperatures  and voltages,
+    respectively)
+
+    Animals vary in the range of  frequencies of light and sound waves
+    to which their eyes and ears are receptive
+
+    Various natural phenomena occur in ranges  in depth of soil or sea
+    or height above sea level
+** 8. Expand and collapse
+   X1_collapsed = {[d1:d5]}
+
+   X1_expanded = {[d1:d1], [d2:d2], [d3:d3], [d4:d4], [d5:d5]}
+** 9. Pack and unpack
+** 10. Generalizing the relational operators
+** 11. Database design I: Structure
+*** How do temporal DB design?
+    Just add a "temporal" attribute?
+
+    No!
+
+    We propose:
+
+    *Vertical  decomposition*, to  deal  with the  fact that  distinct
+    "properties" of the same "entity" vary at different rates.
+
+    *Horizontal decomposition*,  to deal  with the  logical difference
+    between current and historical information.
+** 12. Database design II: Keys and constraints
+** 13. Database design III: General constraints
+* TODO [DB] Hackerrank interesting challenges
+** Draw the triangle 1
+[[https://www.hackerrank.com/challenges/draw-the-triangle-1/problem][Problem link.]]
+   
+#+BEGIN_SRC sql
+set @number = 21;
+select repeat('* ', @number := @number - 1) from information_schema.tables;
+#+END_SRC
+* [DB] Database tips
+** Avoid grouping with unnecessary values:
+   The keys you pass to group by should have meaning.
+
+   "I will group the commit history  by developer and count the number
+of each contributor".
+
+   Compare that to:
+
+   "I  will  group  the  commit history  by  developer  AND  developer
+   birthday"
+
+   The developer birthday is a  function of the developer ID. Grouping
+by dev  ID and (dev ID,  dev birthday) produces the  same partition on
+the  data.  The first  grouping  criteria  is  simpler and  should  be
+preferred.
+
+   I think  I've learned this  by being burned  by trying to  group by
+more columns than I needed.
+
+   Original:
+
+   #+BEGIN_SRC sql
+     Select
+	     A.key,
+	     A.property,
+	     sum(A.value)
+	     from
+	     A
+	     group by A.key, A.property;
+   #+END_SRC
+
+   Suggestion to avoid grouping by more than you need:
+
+   #+BEGIN_SRC sql
+     Select
+	     from
+	     A.key,
+	     A.property,
+	     T.s
+	     LEFT JOIN
+	     (
+	     select
+	     A.key,
+	     sum(A.value) as s
+	     from
+	     A
+	     group by A.key
+	     )as T on A.key = T.key;
+   #+END_SRC
+* TODO [Course] Inteligência artificial para lideres
+** Modulo 2
+*** Mercado de IA e ML
+    Brasil esta começando a aprender a lidar com dados agora. Nestes 4
+    anos  a  Datarisk teve  a  oportunidade  de aprender  bastante  (e
+    consequentemente errar bastante também).
+
+    IA: Capacidade de simular  raciocínio. Pode ser implementada desde
+    em lógicas simples até algoritmos e redes neurais mais complexas.
+
+    ML: Um  dos ramos da IA.  É a capacidade das  máquinas de aprender
+    sem que sejame xplicitamente programadas para isso.
+
+    Deep learning: subconjunto
+
+    Sendo  procurado  por empresas  do  mercado  de veículos.  Um  dos
+    clientes  é  um aplicativo  de  abastecimento  e a  Datarisk  está
+    trabalhando com a prospecção de clientes.
+
+    CAC: Custo de aquisição de cliente.
+*** Metodologia de ML
+    Plataformas horizontais: PAAS, situações mais gerais.
+    
+    Plataformas verticais:  Área mais  especializada. A área  que mais
+    ajudou a Datarisk a se manter no mercado.
+
+    IA e  ML semicondutores:  desenvolvimento de hardware  com extrema
+    eficiência.
+
+    Máquinas autônomas.
+
+    Empresas que usam analytics  demonstram uma performance financeira
+    mais sólida.
+*** Aplicacoes
+*** O que o ML pode ou não fazer
+* DONE [DB] DbUp with F#
+  CLOSED: [2021-09-25 sáb 20:49]
+** What:
+   DbUp is  a .NET  library that  helps you to  deploy changes  to SQL
+   server  databases.  It  tracks  which SQL  scripts  have  been  run
+   already, and  runs the change scripts  that are needed to  get your
+   database up to date.
+* DONE [Debate] Taskjuggler x Monday
+  CLOSED: [2021-09-30 qui 19:32]
+  + Present data
+  + Focus on the values and vision of the company
+    
+** Taskjuggler
+   *What?*
+
+   Taskjuggler  is  a modern  and  powerful,  __free and  open  source
+   software project  management tool__.   Its new approach  to project
+   planning and tracking is more flexible and superior to the commonly
+   used Gantt chart editing tools.
+
+   It covers  the complete spectrum  of project management  tasks from
+   the first  idea to the  completion of  the project. It  assists you
+   during  project  scoping,  resource assignment,  cost  and  revenue
+   planning, risk and communication management.
+
+   Taskjuggler  provides an  optimizing scheduler  that computes  your
+   project time  lines and resource  assignments based on  the project
+   outline and the constraints that you have provided.
+
+   ---
+   *How?*
+
+   Taskjuggler is written in Ruby and should be easily installable and
+   usable on  all popular OS.  It may  sound surprising at  first, but
+   this software does  not need a graphical user  interface. A command
+   shell, a plain  text editor and a  web browser is all  you need for
+   your work.
+
+   --- *Advantages*
+   
+   1- Integration with Emacs
+
+   2- The  Taskjuggler design  frees the project  manager to  focus on
+   information  that  is known  about  the  project  at any  stage  of
+   it. Taskjuggler then turns this information into meaningful reports
+   and charts.  It supports  the project  manager in  all phases  of a
+   project, from the initial idea, to effort estimation, budgeting and
+   status tracking.
+* [Notes] Joe Armstrong - Keynote: the forgotten ideas in computer science
+Youtube video
+
+** Articles
+   A plea for lean software - Niklaus Wirth
+   The emperor's old clothes - ACM Turing award lecture - Tony Hoare
+   
+** Tools
+   Emacs
+   bash
+   make
+   shell
+
+** Books
+   Algorithm data structures programs
+   The mythical man-month
+   How to win friends and influence people
+
+** Why software is difficult now
+   Fast machines
+   Huge memory
+   Hundreds of PLs
+   Distributed
+   Huge programs
+   No specifications
+   Reuse
+
+** Fun programming exercise
+   A syntax-oriented compiler writing language
+
+** Great machines from the past
+   Baby SSEM
+   PDP11
+   Vax 11/750
+   Cray 1
+   IBM PC
+   Raspberry PI
+   iPhone/iPad
+   Nvidia Tesla P100
+
+** Youtube videos to watch
+   The computer revolution has not happened yet - Alan Kay
+   Computers for Cynics - Ted Nelson
+   Free is a lie - Aaron Balkan
+   How a handful of tech companies control billions of minds every day - Tristan Harris
+   Matt Might - Winning the war on error: solving halting problem, curing cancer - code mesh 2017
+
+** Forgotten ideas
+   Linda tuple spaces - David Gelernter and Nicholas Carriero
+   Flow based programming - John Paul Morrison
+   Xanadu - Ted Nelson
+   Unix pipes
+
+** Areas to research
+   Robotics
+   AI
+   Programmer productivity
+   Energy efficiency
+   Precision medicin
+   Security
+
+** Programs to try
+   TiddlyWiki
+   SonicPI
+* TODO [OS][Course] Operating systems
+  CS 357
+
+** Lecture 1
+   Introduction
+
+   Background:
+    -> CS 367/400: Program
+    -> CS 354: Introduction to computer systems
+      -> How computer works
+
+      fetch -> CPU <--> MEM <- instructions
+      decode                   data
+      execute
+
+   Programming language: C.
+
+   Should know: code + heap + stack.
+
+   Emacs for the IDE.
+   
+*** Virtualization
+One physical => many virtual
+
+Illusion -> each  running program imagine that it has  its own CPU and
+its own private memory.
+
+Key aspects:
+  -> efficiency
+  -> security (restricted)
+
+CPU virtualization:
+
+Take 1 CPU and turn it into many virtual CPUs
+
+Key concept:
+  -> time sharing
+  -> space sharing
+
+Abstraction for running a program: *process*
+Components of a process:
+  - Memory (private) "address space"
+    - has the code, heap, stack
+  - Registers (changing all the time)
+    - Program counter
+    - Stack pointer
+    - General purpose pointers
+    -> Used for efficiency
+  - I/O state
+
+Policies are built on top of low level mechanisms.
+  -> Higher level decision.
+Mechanisms tell us how things work.
+
+Core mechanism:
+  - Limited Direct Exection
+
+Protocol: Direct Execution
+* [OS][Book] Modern Operating Systems 4ed
+** 1. Introduction
+
+   The operating system, the most  fundamental piece of software, runs
+   in *kernel mode*  (also called *supervisor mode*). In  this mode it
+   has  complete  access to  all  the  hardware  and can  execute  any
+   instruction the  machine is capable  of executing. The rest  of the
+   software runs in *user mode*, in which only a subset of the machine
+   instructions is available.
