@@ -27,7 +27,7 @@ simple enough for the novice and powerful enough for the expert.
 - [ ] Emacs
 - [ ] Machine learning
 
-* TODO F# docs
+* TODO [F#] F# docs
   :INACTIVE:
 
 ** Functions
@@ -111,7 +111,7 @@ simple enough for the novice and powerful enough for the expert.
    Classes represent the fundamental description of .NET object types; the class is the primary type
    concept that supports object-oriented programming in F#.
 
-* DONE Learning F# (book)
+* DONE [F#] Learning F# (book)
   CLOSED: [2021-08-15 dom 10:02]
 
 The F# compiler -- which is open source -- compiles your programs into IL, which means that you
@@ -122,7 +122,7 @@ can use F# code from any .NET compatible language such as C#; and run it on Mono
 
 | I'll not continue reading this book since its content is not well explained. |
 
-* TODO Emacs docs
+* TODO [Emacs] Emacs tips
   :INACTIVE:
   
   Ref: [[https://orgmode.org/guide][ORG COMPACT GUIDE]]
@@ -274,7 +274,12 @@ can use F# code from any .NET compatible language such as C#; and run it on Mono
    /S-M-RET/
      Insert a new TODO entry below the current one.
 
-* TODO SAFE
+** ORG mode
+*** Keep track of the time
+   /C-c C-x C-i/ -> clock-in
+   /C-c C-x C-o/ -> clock-out
+
+* TODO [F#] SAFE
   :INACTIVE:
   
   The SAFE acronym is made up of four separate components:
@@ -326,7 +331,7 @@ can use F# code from any .NET compatible language such as C#; and run it on Mono
     application) or an externally available transaction ID that can be used independently of the
     connection.
     
-* QEMU + NixOS
+* [OS] QEMU + NixOS
   With the help of Magueta.
 
 ** DONE [[https://www.computerhope.com/jargon/b/bios.htm][BIOS]]
@@ -733,7 +738,7 @@ Recall:
 
   * Relations are always normalized (i.e., in "1NF"). Which just means every tuple in 
     the body conforms to the heading.
-* DONE F# async model
+* DONE [F#] F# async model
   CLOSED: [2021-09-15 qua 20:07]
   Produce  a  presentation  about   the  F#  async  model.   Scheduled
   presentation date: 2021-09-16.
@@ -1599,7 +1604,7 @@ more columns than I needed.
    and charts.  It supports  the project  manager in  all phases  of a
    project, from the initial idea, to effort estimation, budgeting and
    status tracking.
-* [Notes] Joe Armstrong - Keynote: the forgotten ideas in computer science
+* [Video][Notes] Joe Armstrong - Keynote: the forgotten ideas in computer science
 Youtube video
 
 ** Articles
@@ -1721,7 +1726,17 @@ Core mechanism:
   - Limited Direct Exection
 
 Protocol: Direct Execution
-* [OS][Book] Modern Operating Systems 4ed
+* TODO [OS][Book] Modern Operating Systems 4ed
+  :LOGBOOK:
+  CLOCK: [2021-10-06 qua 19:11]--[2021-10-06 qua 19:15] =>  0:04
+  CLOCK: [2021-10-06 qua 18:21]--[2021-10-06 qua 19:10] =>  0:49
+  CLOCK: [2021-10-05 ter 19:09]--[2021-10-05 ter 20:03] =>  0:54
+  CLOCK: [2021-10-04 seg 19:40]--[2021-10-04 seg 20:30] =>  0:50
+  CLOCK: [2021-10-03 dom 21:47]--[2021-10-03 dom 22:40] =>  0:53
+  CLOCK: [2021-10-02 sáb 11:02]--[2021-10-02 sáb 12:02] =>  1:00
+  CLOCK: [2021-10-01 sex 21:42]--[2021-10-01 sex 22:21] =>  0:39
+  CLOCK: [2021-10-01 sex 20:58]--[2021-10-01 sex 21:20] =>  0:22
+  :END:
 ** 1. Introduction
 
    The operating system, the most  fundamental piece of software, runs
@@ -1730,3 +1745,764 @@ Protocol: Direct Execution
    instruction the  machine is capable  of executing. The rest  of the
    software runs in *user mode*, in which only a subset of the machine
    instructions is available.
+
+   ---
+   Resource management includes  *multiplexing* (sharing) resources in
+   two different ways:  in time and in space. When  a resource is time
+   multiplexed, different programs or users take turns using it. First
+   one  of  them gets  to  use  the  resource,  then another,  and  so
+   on. Determining  how the  resource is time  multiplexed -  who goes
+   next and for how long - is the task of the operating system.
+
+   The other  kind of multiplexing  is space multiplexing.  Instead of
+   the customers taking turns, each one gets part of the resource. For
+   example, main memory  is normally divided up  among several running
+   programs,  so each  one  can  be resident  at  the  same time  (for
+   example, in order  to take turns using the CPU).  Assuming there is
+   enough memory  to hold multiple  programs, it is more  efficient to
+   hold several  programs in memory  at once  rather than give  one of
+   them all of it, especially if it only needs a small fraction of the
+   total. Of course,  this raises issues of  fairness, protection, and
+   so on, and it is up to  the operating system to solve them. Another
+   resource that is space multiplexed is  the disk. In many systems, a
+   single  disk   can  hold  files   from  many  users  at   the  same
+   time. Allocating disk space and keeping track of who is using which
+   disk blocks is a typical operating system task.
+
+   ---
+   To make  it possible to write  programs that could run  on any UNIX
+   system, IEEE developed a standard for UNIX, called POSIX, that most
+   versions of UNIX  now support. POSIX defines  a minimal system-call
+   interface that conformant UNIX systems  must support. In fact, some
+   other operating systems now also support the POSIX interface.
+
+   ---
+   * Processors
+
+   The brain of the computer is  the CPU. It fetches instructions from
+   memory and executes them. The basic  cycle of every CPU is to fetch
+   the first instruction from memory,  decode it to determine its type
+   and  operands, execute  it,  and then  fetch,  decode, and  execute
+   subsequent instructions.  The cycle  is repeated until  the program
+   finishes. In this way, programs are carried out.
+
+   Each  CPU  has   a  specific  set  of  instructions   that  it  can
+   execute. Thus an *x86* processor  cannot execute *ARM* programs and
+   an *ARM* processor cannot execute *x86* programs.
+
+   Because acessing  memory to get  an instruction or data  word takes
+   much longer  than executing an  instruction, all CPUs  contain some
+   registers inside to hold key variables and temporary results. Thus,
+   the instruction set generally contains  instructions to load a word
+   from memory into a register, and  store a word from a register into
+   memory.
+
+   Special registers that are visible to the programmer:
+
+   *Program  counter*:  contains  the   memory  address  of  the  next
+   instruction to be fetched. After that instruction has been fetched,
+   the program counter is updated to point to its successor.
+
+   *Stack  pointer*:  points  to  the  top of  the  current  stack  in
+    memory. The stack  contains one frame for each  procedure that has
+    been entered but  not yet exited. A procedure's  stack frame holds
+    those input  parameters, local variables, and  temporary variables
+    that are not kept in registers.
+
+   *PSW  (Program Status  Word)*:  Contains the  condition code  bits,
+    which are  set by comparison  instructions, the CPU  priority, the
+    mode  (user  or kernel),  and  various  other control  bits.  User
+    programs may normally read the  entire PSW but typically may write
+    only some of its fields. The PSW plays an important role in system
+    call and I/O.
+
+   To  improve  performance, CPU  designers  have  long abandoned  the
+   simple model  of fetching, decoding, and  executing one instruction
+   at a time. Many modern CPUs have facilities for executing more than
+   one instruction  at the same  time. For  example, a CPU  might have
+   separate  fetch, decode,  and execute  units, so  that while  it is
+   executing instruction n, it could  also be decoding instruction n +
+   1 and fetching instruction n +  2. Such an organization is called a
+   *pipeline*.
+
+   Even  more  advanced than  a  pipeline  design is  a  *superscalar*
+   CPU.  In this  design, multiple  execution units  are present,  for
+   example,  one  for  integer   arithmetic,  one  for  floating-point
+   arithmetic,   and  one   for  Boolean   operations.  Two   or  more
+   instructions  are  fetched at  once,  decoded,  and dumped  into  a
+   holding buffer until they can be  executed. As soon as an execution
+   unit becomes  available, it looks in  the holding buffer to  see if
+   there is  an instruction it can  handle, and if so,  it removes the
+   instruction from the buffer and executes it. An implication of this
+   design  is that  program  instructions are  often  executed out  of
+   order. For the most part, it is up to the hardware to make sure the
+   result produced is  the same one a  sequential implementation would
+   have produced, but an annoying  amount of the complexity is foisted
+   onto the operating system.
+
+   User programs always run in user  mode, which permits only a subset
+   of the instructions to be executed  and a subset of the features to
+   be accessed.  Generally, all instructions involving  I/O and memory
+   protection are disallowed in user mode. Setting the PSW mode bit to
+   enter kernel mode is also forbidden, of course.
+
+   To obtain services  from the operating system, a  user program must
+   make a *system  call*, which traps into the kernel  and invokes the
+   operating system. The  TRAP instruction switches from  user mode to
+   kernel mode and starts the operating system. When the work has been
+   completed,  control  is  returned  to   the  user  program  at  the
+   instruction following the system call.
+
+   * Memory
+
+   The memory system is constructed as  a hierarchy of layers. The top
+   layers have  higher speed, smaller  capacity, and greater  cost per
+   bit than the lower ones, often by factors of a billion or more.
+
+   The top layer  consists of the registers internal to  the CPU. They
+   are made of the same material as  the CPU and are thus just as fast
+   as the CPU. Consequently, there is  no delay in accessing them. The
+   storage capacity available  in them is typically 32 x  32 bits on a
+   32-bit CPU and 64  x 64 bits on a 64-bit  CPU. Programs must manage
+   the registers  (i.e., decide that  to keep in them)  themselves, in
+   software.
+
+   Next  comes the  cache memory,  which is  mostly controlled  by the
+   hardware.
+
+   Main memory is usualy called RAM (*Random Access Memory*).
+
+   * Disks
+
+   Many  computers suppor  a scheme  known as  *virtual memory*.  This
+   scheme  makes it  possible to  run larger  than physical  memory by
+   placing them on the  disk and using main memory as  a kind of cache
+   for  the   most  heavily  executed  parts.   This  scheme  requires
+   re-mapping memory addresses  on the fly to convert  the address the
+   program generated to the physical address  in RAM where the word is
+   located. This mapping is done by a  part of the CPU called the *MMU
+   (Memory Management Unit)*.
+
+   The presence  of caching  and the  MMU can have  a major  impact on
+   performance. In a multiprogramming  system, when switching from one
+   program to another, sometimes called  a *context switch*, it may be
+   necessary to  flush all modified  blocks from the cache  and change
+   the  mapping registers  in the  MMU.  Both of  these are  expensive
+   operations, and programmers try hard to avoid them.
+
+   * I/O
+
+   The software  that talks  to a controller,  giving it  commands and
+   accepting responses,  is called a *device  driver*. Each controller
+   manufacturer has  to supply a  driver for each operating  system it
+   supports. Thus a scanner may come with drivers for OS X, Windows 7,
+   Windows 8, and Linux, for example.
+
+   To be used, the  driver has to be put into  the operating system so
+   it can  run in kernel  mode. Drivers  can actually run  outside the
+   kernel, and  operating systems like  Linux and Windows  nowadays do
+   offer some support  for doing so. The vast majority  of the drivers
+   still run below the kernel boundary. Only very few current systems,
+   such as  MINIX 3, run  all drivers in  user space. Drivers  in user
+   space must  be allowed to  access the  device in a  controlled way,
+   which is not straighforward.
+
+   Input  and output  can  be done  in three  different  ways. In  the
+   simplest method,  a user  program issues a  system call,  which the
+   kernel then  translates into  a procedure  call to  the appropriate
+   driver. The  driver then starts  the I/O and  sits in a  tight loop
+   continuously polling the device to see if it is done (usually there
+   is some bit that indicates that the device is still busy). When the
+   I/O has completed, the driver puts the data (if any) where they are
+   needed and  returns. The operating  system then returns  control to
+   the  caller. This  method  is  called *busy  waiting*  and has  the
+   disadvantage of  tying up the  CPU polling  the device until  it is
+   finished.
+
+   The second method is for the driver  to start the device and ask it
+   to give an interrupt when it  is finished. At that point the driver
+   returns. The operating system then blocks the caller if need be and
+   looks for other work to do.  When the controller detects the end of
+   the transfer, it generates an *interrupt* to signal completion.
+
+   The third  method for doing  I/O makes  use of special  hardware: a
+   *DMA (Direct Memory Access)* chip that can control the flow of bits
+   between   memory  and   some   controller   without  constant   CPU
+   intervention. The  CPU sets up  the DMA  chip, telling it  how many
+   bytes to  transfer, the device  and memory addresses  involved, and
+   the direction, and lets it go. When the DMA chip is done, it causes
+   an interrupt, which is handled as described before.
+
+   * Buses
+
+   The  main  bus  is  the *PCIe  (Peripheral  Component  Interconnect
+   Express)* bus. Capable of transferring tens of gigabits per second,
+   PCIe is much faster than its predecessors.
+
+   A *shared  bus architecture*  means that  multiple devices  use the
+   same wires to  transfer data. Thus when multiple  devices have data
+   to send, you need  an arbiter to determine who can  use the bus. In
+   contrast,   PCIe    makes   use   of    dedicated,   point-to-point
+   connections. A *parallel bus  architechture* as used in traditional
+   PCI means that you send each  word of data over multiple wires. For
+   instance, in regular PCI buses, a single 32-bit number is sent over
+   32 parallel  wires. In constrast to  this, PCIe uses a  *serial bus
+   architechture* and  sends all  bits in a  message through  a single
+   connection, known as a lane, much like a network packet.
+
+   - *DMI (Direct Media Interface)* bus.
+
+   The   *SCSI    (Small   Computer   System   Interface)*    bus   is
+   high-performance bus  intended for fast disks,  scanners, and other
+   devices  needing considerable  bandwidth.  Nowadays,  we find  them
+   mostly in servers and workstations.
+
+   * Booting the computer
+
+   Very briefly, the  boot process is as follows. Every  PC contains a
+   motherboard, and  there it  has a program  called the  system *BIOS
+   (Basic  Input  Output System)*.  The  BIOS  contains low-level  I/O
+   software, including procedures  to read the keyboard,  write to the
+   screen, and do disk I/O, among other things.
+
+   When the computer  is booted, the BIOS is started.  It first checks
+   to see how much RAM is installed and whether the keyboard and other
+   basic devices are installed and responding correctly. It starts out
+   by  scanning the  PCIe  and PCI  buses to  detect  all the  devices
+   attached to  them. If the  devices present are different  from when
+   the system was last booted, the new devices are configured.
+
+   The  BIOS then  determines  the boot  device by  trying  a list  of
+   devices stored in the CMOS memory. The user can change this list by
+   entering    a    BIOS     configuration    program    just    after
+   booting. Typically, an attempt is made to boot from a USB drive, if
+   one  is present.  If that  fails, the  system boots  from the  hard
+   disk. The first sector from the boot device is read into memory and
+   executed. This sector contains a program that normally examines the
+   partition table  at the end of  the boot sector to  determine which
+   partition is active.  Then a secondary boot loader is  read in from
+   that partition. This loader reads  in the operating system from the
+   active partition and starts it.
+
+   The operating system then queries the BIOS to get the configuration
+   information. For each device, it checks to see if it has the device
+   driver.  If  not,  it  asks  the  user  to  download  it  from  the
+   internet. Once it has all  the device drivers, the operating system
+   loads them into the kernel. Then it initializes its tables, creates
+   whatever background  processes are  needed, and  starts up  a login
+   program or GUI.
+
+   ---
+   OPERATING SYSTEM CONCEPTS:
+
+   * Processes
+
+   A process is basically a program in execution. Associated with each
+   process is its  *address space*, a list of memory  locations from 0
+   to some maximum, which the process  can read and write. The address
+   space contains the executable program,  the program's data, and its
+   stack. Also  associated with  each process is  a set  of resources,
+   commonly  including registers  (including the  program counter  and
+   stack pointer), a  list of open files, outstanding  alarms, list of
+   related processes, and all the  other information needed to run the
+   program. A process is fundamentally  a container that holds all the
+   information needed to run a program.
+
+   Periodically,  the operating  system  decides to  stop running  one
+   process and  start running another,  perhaps because the  first one
+   has used up more  than its share of CPU time in  the past second or
+   two.
+
+   When a process is suspended temporarily like this, it must later be
+   restarted  in   exactly  the  same   state  it  had  when   it  was
+   stopped. This means that all  information about the process must be
+   explicitly saved somewhere during the suspension.
+
+   In many operating systems, all  the information about each process,
+   other than the  contents of its own address space,  is stored in an
+   operating  system table  called the  *process table*,  which is  an
+   array of structures, one for each process currently in existence.
+
+   Thus, a (suspended) process consists  of its address space, usually
+   called the  *core image*  (in honor of  the magnetic  core memories
+   used in days of yore), and  its process table entry, which contains
+   the  contents of  its  registers  and many  other  items needed  to
+   restart the process later.
+
+   The key process-management  system call are those  dealing with the
+   creation  and   termination  of   processes.  Consider   a  typical
+   example. A process called the  *command interpreter* or shell reads
+   commands  from  a  terminal.  The  user has  just  type  a  command
+   requesting that a program be compiled.  The shell must now create a
+   new  process that  will run  the  compiler. When  that process  has
+   finished the  compilation, it executes  a system call  to terminate
+   itself.
+
+   If a process can create one or more other processes (referred to as
+   *child processes*)  and these  processes in  turn can  create child
+   processes, we quickly arrive at a process *tree* structure.
+
+   Related processes that  are cooperating to get some  job done often
+   need  to  communicate  with   one  another  and  synchronize  their
+   activities.    This   communication    is   called    *interprocess
+   communication*.
+
+   Other process system call are  available to request more memory (or
+   release unused memory), wait for  a child process to terminate, and
+   overlay its program with a different one.
+
+   Each person  authorized to use  a system  is assigned a  *UID (User
+   IDentification)* by the system administrator. Every process started
+   has the UID of  the person who started it. A  child process has the
+   same UID  as its parent.  Users can be  members of groups,  each of
+   which has a *GID (Group IDentification)*.
+
+   ---
+   * Files
+
+   Processes can  change their working  directory by issuing  a system
+   call specifying the new working directory.
+
+   Before a file can  be read or written, it must  be opened, at which
+   time the permissions  are checked. If the access  is permitted, the
+   system returns a small integer called a *file descriptor* to use in
+   subsequent operations. If  the access is prohibited,  an error code
+   is returned.
+
+   A *pipe* is  a sort of pseudofile  that can be used  to connect two
+   processes.
+
+   ---
+   * Protection
+
+   Files in  UNIX are protected by  assigning each one a  9-bit binary
+   protection  code.  The  protection  code consists  of  three  3-bit
+   fields, one for the owner, one for the other members of the owner's
+   group (users are divided into  groups by the system administrator),
+   and one for everyone else. Each field  has a bit for read access, a
+   bit for  write access, and a  bit for execute access.  These 3 bits
+   are  known as  the *rwx  bits*.  For example,  the protection  code
+   rwxr-x--x  means that  the owner  can read,  write, or  execute the
+   file, other group  members can read or execute (but  not write) the
+   file, and  everyone else can  execute (bit  not read or  write) the
+   file. For a directory, x indicates search permission.
+
+   ---
+
+   * System calls
+
+   We  have  seen that  operating  systems  have two  main  functions:
+   providing abstractions to user programs and managing the computer's
+   resource.
+
+   ---
+
+   * System calls for process management
+
+   *Fork* is the only way to create a new process in POSIX. It creates
+    an exact duplicate of the original process, including all the file
+    descriptors, registers - everything.  After the fork, the original
+    process and the copy (the parent  and the child) go their separate
+    ways. All the  variables have identical values at the  time of the
+    fork, but since the parent's data  are copied to create the child,
+    subsequent changes in one of them do not affect the other one.
+
+   The fork call returns a value, which is zero in the child and equal
+   to the child's *PID (Process  IDentifier)* in the parent. Using the
+   returned PID,  the two processes  can see  which one is  the parent
+   process and which one is the child process.
+
+   Now  consider how  fork is  used by  the shell.  When a  command is
+   typed, the shell  forks off a new process. This  child process must
+   execute the user command. It does this by using the *execve* system
+   call, which causes its entire core  image to be replace by the file
+   names in its first parameter.  (Actually, the system call itself is
+   *exec*,  but  several library  procedures  call  it with  different
+   parameters and  slightly different  names. We  will treat  these as
+   system calls here.)
+
+   If *exec* seems  complicated, do not despair;  it is (semantically)
+   the most complex of all the POSIX system calls.
+
+   Processes in UNIX have their memory divided up into three segments:
+   the *text  segment* (i.e.,  the program  code), the  *data segment*
+   (i.e., the variables),  and the *stack segment*. Between  them is a
+   gap of unused address space.
+
+   ---
+   * System calls for file management
+
+   To  read or  write  a file,  it  must first  be  opened. This  call
+   specifies the  file name to be  opened, either as an  absolute path
+   name or  relative to the  working directory, as  well as a  code of
+   O_RDONLY, O_WRONLY, or O_RDWR, meaning open for reading, writing or
+   both. To create a new file, the O_CREAT parameter is used.
+
+   Although most programs read and  write files sequentially, for some
+   application programs need  to be able to access any  part of a file
+   at random.  Associated with each  file is a pointer  that indicates
+   the  current   position  in   the  file.  When   reading  (writing)
+   sequentially,  it normally  points  to  the next  byte  to be  read
+   (written).  The *lseek*  call  changes the  value  of the  position
+   pointer,  so that  subsequent  calls  to read  or  write can  begin
+   anywhere in the file.
+
+   ---
+   * System calls for directory management
+
+   Every  file  in  UNIX  has  a unique  number,  its  i-number,  that
+   identifies it. This i-number is an index into a table of *i-nodes*,
+   one per file, telling who owns the file, where its disk blocks are,
+   and  so on.  A  directory is  simply  a file  containing  a set  of
+   (i-number, ASCII name) pairs.
+
+   The mount  system call allows  two file  systems to be  merged into
+   one.
+
+   ---
+   * System calls miscellaneous
+
+   The  kill system  call is  the way  users and  user processes  send
+   signals. If  a process  is prepared to  catch a  particular signal,
+   then when  it arrives, a signal  handler is run. If  the process is
+   not prepared to handle a signal, then its arrival kills the process
+   (hence the name of the call).
+
+   ---
+   * Virtual machines
+
+   In practice, the real distinction between a type 1 hypervisor and a
+   type 2 hypervisor is that a type  2 makes uses of a *host operating
+   system* and its  file system to create processes,  store files, and
+   so  on. A  type 1  hypervisor has  no underlying  support and  must
+   perform all these functions itself.
+
+   After a  type 2  hypervisor is started,  it reads  the installation
+   CD-ROM  (or CD-ROM  iamge  file) for  the  chosen *guest  operating
+   system* and isntalls the guest OS  on a virtual disk, which is just
+   a  big file  in the  host operating  system's file  system. Type  1
+   hypervisors  cannot do  this  because there  is  no host  operating
+   system to store  files on. They must manage their  own storage on a
+   raw disk partition.
+
+   ---
+   * C programming language
+
+   One feature  that C  has that  Java and Python  do not  is explicit
+   pointers.
+
+   In theory,  pointers are typed, so  you are not supposed  to assign
+   the address of a floating-point  number to a character pointer, but
+   in  practice compilers  accept such  assignments, albeit  sometimes
+   with a warning.
+
+   Some things that C does not have include built-in strings, threads,
+   packages,    classes,   objects,    type   safety,    and   garbage
+   collection.  All  storage  in  C is  either  static  or  explicitly
+   allocated and released by the  programmer, usually with the library
+   functions  malloc and  free.  It  is the  latter  property -  total
+   programmer control over memory -  along with explicit pointers that
+   makes C attractive for writing operating systems.
+** 2. Processes and threads
+   :LOGBOOK:
+   CLOCK: [2021-10-09 sáb 11:07]--[2021-10-09 sáb 11:53] =>  0:54
+   CLOCK: [2021-10-08 sex 20:49]--[2021-10-08 sex 21:32] =>  0:43
+   CLOCK: [2021-10-08 sex 20:18]--[2021-10-08 sex 20:44] =>  0:26
+   CLOCK: [2021-10-07 qui 18:50]--[2021-10-07 qui 19:27] =>  0:37
+   :END:
+
+   The most central concept in any operating system is the process: an
+   abstraction of a running program.
+
+   In any  multiprogramming system, the  CPU switches from  process to
+   process   quickly,   running  each   for   tens   or  hundreds   of
+   milliseconds. While, strictly speaking, at  any one instant the CPU
+   is running only one process, in the  course of 1 second it may work
+   on several of  them, giving the illusion  of parallelism. Sometimes
+   people speak of *pseudoparallelism* in this context, to contrast it
+   with  the  true  hardware parallelism  of  *multiprocessor*  system
+   (which have two or more CPUs sharing the same physical memory).
+
+   ---
+   2.1.1 The Process Model
+
+   A process  is just an  instance of an executing  program, including
+   the  current   values  of  the  program   counter,  registers,  and
+   variables. Conceptually, each  process has its own  virtual CPU. In
+   reality,  of course,  the real  CPU  switches back  and forth  from
+   process to process, but to understand the system, it is much easier
+   to  think  about a  collection  of  processes running  in  (pseudo)
+   parallel than  to try to  keep track of  how the CPU  switches from
+   program to program.  This rapid switching back and  forth is called
+   *multiprogramming*.
+
+   * In this chapter we will assume there is only one CPU.
+
+   The  difference between  a process  and  a program  is subtle,  but
+   absolutely  crucial.  An analogy  may  help  you here.  Consider  a
+   culinary-minded computer  scientist who  is baking a  birthday cake
+   for his young daughter. He has a birthday cake recipe and a kitchen
+   well stocked  with all  the input: flour,  eggs, sugar,  extract of
+   vanilla, and  so on. In  this analogy,  the recipe is  the program,
+   that  is, an  algorithm expressed  in some  suitable notation,  the
+   computer scientist is the processor  (CPU) and the cake ingredients
+   are the input  data. The process is the activity  consisting of our
+   baker reading the recipe, fetching  the ingredients, and baking the
+   cake.
+
+   Now  imagine that  the computer  scientist's son  comes running  in
+   screaming his head off, saying that he has been stung by a bee. The
+   computer scientist records where he was in the recipe (the state of
+   the  current process  is saved),  gets out  a first  aid book,  and
+   begins following  the directions in  it. Here we see  the processor
+   being  switched  from one  process  (baking)  to a  higher-priority
+   process  (administering  medical  care), each  having  a  different
+   program (recipe versus first aid book). When the bee sting has been
+   taken  care of,  the  computer  scientist goes  back  to his  cake,
+   continuing at the point where he left off.
+
+   ---
+   2.1.2 Process Creation
+
+   Processes that stay in the  background to handle some activity such
+   as  email,  Web  pages,  news,  printing,  and  so  on  are  called
+   *daemons*.
+
+   In UNIX  there is  only one  system call to  create a  new process:
+   *fork*.  After the  fork, the  two  processes, the  parent and  the
+   child, have  the same memory  image, the same  environment strings,
+   and the same  open files. Usually, the child  process then executes
+   *execve* or  a similar system call  to change its memory  image and
+   run a new program.
+
+   ---
+   2.1.4 Process Hierarchies
+
+   In some systems, when a process creates another process, the parent
+   process  and child  process continue  to be  associated in  certain
+   ways. The child process can itself create more processes, forming a
+   process hierarchy.  Note that  unlike plants  and animals  that use
+   sexual reproduction, a process has  only one parent (but zero, one,
+   two, or  more children).  So a  process is more  like a  hydra than
+   like, say, a cow.
+
+   In UNIX, a process and all  of its children and further descendants
+   together form a process group. When  a user sends a signal from the
+   keyboard, the  signal is  delivered to all  members of  the process
+   group currently  associated with  the keyboard (usually  all active
+   processes that  were created in the  current window). Individually,
+   each process can  catch the signal, ignore the signal,  or take the
+   default action, which is to be killed by the signal.
+
+   As another example of where the process hierarchy plays a key role,
+   let us look at how UNIX initializes itself when it is started, just
+   after the computer is booted.  A special process, called *init*, is
+   present in the boot image. When  it starts running, it reads a file
+   telling  how many  terminals there  are. Then  it forks  off a  new
+   process  per terminal.  These  processes wait  for  someone to  log
+   in. If a login is successful, the login process executes a shell to
+   accept commands. These commands may start up more processes, and so
+   forth. Thus,  all the  processes in  the whole  system belong  to a
+   single tree, with *init* at the root.
+
+   ---
+   2.1.5 Process States
+
+   When  a process  blocks, it  does  so because  logically it  cannot
+   continue, typically because it is waiting for input that is not yet
+   available. It is  also possible for a process  that is conceptually
+   ready and  able to run to  be stopped because the  operating system
+   has decided to allocate the CPU to another process for a while.
+
+   Three states a process may be in:
+
+   * Running (actually using the CPU at that instant)
+   * Ready (runnable; temporarily stopped to let another process run)
+   * Blocked (unable to run until some external event happens)
+
+   ---
+   2.1.6 Implementation of Processes
+
+   To implement  the process model,  the operating system  maintains a
+   table (an  array of structures),  called the *process  table*, with
+   one entry  per process. (Some  authors call these  entries *process
+   control blocks*).  This entry contains important  information about
+   the process  state, including  its program counter,  stack pointer,
+   memory allocation, the status of its open files, its accounting and
+   scheduling information, and everything  else about the process that
+   must be saved when the process is switched from running to ready or
+   blocked state so that it can be  restarted later as if it had never
+   been stopped.
+
+   A  process  may  be  interrupted  thousands  of  times  during  its
+   execution,  but the  key  idea  is that  after  each interrupt  the
+   interrupted process returns  to precisely the same state  it was in
+   before the interrupt occurred.
+
+   ---
+   2.1.7 Modeling Multiprogramming
+
+   When multiprogramming is used, the CPU utilization can be improved.
+
+   Crudely put, if  the average process computes only 20%  of the time
+   it is sitting in memory, then with five processes in memory at once
+   the CPU should be busy all  the time. This model is unrealistically
+   optimistic,  however,  since  it  tacitly  assumes  that  all  five
+   processes will never be waiting for I/O at the same time.
+
+   ---
+   *THREADS*
+
+   In traditional operating systems, each process has an address space
+   and  a single  thread  of  control. In  fact,  that  is almost  the
+   definition of  a process. Nevertheless,  in many situations,  it is
+   desirable to have  multiple threads of control in  the same address
+   space  running  in quasi-parallel,  as  though  they were  (almost)
+   separate processes (except for the shared address space).
+
+   ---
+   2.2.1 Thread Usage
+
+   Why would anyone  want to have a kind of  process within a process?
+   It  turns   out  there  are   several  reasons  for   having  these
+   miniprocesses, called *threads*.
+
+   1st argument:
+
+   The main  reason for having  threads is that in  many applications,
+   multiple activities are  going on at once. Some of  these may block
+   from time to time. By decomposing such an application into multiple
+   sequential  threads that  run  in  quasi-parallel, the  programming
+   model becomes simpler.
+
+   Instead of thinking about interrupts, timers, and context switches,
+   we can think about parallel processes. Only now with threads we add
+   a new  element: the ability for  the parallel entities to  share an
+   address space and all of its data among themselves. This ability is
+   essential for  certain applications,  which is why  having multiple
+   processes (with their separate address spaces) will not work.
+
+   2nd argument:
+
+   Since  they are  lighter  weight than  processes,  they are  easier
+   (i.e.  faster)  to  create  and destroy  than  processes.  In  many
+   systems, creating a thread goes 10-100 times faster than creating a
+   process. When the number of  threads needed changes dynamically and
+   rapidly, this property is useful to have.
+
+   3rd argument:
+
+   Threads yield no  performance gain when all of them  are CPU bound,
+   but when there  is substantial computing and  also substantial I/O,
+   having threads allows these activities to overlap, thus speeding up
+   the application.
+
+   Finally, threads  are useful on  systems with multiple  CPUs, where
+   real parallelism is possible.
+
+   Threads make it possible to retain the idea of sequential processes
+   that make  blocking calls  (e.g., for disk  I/O) and  still achieve
+   parallelism.  Blocking  system calls  make programming  easier, and
+   parallelism  improves   performance.  The   single-threaded  server
+   retains  the  simplicity of  blocking  system  calls but  gives  up
+   performance. The  third approach  achieves high  performance though
+   parallelism but uses  nonblocking calls and interrupts  and thus is
+   hard to program.
+
+   [...] A  third example (I  didn't copy the previous)  where threads
+   are useful is in applications  that must process very large amounts
+   of data. The normal approach is to read in a block of data, process
+   it, and then write  it out again. The problem here  is that if only
+   blocking system calls are available,  the process blocks while data
+   are coming in and  data are going out. Having the  CPU go idle when
+   there is lots of computing to  do is clearly wasteful and should be
+   avoided if possible.
+
+   Threads offer a  solution. The process could be  structured with an
+   input thread, a processing thread,  and an output thread. The input
+   thread reads data into an input buffer. The processing thread takes
+   data out of the input buffer,  processes them, and puts the results
+   in an output buffer. The output buffer writes these results back to
+   disk. In this  way, input, output, and processing can  all be going
+   on at the same  time. Of course, this model works  only if a system
+   call blocks only the calling thread, not the entire process.
+
+   ---
+   2.2.2 The Classical Thread Model
+
+   One  way of  looking at  a process  is that  it is  a way  to group
+   related  resources  together.  A   process  has  an  address  space
+   containing program text and data, as well as other resources. These
+   resources may include open  files, child processes, pending alarms,
+   signal handlers, accounting information,  and more. By putting them
+   together in the form of a process, they can be managed more easily.
+
+   The other concept  a process has is a thread  of execution, usually
+   shortened to just  *thread*. The thread has a  program counter that
+   keeps track of which instruction to execute next. It has registers,
+   which hold  its current  working variables. It  has a  stack, which
+   contains the execution  history, with one frame  for each procedure
+   called but not yet returned from. Although a thread must execute in
+   some process, the thread and its process are different concepts and
+   can be  treated separately. Processes  are used to  group resources
+   together; threads are  the entities scheduled for  execution on the
+   CPU.
+
+   What  threads  add  to  the  process model  is  to  allow  multiple
+   executions  to take  place in  the same  process environment,  to a
+   large degree  independent of  one another. Having  multiple threads
+   running in parallel in one  process is analogous to having multiple
+   processes running in parallel in one computer.
+
+   Because threads have some of  the properties of processes, they are
+   sometimes called *lightweight processes*.
+
+   The term *multithreading* is also used to describe the situation of
+   allowing multiple threads in the same process.
+
+   When a  multithreaded process  is run on  a single-CPU  system, the
+   threads  take turns  running.  By switching  back  and forth  among
+   multiple  processes,  the system  gives  the  illusion of  separate
+   sequential processes running in  parallel. Multithreading works the
+   same  way.  The CPU  switches  rapidly  back  and forth  among  the
+   threads, providing  the illusion  that the  threads are  running in
+   parallel, albeit  on a  slower CPU  than the  real one.  With three
+   compute-bound threads in a process,  the threads would appear to be
+   running in parallel, each one on  a CPU with one-third the speed of
+   the real CPU.
+
+   Different threads in a process  are not as independent as different
+   processes. All threads  have exactly the same  address space, which
+   means that they also share the same global variables.
+
+   Since  every thread  can  access every  memory  address within  the
+   process address space, one thread can read, write, or even wipe out
+   another  thread's stack.  There  is no  protection between  threads
+   because (1) it is impossible, and (2) it should not be necessary.
+
+   Unlike different processes,  which may be from  different users and
+   which may be hostile to one another, a process is always owned by a
+   single user,  who has presumably  created multiple threads  so that
+   they can cooperate, not fight.
+
+   In addition to sharing the address space, all the threads can share
+   the same set  of open files, child processes,  alarms, and signals,
+   and so on.
+
+   Like a traditional  process, a thread can be in  any one of several
+   states: running, blocked, ready, or terminated.
+
+   It is important to realize that each thread has its own stack. Each
+   thread's stack contains one frame for each procedure called but not
+   yet  returned  from.  This  frame contains  the  procedure's  local
+   variables and the return address to use when the procedure call has
+   finished.
+
+   When  multithreading is  present,  processes usually  start with  a
+   single thread  present. This thread  has the ability to  create new
+   threads by calling a library procedure such as *thread_create*.
+
+   When  a thread  has finished  its work,  it can  exit by  calling a
+   library procedure,  say, thread_exit.  It then  vanishes and  is no
+   longer schedulable.
+   
