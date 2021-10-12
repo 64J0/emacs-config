@@ -10,6 +10,17 @@
 (global-set-key (kbd "M-<left>") 'enlarge-window-horizontally)
 (global-set-key (kbd "M-<right>") 'shrink-window-horizontally)
 
+(defun my/path (dir &optional subpath)
+  "Build a path name. See https://github.com/arecker/emacs.d"
+  (let ((dir (file-name-as-directory
+              (cl-getf my/path-aliases dir
+                       (format "~/%s" dir))))
+        (subpath (or subpath "")))
+    (concat dir subpath)))
+
+(defcustom main-agenda (my/path :emacs "agenda.org")
+  "This is used to store quickly todo items without refiling")
+
 ;; adding other package repositories
 ;; when error: M-x package-refresh-contents
 (require 'package)
@@ -76,10 +87,17 @@
 	 ("C-c a" . org-agenda)
 	 ("C-c c" . org-capture))
   :config
-  (setq org-log-done t)
-  (setq org-export-backends
-	'(md gfm beamer ascii taskjuggler html latex odt org))
-  (setq org-support-shift-select 'always))
+  (setq org-log-done t
+	org-export-backends
+	'(md gfm beamer ascii taskjuggler html latex odt org)
+	org-support-shift-select 'always
+	org-capture-templates
+	 ("d" "Drill card with answer" entry
+           (file ,(my/path :srs "deck.org"))
+           ,(concat "* Item           :drill:\n"
+                    "%^{Question}\n"
+                    "** Answer\n"
+                    "%^{Answer}\n"))))
 (use-package org-drill
   :ensure t
   :commands (org-drill))

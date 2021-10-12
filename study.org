@@ -1726,7 +1726,7 @@ Core mechanism:
   - Limited Direct Exection
 
 Protocol: Direct Execution
-* TODO [OS][Book] Modern Operating Systems 4ed
+* NEXT [OS][Book] Modern Operating Systems 4ed
   :LOGBOOK:
   CLOCK: [2021-10-06 qua 19:11]--[2021-10-06 qua 19:15] =>  0:04
   CLOCK: [2021-10-06 qua 18:21]--[2021-10-06 qua 19:10] =>  0:49
@@ -2205,6 +2205,11 @@ Protocol: Direct Execution
    makes C attractive for writing operating systems.
 ** 2. Processes and threads
    :LOGBOOK:
+   CLOCK: [2021-10-12 ter 10:45]--[2021-10-12 ter 12:00] =>  1:15
+   CLOCK: [2021-10-11 seg 22:23]--[2021-10-11 seg 22:38] =>  0:15
+   CLOCK: [2021-10-10 dom 16:13]--[2021-10-10 dom 16:33] =>  0:20
+   CLOCK: [2021-10-10 dom 15:32]--[2021-10-10 dom 16:07] =>  0:35
+   CLOCK: [2021-10-09 sáb 17:17]--[2021-10-09 sáb 17:58] =>  0:41
    CLOCK: [2021-10-09 sáb 11:07]--[2021-10-09 sáb 11:53] =>  0:54
    CLOCK: [2021-10-08 sex 20:49]--[2021-10-08 sex 21:32] =>  0:43
    CLOCK: [2021-10-08 sex 20:18]--[2021-10-08 sex 20:44] =>  0:26
@@ -2503,6 +2508,355 @@ Protocol: Direct Execution
    threads by calling a library procedure such as *thread_create*.
 
    When  a thread  has finished  its work,  it can  exit by  calling a
-   library procedure,  say, thread_exit.  It then  vanishes and  is no
+   library procedure, say, *thread_exit*.  It  then vanishes and is no
    longer schedulable.
-   
+
+   ---
+   2.2.4 Implementing Threads in User Space
+
+   There are two main places to  implement threads: user space and the
+   kernel.
+
+   The first  method is to put  the threads packages entirely  in user
+   space. The kernel knows nothing about them. As far as the kernel is
+   concerned, it is managing  ordinary, single-threaded processes. The
+   first, and  most obvious,  advantage is  that a  user-level threads
+   package can  be implemented  on an operating  system that  does not
+   support threads.
+
+   When threads are managed in user  space, each process needs its own
+   private  *thread  table* to  keep  track  of  the threads  in  that
+   process. This  table is  analogous to  the kernel's  process table,
+   except that it keeps track  only of the per-thread properties, such
+   as each thread's program  counter, stack pointer, registers, state,
+   and  so  forth.  The  thread  table  is  managed  by  the  run-time
+   system. When a thread is moved to ready state or blocked state, the
+   information needed  to restart  it is stored  in the  thread table,
+   exactly  the  same  way  as the  kernel  stores  information  about
+   processes in the process table.
+
+   If the  program calls  or jumps  to an instruction  that is  not in
+   memory, a  page fault occurs and  the operating system will  go and
+   get the missing instruction (and  its neighbors) from disk. This is
+   called a *page fault*.
+
+   ---
+   2.2.5 Implementing Threads in the Kernel
+
+   When the  kernel knows  about and manage  the threads,  no run-time
+   system is  needed in each thread,  and there is no  thread table in
+   each process.  Instead, the  kernel has a  thread table  that keeps
+   track of  all the  threads in  the system. When  a thread  wants to
+   create  a new  thread or  destroy an  existing thread,  it makes  a
+   kernel  call,  which  then  does the  creation  or  destruction  by
+   updating the kernel thread table.
+
+   Their  main disadvantage  is  that the  cost of  a  system call  is
+   substantial, so if thread  operations (creation, termination, etc.)
+   a common, much more overhead will be incurred.
+
+   ---
+   2.2.6 Hybrid Implementation
+
+   Various  ways  have  been  investigated   to  try  to  combine  the
+   advantages of user-level threads with kernel-level threads. One way
+   is use  kernel-level threads and then  multiplex user-level threads
+   onto some or all of them.
+
+   With this  approach, the kernel  is aware of only  the kernel-level
+   threads  and  schedules  those.  Some of  those  threads  may  have
+   multiple  user-level  threads multiplexed  on  top  of them.  These
+   user-level  threads are  created, destroyed,  and rescheduled  just
+   like  user-level threads  in a  process that  runs on  an operating
+   system  without  multithreading  capability. In  this  model,  each
+   kernel-level thread  has some set  of user-level threads  that take
+   turns using it.
+
+   ---
+   2.2.7 Scheduler Activations
+
+   While kernel threads are better than user-level threads in some key
+   ways, they are also indisputably slower.
+
+   The  goals  of the  scheduler  activation  work  are to  mimic  the
+   functionality of  kernel threads,  but with the  better performance
+   and greater  flexibility usually  associated with  threads packages
+   implemented in user space.
+
+   When scheduler activations  are used, the kernel  assigns a certain
+   number  of  virtual   processor  to  each  process   and  lets  the
+   (user-space) run-time system allocate threads to processor.
+
+   ---
+   2.2.8 Pop-Up Threads
+
+   ---
+   2.2.9 Making Single-Threaded Code Multithreaded
+
+   Many   existing   programs   were   written   for   single-threaded
+   processes. Converting these to multithreading is much trickier than
+   it may at first appear.
+
+   * Few of the pitfalls:
+
+   The code of a thread normally consists of multiple procedures, just
+   like a process.  These may have local  variables, global variables,
+   and parameters.  Local variables  and parameters  do not  cause any
+   trouble, but variables  that are global to a thread  but not global
+   to the entire  program are a problem. These are  variables that are
+   global in the sense that many procedures within the thread use them
+   (as they might  use any global variable), but  other threads should
+   logically leave them alone.
+
+   As an example, consider the errno variable maintained by UNIX. When
+   a process (or  a thread) makes a system call  that fails, the error
+   code is put into errno. Imagine that a thread 1 executes the system
+   call access  to find out if  it has permission to  access a certain
+   file.  The  operating  system  returns the  answer  in  the  global
+   variable errno. After control has  returned to thread 1, but before
+   it has a chance to read  errno, the scheduler decides that thread 1
+   has had  enough CPU time  for the moment  and decides to  switch to
+   thread 2. Thread  2 executes an open call that  fails, which causes
+   errno  to be  overwritten  and thread  1's acess  code  to be  lost
+   forever. When  thread 1  starts up  later, it  will read  the wrong
+   value and behave incorrectly.
+
+   Various solutions to this problem  are possible. One is to prohibit
+   global variables altogether.  However worthy this ideal  may be, it
+   conflicts with  much existing software.  Another is to  assign each
+   thread its own  private global variables. In this  way, each thread
+   has its  own private copy of  errno and other global  variables, so
+   conflicts are avoided.
+
+   The  next  problem in  turning  a  single-threaded program  into  a
+   multithreaded  one   is  that  many  library   procedures  are  not
+   reentrant. That  is, they were not  designed to have a  second call
+   made  to any  given procedure  while a  previous call  has not  yet
+   finished. For example, sending a  message over the network may well
+   be programmed to assemble the message  in a fixed buffer within the
+   library, then to trap to the kernel to send it. What happens if one
+   thread  has assembled  its  message  in the  buffer,  then a  clock
+   interrupt  forces a  switch  to a  second  thread that  immediately
+   overwrites the buffer with its own message?
+
+   Fixing all  these problems  effectively means rewriting  the entire
+   library. Doing so is a  nontrivial activity with a real possibility
+   of introducing subtle errors.
+
+   A different  solution is  to provide each  procedure with  a jacket
+   that sets  a bit  to mark the  library as in  use. Any  attempt for
+   another thread to use a library procedure while a previous call has
+   not yet completed is blocked. Although this approach can be made to
+   work, it greatly eliminates potential parallelism.
+
+   ---
+   2.3 INTERPROCESS COMMUNICATION
+
+   Process frequently  need to  communicate with other  processes. For
+   example, in a shell pipeline, the  output of the first process must
+   be passed  to the  second process,  and so on  down the  line. Thus
+   there is a need for  communication between processes, preferably in
+   a  well-structured  way  not  using interrupts.  In  the  following
+   sections  we will  look  at  some of  the  issues  related to  this
+   *InterProcess Communication*, or *IPC*.
+
+   Very briefly, there are three issues here:
+
+   1. How one process can pass information to another?
+
+   2. How can you make sure two or more processes do not get in each
+      other's way, for example, two processes in an airline reservation
+      system each trying to grab the last seat on a plane for a
+      different customer.
+
+   3. The third concerns proper sequencing when dependencies are present:
+      if process A  produces data and process B prints  them, B has to
+      wait until A has produced some data before starting to print.
+
+   It is  also important  to mention  that two  of these  issues apply
+   equally well to  threads. The first one - passing  information - is
+   easy for threads  since they share a common  address space (threads
+   in different address spaces that need to communicate fall under the
+   heading  of  communicating processes).  However,  the  other two  -
+   keeping  out of  each other's  hair and  proper sequencing  - apply
+   equally  well to  threads. The  same  problems exist  and the  same
+   solutions apply.
+
+   ---
+   2.3.1 Race Conditions
+
+   In some operating systems, processes  that are working together may
+   share some common storage that each one can read and write.
+
+   Situations where two or more  processes are reading or writing some
+   shared  data and  the final  result depends  on who  runs precisely
+   when, are  called *race conditions*. Debugging  programs containing
+   race conditions is no fun at all. The results of most test runs are
+   fine,  but once  in a  blue  moon something  weird and  unexplained
+   happens.   Unforunately,  with   increasing   parallelism  due   to
+   increasing  numbers  of cores,  race  condition  are becoming  more
+   common.
+
+   ---
+   2.3.2 Critical Regions
+
+   How do we avoid race conditions? The key to preventing trouble here
+   and in many other situations involving shared memory, shared files,
+   and shared  everything else is  to find  some way to  prohibit more
+   than one  process from reading and  writing the shared data  at the
+   same time. Put in other words,  what we need is *mutual exclusion*,
+   that is,  some way of  making sure that if  one process is  using a
+   shared variable or file, the  other processes will be excluded from
+   doing the same thing.
+
+   The problem of  avoiding race conditions can also  be formulated in
+   an abstract way. Part of the time, a process is busy doing internal
+   computations  and   other  things   that  do   not  lead   to  race
+   conditions.  However,  sometimes a  process  has  to access  shared
+   memory  or files,  or do  other critical  things that  can lead  to
+   races. That part of the program where the shared memory is accessed
+   is called the *critical region*  or *critical section*. If we could
+   arrange  matters such  that no  two  processes were  ever in  their
+   critical regions at the same time, we could avoid races.
+
+   Although  this  requirement  avoids  race  conditions,  it  is  not
+   sufficient for  having parallel  processes cooperate  correctly and
+   efficiently using shared  data. We need four conditions  to hold to
+   have a good solution.
+
+   1. No two processes may be simultaneously inside their critical regions
+
+   2. No assumptions may be made about speeds or the number of CPUs
+
+   3. No process running outside its critical region may block any process
+
+   4. No process should have to wait forever to enter its critical region
+
+   ---
+   2.3.3 Mutual Exclusion with Busy Waiting
+
+   *Disabling Interrupts*
+
+   On a single-processor system, the simplest solution is to have each
+   process  disable all  interrupts just  after entering  its critical
+   region and re-enable them just before leaving it.
+
+   In  a   multicore  (i.e.,  multiprocessor  system)   disabling  the
+   interrupts of one CPU does  not prevent other CPUs from interfering
+   with  operations the  first CPU  is performing.  Consequently, more
+   sophisticated schemes are needed.
+
+   *Lock Variables*
+
+   As a second attempts, let us look for a software solution. Consider
+   having  a  single, shared  (lock)  variable,  initially 0.  When  a
+   process  wants to  enter its  critical region,  it first  tests the
+   lock. If  the lock is 0,  the process sets  it to 1 and  enters the
+   critical region. If  the lock is already 1, the  process just waits
+   until it  becomes 0.  Thus, a  0 means  that no  process is  in its
+   critical region, and a 1 means that some process is in its critical
+   region.
+
+   This is sucetive to some  race conditions. Suppose that one process
+   reads the lock and sees that it is 0. Before it can set the lock to
+   1, another process is scheduled, runs  and sets the lock to 1. When
+   the first process runs  again, it will also set the  lock to 1, and
+   two processes will be in their critical regions at the same time.
+
+   *Strict Alternation*
+
+   *Peterson's Solution*
+
+   *The TSL Instruction*
+
+   ---
+   2.3.5 Semaphores
+
+   In  the  beginning  a  new  variable  type  was  introduced  called
+   *semaphore*. A semaphore could have the value 0, indicating that no
+   process wakeups were  saved, or more positive value if  one or more
+   wakeups were pending.
+
+   Dijkstra proposed having two  operations on semaphores, now usually
+   called  down   and  up   (generalizations  of  sleep   and  wakeup,
+   respectively). The down  oepration on a semaphore checks  to see if
+   the value is greater than 0.  If so, it decrements the value (i.e.,
+   uses up one  stored wakeup) and just continues. If  the value is 0,
+   the process  is put to  sleep without  completing the down  for the
+   moment.  Checking the  value, changing  it, and  possibly going  to
+   sleep, are all done as a single, indivisible *atomic action*. It is
+   garanteed that  once a  semaphore operation  has started,  no other
+   process can access the semaphore  until the operation has completed
+   or  blocked.  This atomicity  is  absolutely  essential to  solving
+   synchronization problems and avoiding race conditions.
+
+   Atomic actions, in  which a group of related  operations are either
+   all performed  without interruption  or not  performed at  all, are
+   extremely  important in  many other  areas of  computer science  as
+   well.
+
+   ---
+   2.3.6 Mutexes
+
+   When the semaphore's  ability to count is not  needed, a simplified
+   version   of  the   semaphore,   called  a   mutex,  is   sometimes
+   used. Mutexes are  good only for managing mutual  exclusion to some
+   shared resource  or piece of code.  They are easy and  efficient to
+   implement, which  makes them  especially useful in  thread packages
+   that are implemented entirely in user space.
+
+   A *mutex* is  a shared variable that  can be in one  of two states:
+   unlocked  or  locked.  Consequently,  only 1  bit  is  required  to
+   represent it,  but in  practice an  integer often  is used,  with 0
+   meaning unlocked and all other values meaning locked.
+
+   *Futex*
+
+   A futex is  a feature of Linux that implements  basic locking (much
+   like a mutex) but avoids dropping  into the kernel unless it really
+   has to. Since switching to the  kernel and back is quite expensive,
+   doing so improves performance considerably.
+
+   ---
+   2.3.7 Monitors
+
+   To make it  easier to write correct programs  some researchers have
+   proposed   a  higher-level   synchronization  primitive   called  a
+   *monitor*. A monitor is a  collection of procedures, variables, and
+   data structures that are all grouped  together in a special kind of
+   module or package.  Processes may call the procedures  in a monitor
+   whenever  they  want  to,  but  they  cannot  directly  access  the
+   monitor's internal data structures from procedures declared outside
+   the monitor.
+
+   C cannot be used here because monitors are a language concept and C
+   does not have them.
+
+   Monitors  have an  important property  that makes  them useful  for
+   achieving mutual  exclusion: only  one process can  be active  in a
+   monitor  at  any  instant.   Monitors  are  a  programming-language
+   construct, so  the compiler knows  they are special and  can handle
+   calls to monitor procedures differently from other procedure calls.
+* NEXT [Economics][Book] Economics in one lesson
+  :LOGBOOK:
+  CLOCK: [2021-10-12 ter 09:47]--[2021-10-12 ter 10:26] =>  0:39
+  CLOCK: [2021-10-12 ter 09:30]--[2021-10-12 ter 09:46] =>  0:16
+  :END:
+** 1 The lesson
+
+   While  every group  has certain  economic interests  identical with
+   those  of all  groups,  every  group has  also,  as  we shall  see,
+   interests antagonistic to those of all other groups.
+
+   In addition to these endless pleadings of self-interest, there is a
+   second  main  factor  that  spawns  new  economic  fallacies  every
+   day.  This is  the  persistent  tendency of  men  to  see only  the
+   immediate  effects of  a given  policy, or  its effects  only on  a
+   special group, and to neglect  to inquire what the long-run effects
+   of that policy  will be not only  on that special group  but on all
+   groups.
+
+   *Lesson:* The  art of economics  consists in looking not  merely at
+   the immeditate but  at the longer effects of any  act or policy; it
+   consists in tracing the consequences  of that policy not merely for
+   one group but for all groups.
