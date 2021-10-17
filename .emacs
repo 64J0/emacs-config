@@ -10,6 +10,14 @@
 (global-set-key (kbd "M-<left>") 'enlarge-window-horizontally)
 (global-set-key (kbd "M-<right>") 'shrink-window-horizontally)
 
+(defcustom my/path-aliases
+  (list :emacs  "~/.emacs.d"
+        :srs    "~/.emacs.d"
+        :work   "~/.emacs.d"
+        :agenda "~/.emacs.d")
+  "Location of my paths for ease of usage. Customize for each
+  environment if needed.")
+
 (defun my/path (dir &optional subpath)
   "Build a path name. See https://github.com/arecker/emacs.d"
   (let ((dir (file-name-as-directory
@@ -76,7 +84,7 @@
     (global-auto-complete-mode t)))
 (use-package neotree
   :ensure t
-  :bind (("C-\\" . 'neotree-toggle)))
+  :bind (("C-b" . 'neotree-toggle)))
 (use-package htmlize
   :ensure t)
 
@@ -87,23 +95,45 @@
 	 ("C-c a" . org-agenda)
 	 ("C-c c" . org-capture))
   :config
-  (setq org-log-done t
-	org-export-backends
-	'(md gfm beamer ascii taskjuggler html latex odt org)
-	org-support-shift-select 'always
-	org-capture-templates
-	 ("d" "Drill card with answer" entry
-           (file ,(my/path :srs "deck.org"))
-           ,(concat "* Item           :drill:\n"
-                    "%^{Question}\n"
-                    "** Answer\n"
-                    "%^{Answer}\n"))))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((sql . t)))
+  (add-to-list
+   'auto-mode-alist
+   '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
+  (setq org-todo-keywords
+	(quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+		(sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
+  (setq org-todo-keyword-faces
+	(quote (("TODO" :foreground "red" :weight bold)
+		("NEXT" :foreground "blue" :weight bold)
+		("DONE" :foreground "forest green" :weight bold)
+		("WAITING" :foreground "orange" :weight bold)
+		("HOLD" :foreground "magenta" :weight bold)
+		("CANCELLED" :foreground "forest green" :weight bold)
+		("PHONE" :foreground "forest green" :weight bold)
+		("MEETING" :foreground "forest green" :weight bold))
+	       ))
+  (setq org-use-fast-todo-selection t) ;; C-c C-t KEY
+  (setq org-todo-state-tags-triggers
+	(quote (("CANCELLED" ("CANCELLED" . t))
+		("WAITING" ("WAITING" . t))
+		("HOLD" ("WAITING") ("HOLD" . t))
+		(done ("WAITING") ("HOLD"))
+		("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
+		("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
+		("DONE" ("WAITING") ("CANCELLED") ("HOLD"))
+		)))
+  (setq org-log-done t)
+  (setq	org-export-backends
+	'(md gfm beamer ascii taskjuggler html latex odt org))
+  (setq org-support-shift-select
+	'always)
+  )
+	
 (use-package org-drill
   :ensure t
   :commands (org-drill))
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((sql . t)))
 (use-package org-super-agenda
   :ensure t)
 
@@ -135,6 +165,9 @@
 (use-package lsp-ui
   :ensure t
   :commands lsp-ui-mode)
+
+;; c programming language
+;; not done yet
 
 ;; git tool
 (use-package magit

@@ -1668,65 +1668,7 @@ Youtube video
 ** Programs to try
    TiddlyWiki
    SonicPI
-* TODO [OS][Course] Operating systems
-  CS 357
-
-** Lecture 1
-   Introduction
-
-   Background:
-    -> CS 367/400: Program
-    -> CS 354: Introduction to computer systems
-      -> How computer works
-
-      fetch -> CPU <--> MEM <- instructions
-      decode                   data
-      execute
-
-   Programming language: C.
-
-   Should know: code + heap + stack.
-
-   Emacs for the IDE.
-   
-*** Virtualization
-One physical => many virtual
-
-Illusion -> each  running program imagine that it has  its own CPU and
-its own private memory.
-
-Key aspects:
-  -> efficiency
-  -> security (restricted)
-
-CPU virtualization:
-
-Take 1 CPU and turn it into many virtual CPUs
-
-Key concept:
-  -> time sharing
-  -> space sharing
-
-Abstraction for running a program: *process*
-Components of a process:
-  - Memory (private) "address space"
-    - has the code, heap, stack
-  - Registers (changing all the time)
-    - Program counter
-    - Stack pointer
-    - General purpose pointers
-    -> Used for efficiency
-  - I/O state
-
-Policies are built on top of low level mechanisms.
-  -> Higher level decision.
-Mechanisms tell us how things work.
-
-Core mechanism:
-  - Limited Direct Exection
-
-Protocol: Direct Execution
-* NEXT [OS][Book] Modern Operating Systems 4ed
+* TODO [OS][Book] Modern Operating Systems 4ed
   :LOGBOOK:
   CLOCK: [2021-10-06 qua 19:11]--[2021-10-06 qua 19:15] =>  0:04
   CLOCK: [2021-10-06 qua 18:21]--[2021-10-06 qua 19:10] =>  0:49
@@ -2860,3 +2802,5 @@ Protocol: Direct Execution
    the immeditate but  at the longer effects of any  act or policy; it
    consists in tracing the consequences  of that policy not merely for
    one group but for all groups.
+* DONE [FP] A tutorial introduction to the lambda calculus
+  CLOSED: [2021-10-16 sáb 20:50]
