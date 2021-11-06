@@ -19,9 +19,9 @@ simple enough for the novice and powerful enough for the expert.
 - [x] Relational theory
 
 * 10-2021:
-- [ ] Operational system
-- [ ] Economics
-- [ ] Personal story
+- [x] Operational system
+- [x] Economics
+- [x] Personal story
 
 * 11-2021:
 - [ ] Emacs
@@ -1521,7 +1521,8 @@ more columns than I needed.
 	     group by A.key
 	     )as T on A.key = T.key;
    #+END_SRC
-* TODO [Course] Inteligência artificial para lideres
+* DONE [Course] Inteligência artificial para lideres
+  CLOSED: [2021-10-18 seg 19:16]
 ** Modulo 2
 *** Mercado de IA e ML
     Brasil esta começando a aprender a lidar com dados agora. Nestes 4
@@ -2779,7 +2780,9 @@ Youtube video
    monitor  at  any  instant.   Monitors  are  a  programming-language
    construct, so  the compiler knows  they are special and  can handle
    calls to monitor procedures differently from other procedure calls.
-* NEXT [Economics][Book] Economics in one lesson
+* HOLD [Economics][Book] Economics in one lesson                       :HOLD:
+  - State "HOLD"       from "NEXT"       [2021-10-23 sáb 10:41] \\
+    I need to do other stuff first
   :LOGBOOK:
   CLOCK: [2021-10-12 ter 09:47]--[2021-10-12 ter 10:26] =>  0:39
   CLOCK: [2021-10-12 ter 09:30]--[2021-10-12 ter 09:46] =>  0:16
@@ -2804,3 +2807,424 @@ Youtube video
    one group but for all groups.
 * DONE [FP] A tutorial introduction to the lambda calculus
   CLOSED: [2021-10-16 sáb 20:50]
+* CANCELLED [Course] Apostila contabilidade                       :CANCELLED:
+  CLOSED: [2021-10-19 ter 21:57]
+  - State "CANCELLED"  from              [2021-10-19 ter 21:57] \\
+    Those notes are not very  good. They use the "jurisdiques" instead
+  of clarity terms.  [[https://www.ginead.com.br/ava/curso/curso-online-gratis-contabilidade/apostila-contabilidade][Link do curso]]
+** Conceito
+  Contabilidade  é   a  ciência  que  estuda,   registra,  controla  e
+  interpreta os fatos  ocorridos no patrimônio das  entidades com fins
+  lucrativos ou não.
+** Finalidades da contabilidade
+   - Função administrativa: controlar o patrimônio
+   - Função econômica: apurar o resultado
+** Técnicas contábeis
+   A  contabilidade  para  atingit   sua  finalidade  se  utiliza  das
+   seguintes técnicas
+*** Escrituração
+    É o registro de todos os fatos que ocorrem no patrimônio.
+*** Demonstrações financeiras
+    São demonstrativos expositivos dos fatos ocorridos num determinado
+    período. Representam a exposição gráfica dos fatos. São elas:
+
+    - Balanço Patrimonial
+    - Demonstração do Resultado do Exercício
+    - Demonstração dos Lucros ou Prejuízos Acumulados
+    - Demonstração das Mutações do patrimônio Líquido
+    - Demonstração das Origens e Aplicações de Recursos
+*** Auditoria
+    É o  exame e a  verificação da  exatidão ou não  dos procedimentos
+    contábeis.
+*** Análise das Demonstrações Financeiras
+    Analisa e interpreta as demonstrações financeiras.
+* DONE [video][management] What you'be been taugh about management is wrong
+  CLOSED: [2021-10-19 ter 22:25]
+
+  [[https://www.youtube.com/watch?v=cA_WxUgIskk&ab_channel=USIEvents][Youtube video link]]
+
+  Where are the references for the points presented?
+  
+** Wrong ideas
+*** Be "fair"
+*** Become "friend" with your team
+*** "Team" is most important
+    Individuals are more important
+    
+*** Manage young people/millennials differently
+*** Asians/Indians/Americans are different
+*** Tell your boss what you think about him
+
+** The effective manager's 2 responsabilities
+*** 1. Results
+    Get the results that the company want.
+
+    1 simple question: What your boss want from you?
+    
+*** 2. Keep your people
+    Retention.
+
+    Make  hard  to  get  hired  by the  company.  So  you  filter  the
+    candidates.
+
+** The 4 behaviours that matter
+   The most important is to know the people that work to you. Each one
+   at a time, not by the team.
+   
+*** You need to know your people
+    One on ones
+    
+*** Talk about performance
+    Feedback on how the employee is doing in a polite way
+    
+*** Ask for more
+    Coaching
+    
+*** Push work down
+    Delegation
+* NEXT [FP] Lambda calculus
+  :LOGBOOK:
+  CLOCK: [2021-10-23 sáb 10:48]
+  :END:
+  :POST:
+  
+** What is lambda calculus
+
+   According to [1], lambda calculus is a model of computation devised
+   in the  1930s by  Alonzo Church,  where a calculus  is a  method of
+   calculation  or reasoning;  the lambda  calculus is  a process  for
+   formalizing a method.
+
+   Basically,  lambda  calculus with  type  theory  is the  basis  for
+   funcional programming. *REQUIRE MORE RESEARCH*
+  
+** What is functional programming (fp)
+
+   Functional  programming  is a  paradigm  that  relies on  functions
+   modeled on mathematical functions,  more specifically on the lambda
+   calculus  logic.   The  essence  of  fp  is  that  programs  are  a
+   combination  of expressions.  Expressions include  concrete values,
+   variables, and also functions.
+
+   Understanding functions as a mapping of a set of inputs to a set of
+   outputs is crucial to understanding functional programming.
+
+   One key feature  of fp languages is that  functions are first-class
+   citizens (*REQUIRE MORE  RESEARCH*), so they can be  used as values
+   or passed as arguments, or inputs, to yet more functions.
+
+   Among the functional programming languages  available to be used we
+   could  separate  those  in  ~pure~ languages  (i.e.:  Haskell)  and
+   ~non-pure~ (i.e.: F# (*REQUIRE RESEARCH*)).
+
+   The word ~pure~ in  fp is sometimes also used to  mean what is more
+   properly    called    ~referential    transparency~.    Referential
+   transparency means that the same function, given the same values to
+   evaluate, will  always return  the same  result in  pure functional
+   programming, as they do in math. [1]
+
+   This can be achieved because fp avoid side effects since the values
+   within the function are immutable.
+
+   Pure languages like  Haskell lends to a high  degree os abstraction
+   and composability.  Abstraction allows  you to write  shorter, more
+   concise programs by factoring common, repeated structures into more
+   generic code that can be reused. [1]
+   
+** Lambda calculus structure
+
+   The lambda calculus has three  basic components, or ~lambda terms~:
+   expressions, variables, and abstractions.
+
+*** Expressions
+
+    An  expression  can be  a  variable  name,  an abstraction,  or  a
+    combination of those  things. The simplest expression  is a single
+    variable. Variables here  have no meaning or value;  they are only
+    names for potential inputs to functions.
+
+*** Variables
+
+*** Abstractions
+
+    An abstraction is a function. It is  a lambda term that has a head
+    (a lambda) and  a body and is applied to  an argument. An argument
+    is an input value.
+
+    Abstractions consist of two parts: the head and the body. The head
+    of  the function  is a  \lambda  (lambda) followed  by a  variable
+    name. The body of the function is another expression. So, a simple
+    function might look like this:
+
+    #+BEGIN_SRC latex
+      \lambda x . x
+    #+END_SRC
+
+    The variable  named in  the head  is the  parameter and  binds all
+    instances of that same variable in  the body of the function. That
+    means, when we  apply this function to an argument,  each x in the
+    body of the function will have the value of that argument.
+
+    Lambda abstraction  `\lambda x . x`  differently from conventional
+    functions  like `f(x)  =  x`  has no  name,  it  is an  ~anonymous
+    function~. This is important because  it set boundaries to what we
+    can do with this function. A  named function can be called by name
+    by another function where an anonymous function cannot.
+
+    In this structure we say that the x is a bound variable because it
+    is the  parameter of  the head  of the lambda.  Where the  dot (.)
+    separates the parameters of the lambda from the function body.
+
+    The abstraction as a whole has no  name, but the reason we call it
+    an abstraction  is that  it is  a generalization,  or abstraction,
+    from a  concrete instance of  a problem, and it  abstracts through
+    the introduction  of names. The  names stand for  concrete values,
+    but  by using  named variables,  we allow  for the  possibility of
+    applying  the general  function to  different values  (or, perhaps
+    even values of different types).  When we apply the abstraction to
+    arguments,   we  replace   the  names   with  values,   making  it
+    concrete. [1]
+
+** Alpha equivalence
+
+    #+BEGIN_SRC latex
+      \lambda x . x
+    #+END_SRC
+
+    The variable x  here is not semantically meaningful  except in its
+    role in that single expression. Because of this, there's a form of
+    equivalence between lambda terms called ~lambda equivalence~. This
+    is a way of saying that:
+
+    #+BEGIN_SRC latex
+      \lambda x . x
+      \lambda y . y
+      \lambda z . z
+    #+END_SRC
+
+    all mean the same thing. They're all the same function. [1]
+
+** Beta reduction
+
+   When we  apply a function to  an argument, we substitute  the input
+   expression for all instances of  bound variables within the body of
+   the abstraction.  You also eliminate  the head of  the abstraction,
+   since its  only purpose  was to  bind a  variable. This  process is
+   called ~beta reduction~. [1]
+
+   #+BEGIN_SRC latex
+     (\lambda x . x) 2
+     2
+   #+END_SRC
+
+   The only bound variable is a single x, so applying this function to
+   2 returns 2. This function is  the ~identity~ function. All it does
+   is accept a single argument x and return that same argument. [1]
+
+   This is the same as the identity function in mathematical notation:
+   `f(x) =  x`. One  difference is  that `f(x) =  x` is  a declaration
+   involving  a function  named f  while the  lambda abstraction  is a
+   function. [1]
+
+   In other words, beta reduction is this process of applying a lambda
+   term to an  argument, replacing the bound variables  with the value
+   of the  argument, and  eliminating the  head. Eliminating  the head
+   tells you the function has been applied. [1]
+
+   HINT: Syntax [x := z] indicates  that z will be substituted for all
+   occurrences of x.
+
+   HINT:   Applications    in   the   lambda   calculus    are   ~left
+   associative~.   That  is,   unless  specific   parentheses  suggest
+   otherwise, they associate, or group, to the left.
+
+   Example:
+
+   #+BEGIN_SRC latex
+     (\lambda x . x)(\lambda y . y) z
+     =
+     ((\lambda x . x)(\lambda y . y)) z
+     (\lambda[x := (\lambda y . y)] . x)z
+     (\lambda y . y) z
+     \lambda [y := z] . y
+     z
+   #+END_SRC
+
+*** Free variables
+
+    The  purpose of  the head  of  the function  is to  tell us  which
+    variables to replace when we apply  our function, that is, to bind
+    the  variables.  A  bound  variable   must  have  the  same  value
+    throughout the expression. [1]
+
+    But sometimes the body expression has variables that are not named
+    in the head. We call  those variables free variables. For example:
+    [1]
+
+    #+BEGIN_SRC latex
+      \lambda x . xy
+    #+END_SRC
+
+    The x in the body is a bound variable and y is a free variable.
+
+    Take a look at the following example: [1]
+
+    #+BEGIN_SRC latex
+      (\lambda x . xy) z
+      (\lambda[x := z] . xy)
+      zy
+    #+END_SRC
+   
+** Multiple arguments
+
+   Each lambda  can only bind  one parameter  and can only  accept one
+   argument. Functions that require  multiple arguments have multiple,
+   nested  head.  When you  apply  it  once  and eliminate  the  first
+   (leftmost)  head,  the  next  one   is  applied  and  so  on.  This
+   formulation was  originally discovered by Moses  Schonfinkel in the
+   1920s but was later rediscovered  and named after Haskell Curry and
+   is commonly called ~currying~. [1]
+
+   #+BEGIN_SRC latex
+     \lambda xy . xy
+      = \lambda x . (\lambda y . y)
+   #+END_SRC
+
+   For example: [1]
+
+   #+BEGIN_SRC latex
+     \lambda xy . xy
+     (\lambda xy . xy) 1 2
+     (\lambda x . (\lambda y . xy)) 1 2
+     (\lambda [x := 1] . (\lambda y . xy)) 2
+     (\lambda y . 1y) 2
+     (\lambda [y := 2] . 1y)
+     1 2
+   #+END_SRC
+
+   That  wasn't  too interesting  because  it's  like nested  identity
+   functions!  We can't  meaningfully  apply a  1 to  a  2. Let's  try
+   something different: [1]
+
+   #+BEGIN_SRC latex
+     \lambda xy . xy
+     (\lambda xy . xy)(\lambda z . a) 1
+     (\lambda x . (\lambda y . xy))(\lambda z . a) 1
+     (\lambda [x := (\lambda z . a)] . (\lambda y . xy)) 1
+     (\lambda y . (\lambda z . a) y) 1
+     (\lambda [y := 1] . (\lambda z . a) y)
+     (\lambda z . a) 1
+     (\lambda [z := 1] . a)
+     a
+   #+END_SRC
+
+   The lambda calculus is a process or  method, like a game with a few
+   simple rules for transforming lambdas, but no specific meaning. [1]
+   
+** Evaluation is simplification
+
+   There are multiple  normal forms in lambda calculus,  but here when
+   we refer  to normal form  we mean  ~beta normal form~.  Beta normal
+   form is  when you cannot  beta reduce (apply lambdas  to arguments)
+   the  terms  any further.  This  corresponds  to a  fully  evaluated
+   expression, or, in  programming, a fully executed  program. This is
+   important to know  so that you know when you're  done evaluating an
+   expression. [1]
+
+   Don't be intimidated  by calling the reduced form  of an expression
+   its normal form. When  you want to say "2", do you  say 2000 / 1000
+   each time or do you say 2?  The expression 2000 / 1000 is not fully
+   evaluated because the division function has been fully applied (two
+   arguments), so it  could be reduced, or evaluated.  In other words,
+   there's a simpler form  it can be reduced to -  the number two. The
+   normal form, therefore, is 2. [1]
+
+   The point  is that if you  have a function, such  as (/), saturated
+   (all arguments  applied) but you  haven't yet simplified it  to the
+   final   result    then   it   is   not    fully   evaluated,   only
+   applied.  Application   is  what   makes  evaluation/simplification
+   possible. [1] 
+   
+** Combinators
+
+   A combinator is a lambda  term with no free variables. Combinators,
+   as the name suggests, serve only  to combine the arguments they are
+   given. [1]
+
+   So, the  following are combinators  because every term in  the body
+   occurs in the head: [1]
+
+   #+BEGIN_SRC latex
+     \lambda x . x
+     
+     \lambda xy. x
+     
+     \lambda xyz . xz(yz)
+   #+END_SRC
+
+   The point of combinators is that they are a special class of lambda
+   expressions  that  can only  combine  the  arguments it  is  given,
+   without injecting any new values or random data. [1]
+   
+** Divergence
+
+   Not  all reducible  lambda terms  reduce  neatly to  a beta  normal
+   form. This isn't because they're  already fully reduced, but rather
+   because  they diverge.  Divergence  here means  that the  reduction
+   process never terminates or ends. [1]
+
+   Here's an  example of a  lambda term called ~omega~  that diverges:
+   [1]
+
+   #+BEGIN_SRC latex
+     (\lambda x . xx)(\lambda x . xx)
+     (\lambda [x := (\lambda x . xx)] . xx)
+     (\lambda x . xx)(\lambda x . xx)
+   #+END_SRC
+
+   This matters  in programming because  terms that diverge  are terms
+   that don't  produce an  answer or meaningful  result. Understanding
+   what  will  terminate means  understanding  what  programs will  do
+   usefull work and return the answer we want. [1]
+   
+** Church encoding
+
+   In mathematics, Church encoding is a means of representing data and
+   operators  in  the  lambda  calculus. The  Church  numerals  are  a
+   representation of  the natural  numbers using lambda  notation. The
+   method is  named for Alonzo Church,  who first encoded data  in the
+   lambda calculus this way. [2]
+
+   Terms  that are  usually  considered primitive  in other  notations
+   (such as integers,  booleans, pairs, lists, and  tagged unions) are
+   mapped to higher-order functions under Church encoding. [2]
+
+*** Church numerals
+
+    Church numerals  are the representations of  natural numbers under
+    Church encoding. The higher-order function that represents natural
+    number n  is a  function that  maps any function  f to  its n-fold
+    composition.  In simpler  terms,  the "value"  of  the numeral  is
+    equivalent to  the number of  times the function  encapsulates its
+    argument. [2]
+
+    All Church numerals are functions that take two parameters. [2]
+
+    | Number | Lambda expression                      |
+    |      0 | \lambda f . \lambda x . x              |
+    |      1 | \lambda f . \lambda x . fx             |
+    |      2 | \lambda f . \lambda x . f(fx)          |
+    |      3 | \lambda f . \lambda x . f(f(fx)        |
+    |    ... | ...                                    |
+    |      n | \lambda f . \lambda x . f^{\circle n}x |
+
+    The Church numeral  3 represents the action of  applying any given
+    function three  times to a  value. [...] The function  itself, and
+    not its end result, is the Church numeral 3. [2]
+   
+** References
+
+   [1] - [Book] Haskell programming from first principles
+   
+   [2] - [[https://en.wikipedia.org/wiki/Church_encoding#Church_numerals][[Link] Church encoding]]
+   
