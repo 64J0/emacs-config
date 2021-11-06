@@ -1,23 +1,15 @@
-;; initial configuration
-(setq inhibit-startup-message t)
-(menu-bar-mode -1)
-(global-linum-mode t)
-(set-face-attribute 'default nil :height 140)
+;; INITIAL CONFIG
+(setq inhibit-startup-message t) ;; remove startup message
+(menu-bar-mode -1) ;; remove menu bar
+(global-linum-mode t) ;; show the line number
+(set-face-attribute 'default nil :height 140) ;; font-size
 
+;; GLOBAL KEY BINDINGS
 (global-set-key (kbd "C-<tab>") 'other-window)
 (global-set-key (kbd "M-<down>") 'enlarge-window)
 (global-set-key (kbd "M-<up>") 'shrink-window)
 (global-set-key (kbd "M-<left>") 'enlarge-window-horizontally)
 (global-set-key (kbd "M-<right>") 'shrink-window-horizontally)
-
-;; Remove empty LOGBOOK drawers on clock out
-(defun bh/remove-empty-drawer-on-clock-out ()
-  (interactive)
-  (save-excursion
-    (beginning-of-line 0)
-    (org-remove-empty-drawer-at "LOGBOOK" (point))))
-
-(add-hook 'org-clock-out-hook 'bh/remove-empty-drawer-on-clock-out 'append)
 
 ;; PACKAGE REPOSITORIES
 ;; when error: M-x package-refresh-contents
@@ -35,18 +27,20 @@
 	     '("gnu" . "http://elpa.gnu.org/packages/"))
 (package-initialize)
 
-;; automatically download and install other packages from the emacs
+;; automatically download and load other packages from the emacs
 ;; package databases when it detects they're missing.
 ;; https://github.com/jwiegley/use-package
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-
 (eval-when-compile
   (require 'use-package))
 
-;; general use
 (load-theme 'dracula t)
+
+;; COMplete ANYthing
+;; Could give wrong completions (orgmode)
+;; http://company-mode.github.io/
 (use-package company
   :ensure t
   :commands (company-mode company-indent-or-complete-common)
@@ -54,31 +48,41 @@
   (setf company-idle-delay 0
         company-selection-wrap-around t)
   :hook (after-init . global-company-mode))
-(use-package try
-  :ensure t)
+
+;; Displays the key bindings following your currently entered incomplete
+;; command (a prefix) in a popup.
+;; https://github.com/justbur/emacs-which-key
 (use-package which-key
   :ensure t
   :config (which-key-mode))
+
+;; Framework for incremental completions and narrowing selections.
+;; https://emacs-helm.github.io/helm/
 (use-package helm
   :ensure t
   :bind (("M-x" . helm-M-x)
 	 ("C-x b" . helm-buffers-list)))
+
+;; https://github.com/emacs-lsp/helm-lsp
 (use-package helm-lsp
   :ensure t
   :commands helm-lsp-workspace-symbol)
-;(use-package auto-complete
-;  :ensure t
-;  :init
-;  (progn
-;    (ac-config-default)
-;    (global-auto-complete-mode t)))
+
+;; Show directory tree on the lateral
+;; https://github.com/jaypei/emacs-neotree
 (use-package neotree
   :ensure t
   :bind (("C-b" . 'neotree-toggle)))
+
+;; Convert buffer text and decorations to HTML
+;; https://github.com/hniksic/emacs-htmlize
 (use-package htmlize
   :ensure t)
 
-;; self performance
+;; A GNU Emacs major mode for keeping notes, authoring documents,
+;; computational notebooks, literate programming, maintaining to-do
+;; lists, planning projects, and more.
+;; https://orgmode.org/
 (use-package org
   :ensure t
   :bind (("C-c l" . org-store-link)
@@ -235,51 +239,80 @@
 	   t))
 	 (concat "-" tag)))
   (setq org-agenda-auto-exclude-function 'bh/org-auto-exclude-function)
+  (setq org-export-coding-system 'utf-8)
+  (prefer-coding-system 'utf-8)
+  (set-charset-priority 'unicode)
+  (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
   )
-	
+
+;; Spaced repetition algorithm to conduct interactive "drill sessions",
+;; using org files as sources of facts to be memorised.
+;; https://orgmode.org/worg/org-contrib/org-drill.html
 (use-package org-drill
   :ensure t
   :commands (org-drill))
+
+;; Supercharge your org daily/weekly/agenda
+;; https://github.com/alphapapa/org-super-agenda
 (use-package org-super-agenda
   :ensure t)
 
-;; f# config
+;; ======================================================
+;; F# CONFIG
+
+;; This package gives you a set of key combinations to perform dotnet
+;; CLI tasks within your .NET Core projects
+;; https://github.com/julienXX/dotnet.el
 (use-package dotnet
-  :ensure t)
+  :ensure t
+  :hook (fsharp-mode . dotnet-mode))
+
+;; An Emacs LSP client that stays out of your way
+;; https://github.com/joaotavora/eglot
 (use-package eglot
   :ensure t
   :after company)
+
+;; Provides support for the F# language in Emacs
+;; https://github.com/fsharp/emacs-fsharp-mode
+(use-package fsharp-mode
+  :ensure t
+  :after company
+  :config
+  (setq-default fsharp-indent-offset 4)
+  (setq inferior-fsharp-program "dotnet fsi --readline-")
+  :hook (fsharp-mode . highlight-indentation-mode))
+
 (use-package eglot-fsharp
   :ensure t
   :after fsharp-mode
   :init
   (add-hook 'inferior-fsharp-mode-hook 'turn-on-comint-history))
-(use-package fsharp-mode
-  :ensure t
-  :after company
-  :mode ("\\.fsx?\\'" . fsharp-mode)
-  :config
-  (setq-default fsharp-indent-offset 4)
-  (setq inferior-fsharp-program "dotnet fsi")
-  :init
-  (add-hook 'fsharp-mode-hook 'highlight-indentation-mode))
+
+;; Language Server Protocol Support for Emacs
+;; Aims to provide IDE-like experience by providing optional integration
+;; with the most popular Emacs packages like comapny, flycheck and
+;; projectile.
+;; https://github.com/emacs-lsp/lsp-mode
 (use-package lsp-mode
   :ensure t
   :hook (fsharp-mode . lsp-deferred)
   :commands (lsp lsp-deferred))
+
+;; This package contains all the higher level UI modules of lsp-mode,
+;; like flycheck support and code lenses.
 ;; https://emacs-lsp.github.io/lsp-ui/#intro
 (use-package lsp-ui
   :ensure t
   :commands lsp-ui-mode)
 
-;; c programming language
-;; not done yet
-
-;; git tool
+;; Is a complete text-based user interface to Git.
+;; https://magit.vc/
 (use-package magit
   :ensure t)
 
-;; for pdf
+;; Replacement of DocView for PDF files.
+;; https://github.com/politza/pdf-tools
 (use-package pdf-tools
   :ensure t
   :config (pdf-tools-install))
