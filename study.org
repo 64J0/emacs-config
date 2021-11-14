@@ -25,7 +25,8 @@ simple enough for the novice and powerful enough for the expert.
 
 * 11-2021:
 - [ ] Emacs
-- [ ] Machine learning
+- [ ] Management
+- [ ] Introduction to computer science - MIT (YouTube)
 
 * TODO [F#] F# docs
   :INACTIVE:
@@ -2883,9 +2884,6 @@ Youtube video
 *** Push work down
     Delegation
 * NEXT [FP] Lambda calculus
-  :LOGBOOK:
-  CLOCK: [2021-10-23 sáb 10:48]
-  :END:
   :POST:
   
 ** What is lambda calculus
@@ -3227,4 +3225,21 @@ Youtube video
    [1] - [Book] Haskell programming from first principles
    
    [2] - [[https://en.wikipedia.org/wiki/Church_encoding#Church_numerals][[Link] Church encoding]]
-   
+* TODO [YouTube][MIT] Theory of Computation
+  :LOGBOOK:
+  CLOCK: [2021-11-14 dom 12:05]
+  :END:
+  [[https://www.youtube.com/watch?v=9syvZr-9xwk&list=PLUl4u3cNGP60_JNv2MmK3wkOt9syvfQWY&index=1&ab_channel=MITOpenCourseWare][Course 1st class]]
+
+** 1. Introduction, Finite Automata, Regular Expressions
+
+   We  still don't  know how  brain works.  We can't  model creativity.  Can you
+   factorate a number quickly enough?
+
+   Teacher presented  several definitions of  languages and other stuff.  I just
+   took  the  notes  to  my  personal  notebook since  it  is  easier  to  write
+   mathematical symbols there.
+
+   Theorem: If A1, A2 are regular languages, so A1 U A2 (closure under U).
+
+   Theorem: If A1, A2 are regular languages, so is A1A2 (closure under \circle).
