@@ -5,7 +5,6 @@
 
 ;; INITIAL CONFIG
 (setq inhibit-startup-message t
-      inhibit-startup-screen nil
       standard-indent 4
       auto-save-no-message t) ;; remove startup message
 (menu-bar-mode -1) ;; remove menu bar
@@ -13,6 +12,11 @@
 (set-face-attribute 'default nil
 		    :height 140
 		    :family "DejaVu Sans Mono") ;; font-size
+(setq delete-selection-mode t) ;; delete text when selected and start typing
+(setq system-time-locale "pt_BR.UTF-8")
+(fset 'yes-or-no-p 'y-or-n-p)
+(setq-default indent-tabs-mode nil
+	      fill-column 80)
 
 ;; GLOBAL KEY BINDINGS
 (global-set-key (kbd "C-<tab>") 'other-window)
@@ -21,54 +25,45 @@
 (global-set-key (kbd "M-<left>") 'enlarge-window-horizontally)
 (global-set-key (kbd "M-<right>") 'shrink-window-horizontally)
 
-;; DEBUG PURPOSES
-(if init-file-debug
-    (setq use-package-verbose t
-	  use-package-expand-minimally nil
-	  use-package-compute-statistics t
-	  debug-on-error t)
-  (setq use-package-verbose nil
-	use-package-expand-minimally t))
+;; ;; DEBUG PURPOSES
+;; (if init-file-debug
+;;     (setq use-package-verbose t
+;; 	  use-package-expand-minimally nil
+;; 	  use-package-compute-statistics t
+;; 	  debug-on-error t)
+;;   (setq use-package-verbose nil
+;; 	use-package-expand-minimally t))
 
-;; PATH SETUP
-(defcustom my/path-aliases
-  (list :emacs  "~/.emacs.d"
-	:srs    "~/.emacs.d"
-	:work   "~/.emacs.d"
-	:agenda "~/.emacs.d")
-  "Location of my paths for ease of usage. Customize for each env
-   if needed.")
+;; ;; ;; PATH SETUP
+;; (defcustom my/path-aliases
+;;   (list :emacs  "~/.emacs.d"
+;; 	:srs    "~/.emacs.d"
+;; 	:work   "~/.emacs.d"
+;; 	:agenda "~/.emacs.d")
+;;   "Location of my paths for ease of usage. Customize for each env
+;;    if needed.")
 
-(defcustom my/path (dir $optional subpath)
-  "Build a path name. See https://github.com/arecker/emacs.d"
-  (let ((dir (file-name-as-directory
-	      (cl-getf my/path-aliases dir
-		       (format "~/%s" dir))))
-	(subpath (or subpath "")))
-    (concat dir subpath)))
+;; (defcustom my/path (dir $optional subpath)
+;;   "Build a path name. See https://github.com/arecker/emacs.d"
+;;   (let ((dir (file-name-as-directory
+;; 	      (cl-getf my/path-aliases dir
+;; 		       (format "~/%s" dir))))
+;; 	(subpath (or subpath "")))
+;;     (concat dir subpath)))
 
-(defcustom main-agenda (my/path :emacs "agenda.org")
-  "This is used to store quickly todo items without refiling.")
+;; (defcustom main-agenda (my/path :emacs "agenda.org")
+;;   "This is used to store quickly todo items without refiling.")
 
-(add-to-list 'load-path (my/path :emacs "lib"))
+;; (add-to-list 'load-path (my/path :emacs "lib"))
 
-;; add the custom file inside the emacs folder
+;; ;; add the custom file inside the emacs folder
 
-(let ((custom-file-path (my/path :emacs "custom.el")))
-  (if (file-readable-p custom-file-path)
-      (progn
-	(setq custom-file custom-file-path)
-	(load custom-file))
-    (warn "Custom file not found at expected path %s" custom-file-path)))
-
-;; things that I don't know how to do with use-package
-
-(setq system-time-locale "pt_BR.UTF-8")
-
-(fset 'yes-or-no-p 'y-or-n-p)
-
-(setq-default indent-tabs-mode nil
-	      fill-column 80)
+;; (let ((custom-file-path (my/path :emacs "custom.el")))
+;;   (if (file-readable-p custom-file-path)
+;;       (progn
+;; 	(setq custom-file custom-file-path)
+;; 	(load custom-file))
+;;     (warn "Custom file not found at expected path %s" custom-file-path)))
 
 ;; PACKAGE REPOSITORIES
 ;; when error: M-x package-refresh-contents
@@ -107,6 +102,13 @@
   (setf company-idle-delay 0
         company-selection-wrap-around t)
   :hook (after-init . global-company-mode))
+
+;; Puts angry red squiggles on the screen when I do something stupid.
+;; https://www.flycheck.org/en/latest/
+(use-package flycheck
+  :ensure t
+  :init
+  (global-flycheck-mode))
 
 ;; Displays the key bindings following your currently entered incomplete
 ;; command (a prefix) in a popup.
@@ -147,17 +149,36 @@
   :bind (("C-c l" . org-store-link)
 	 ("C-c a" . org-agenda)
 	 ("C-c c" . org-capture))
+  :preface
+  (setq org-export-backends '(moderncv md gfm beamer ascii taskjuggler html latex odt org))
   :config
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((sql . t)))
+   '((sql . t)
+     (dot     . t)
+     (latex   . t)
+     (shell   . t)
+     (python  . t)
+     (js      . t)
+     (ditaa   . t)
+     (ocaml   . t)
+     (java    . t)
+     (scheme  . t)
+     (plantuml . t)
+     (ditaa   . t)
+     (sqlite  . t)
+     (gnuplot . t)
+     (ditaa  . t)
+     (C      . t)
+     (ledger . t)
+     (org    . t)))
   (add-to-list
    'auto-mode-alist
    '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
   (setq org-todo-keywords
 	(quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-		(sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
-  (setq org-todo-keyword-faces
+		(sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING")))
+        org-todo-keyword-faces
 	(quote (("TODO" :foreground "red" :weight bold)
 		("NEXT" :foreground "blue" :weight bold)
 		("DONE" :foreground "forest green" :weight bold)
@@ -166,9 +187,9 @@
 		("CANCELLED" :foreground "forest green" :weight bold)
 		("PHONE" :foreground "forest green" :weight bold)
 		("MEETING" :foreground "forest green" :weight bold))
-	       ))
-  (setq org-use-fast-todo-selection t) ;; C-c C-t KEY
-  (setq org-todo-state-tags-triggers
+	       )
+        org-use-fast-todo-selection t ;; C-c C-t KEY
+        org-todo-state-tags-triggers
 	(quote (("CANCELLED" ("CANCELLED" . t))
 		("WAITING" ("WAITING" . t))
 		("HOLD" ("WAITING") ("HOLD" . t))
@@ -176,15 +197,15 @@
 		("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
 		("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
 		("DONE" ("WAITING") ("CANCELLED") ("HOLD"))
-		)))
-  (setq org-log-done t)
-  (setq	org-export-backends
-	'(md gfm beamer ascii taskjuggler html latex odt org))
-  (setq org-support-shift-select
-	'always)
-  (setq org-directory "~/org")
-  (setq org-default-notes-file "~/org/refile.org")
-  (setq org-capture-templates
+		))
+        org-log-done t
+        org-export-backends
+	'(md gfm beamer ascii taskjuggler html latex odt org)
+        org-support-shift-select
+	'always
+        org-directory "~/org"
+        org-default-notes-file "~/org/refile.org"
+        org-capture-templates
 	(quote (("t" "todo" entry (file "~/org/refile.org")
 		 "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
 		("r" "respond" entry (file "~/org/refile.org")
@@ -202,107 +223,155 @@
 		("h" "Habit" entry (file "~/org/refile.org")
 		 "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
 		)))
-
-  ;; Targets include this file and any file contributing to the agenda - up to 9 levels deep
-  (setq org-refile-targets (quote ((nil :maxlevel . 9)
-				   (org-agenda-files :maxlevel .9))))
-
-  ;; Use full outline paths for refile targets - we file directly with IDO
-  (setq org-refile-use-outline-path t)
-
-  ;; Targets complete directly with IDO
-  (setq org-outline-path-complete-in-steps nil)
-
-  ;; Allow refile to create parent tasks with confirmation
-  (setq org-refile-allow-creating-parent-nodes (quote confirm))
-
-  ;; Use IDO for both buffer and file completion and ido-everywhere to t
-  (setq org-completion-use-ido t)
-  (setq ido-everywhere t)
-  (setq ido-max-directory-size 100000)
-  (ido-mode (quote both))
-
-  ;; CHAPTER 8
-  ;; Do not dim blocked tasks
-  (setq org-agenda-dim-blocked-tasks nil)
-  ;; Compact the block agenda view
-  (setq org-agenda-compact-blocks t)
-  ;; Custom agenda command definitions
-  (setq org-agenda-custom-commands
-	(quote (("N" "Notes" tags "NOTE"
-		 ((org-agenda--insert-overriding-header "Notes")
-		  (org-tags-match-list-sublevels t)))
-		("h" "Habits" tags-todo "STYLE=\"habit\""
-		 ((org-agenda--insert-overriding-header "Habits")
-		  (org-agenda-sorting-strategy
-		   '(todo-state-down effort-up category-keep))))
-		(" " "Agenda"
-		 ((agenda "" nil)
-		  (tags "REFILE"
-			((org-agenda--insert-overriding-header "Tasks to Refile")
-			 (org-tags-match-list-sublevels nil)))
-		  (tags-todo "-CANCELLED/!"
-			     ((org-agenda--insert-overriding-header "Stuck Projects")
-			      (org-agenda-skip-function 'bh/skip-non-stuck-projects)
-			      (org-agenda-sorting-strategy
-			       '(category-keep))))
-		  (tags-todo "-HOLD-CANCELLED/!"
-			     ((org-agenda--insert-overriding-header "Projects")
-			      (org-agenda-skip-function 'bh/skip-non-projects)
-			      (org-tags-match-list-sublevels 'indented)
-			      (org-agenda-sorting-strategy
-			       '(category-keep))))
-		  (tags-todo "-CANCELLED/!NEXT"
-			     ((org-agenda--insert-overriding-header (concat "Project Next Tasks"
-									    (if bh/hide-scheduled-and-waiting-next-tasks
-										""
-									      " (including WAITING and SCHEDULED tasks)")))
-			      (org-agenda-skip-function 'bh/skip-projects-and-habits-and-single-tasks)
-			      (org-tags-match-list-sublevels t)
-			      (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-			      (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
-			      (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
-			      (org-agenda-sorting-strategy
-			       '(todo-state-down effort-up category-keep))))
-		  (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
-			     ((org-agenda-overriding-header (concat "Standalone Tasks"
-								    (if bh/hide-scheduled-and-waiting-next-tasks
-									""
-								      " (including WAITING and SCHEDULED tasks)")))
-			      (org-agenda-skip-function 'bh/skip-project-tasks)
-			      (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-			      (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
-			      (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
-			      (org-agenda-sorting-strategy
-			       '(category-keep))))
-		  (tags-todo "-CANCELLED+WAITING|HOLD/!"
-			     ((org-agenda-overriding-header (concat "Waiting and Postponed Tasks"
-								    (if bh/hide-scheduled-and-waiting-next-tasks
-									""
-								      " (including WAITING and SCHEDULED tasks)")))
-			      (org-agenda-skip-function 'bh/skip-non-tasks)
-			      (org-tags-match-list-sublevels nil)
-			      (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-			      (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)))
-		  (tags "-REFILE/"
-			((org-agenda-overriding-header "Tasks to Archive")
-			 (org-agenda-skip-function 'bh/skip-non-archivable-tasks)
-			 (org-tags-match-list-sublevels nil))))
-		 nil))))
-  (defun bh/org-auto-exclude-function (tag)
-    "Automatic task exclusion in the agenda with / RET"
-    (and (cond
-	  ((string= tag "hold")
-	   t)
-	  ((string= tag "farm")
-	   t))
-	 (concat "-" tag)))
-  (setq org-agenda-auto-exclude-function 'bh/org-auto-exclude-function)
-  (setq org-export-coding-system 'utf-8)
-  (prefer-coding-system 'utf-8)
-  (set-charset-priority 'unicode)
-  (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
+  ;; Bellani config area
+  (setq org-refile-file-path "~/org/refile.org"
+        org-refile-allow-creating-parent-nodes 'confirm
+        org-babel-inline-result-wrap "%s"
+        org-habit-graph-column 60
+        org-habit-following-days 0
+        org-habit-preceding-days 14
+        org-refile-use-outline-path 'file
+        org-outline-path-complete-in-steps nil
+        org-tag-alist '((:startgroup)
+                        ("noexport" . ?n)
+                        ("export" . ?e)
+                        (:endgroup))
+        org-refile-targets
+        `((nil :maxlevel . 9)
+          (org-agenda-files :maxlevel . 2)
+          (,"~/org/srs/deck.org" :maxlevel . 2)
+          (,"~/org/work/meetings.org" :maxlevel . 2))
+        org-capture-templates
+        `(("e" "Email [m4ue]" entry (file main-agenda)
+           ,(concat "* TODO Process \"%a\"\n"
+                    "SCHEDULED: %t\n"
+                    ":LOGBOOK:\n"
+                    "- State \"TODO\"     from\"\" %U   \\\\\n"
+                    "  %^{Initial log} %?\n"
+                    "  from %:from\n"
+                    ":END:"))
+          ("t" "todo" entry
+           (file main-agenda)
+           ,(concat "* TODO %^{Title}\n"
+                    "SCHEDULED: %t\n"
+                    ":PROPERTIES:\n"
+                    ":BV:\n"
+                    ":TC:\n"
+                    ":RR-OE:\n"
+                    ":EFF:\n"
+                    ":END:\n"
+                    ":LOGBOOK:\n"
+                    " - State \"TODO\"       from \"\"  %U  \\\\\n"
+                    "  %^{Initial log} %?\n"
+                    ":END:"))
+          ("w" "work reminder" entry
+           (file main-agenda)
+           ,(concat "* TODO %^{Title}\n"
+                    "SCHEDULED: <%%(memq (calendar-day-of-week date) '(1 2 3 4 5))>%?\n"
+                    ":PROPERTIES:\n"
+                    ":work_reminder: t\n"
+                    ":BV:\n"
+                    ":TC:\n"
+                    ":RR-OE:\n"
+                    ":EFF:\n"
+                    ":END:\n"
+                    ":LOGBOOK:\n"
+                    "- Initial note taken on %U \\\n"
+                    "%^{Initial note}\n"
+                    ":END:\n"))
+          ("h" "habit" entry
+           (file main-agenda)
+           ,(concat "* TODO %^{Title}\n"
+                    "SCHEDULED: %(org-insert-time-stamp nil nil nil nil nil \" +1w\")%?\n"
+                    ":PROPERTIES:\n"
+                    ":style: habit\n"
+                    ":BV:\n"
+                    ":TC:\n"
+                    ":RR-OE:\n"
+                    ":EFF:\n"
+                    ":END:\n"
+                    ":LOGBOOK:\n"
+                    "- State \"TODO\"       from \"\"  %U  \\\\\n"
+                    "%^{Initial log}\n"
+                    ":END:\n"))
+          ("m" "meeting log" entry
+           (file ,"~/org/work/meetings.org")
+           ,(concat "* %^{Title}\n"
+                    "** Context\n"
+                    "%^{Context}\n"
+                    "** Goal\n"
+                    "%^{Goal}\n"
+                    "** Agenda\n"
+                    "%^{Agenda}\n"
+                    "** Ata\n"
+                    "%^{Minutes})\n"))
+          ("d" "Drill card with answer" entry
+           (file ,"~/org/srs/deck.org")
+           ,(concat "* Item           :drill:\n"
+                    "%^{Question}\n"
+                    "** Answer\n"
+                    "%^{Answer}\n"))
+          ("z" "Drill" entry
+           (file ,"~/org/srs/deck.org")
+           ,(concat "* Item           :drill:\n"
+                    "%?\n"))
+          ("x" "Drill cloze 2" entry
+           (file ,"~/org/srs/deck.org")
+           ,(concat "* Item           :drill:\n"
+                    ":PROPERTIES:\n"
+                    ":drill_card_type: hide2cloze\n"
+                    ":END:\n"
+                    "%?\n")))
+        org-todo-keywords
+        '((sequence "TODO(t@/!)" "|" "DONE(d@/!)")
+          (sequence "WAITING(w@/!)" "|" "CANCELLED(c@/!)")
+          (sequence "REPEAT(r@/!)"))
+        org-imenu-depth 6
+        org-src-fontify-natively t
+        org-use-sub-superscripts '{}
+        org-export-with-sub-superscripts '{}
+        org-babel-default-header-args
+        (cons '(:noweb . "yes")
+              (assq-delete-all :noweb org-babel-default-header-args))
+        org-babel-default-header-args
+        (cons '(:tangle . "yes")
+              (assq-delete-all :tangle org-babel-default-header-args))
+        org-babel-default-header-args
+        (cons '(:comments . "link")
+              (assq-delete-all :comments org-babel-default-header-args))
+        org-duration-format '((special . h:mm))
+        org-goto-interface 'outline-path-completion
+        ;; agenda stuff copied from
+        ;; https://github.com/alphapapa/org-super-agenda/blob/master/examples.org
+        org-agenda-skip-scheduled-if-done t
+        org-agenda-skip-deadline-if-done t
+        org-agenda-block-separator nil
+        org-agenda-include-diary nil
+        org-agenda-compact-blocks t
+        org-agenda-start-with-log-mode t
+        ;; allows multiple agenda views to coexist
+        org-agenda-sticky nil ;; setting it to t breaks capture from agenda, for now
+        org-agenda-span 'day
+        org-plantuml-jar-path "/home/user/bin/plantuml.jar"
+        org-latex-pdf-process (list "latexmk -silent -f -pdf %f")
+        org-cite-export-processors '((latex biblatex)
+                                     (moderncv basic)
+                                     (t basic))
+        )
   )
+
+;; Taskjuggler is a project planning software which uses a plain text file for the
+;; definition of tasks which is then processed to create the schedule.
+;; https://www.skamphausen.de/cgi-bin/ska/taskjuggler-mode
+;; (use-package taskjuggler-mode
+;;   :ensure t)
+
+;; Displays help text (e.g. for buttons and menu items that you put the mouse on)
+;; in a pop-up window.
+;; https://github.com/emacs-mirror/emacs/blob/master/lisp/tooltip.el
+(use-package tooltip
+  :config
+  (tooltip-mode 0))
 
 ;; Spaced repetition algorithm to conduct interactive "drill sessions",
 ;; using org files as sources of facts to be memorised.
@@ -337,9 +406,11 @@
 (use-package fsharp-mode
   :ensure t
   :after company
+  :mode (("\\.fs$" .  fsharp-mode)
+	 ("\\.fsx$" .  fsharp-mode))
   :config
   (setq-default fsharp-indent-offset 4)
-  (setq inferior-fsharp-program "dotnet fsi --readline-")
+  (setq inferior-fsharp-program "dotnet fsi")
   :hook (fsharp-mode . highlight-indentation-mode))
 
 (use-package eglot-fsharp
@@ -376,6 +447,76 @@
   :ensure t
   :config (pdf-tools-install))
 
+;; ======================================================
+;; DEVSECOPS
+
+(use-package json-mode
+  :ensure t
+  :mode "\\.json\\'")
+
+;; Pretty syntax highlight for editing Dockerfiles.
+(use-package dockerfile-mode
+  :ensure t
+  :defer t
+  :mode ("\\Dockerfile\\'" "\\.dockerfile\\'"))
+
+(use-package kubernetes
+  :ensure t
+  :commands (kubernetes-overview))
+
+(global-set-key (kbd "C-c K") 'kubernetes-overview)
+
+(use-package yaml-mode
+  :ensure t
+  :defer t
+  :mode ("\\.yml\\'" "\\.yaml\\'"))
+
+;; ======================================================
+;; OTHER LANGS
+;; C
+(defun c-lineup-arglist-tabs-only (ignored)
+  "Line up argument lists by tabs, not spaces"
+  (let* ((anchor (c-langelem-pos c-syntactic-element))
+         (column (c-langelem-2nd-pos c-syntactic-element))
+         (offset (- (1+ column) anchor))
+         (steps (floor offset c-basic-offset)))
+    (* (max steps 1)
+       c-basic-offset)))
+
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (c-add-style
+             "linux-tabs-only"
+             '("linux" (c-offsets-alist
+                        (arglist-cont-nonempty
+                         c-lineup-gcc-asm-reg
+                         c-lineup-arglist-tabs-only))))))
+
+(add-hook 'c-mode-hook (lambda ()
+                         (setq indent-tabs-mode t)
+                         (setq show-trailing-whitespace t)
+                         (c-set-style "linux-tabs-only")))
+
+;; COMMON LISP
+(use-package slime
+  :ensure t
+  :defer t
+  :config (setq inferior-lisp-program (executable-find "sbcl")))
+
+(use-package slime-company
+  :ensure t
+  :after (slime company)
+  :config (setq slime-company-completion 'fuzzy
+                slime-company-after-completion 'slime-company-just-one-space))
+
+;; HASKELL
+(use-package haskell-mode
+  :ensure t
+  :defer t
+  :mode "\\.hs\\'")
+
+;; ======================================================
+;; AUTOMATIC GENERATED
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -383,7 +524,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package))))
+    (json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
