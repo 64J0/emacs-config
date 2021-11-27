@@ -1,1 +1,27 @@
-/home/gajo/org/dsa-ciencia-de-dados.org
+#+Title=Introdução à ciência de dados 3.0
+#+Author=Vinícius Gajo
+
+* O que é ciência de dados?
+  A quantidade de dados gerados  pela humanidade estão em constante crescimento,
+  possibilitando novos tipos  de análises.  Com base nesta  afirmação é possível
+  perceber  que todos  os negócios  podem se  beneficiar de  insights obtidos  a
+  partir de dados (data-driven solutions).
+
+  + Data science: técnica para extrair insights a partir de dados.
+    + Análise de negócios ou inteligência competitiva.
+    + Tomar decisões com base em dados.
+  + Estatística, matemática, programação, computação, negócios, etc.
+    + O que aconteceu? (definir o problema)
+    + Porque aconteceu? (análise de dados do problema)
+    + Acontecerá novamente? (machine learning)
+    + O que deve ser feito? (propor uma solução para o tomador de decisão)
+  + Funções (não profissões - não requer graduação, regularização):
+    + Cientista de dados
+    + Engenheiro de dados
+    + Analista de dados
+    + Engenheiro de machine learning
+    + Engenheiro de IA
+    + Engenheiro DataOps
+    + Arquiteto de dados
+    + Engenheiro blockchain
+    + Desenvolvedor RPA
