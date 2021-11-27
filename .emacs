@@ -1,6 +1,7 @@
 ;; https://a-nickels-worth.blogspot.com/2007/11/effective-emacs.html
 ;; http://sites.google.com/site/steveyegge2/effective-emacs
 ;; https://github.com/ebellani/Emacs.d/blob/master/init.el
+(require 'cl)
 (require 'cl-lib) ;; cl -> common lisp
 
 ;; INITIAL CONFIG
@@ -18,6 +19,11 @@
 (setq-default indent-tabs-mode nil
 	      fill-column 80)
 
+(defun buffer/insert-filename ()
+  "Insert file name of current buffer at current point"
+  (interactive)
+  (insert (buffer-file-name (current-buffer))))
+
 ;; GLOBAL KEY BINDINGS
 (global-set-key (kbd "C-<tab>") 'other-window)
 (global-set-key (kbd "M-<down>") 'enlarge-window)
@@ -34,7 +40,7 @@
 ;;   (setq use-package-verbose nil
 ;; 	use-package-expand-minimally t))
 
-;; ;; ;; PATH SETUP
+;; ;; PATH SETUP
 ;; (defcustom my/path-aliases
 ;;   (list :emacs  "~/.emacs.d"
 ;; 	:srs    "~/.emacs.d"
