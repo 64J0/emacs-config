@@ -1,5 +1,5 @@
-#+Title=Introdução à ciência de dados 3.0
-#+Author=Vinícius Gajo
+#+Title:[Curso]Introdução à ciência de dados 3.0
+#+Author:Vinícius Gajo Marques Oliveira
 
 * O que é ciência de dados?
   A quantidade de dados gerados  pela humanidade estão em constante crescimento,

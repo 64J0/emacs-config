@@ -54,4 +54,10 @@
   extension.
 
   + The inner lists are evaluated first.
-      
+
+  + In Emacs Lisp, a symbol can have a value or a function attached to it.
+
+  The ~message~ function is used to send messages  to the user and is one of the
+  extensionmost useful functions in the language.
+
+  + ~Set~ and ~setq~ make the symbol *point* to the list.

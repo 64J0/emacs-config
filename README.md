@@ -27,3 +27,9 @@ $ ./configure
 $ make
 $ sudo make install
 ```
+
+## Learning Elisp - Emacs Lisp
+
+Since Emacs could be configured using Elisp it is totally useful to learn this programming language in order to create new functionalities or even get more familiar with this tool.
+
+In order to learn this I'm currently using this reference: [(Book) Introduction to programming in Emacs Lisp](https://www.gnu.org/software/emacs/manual/eintr.html).
