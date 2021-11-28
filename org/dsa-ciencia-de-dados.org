@@ -56,3 +56,24 @@
     + Classificação: resultado é uma classe.
     + Regressão: resultado numérico.
   + Aprendizado não-supervisionado: dados não rotulados.
+    + Agrupa por similaridades.
+    + Ainda necessita de dados históricos.
+    + Dataset não tem variáveis de saída, apenas variáveis de entrada.
+  + Aprendizagem por reforço
+    + Um agente é treinado em um ambient e toma ações com base em políticas. A cada
+      ação que maximiza o objetivo o agente recebe uma recompensa, aprendendo assim
+      a melhor forma de alcançar o objetivo. É also similar ao aprendizado por "tentativa
+      e erro" dos seres humanos.
+    + Principais aplicações: robótica, games e investimentos.
+    + Técnica mais avançada que aprendizado supervisionado e não-supervisionado.
+  + Deep learning
+    + Principal técnica de aplicações de última geração.
+    + Sub-categoria de machine learning.
+    + Artificial intelligence -> machine learning -> neural networks -> deep learning.
+
+  MLOps é definido como "uma prática  de colaboração entre cientistas de dados e
+  profissionais de operações para ajudar a  gerenciar o ciclo de vida de modelos
+  de  machine  learning em  produção.  Semelhante  às  abordagens de  DevOps  ou
+  DataOps, o MLOps busca aumentar a  automação e melhorar a qualidade de modelos
+  de  Machine Learning,  ao  mesmo  tempo em  que  se  concentra nos  requisitos
+  regulatórios e de negócios".
