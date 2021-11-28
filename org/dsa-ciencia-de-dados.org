@@ -24,4 +24,35 @@
     + Engenheiro DataOps
     + Arquiteto de dados
     + Engenheiro blockchain
-    + Desenvolvedor RPA
+    + Desenvolvedor RPA (robotic process automation)
+  + Áreas da estatística
+    + Probabilidade
+      + Aleatoriedade e incerteza.
+    + Estatística descritiva
+      + Coleta, organização, apresentação, análise e síntese de dados obtidos de uma população ou amostra.
+      + Analista de dados.
+    + Estatística inferencial
+      + Estimar informações sobre uma população a partir dos resultados observados em uma amostra.
+
+* Machine Learning e MLOps
+  Todo projeto de machine learning é um projeto de ciência de dados. Entretanto,
+  nem todo projeto de ciência de dados precisa envolver machine learning!
+
+  Machine learning é um  subcampo da IA que dá aos  computadores a habilidade de
+  aprender  sem serem  explicitamente programados  para isso.   Aprendizado é  a
+  capacidade  de se  adaptar,  modificar  e melhorar  seu  comportamento e  suas
+  respostas.
+
+  Machine  learning  é   um  método  de  análise  de  dados   que  automatiza  o
+  desenvolvimento de modelo analíticos.  Usando algoritmos que aprendem a partir
+  de  dados, o  aprendizado de  máquina  permite que  os computadores  encontrem
+  padrões ocultos  sem que sejam  explicitamente programados para  procurar algo
+  específico.
+
+  Deep learning  usa redes neurais profundas  (técnica que mais se  assemelha ao
+  aprendizado humano). Usado para os desafios mais complexos.
+
+  + Aprendizado supervisionado: dados rotulados. Aprende com exemplos (dados históricos).
+    + Classificação: resultado é uma classe.
+    + Regressão: resultado numérico.
+  + Aprendizado não-supervisionado: dados não rotulados.
