@@ -1,0 +1,148 @@
+#+TITLE: [book] Security Engineering
+#+EDITION: 3rd
+
+* About the author
+  + Name: Ross Anderson
+
+  Graduated in math and  natural science from Cambridge in the  1970s, and got a
+  qualification  in  computer  engineering.  First  working  experience  in  the
+  avionics field.  Later studied cryptology  and computer security,  working for
+  banks during the 1980s.
+
+  Moved to  academia in 1992  but continued to  consult to industry  on security
+  technology. Taught  security and cryptology to  students for a few  years, and
+  realized  that the  existing textbooks  were too  narrow and  theoretical: the
+  security  textbooks focused  on  the access  control  mechanisms in  operating
+  systems, while the cryptology books  developed the theory behind bryptographic
+  algorithms and protocols.
+
+* Part I
+  + Cover the basics.
+  + No fancy background required.
+
+  These  chaperts  cover basic  material,  and  largely  follow what  is  taught
+  first-year and second-year  undergraduates at Cambridge. But I  hope that even
+  experts will find the case studies of interest and value.
+
+** Chapter 1: What is security engineering?
+   Security engineering  is about building  systems to remain dependable  in the
+   face  of malice,  error, or  mischance. As  a discipline,  it focuses  on the
+   tools, processes, and methods needed  to design, implement, and test complete
+   systems, and to adapt existing systems as their environment evolves.
+
+   Security  engineering  requires  cross-disciplinary expertise,  ranging  from
+   cryptography and  computer security  through hardware tamper-resistance  to a
+   knowledge of economics, applied psychology, organisations and the law. System
+   engineering  skills,   from  business   process  analysis   through  software
+   engineering to evaluation  and testing, are also important; but  they are not
+   sufficient,  as  they  deal  only   with  error  and  mischance  rather  than
+   malice. The security engineer also  needs some skill at adversarial thinking,
+   just like  a chess  player; you  need to  have studied  lots of  attacks that
+   worked in  the past,  from their  openings through  their development  to the
+   outcomes.
+
+   Security and safety are becoming ever  more intertwined as we get software in
+   everything.
+
+   [...] The  military environment was until  recently one of the  few customers
+   for software systems that had to be maintained for decades. Now that software
+   and internet connectivity are finding their way into safety-critical consumer
+   goods  such  as  cars,  software  sustainability is  becoming  a  much  wider
+   concern. In 2019, the European Union passed  a law demanding that if you sell
+   goods with  digital components,  you must maintain  those components  for two
+   years, or  for longer if  that's a reasonable  expectation of the  customer -
+   which  will mean  ten years  for  cars and  white goods.   If you're  writing
+   software for  a car of fridge  that will be  on sale for seven  years, you'll
+   have to maintain it for almost twenty years. What tools should you use?
+
+   [...] Ignoring the human components, and thus neglecting usability issues, is
+   one of the largest causes of security failure.
+
+*** A framework
+    To build really dependable systems, you need four things to come together.
+
+    There's policy: what you're supposed to achieve.
+
+    There's mechanism: the ciphers,  access controls, hardware tamper-resistance
+    and other machinery that you use to implement the policy.
+
+    There's assurance: the  amount of reliance you can place  on each particular
+    mechanism, and how well they work together.
+
+    There's  incentive: the  motive  that people  guarding  and maintaining  the
+    system have to do their job properly, and also the motive that the attackers
+    have to try to defeat your policy.
+
+*** Definitions
+    + System:
+      (1) A product or component, such as a cryptographic protocol, a smartcard,
+      or the  hardware of a phone,  a laptop or server;
+
+      (2) One or more of the  above plus an operating system, communications and
+      other infrastructure;
+
+      (3) The  above plus  one or  more applications  (banking app,  health app,
+      media player,  browser, accounts/payroll  package, and  so on  - including
+      both client and cloud components);
+
+      (4) any or all of the above plus IT staff;
+
+      (5) any or all of the above plus internal users and management;
+
+      (6) any or all of the above plus customers and other external users;
+
+    + Subject:
+      A physical person in any role  including that of an operator, principal or
+      victim.
+
+    + Person:
+      Either  a  physical  person  or  a  legal person  such  as  a  company  or
+      government.
+
+    + Principal:
+      Is an entity that participates in a  security system. This entity can be a
+      subject, a  person, a  role, or  a piece  of equipment  such as  a laptop,
+      phone, smartcard, or card reader. A principal can also be a communications
+      channel (which might be  a port number, or a crypto  key, depending on the
+      circumstance). A  principal can  also be a  compound of  other principals;
+      examples are a  group (Alice or Bob), a conjunction  (Alice and Bob acting
+      together),  a  compound  role  (Alice  acting  as  Bob's  manager)  and  a
+      delegation (Bob acting for Alice in her absence).
+
+    + Group:
+      A set of principals.
+
+    + Role:
+      Set of functions assumed by different persons in succession.
+
+    + Identity:
+      When we have to be careful, I will use it to mean a correspondence between
+      the names of two principals signifying  that they refer to the same person
+      or equipment.
+
+    + Trusted:
+      [NSA definition]  A trusted system of  component is one whose  failure can
+      break the security policy.
+
+    + Trustworthy:
+      [NSA definition] A trustworthy system or component is one that won't fail.
+
+    + Secrecy:
+      Is an engineering term that refers to the effect of the mechanisms used to
+      limit  the  number of  principals  who  can  access information,  such  as
+      cryptography os computer access controls.
+
+    + Confidentiality:
+      Involves an  obligation to protect  some other person's  or organisation's
+      secrets if you know them.
+
+    + Privacy:
+      Is  the ability  and/or right  to  protect your  personal information  and
+      extends to the ability and/or right  to prevent invasions of your personal
+      space  (the  exact  definition  of   which  varies  from  one  country  to
+      another). Privacy can extend to families  but not to legal persons such as
+      corporations.
+
+    + Hack:
+      Something  a  system's  rules  permit, but  which  was  unanticipated  and
+      unwanted by its designers.

@@ -1,0 +1,105 @@
+#+TITLE:[course] Cybersecurity - Fiap
+#+AUTHOR:Vinícius Gajo Marques Oliveira
+
+* Módulo 2
+  A ISO/IEC  27002:2005 afirma que a  informação é um ativo  altamente relevante
+  para  os negócios  de uma  empresa e,  assim sendo,  deverá ser  adequadamente
+  protegida.
+
+  À luz da ISO/IEC 27001:2005, observa-se  que a proteção da informação pode ser
+  inicialmente entendida como a  preservação da confidencialidade, integridade e
+  disponibilidade da informação,  propriedades eventualmente complementadas pela
+  autenticidade, responsabilidade, não repúdio e confiabilidade.
+
+  Confidencialidade da  informação significa  que esta  deverá ser  revelada, ou
+  estar acessível, unicamente aos que tiverem autorização para isso.
+
+  A  integridade  é  a  propriedade  que  garante  a  exatidão  e  plenitude  da
+  informação, o que não significa que  esta não possa sofrer alterações ao longo
+  de seu ciclo de vida, mas sim que tais alterações devem ser legítimas.
+
+  A  disponibilidade  é  a  propriedade  da informação  de  estar  disponível  e
+  acessível quando necessário, aos que tiverem a devida autorização para isso.
+
+  Essa  tríade retrata  os pilares  básicos  da segurança  da informação,  sendo
+  geralmente referenciada, simplesmente, como *CID*.
+
+  [...]
+  A autenticidade  tem como  objetivo determinar a  validade da  transmissão, da
+  mensagem e  de seu remetente, a  firm de permitir ao  destinatário comprovar a
+  origem e a autoria  de um documento; enquanto o não  repúdio tem como objetivo
+  garantir que o autor não possa nega a criação e a assinatura do documento.
+
+  Tais propriedades vêm se tornando cada  vez mais relevantes e evidentes, sendo
+  implementadas  por  intermédio  de   técnicas  de  certificação  e  assinatura
+  digitais, e de protocolação eletrônica de documentos.
+
+** ROSI (Return On Security Investment)
+   De acordo  com o programa de  trabalho da ENISA  em 2012, a fim  de estimarem
+   quanto deverá ser investido em segurança, os executivos precisam saber quanto
+   a  falta dela  poderá custar  ao negócio,  e quais  soluções mostram-se  mais
+   economicamente viáveis e satisfatórias.
+
+   [...]
+   Entretanto,  há  que se  ressaltar  que  a abordagem  financeira  tradicional
+   aplicável  ao  cálculo do  ROI  não  é  apropriada para  avaliar  iniciativas
+   relacionadas à segurança da informação,  uma vez que investimentos realizados
+   em segurança  da informação geralmente não  tem como resultado ou  objetivo a
+   obtenção de lucro, estando mais relacionados à prevenção de perdas.
+
+** Princípios da segurança da informação
+   O Sistema de Admnistração dos Recursos de Tecnologia da Informação - SISP, do
+   Poder Executivo Federal, dentre outras reconhecidas instituições, coloca como
+   estratégias fundamentais para proteção da segurança da informação:
+
+   + Privilégios mínimos (least privilege)
+     Os usuários deverão ter seus privilégios para uso dos recursos informáticos
+     limitados  ao mínimo  necessário  para pleno  desempenho  de suas  funções,
+     evitando  dessa  maneiras a  desnecessária  exposição  a risco,  como,  por
+     exemplo, a instalação de códigos maliciosos.
+
+   + Defesa em profundidade
+     Pode ser entendida como a implementação de um sistema defensivo na forma de
+     camadas,  no  qual  diferentes  mecanismos  de  proteção  se  complementam,
+     ampliando a abrangência e a efetividade desse sistema como um todo.
+
+   + Elo mais fraco (weakest link)
+     Os  profissionais  de  segurança  da informação  geralmente  consideram  um
+     encadeamento de estratégias  e, assim sendo, este encadeamento  é tão forte
+     quanto  seu elo  mais fraco,  uma vez  que atacantes  certamente procurarão
+     identificar e explorar os pontos mais vulneráveis dos sistemas de proteção,
+     a fim de sobrepô-los.
+
+   + Ponto de verificação (check point) - superfície de contato
+     Em uma determinada  rede industrial, imagine que exista  apenas um elemento
+     (router) interligando a rede interna (LAN) à rede externa (internet). Neste
+     exemplo, o router  configura o chamado ponto de  verificação (check point),
+     por intermédio do qual todo tráfego que adentra, ou deixa, a rede confiável
+     (LAN) poderá  ser adequadamente  inspecionado e  submetido às  políticas de
+     segurança configuradas,  minimizando a possibilidade de  comprometimento de
+     algum dos pilares da segurança da informação.
+
+   + Segurança por obscuridade (security by obscurity)
+     Remete à dependência  do segredo do projeto ou implementação  como forma de
+     garantir sua  segurança.  Em  outras palavras, significa  que mesmo  que um
+     sistema,  ou  um  de  seus  componentes,  apresente  vulnerabilidades,  sua
+     segurança   ainda  poderá   ser  (supostamente)   mantida,  enquanto   tais
+     vulnerabilidades não se tornarem conhecidas por terceiros. Segundo o OWASP,
+     é uma estratégia de defesa frágil.
+
+     A  segurança de  um  aplicativo não  deve  recair sobre  o  segredo de  seu
+     código-fonte. Haja vista o sistema operacional Linux, o qual, via de regra,
+     é   um   software  livre   cujo   código-fonte   é  aberto   e   amplamente
+     disponibilizado,  entretanto, quando  adequadamente configurado,  é um  dos
+     sistemas operacionais mais seguros e robustos disponíveis no mercado.
+
+   + Princípio da simplicidade (KISS - Keep It Simple and Stupid)
+     O problema decorre do fato de que a complexidade de um código dificulta seu
+     pleno entendimento  e, portanto,  ao longo  do processo  de desenvolvimento
+     poderá vir a torná-lo vulnerável.
+
+   + Segregação de funções (Separation Of Duties - SOD)
+     A SOD  é um controle  clássico para resolução  de conflitos de  interesse e
+     prevenção à fraude,  basicamente, mediante à restrição dos  poderes de cada
+     indivíduo e à criação de barreiras, fazendo com que mais de uma pessoa seja
+     necessária para conclusão de uma tarefa.

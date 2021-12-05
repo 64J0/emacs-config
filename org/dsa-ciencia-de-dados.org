@@ -77,3 +77,14 @@
   DataOps, o MLOps busca aumentar a  automação e melhorar a qualidade de modelos
   de  Machine Learning,  ao  mesmo  tempo em  que  se  concentra nos  requisitos
   regulatórios e de negócios".
+
+* Requisitos para aplicar ciência de dados
+  Podemos aplicar  as técnicas de  ciência de dados  em qualquer cenário  em que
+  tenhamos disponíveis os seguintes pontos:
+  
+  1. Problema de negócio
+     É preciso inicialmente definir o problema que será estudado e solucionado.
+  2. Dados históricos
+  3. Padrão existente nos dados
+  4. Capacidade computacional para armazenamento e processamento de dados
+  5. Profissionais qualificados

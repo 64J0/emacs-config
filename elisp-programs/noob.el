@@ -1,4 +1,5 @@
-; emacs-lisp-mode
+;;; package: noob.el
+;;; commentary: emacs-lisp-mode
 (+ 2 2)
 
 (- 2 80)
