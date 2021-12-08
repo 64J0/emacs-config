@@ -18,6 +18,7 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq-default indent-tabs-mode nil
 	      fill-column 80)
+(setq initial-buffer-choice "~/org/activities.org")
 
 (defun buffer/insert-filename ()
   "Insert file name of current buffer at current point"
@@ -477,6 +478,11 @@
   :defer t
   :mode ("\\.yml\\'" "\\.yaml\\'"))
 
+(use-package go-mode
+  :ensure t
+  :init
+  (add-hook 'before-save-hook 'gofmt-before-save))
+
 ;; ======================================================
 ;; OTHER LANGS
 ;; C
@@ -530,7 +536,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package))))
+    (go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
