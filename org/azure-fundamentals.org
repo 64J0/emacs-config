@@ -1,5 +1,6 @@
 #+TITLE: [note] Microsoft Certified: Azure Fundamentals
 #+AUTHOR: Vinícius Gajo Marques Oliveira
+#+EMAIL: vinigaio97@gmail.com
 
 * Azure Fundamentals part 1: Describe core Azure concepts
   Azure is  a cloud  computing platform.  Azure services  range from  simple web
@@ -159,3 +160,57 @@
    + Resources:
      Are instances of services that  you create, like virtual machines, storage,
      or SQL databases.
+
+* Azure fundamentals part 2: Describe core Azure services
+  Azure  compute  is an  on-demand  computing  service for  running  cloud-based
+  applications.  It  provides computing  resources  such  as disks,  processors,
+  memory,  networking,  and  operating  systems.  The  resources  are  available
+  on-demand and can typically be made  available in minutes or even seconds. You
+  pay only for the resources you use, and only for as long as you're using them.
+
+** Virtual machines
+   Virtual machines are software emulations  of physical computers. They include
+   a virtual processor,  memory, storage, and networking resources.  VMs host an
+   operating system, and  you can install and run software  just like a physical
+   computer.
+
+   With  *Azure   Virtual  Machines*  you  can   create  and  use  VMs   in  the
+   cloud. Virtual Machines provide infrastructure as a service (IaaS) and can be
+   used in different ways. When you need total control over an operating system,
+   you can customize all the software running on the VM.
+
+*** Virtual machine scale set
+    Are an Azure compute resource that you can use to deploy and manage a set of
+    identical VMs. With all VMs configured  the same, virtual machine scale sets
+    are designed to support true autoscale.
+
+    *Azure Batch*  enables large-scale  parallel and  high-performance computing
+    (HPC) batch jobs  with the ability to scale to  tens, hundreds, or thousands
+    of VMs.
+
+*** Containers and Kubernetes
+    *Container  Instances*  and *Azure  Kubernetes  Service*  are Azure  compute
+     resources that  you can use  to deploy and  manage containers. You  can run
+     multiple instances of a containerized application on a single host machine.
+
+*** App Service
+    With  *Azure  App  Service*  you   can  quickly  build,  deploy,  and  scale
+    enterprise-grade web, mobile, and API apps running on any platform.
+
+    App Service  handles most of the  infrastructure decisions you deal  with in
+    hosting web-accessible apps.
+    
+*** Functions
+    *Azure  Functions* are  ideal  when  you're concerned  only  about the  code
+    running  your service  and not  the underlying  platform or  infrastructure.
+    They're commonly used when you need to  perform work in response to an event
+    (often via  a REST request), timer,  or message from another  Azure service,
+    and when that work can be completed quickly, within seconds or less.
+
+    *Azure Logic  Apps* are  designed in  a web-based  designer and  can execute
+     logic triggered by Azure services without writing any code. Where Functions
+     execute code,  logic apps execute  workflows that are designed  to automate
+     business scenarios and are built from predefined logic blocks.
+
+*** Azure Virtual Desktops
+    Is a desktop and application virtualization service that runs on the cloud.
