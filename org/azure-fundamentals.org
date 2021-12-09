@@ -124,3 +124,38 @@
      Is spending  money on services or  products now, and being  billed for them
      now. You can deduct this expense in the same year you spend it. There is no
      up-front cost, as you pay for a service or product as you use it.
+
+** Organizing structure for resources in Azure
+   The organizing structure for resources in Azure has four levels:
+
+   + Management groups:
+     These groups  help you manage  access, policy, and compliance  for multiple
+     subscriptions.  All  subscriptions  in  a  management  group  automatically
+     inherit the conditions applied to the management group.
+
+   + Subscriptions:
+     A subscription  groups together  user accounts and  the resource  that have
+     been  created by  those user  accounts.  For each  subscription, there  are
+     limits  or quotas  on  the amount  of  resources that  you  can create  and
+     use. Organizations can use subscriptions  to manage costs and the resources
+     that are created by users, teams, or projects.
+
+     An account can  have one subscriptions or multiple  subscriptions that have
+     different billing models and to which you apply different access-management
+     policies.
+
+   + Resource groups:
+     Resources  are  combined into  resource  groups,  which  act as  a  logical
+     container into which Azure resources  like web apps, databases, and storage
+     accounts are deployed and managed.
+
+     If you delete a resource group,  all resources contained within it are also
+     deleted. Resource groups make it easy to remove a set of resources at once.
+
+     Resource groups  are also  a scope for  applying role-based  access control
+     (RBAC) permissions. By  applying RBAC permissions to a  resource group, you
+     can ease administration and limit access to allow only what's needed.
+
+   + Resources:
+     Are instances of services that  you create, like virtual machines, storage,
+     or SQL databases.
