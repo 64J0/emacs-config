@@ -1,0 +1,117 @@
+#+TITLE: [course] NGINX
+
+* About Nginx
+  Created on 2004. Reverse Proxy Server.
+
+  + High performance.
+  + High concurrency.
+  + Low resource usage.
+  
+  Serve faster static resources than Apache.
+
+* Installing
+  + Instructor uses the smallest server on Digital Ocean.
+
+  #+BEGIN_SRC bash
+    # Package manager (apt)
+    # quick & easy
+    # limited install options
+    # no support for additional modules
+    $ apt install nginx
+    
+    # check if nginx is running
+    $ ps aux | grep nginx
+    
+    # get the host ip address
+    $ ifconfig
+    
+    # directory where nginx config live
+    # /etc/nginx/
+    
+    # manually start nginx process
+    $ service nginx start
+  #+END_SRC
+
+* Adding an NGINX service
+  + systemd service
+
+  #+BEGIN_SRC bash
+    # get help: nginx -h
+    
+    # stop nginx service
+    $ nginx -s stop
+    
+    # systemctl commands
+  #+END_SRC
+
+* Configure NGINX
+  + nginx.conf
+
+#+BEGIN_SRC nginx
+  events {}
+
+  http {
+
+    types {
+      text/html html;
+      text/css css;
+    }
+    # it's easier to just load mime.types
+
+    include mime.types; # in the same path as nginx.conf
+
+    server {
+      listen 80;
+      server_name <your_ip>;
+
+      root <site_path>;
+
+      # prefix match
+      # will match everything that starts with /greet, for ex.:
+      # /greetings, /greetings/test
+      location /greet {
+        return 200 'Hello from NGINX "greet" location';
+      }
+
+      # exact match
+      location = /greet {
+        return 200 'Hello from NGINX "greet" location';
+      }
+
+      # regex match
+      # match everything that starts with /greet and some number
+      location ~ /greet[0-9] {
+        return 200 'Hello from NGINX "greet" location';
+      }
+
+      # check static API key
+      if ( $arg_apikey != 1234 ) {
+        return 401 'Incorrect API key'
+      }
+
+      location /inspect {
+        # using variables
+        # $name is a query parameter
+        return 200 "$host\n$uri\n$name"
+      }
+
+      # create variables
+      set $weekend 'No';
+
+      # rewriting
+      rewrite ^/user/\w+ /greet;
+
+      location /greet {
+        return 200 "Hello user!";
+      }
+
+      # redirect
+      location /logo {
+        return 307 /thumb.png;
+      }
+    }
+
+  }
+  # check syntax: nginx -t
+  # systemctl reload nginx
+#+END_SRC

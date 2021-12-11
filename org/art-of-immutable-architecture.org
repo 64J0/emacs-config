@@ -1,0 +1,83 @@
+#+TITLE: [book] The art of immutable architecture
+#+AUTHOR: Michael L. Perry
+
++ Notes about the book
+
+* Chapter 1 - Why Immutable Architecture
+  If you're in QA,  it is your job to imagine all of  the possible scenarios and
+  then replicate them  in the lab. If  you are in development, you  need to code
+  for all  of the  various exceptions  and race  conditions. And  if you  are in
+  architecture, you  are responsible  for cutting the  Gordian Knot  of possible
+  failures and  mitigations. This is the  fragile process by which  we build the
+  systems that run our society.
+
+** The immutability solution
+   Distributed  systems  are  hard  to  write,  test,  and  maintain.  They  are
+   unreliable, unpredictable, and  insecure. The process by which  we build them
+   is certain to  miss defects that will  adversely affect our users.  But it is
+   not your  fault. As  long as  we depend  upon individuals  to find,  fix, and
+   mitigate these problems, defects will be missed.
+
+   On its  face, immutability  is a  simple concept. Write  down some  data, and
+   ensure  that  it  never  changes.  It can  never  be  modified,  updated,  or
+   deleted.  It is  indelible. Immutability  solves the  problem of  distributed
+   systems for one simple  reason: every copy of an immutable  object is just as
+   good  as any  other copy.  As long  as things  never change,  keeping distant
+   copies in sync is a trivial problem.
+
+** Begin a new journey
+   What this book seeks  is to model the business domain  as one large immutable
+   data structure.  It would be impossible  for a single machine  or database to
+   house that  entire structure. Nor  would that be  desirable. And so  the book
+   also seeks  to demonstrate how  to implement  subsets of that  data structure
+   within  individual  databases,  programs,   and  machines.  These  components
+   communicate through  well-crafted protocols that honor  the idiosyncrasies of
+   distributed systems to evolve that immutable data structure over time.
+
+** The fallacies of distributed computing
+   + The network is reliable
+   + Latency is zero
+   + Bandwidth is infinite
+   + The network is secure
+   + Topology doesn't change
+   + There is one administrator
+   + Transport cost is zero
+   + The network is homogeneous
+
+   I can recall  on several occasions being suprised that  a program that worked
+   flawlessly on /localhost/ failed quickly when deployed to a test environment.
+
+** Changing assumptions
+   The fallacies of distributed computing are  easy assumptions to make. We make
+   them  because our  tools,  specifications, and  training have  led  us to  do
+   so.   The  non-idempotent   POST  verb   is  a   valid  part   of  the   HTTP
+   specification. Auto-incrementing IDs are a  valuable feature of most database
+   management  systems. Almost  every tutorial  on application  development will
+   teach a beginner  to use these capabilities.  The fact that by  doing so they
+   are making an incorrect assumption does not even occur to them.
+
+   The tools that we use and the  patterns that we follow today all evolved from
+   a  time during  which  assumptions  of high  reliability,  zero latency,  and
+   topological consistency  were not  fallacies. In-process procedure  calls are
+   perfectly  reliable.  Sequential  program  statements  have  very  low,  very
+   predictable latency  characteristics. And sequential  counters in a  for loop
+   will never return to the top of  the function to find the code's topology had
+   changed. It's when we evolve  these abstractions into RPCs, network requests,
+   and auto-incremented IDs that problems arise. When we apply the languages and
+   patterns of the past to the problems  of modern distributed systems, it is no
+   wonder that programmers will make incorrect assumptions.
+
+   All of  the fallacies of  distributed computing  stem from one  simple truth:
+   distributed systems are built using tools  designed to run a single thread on
+   a single computer.
+
+** Structural sharing
+   The fact  that we  intend for  data structures  to be  immutable opens  a new
+   possibility. As we build new data structures, we can reuse existing pieces of
+   old data structures. There  is no need to copy those  pieces, because we have
+   already established  that they  will not  change. We  simply create  new data
+   elements to represent the ones that have  "changed" and let them point to the
+   ones that haven't.
+
+   This is a  technique called /structural sharing/. It's  a common optimization
+   for immutable data structures that is enabled by immutable data structures.
