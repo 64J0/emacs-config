@@ -146,3 +146,91 @@
     + Hack:
       Something  a  system's  rules  permit, but  which  was  unanticipated  and
       unwanted by its designers.
+
+** Chapter 2 - Who is the opponent?
+   Ideologues may deal with the world as they would wish it to be, but engineers
+   deal  with the  world as  it is.  If you're  going to  defend systems  agains
+   attack, you first need to know who your enemies are.
+
+   Model your enemy:
+
+   + What sort of capabilities will the adversaries have, and what motivation?
+
+   + How certain are you of this assessment, and how might it change over the
+     system's lifetime?
+
+*** Spies
+    Governments have a range of tools  for both passive surveillance of networks
+    and active attacks on computer systems. Hundreds of firms sell equipment for
+    wiretapping, for radio  intercept, and for using  various vulnerabilities to
+    take over computers, phones and other digital devices.
+
+**** Prism
+     A  system to  collect the  Gmail and  other data  of users  who are  not US
+     citizens or  permanent residents, and  is carried  out under an  order from
+     FISA court.
+
+     Prism was  an internal  NSA codename  for an access  channel that  had been
+     privded  to the  FBI  to  conduct warranted  wiretaps.  US  law permits  US
+     citizens to be  wiretapped provided an agency convinces a  court to issue a
+     warrant,  based on  "probable  cause" that  hey  were up  to  no good;  but
+     foreigners could be wiretapped freely.
+
+**** Tempora
+     A  program   to  collect   intelligence  from  international   fibre  optic
+     cables. [...] the journalist Duncan  Campbell had described a system called
+     Echelon in 1988 which tapped  the Intersat satellite network, keeping voice
+     calls  on  tape while  making  metadata  available  for searching  so  that
+     analysts could select traffic to or from phone numbers of interest. Snowden
+     gave us an  update of the technology. In Cornwall  alone, 200 transatlantic
+     fibres were tapped  and 46 could be  collected at any one time.  As each of
+     these carried  10 Gb/s, the total  data volume could  be as high as  21Pb a
+     day,  so  the  incoming  data   feeds  undergo  massive  volume  reduction,
+     discarding  video, news  and the  like.  Material was  then selected  using
+     selectors - not just phone numbers but more general search terms such as IP
+     addresses - and stored for 30 days in case it turns out to be of interest.
+
+**** Muscular
+     One of the applications running on  top of Tempora was Muscular. [...] this
+     collected data as it flowed between the data centres of large service firms
+     such as  Yahoo and Google.  You mail may have  been encrypted using  SSL en
+     route to the service's  front end, but it then flowed  in the clear between
+     each company's data centres.
+
+     [...] at  a meeting at  Princeton which Snowden attended  in the form  of a
+     telepresence robot,  he pointed out  that a lot of  internet communications
+     that appear to  be encrypted aren't really, as modern  websites use content
+     delivery  networks (CDNs)  such as  Akamai  and Cloudflare;  while the  web
+     traffic is encrypted from the user's laptop  or phone to the CDN's point of
+     presente at their  ISP, it isn't encrypted on the  backhaul unless they pay
+     extra  - which  most of  them don't.  So the  customer thinks  the link  is
+     encrypted, and  it's protected from casual  snooping - but not  from nation
+     states or from firms who can read backbone traffic.
+
+**** Special collection
+     The NSA and CIA jointly operate  the Special Collection Service (SCS) whose
+     most visible activity  may be the plastic  panels near the roofs  of US and
+     allied embassies worldwide;  these hide antennas for  hoovering up cellular
+     communication (a program  known as ‘Stateroom’). Beyond  this, SCS implants
+     collection equipment  in foreign telcos, Internet  exchanges and government
+     facilities.  This can  involve classical spy tradecraft,  from placing bugs
+     that monitor speech or  electronic communications, through recruiting moles
+     in target  organisations, to  the covert deployment  of antennas  in target
+     countries to tap internal microwave links.
+
+     Close-access  operations  include  Tempest monitoring:  the  collection  of
+     infor-  mation  leaked  by  the  electromagnetic  emissions  from  computer
+     monitors  and  other equipment,  described  in  19.3.2. The  Snowden  leaks
+     disclose the collection  of computer screen data  and other electromagnetic
+     emanations  from  a  num-  ber  of countries’  embassies  and  UN  missions
+     including those of India, Japan, Slovakia and the EU.
+
+**** Bullrun and Edgehill
+
+**** Xkeyscore
+
+**** Longhaul
+
+**** Quantum
+
+**** CNE (Computer and Network Exploitation)

@@ -81,3 +81,266 @@
 
    This is a  technique called /structural sharing/. It's  a common optimization
    for immutable data structures that is enabled by immutable data structures.
+
+* Chapter 2 - Forms of Immutable Architecture
+  There  are   consequences  to   designing  a   system  using   only  immutable
+  records. Some of them are the advantages that we've already explored:
+
+  + reliable communications
+  + reduced blocking
+  + increased autonomy
+  + improved auditability
+
+  Other consequences are less desirable.
+
+  The trade-offs  requiring shift to immutability  have led to the  emergence of
+  different architectural styles. In this chapter we will examine three of those
+  styles: Event  Sourcing (ES), Asynchronous  Model View Update,  and Historical
+  Modeling.   All  three share  the  idea  that  state evolves  from  historical
+  records. Where they diverge is in the ordering of those records. The first two
+  styles assume that records can be viewed in /sequence/. They expect to be able
+  to enumerate records in order. The  third arises from the idea that historical
+  records may be /partially/ ordered. It does not allow enumeration. Instead, it
+  trades that capability away to achieve some valuable results.
+
+  After this chapter, the  remainder of the book will focus  on the third style:
+  Historical Modeling.
+
+** Deriving state from history
+   Definitions:
+
+   + /objects/: things that change (mutable)
+   + /records/: things that do not change (immutable)
+
+** Projections
+   Our  goal now  it to  use  immutable records  to model  mutable objects.  The
+   records clearly are  not the objects themselves. That  would be insufficient,
+   as  records  would not  allow  for  the  mutability  that objects  expect  to
+   have.  Instead, the  records  must in  some way  represent  /changes/ to  the
+   objects. *The immutable records /are/ the mutations of the objects*.
+
+   To  achieve  this  goal,  we   will  treat  immutable  records  as  /observed
+   state/. They represent things that we  actually saw and recorded. Objects, on
+   the other  hand, are  /derived/ state. They  represent out  interpretation of
+   those observations and can change as new observations are made.
+
+** Projecting objects
+   No matter what  you call it - formulas, dependent  variables, projections, or
+   view models  - derived  state is a  deterministic transformation  of observed
+   state. It adds no information to the system; it only presents the information
+   that's already there in a different way.  In mathematics, we say that it adds
+   no degrees of freedom to the system. In software, you might say that the view
+   model is backed  by the model. The  important point is that the  user gets to
+   change  observed state  directly. They  can only  see the  results indirectly
+   projected onto the derived state.
+
+   In an immutable architecture, the  historical records are observed state. The
+   user gets to create new records directly through their actions. Those records
+   capture decisions that the user has made.
+
+   The  objects,   on  the  other   hand,  are  merely  projections.   They  are
+   ephemeral. The user does not get to set the state of an object. They can only
+   see those objects change as a result  of new historical records. Every one of
+   these architectures has their own way of calculating that projection.
+
+** Event Sourcing (ES)
+   Historical records are the observed  state of an immutable architecture. They
+   represent past  decisions. You could  call these past decisions  "events" and
+   demand that they are the sole source of truth. That is the origin of the term
+   /event sourcing/ (ES).
+
+   In  an  event-sourced application,  the  user  interacts  (through a  UI  and
+   possibly an  API) with  a domain  model.  The domain  model does  not respond
+   immediately to the  request. Instead, it validates the  request and generates
+   an event. The event is an immutable  record of the user's intent. It is named
+   and  interpreted as  a past-tense  statement,  as in  "this thing  happened":
+   OrderSubmitted, PlayerRegistered, and ResidentMoved,  for example. The naming
+   convention  reflects the  truth  that  an event,  once  generated, cannot  be
+   ignored. Its effect might just be different from what the user intended.
+
+   The advantages  that ES provides over  a traditional object model  begin with
+   the same ones that we've  already identified for all immutable architectures:
+   increased scalability and  auditability. In addition, they  boast the ability
+   to rebuild objects entirely from the stream of events. When a defect is fixed
+   or a failure is added, the application can discard any cached versions of the
+   domain  model and  reconstruct them  using the  new code.  It also  allows an
+   event-sourced  application to  go back  in  time and  replay only  part of  a
+   sequence, seeing an object as it appeared in the past. This provides the user
+   of the application with a powerful ability to perform temporal analysis.
+
+** Commutative and Idempotent Events
+   We will  find that the  commutative and  idempotent properties are  useful in
+   distributed systems. The commutative property allows us to apply an operation
+   out of order  and get the same  result. The idempotent property  allows us to
+   repeat the operation without further effect. Since Event Source is based on a
+   sequence of operations, it is sensitive  to both order and duplication. It is
+   up  to the  application  developer  to ensure  that  order  is preserved  and
+   duplicates are prevented.
+
+** Asynchronous Model View Update
+   The Elm programming language takes the functional view of a history of events
+   quite  literally.  This language  compiles  to  JavaScript  and runs  in  the
+   browser. It  generates HTML  from a  source model.  A pure  function produces
+   successive versions of the model as it handles messages. The pattern on which
+   Elm is based is called /Model View Update/.
+
+   Inspired by Elm,  Facebook created a suite of tools  that extend this pattern
+   to the server.  The first of those  tools was React, a  front-end library for
+   JavaScript  that  projects   a  model  into  HTML.  The  next   was  Flux,  a
+   unidirectional data  flow application  design pattern.  This defined  the way
+   that Facebook  designed web and mobile  apps. Redux was an  implementation of
+   Flux  developed outside  of Facebook  by  Dan Abramov.  Dan was  subsequently
+   brought into Facebook to continue work  on Redux, React, and the architecture
+   in general. Finally, there is the  back-end architecture, only parts of which
+   are currently open sourced, upon which Facebook develops their APIs.
+
+   The Asynchronous  Model View Update architecture  optimistically interprets a
+   series of actions. User actions  are validated on-device with the expectation
+   that most  of them will succeed  on the server.  It is assumed that  no other
+   actions will  intervene and that the  result of executing the  actions on the
+   server will be the same as on  the client. When this optimistic assumption is
+   found  to be  false, the  architecture simply  discards the  locally computed
+   state and takes the server's version.
+
+** Historical Modeling
+   The immutable  architectures that  we just examined  both make  a distinction
+   between immutable  historical records and  a mutable object model.  They also
+   assume that historical  events occurred within a fully  ordered sequence. But
+   neither  of these  assumptions  necessarily  follow from  the  idea of  using
+   immutable  records  as the  source  of  truth. If  we  model  a system  as  a
+   collection of related historical facts, we find that we can dispense with the
+   mutable  object model  altogether and  that facts  don't necessarily  have to
+   occur in a sequence.
+
+   Let's begin  with a  slight change  in terminology.  Instead of  referring to
+   historical records  as /events/ or /actions/,  let us call them  /facts/. The
+   reason for  the name change  is that facts  obey a set  of rules that  do not
+   necessarily apply  to events  in Event Sourcing,  or actions  in Asynchronous
+   Model View Update. In particular, facts are partially ordered.
+
+*** Partial Order
+    The term "partial  order" comes from mathematics, and  is distinguished from
+    the term "full order". Start with a  set of objects, be they numbers, words,
+    science  papers,  data  structures,  what  have  you.  Define  a  comparison
+    operation that  tells you wether  one object  comes before another.  We will
+    typically use the  less than symbol (<) to represent  this operation. If for
+    any pair of  objects in the set, we  can use < to put one  before the other,
+    then the  set is fully  ordered. If we  can only do  that for /some/  of the
+    pairs, then the set is partially ordered.
+
+    Whether  we  are  talking about  a  total  order  or  a partial  order,  the
+    comparison  operator   that  we  choose   must  have  a  couple   of  useful
+    properties. First, it must be *transitive*:
+
+#+begin_src latex
+  a < b and b < c \Rightarrow a < c
+#+end_src
+
+    It must also be *non-reflexive*. That is to say that an object does no "come
+    before" itself.
+
+#+begin_src latex
+  a \nless a
+#+end_src
+
+    Finally, the comparison operation must be unidirectional. That means that an
+    object cannot come both before and after another one. More formally, this is
+    written as follows:
+
+#+begin_src latex
+  a < b \Rightarrow b \nless a
+#+end_src
+
+*** Predecessors
+    The way in which  Historical Modeling puts facts into a  partial order is to
+    identify /predecessors/.  For each fact,  a historical model  makes explicit
+    which other facts must have come before. These aren't simply the list of all
+    other facts that have occurred earlier in  time: that would put facts into a
+    sequence -  a total order.  Instead, predecessors  are facts that  must have
+    happened before in order to make the current fact make sense.
+
+    Predecessors are  not simply facts that  occurred earlier in time;  they are
+    prerequisites: things that must have been true for this fact to make sense.
+
+*** Successors
+    It  is useful  to  talk  about the  opposite  direction  of the  predecessor
+    relationship.   A    fact   that    refers   to    another   one    is   its
+    /successor/. Successors help us to evolve our understanding of a system over
+    time. We cannot change a historical fact, but we can create successors.
+
+    The presence  of a successor does  not change the predecessor.  However, the
+    successor changes our interpretation of the predecessor.
+
+    It is important to recognize that  there is no mechanism within a historical
+    model to  /prevent/ the creation  of additional successors. If  we carefully
+    control /who/ can create successors, and  on what machine, then we can avoid
+    this situation in any practical scenario.
+
+    A fact  does not know  about its successors.  New successors are  added over
+    time. To fully understand the state of  a fact, we must query the historical
+    model to discover if new successors  have been created. Current state is not
+    a projection  of historical  facts into  mutable objects;  it is  simply the
+    collection of known successors.
+
+*** Immutable graphs
+    Like an event, a  historical fact is immutable. But unlike  an event, a fact
+    refers  to   its  predecessors.   Taken  together,  these   properties  have
+    interesting consequences.
+
+    The  predecessors  to  which  a  fact refers  to  are  themselves  immutable
+    facts. Those facts can in turn  have predecessors. This produces a structure
+    known as a  /directed graph/. Each vertex  in this structure is  a fact, and
+    each edge is a predecessor  relationship. This relationship has a direction:
+    it points from the successor to the predecessor.
+
+    Since  a fact  refers to  its predecessors,  and the  fact is  immutable, it
+    follows  that a  predecessor  cannot  be added  to  an  existing fact.  That
+    predecessor  relationship is  part  of  the fact,  and  the  fact cannot  be
+    modified. And so while it is possible to add successors to a fact, it is not
+    possible  to add  predecessors.  This is  in  keeping with  our  use of  the
+    predecessor  relationship  to  define  what  comes  before  in  the  partial
+    order. All predecessors must be known facts, recorded before the new one.
+
+    From any given fact, we can trace  the graph along the predecessor paths. We
+    will  select  a  subgraph  that  includes the  starting  fact,  all  of  its
+    predecessors,  and  all  of  their predecessors  recursively.  This  process
+    produces the /transitive closure/ of the starting fact.
+
+    To build  the transitive  closure, we  started from  one immutable  fact and
+    followed arrows  only in  a direction  that cannot  change. The  subgraph is
+    therefore immutable. For any given  fact, the transitive closure will always
+    be the same. Adding new successor to any  of the facts in the graph will not
+    change it. Those successors would never get added to the transitive closure.
+
+    Conversely, the transitive closure identifies the starting fact. There is no
+    other fact for which the transitive  closure would produce this same set. In
+    a historical  model, this is the  only way to  identify a fact. They  do not
+    have globally unique identifiers (GUIDs) or sequence numbers outside of this
+    structure.  The contents  of the  facts in  the transitive  closure are  all
+    you've got to tell one fact apart from another.
+
+*** Collaboration
+    Machines within a distributed system can communicate by exchanging graphs of
+    historical  facts. As  they do,  they must  be sure  to send  the transitive
+    closure of each fact.  They have to know that the recipient  is aware of all
+    of the predecessors at every step.
+
+    When a machine records a new piece of information—a decision that a user has
+    made or the  outcome of some business  process—it does so by  creating a new
+    fact. It cannot  create that fact based  on predecessors of which  it is not
+    yet aware. It  must either create those predecessors first,  or have learned
+    about them from its peers.
+
+    The  predecessor  relationship  between  facts  captures  the  communication
+    structure between  machines. A successor from  one machine can be  seen as a
+    response  to its  predecessor generated  on  another. When  you observe  the
+    predecessor/successor relationship, you have  evidence that the two machines
+    communicated  to  make that  happen.  Conversely,  when  two facts  are  not
+    related, then  the two facts might  have been created concurrently.  This is
+    the  partial   order  of  historical   facts  at  play   within  distributed
+    systems.  The  ambiguity of  the  ordering  between unrelated  facts  leaves
+    machines  less  constrained  and,  as  we  will  see,  better  able  to  act
+    autonomously.
+
+*** Acyclic Graphs
+    :TODO:
