@@ -344,3 +344,43 @@
 
 *** Acyclic Graphs
     :TODO:
+
+*** Timeliness
+    In a system based on the exchange  of historical facts, not all parties will
+    know about all facts at the same time. This is one of the greatest strengths
+    of historical  modeling, but also  one of  its important limitations.  It is
+    impossible to reject a fact based on the  time at which you learn of it. The
+    reason is  that other parties  will have larned  about it earlier  and would
+    therefore have  come to  a different  conclusion about  the fact.  For every
+    party in the system to eventually reach the same conclusion, that conclusion
+    cannot be based on timeliness.
+
+    This  causes significant  problems in  systems  that do  not recognize  this
+    limitation.   Several  legal  documents,  such as  tax  forms,  checks,  and
+    invoices,  have explicit  due  dates or  expiration dates.  If  the form  is
+    received after  the required date, then  it will not be  honored. The sender
+    must  go  to great  lengths  to  prove that  the  document  was written  and
+    transmitted on time, or suffer the consequences of a failed transaction.  In
+    such  situations,   the  sender  believes   one  thing—that  they   met  the
+    deadline—while the recipient believes something else. Only by arbitration of
+    a central authority can these situations be resolved.
+
+    To design  a system  that does not  rely upon a  central authority,  we must
+    respect that documents will be received late. In a truly historical model, a
+    fact is not rejected based on the time at which it was received. At best, we
+    can record the fact that a fine was levied or an opportunity was lost due to
+    the  failure of  information  to arrive  at  a certain  place  by a  certain
+    time. But we cannot prove that  the information did not exist somewhere else
+    at that time. And when the fact arrives  later, we must decide how we are to
+    react to it.  All parties must honor  the existence of the  facts, no matter
+    when they  learned about them,  and draw  the same conclusion.  Perhaps that
+    conclusion is  that the sender still  owes a fine. But  timeliness alone did
+    not determine that outcome.
+
+    Such are  the rules of  a historical model.  They follow logically  from the
+    desire  to capture  the  full  history of  a  system  with several  parties,
+    separated by time  and space, exchanging historical facts.  Those facts must
+    be immutable.  Two facts having the  same transitive closure are  indeed the
+    same fact.  We cannot guarantee—and  therefore cannot rely  upon—there being
+    only  one  successor   for  any  given  fact.  And  we   cannot  change  our
+    interpretation of history based on the timeliness of our knowledge of it
