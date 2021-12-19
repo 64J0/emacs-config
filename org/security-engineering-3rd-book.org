@@ -234,3 +234,120 @@
 **** Quantum
 
 **** CNE (Computer and Network Exploitation)
+
+*** China
+    China is  now the leading  competitor to the USA,  being second not  just in
+    terms of GDP (gross domestic product,  similar to /PIB/) but as a technology
+    powerhouse. The  Chinese lack the NSA's  network of alliances and  access to
+    global infrastructure (although they're working  hard at that). Within China
+    itself, however,  they demand  unrestricted access to  local data.  [...] In
+    2008, it  emerged that  the version  of Skype available  in Chinas  had been
+    modified so that  messages were scanned for sensitive keywords  and, if they
+    were found, the user's texts were uploaded to a server in China.
+
+    [...]
+
+    By 2020 the attacks had become more sophisticated, with a series of advanced
+    persistent threats (APTs)  tracked by threat intelligence  firms. A campaign
+    to hack  the phones of Uighurs  involved multiple zero-day attacks,  even on
+    iPhones, that were delivered via  compromised Uighur websites; this targeted
+    not  only  Uighurs in  China  but  the  diaspora  too. China  also  conducts
+    industrial and commercial espionage, and Western agencies claim they exploit
+    managed service  providers. Another  approach was attacking  software supply
+    chains; a Chinese group variously  called Wicked Panda or Barium compromised
+    software updates  from computer maker Asus,  a PC cleanup tool  and a Korean
+    remote management tool, as well as three popular computer games, getting its
+    malware installed  on millions  of machines;  rather than  launching banking
+    trojans or ransomware, it was then used for spying.
+
+    [...]
+
+    Since 2018 there has been a  political row over whether Chinese firms should
+    be permitted to sell routers and 5G  network hardware in NATO (same as OTAN)
+    countries,   with   the   Trump  administration   blacklisting   Huawei   in
+    May 2019. There had been a previous  spat over another Chinese firm, ZTE; in
+    2018 GCHQ (Government Communications Headquarters) warned that ZTE equipment
+    "would present  risk to  UK national  security that  could not  be mitigated
+    effectively  or  practicably".  President  Trump  banned  ZTE  for  breaking
+    sanctions on  North Korea and Iran,  but relented and allowed  its equipment
+    back in the USA subject to security controls.
+
+    [...]
+
+    The UK banned the purchase of their telecomms equipment from the end of 2020
+    and said it  would remove it from  UK networks by 2027.  Meanwhile, China is
+    helping many  less developed  countries modernise  their networks,  and this
+    access may help them rival the Five Eyes' scope in due course. Trade policy,
+    industrial policy and cyber-defense strategy have become interwined in a new
+    Cold War.
+
+    Strategically, the question  may not be just whether China  could use Huawei
+    routers to wiretap  other countries at scale, so much  as whether they could
+    use  it in  time of  tension to  launch DDoS  attacks that  would break  the
+    Internet by subverting BGP routing.
+
+*** Russia
+    Russia, like China, lacks America's  platform advantage and compensates with
+    hacking teams  that use spear-phishing  and malware. Unlike China,  it takes
+    the  low  road, acting  frequently  as  a  spoiler,  trying to  disrupt  the
+    international order,  and sometimes  benefiting directly via  a rise  in the
+    price of oil, its main export.
+
+    [...]  Russia  took  down  30 electricity  substations  on  three  different
+    distribution  systems within  half an  hour  of each  other, leaving  230000
+    people  without  electricity  for  several  hours.  They  involved  multiple
+    different attack  vectors that had been  implanted over a period  of months,
+    and since they followed a Ukrainian attack on power distribution in Crimea -
+    and  switched equipment  off when  they could  have destroyed  it instead  -
+    seemed  to have  been intended  as  a warning.  This attack  was still  tiny
+    compared with the other effects of the conflict, which included the shooting
+    down of a Malaysian Airlines airliner with  the loss of all on board; but it
+    was the first cyber-attack to disrupt  mains electricity. Finally on June 27
+    2017 came  the NotPetya attack  - by far  the most damaging  cyber-attack to
+    date.
+
+    The NotPetya  worm was  initially distributed using  the update  service for
+    MeDoc,  the accounting  software used  by  the great  majority of  Ukrainian
+    businesses.  It  then  spread  laterally  in  organisations  across  Windows
+    file-shares  using the  EternalBlue vulnerability,  an NSA  exploit with  an
+    interesting  history.  From  March 2016,  a  Chinese gang  started using  it
+    against targets  in Vietnam,  Hong Kong  and the  Philippines, perhaps  as a
+    result  of finding  and reverse  engineering it  (it’s said  that you  don’t
+    launch a  cyberweapon; you share  it).  It was leaked  by a gang  called the
+    ‘Shadow  Brokers’ in  April 2017,  along with  other NSA  software that  the
+    Chinese didn’t deploy,  and then used by the Russians  in June. The NotPetya
+    worm  used  EternalBlue  together  with  the  Mimikatz  tool  that  recovers
+    passwords  from  Windows   memory.  The  worm’s  payload   pretended  to  be
+    ransomware; it  encrypted the infected  computer’s hard disk and  demanded a
+    ransom of $300 in  bitcoin. But there was no mechanism  to decrypt the files
+    of  computer owners  who paid  the ransom,  so it  was really  a destructive
+    service-denial worm.  The only  way to  deal with it  was to  re-install the
+    operating system and restore files from backup.
+
+*** Crooks
+    Cybercrime is now about  half of all crime, both by volume  and by value, at
+    least in developed countries.
+
+**** Malware devs
+     In addition to the several hundred software engineers who write malware for
+     the  world's intelligence  agencies  and their  contractors,  there may  be
+     hundreds of people  writing malware for the criminal  market; nobody really
+     knows (though we can monitor traffic on hacker forums to guess the order of
+     magnitude).
+
+     Within this  community there are  specialists. Some concentrate  on turning
+     vulnerabilities  into  exploits, a  nontrivial  task  for modern  operating
+     systems  that  use  stack  canaries,   ASLR  and  other  techniques.  Other
+     specialise in  the remote access  Trojans that the exploits  install; other
+     build the  peer-to-peer and DGA software  for resilient command-and-control
+     communications; yet others design specialised  payloads for bank fraud. The
+     highest-value  operations seem  to  be platforms  that  are maintaned  with
+     constant  upgrades  to  cope  with  the  latest  countermeasures  from  the
+     anti-virus  companies.  Within each  specialist  market  segment there  are
+     typically a  handful of operators,  so that when we  arrest one of  them it
+     makes a difference for a while.
+
+**** Ransomware
+     A number of professional gangs  penetrate systems, install ransomware, wait
+     until several days  or weeks of backup data have  been encrypted and demand
+     substantial sums of bitcoin.
