@@ -20,11 +20,6 @@
 	      fill-column 80)
 (setq initial-buffer-choice "~/org/activities.org")
 
-(defun buffer/insert-filename ()
-  "Insert file name of current buffer at current point"
-  (interactive)
-  (insert (buffer-file-name (current-buffer))))
-
 ;; GLOBAL KEY BINDINGS
 (global-set-key (kbd "C-<tab>") 'other-window)
 (global-set-key (kbd "M-<down>") 'enlarge-window)
@@ -32,31 +27,22 @@
 (global-set-key (kbd "M-<left>") 'enlarge-window-horizontally)
 (global-set-key (kbd "M-<right>") 'shrink-window-horizontally)
 
-;; ;; DEBUG PURPOSES
-;; (if init-file-debug
-;;     (setq use-package-verbose t
-;; 	  use-package-expand-minimally nil
-;; 	  use-package-compute-statistics t
-;; 	  debug-on-error t)
-;;   (setq use-package-verbose nil
-;; 	use-package-expand-minimally t))
+;; ;PATH SETUP
+(defcustom my/path-aliases
+  (list :emacs  "~/.emacs.d"
+	:srs    "~/.emacs.d"
+	:work   "~/.emacs.d"
+	:agenda "~/.emacs.d")
+  "Location of my paths for ease of usage. Customize for each env
+   if needed.")
 
-;; ;; PATH SETUP
-;; (defcustom my/path-aliases
-;;   (list :emacs  "~/.emacs.d"
-;; 	:srs    "~/.emacs.d"
-;; 	:work   "~/.emacs.d"
-;; 	:agenda "~/.emacs.d")
-;;   "Location of my paths for ease of usage. Customize for each env
-;;    if needed.")
-
-;; (defcustom my/path (dir $optional subpath)
-;;   "Build a path name. See https://github.com/arecker/emacs.d"
-;;   (let ((dir (file-name-as-directory
-;; 	      (cl-getf my/path-aliases dir
-;; 		       (format "~/%s" dir))))
-;; 	(subpath (or subpath "")))
-;;     (concat dir subpath)))
+(defun my/path (dir &optional subpath)
+  "Build a path name. See https://github.com/arecker/emacs.d"
+  (let ((dir (file-name-as-directory
+              (cl-getf my/path-aliases dir
+                       (format "~/%s" dir))))
+        (subpath (or subpath "")))
+    (concat dir subpath)))
 
 ;; (defcustom main-agenda (my/path :emacs "agenda.org")
 ;;   "This is used to store quickly todo items without refiling.")
@@ -146,6 +132,17 @@
 ;; https://github.com/hniksic/emacs-htmlize
 (use-package htmlize
   :ensure t)
+
+;; Aesthetic tabs
+;; https://github.com/ema2159/centaur-tabs
+(use-package centaur-tabs
+  :ensure t
+  :demand
+  :config
+  (centaur-tabs-mode t)
+  :bind
+  ("C-<prior>" . centaur-tabs-backward)
+  ("C-<next>" . centaur-tabs-forward))
 
 ;; A GNU Emacs major mode for keeping notes, authoring documents,
 ;; computational notebooks, literate programming, maintaining to-do
@@ -536,7 +533,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package))))
+    (centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
