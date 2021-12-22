@@ -1,0 +1,50 @@
+#+TITLE: [Udemy] Microsoft Azure: Do Zero a Certificação 2021 + 3 cursos
+#+AUTHOR: Vinícius Gajo Marques Oliveira
+#+EMAIL: vinigaio97@gmail.com
+
+* Storage accounts
+  When you create  a storage account general purpose version  2 you could create
+  several storages within this account. For instance the allowed types are:
+
+  - Blob containers
+    Built to store big quantity of data, video streaming niche.
+  - File Shares
+    Business applications.
+  - Queues
+  - Tables
+
+** Manage storage
+  We could use Azure Storage Explorer application to manage our storage in Azure
+  easily.     The     link     to     download    this     tool     is     this:
+  https://azure.microsoft.com/en-us/features/storage-explorer/.
+
+** Permissions and SAS
+   When creating a new storage in the  storage account we can specify the Public
+   access level. The default is private.
+   
+   Access Policy
+   - General rules.
+
+   SAS (Share Access Signature)
+   - Specific rules.
+     Specify permissions: RWDLAC.
+       - R: Read
+       - W: Write
+       - D: Delete
+       - L: List
+       - A: Add
+       - C: Create
+     Specify operation time.
+
+** Storage CLI
+   The instructor is using PowerShell/CloudShell, running as administrator.
+
+   It's necessary  to inform the  resource group, name, location,  kind (storage
+   v2), tier (hot or cold), skuname (replication - Standard_LRS).
+
+   Since I'm not  planning to use the Windows enviroment  I'll need to translate
+   the commands to the Linux ecosystem.
+
+#+begin_src bash
+  $ az storage account create --name <NAME> --resource-group <RESOURCE_GROUP> --location <LOCATION> --sku <SKU> --kind <KIND>
+#+end_src
