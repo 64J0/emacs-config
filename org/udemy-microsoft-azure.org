@@ -48,3 +48,107 @@
 #+begin_src bash
   $ az storage account create --name <NAME> --resource-group <RESOURCE_GROUP> --location <LOCATION> --sku <SKU> --kind <KIND>
 #+end_src
+
+** AzCopy
+   CLI  tool provided  by  Azure  to handle  files  from  Azure. The  instructor
+   presented the official docs, and he is using the version 10 of this tool.
+
+   The action done in this class was the following:
+   + Instructor creates a folder and put an image there (created with Paint)
+   + Using the AzCopy tool, the instructor just send the image to the Azure storage
+   + Instructor used PowerShell to run the commands
+   
+#+begin_src bash
+  $ ./azcopy.exe copy "origin" "destiny" --recursive
+#+end_src
+
+   Since  the storage  container was  private,  instructor decided  to create  a
+   shared access signature to enable the communication with his terminal.
+
+   To make a download to the local environment we just need to switch the origin
+   and the destiny in the command.
+
+** Custom Domain
+   + It's required to have a domain (bought $).
+
+   Instructor will use a CNAME to redirect the requests to a cool link.
+
+   There are two ways to change the domain.  There is one way that we don't have
+   downtime and there  is a way that  we have downtime, that  normally take some
+   minutes/hours but  could also  take 48  hours. The  instructor is  taking the
+   first approach  and there  he is  creating a CNAME  in AWS  that is  where he
+   bought the domain.
+
+   + TTL used: 60 seconds
+
+** The import/export service
+   We use this tool in several situations:
+   + Data migration
+     Example: uploading all data to cloud.
+   + Content distribution
+     Example: share data from matrix to filials.
+   + Backup and archive
+   + Recovery
+
+   -> We could use the platform UI (requires high end internet connection).
+   -> CLI tool
+      Prepare the access disks (HDD or SSD) and send to some location.
+
+   [[https://azure.microsoft.com/en-gb/services/storage/import-export/][Import/Export Azure docs]]
+      
+** Static site
+   Using a blob storage  we can host a website and Azure  will provide an unique
+   URL.
+
+   When the instructor started creating the configuration for the static website
+   inside the storage  account, azure automatically created a  folder inside the
+   blob storage with the name web/. This  folder is where the instructor put the
+   files to serve the client.
+
+* Virtual Machine (VM)
+  Back in old days a company need  to buy the hardware.  Inside this hardware we
+  run   an  operational   system,  that   could   be  Windows,   Linux  or   Mac
+  sometimes. Then, on top of the OS we install the applications.
+
+  The problem with  this structure is that  we are limited to  one hardware with
+  one OS  only. With virtualization we  still have access to  a single hardware,
+  composed of CPU, memory and disk. On top of this hardware we have a hypervisor
+  where we could install  several OS in the same machine. Then,  on top of those
+  different OS we can install their applications.
+
+  On Azure we can create those virtual machine really fast, in some minutes.
+
+  [[https://docs.microsoft.com/en-us/azure/architecture/guide/technology-choices/compute-decision-tree][Azure docs - Choose an Azure compute service for your application]]
+
+** VM tier
+   Tier in this context is related to the VM classification according to Azure.
+
+   General rules:
+   + Tier A:
+       Very basic machine.  Usually used for testing and  development.  They are
+     the cheaper machines available.
+   + Tier B:
+       Still basic machine but this kind is burstable (you can use a boost for a
+     small amount of time).
+   + Tier D:
+       General  purpose  applications. Give  us  the  possibility to  have  more
+     storage.
+   + Tier E:
+       Memory optimized machines.
+   + Tier F:
+       CPU optimized machines. More cores and more processing.
+   + Tier G:
+       Godzilla. Giant machines.
+   + Tier H:
+       High performance compute. Scientists use this kind of machine.
+   + Tier L:
+       High I/O storage.
+   + Tier M:
+       Large memory - TB RAM.
+   + Tier N:
+       GPU intensive computations.
+   + Tier SAP-HANA:
+       Specific instance for Azure certification.
+
+   Before creating the virtual machine we can have an estimation of it's cost in
+   the Azure platform.
