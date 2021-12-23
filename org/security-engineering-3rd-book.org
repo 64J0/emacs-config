@@ -193,7 +193,7 @@
 **** Muscular
      One of the applications running on  top of Tempora was Muscular. [...] this
      collected data as it flowed between the data centres of large service firms
-     such as  Yahoo and Google.  You mail may have  been encrypted using  SSL en
+     such as Yahoo and  Google.  Your mail may have been  encrypted using SSL en
      route to the service's  front end, but it then flowed  in the clear between
      each company's data centres.
 
@@ -226,14 +226,58 @@
      including those of India, Japan, Slovakia and the EU.
 
 **** Bullrun and Edgehill
+     Special  collection  increasingly   involves  supply-chain  tampering.  SCS
+     routinely intercepts equipment such as routers being exported from the USA,
+     adds surveillance  implants, repackages them  with factory seals  and sends
+     them onward to customers.
+
+     Bullrun  is the  NSA  codename,  and Edgehill  the  GCHQ  one, for  'crypto
+     enabling', a $100m-a-year program of  tampering with supplies and suppliers
+     at all levels of  the stack. [...]  Most of the  actual damage, though, was
+     done  by   restrictions  on  cryptographic  key   length,  dovetailed  with
+     diplomatic pressure  on allies  to enforce export  controls, so  that firms
+     needing  export  licenses   could  have  their  arms  twisted   to  use  an
+     'appropriate' standard, and was entangled  with the Crypto Wars. The result
+     was  that many  of the  systems in  use today  were compelled  to use  weak
+     cryptography, leading to  vulnerabilities in everything from  hotel and car
+     door locks  to VPNs.  In addition to  that, supply-chain  attacks introduce
+     covert vulnerabilities  into widely-used software; many  nation states play
+     this game, along with some private actors.
 
 **** Xkeyscore
+     With such a vast collection of data,  you need good tools to search it. The
+     Five Eyes search computer data using Xkeyscore, a distributed database that
+     enables  an analyst  to search  collected  data remotely  and assemble  the
+     results.  Exposed  on July  31  2013,  NSA  documents  describe it  as  its
+     "widest-reaching" system for developing intelligence; it enables an analyst
+     to  search  emails,  SMSes,  chats,   address  book  entries  and  browsing
+     histories.
 
 **** Longhaul
+     Bulk key theft  and supply-chain tampering are not the  only ways to defeat
+     cryptography. The  Xkeyscore training deck  gives an example: "Show  me all
+     the VPN startups  in country X, and give  me the data so I  can decrypt and
+     discover  the users".  VPNs  appear  to be  easily  defeated; a  decryption
+     service  called  Longhaul ingests  ciphertext  and  returns plaintext.  The
+     detailed  description of  cryptoanalytic techniques  is held  as /Extermely
+     Compartmented Information/  (ECI) and is  not found in the  Snowden papers,
+     but some of them talk of recent breakthroughs in cryptanalysis.
 
 **** Quantum
+     There is  a long  history of  attacks on protocols,  which can  be spoofed,
+     replayed and manipulated in various ways. The best-documented NSA attack on
+     Internet  traffic goes  under  the  codename of  Quantum  and involves  the
+     dynamic exploitation of  one of the communication end-points.  Thus, to tap
+     an  encrypted SSL/TLS  session to  a webmail  provider, the  Quantum system
+     fires a ‘shot’  that exploits the browser.  There are  various flavours; in
+     ‘Quantuminsert’, an  injected packet redirects  the browser to  a ‘Foxacid’
+     attack server. Other  variants attack software updates  and the advertising
+     networks whose code runs in mobile phone apps.
 
 **** CNE (Computer and Network Exploitation)
+     Is the generic NSA term for hacking, and  it can be used for more than just
+     key theft  or TLS session  hijacking; it can be  used to acquire  access to
+     traffic too.
 
 *** China
     China is  now the leading  competitor to the USA,  being second not  just in
