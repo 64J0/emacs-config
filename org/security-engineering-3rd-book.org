@@ -279,6 +279,78 @@
      key theft  or TLS session  hijacking; it can be  used to acquire  access to
      traffic too.
 
+     [...] The  hacking tools  and methods used  by NSA and  its allies  are now
+     fairly well understood;  some are shared with law  enforcement. The Snowden
+     papers reveal an internal store where  analysts can get a variety of tools;
+     a series of leaks  in 2016-7 by the Shadow Brokers  (throught to be Russian
+     military intelligence,  the GRU) disclosed  a number of actual  NSA malware
+     samples, used  by hackers at the  NSA's Tailored Access Operations  team to
+     launch attacks.  (Some of these  tools were  repusposed by the  Russians to
+     launch the  NotPetya worm and by  the North Koreans in  Wannacry). The best
+     documentation of all is probably about  a separate store of goodies used by
+     the  CIA, disclosed  in some  detail to  Wikileaks in  the 'Vault  7' leaks
+     in 2017.  These include  manuals for tools  that can be  used to  install a
+     remote access Trojan  on your machine, with components to  geolocate it and
+     to exfiltrate files (including SSH credentials), audio and video; a tool to
+     jump air gaps by infecting thumb  drives; a tool for infecting wifi routers
+     so they'll do  man-in-the-middle attacks; and even a  tool for watermarking
+     documents so a  whistleblower who leaks them could be  tracked. Many of the
+     tools are  available not just for  Windows but also for  MacOS and Android;
+     some  infect firmware,  making them  hard to  remove. There  are tools  for
+     hacking  TVs   and  IoT   devices  too,  and   tools  to   hamper  forensic
+     investigations. The Vault 7 documents  are useful reading if you're curious
+     about the specifications  and manuals for modern government  malware. As an
+     example of the  law-enforcement use of such tools, in  June 2020 it emerged
+     that  the French  police  in  Lille had  since  2018  installed malware  on
+     thousands of Android phones running  EncroChat, an encrypted message system
+     favoured by  criminals, leading to the  arrest of 800 criminal  suspects in
+     France, the  Netherlands, the UK  and elsewhere, as  well as the  arrest of
+     several police officers  for corruption and the seizure of  several tons of
+     drugs.
+
+**** Offensive operations
+     The Director NSA also heads the US Cyber Command, which since 2009 has been
+     one of ten unified commands of  the United States Department of Defense. It
+     is responsible for offensive cybe operations,  of which the one that made a
+     real difference  was Stuxnet.  This  was a  worm designed to  damage Iran's
+     uranium enrichment centrifuges by speeding them up and slowing them down in
+     patters designed to  cause mechanical damage, and was  developed jointly by
+     the USA  and Israel. Is  was technically sophisticated, using  for zero-day
+     exploits and  two stolen code-signing certificates  to spread promiscuously
+     through Windows PCs, until it  found Siemens programmable logic controllers
+     of the type  used at Iran's Natanz  enrichment plant - where  it would then
+     install a rootkit  that would issue the destructive commands,  while the PC
+     assured  the  operators  that  everything   was  fine.  It  was  apparently
+     introduced using USB  drives to bridge the air gap  to the Iranian systems,
+     and came to light  in 2010 after copies had somehow  spread to central Asia
+     and Indonesia.
+
+     Stuxnet acted  as a  wake-up call  for other  governments, which  rushed to
+     acquire 'cyber-weapons'  and develop  offensive cyber doctrine  - a  set of
+     principles for  what cyber warriors  might do, developed with  some thought
+     given to  rationale, strategy, tactics and  legality. Oh, and the  price of
+     zero-day vulnerabilities rose sharply.
+
+**** Attack scaling
+     Computer  scientists  know the  importance  of  how algorithms  scale,  and
+     exactly  the same  holds  for attacks.  Tapping a  single  mobile phone  is
+     hard.  You  have  to  drive  around  behind  the  suspect  with  radio  and
+     cryptanalysis  gear in  your car,  risk being  spotted, and  hope that  you
+     manage  to  catch the  suspect’s  signal  as they  roam  from  one cell  to
+     another. Or you can drive behind them  with a false base station 7 and hope
+     their phone will roam  to it as the signal is louder  than the genuine one;
+     but then  you risk electronic detection  too. Both are highly  skilled work
+     and low-yield: you lose the signal maybe  a quarter of the time.  So if you
+     want to wiretap someone in central Paris often enough, why not just wiretap
+     everyone? Put  antennas on  your embassy  roof, collect  it all,  write the
+     decrypted  calls and  text messages  into a  database, and  reconstruct the
+     sessions electronically. If  you want to hack everyone in  France, hack the
+     telco,  perhaps by  subverting the  equipment it  uses. At  each stage  the
+     capital cost goes up but the marginal  cost of each tap goes down. The Five
+     Eyes strategy is  essentially to collect everything in the  world; it might
+     cost billions to  establish and maintain the infrastructure,  but once it’s
+     there you have everything.
+
 *** China
     China is  now the leading  competitor to the USA,  being second not  just in
     terms of GDP (gross domestic product,  similar to /PIB/) but as a technology
@@ -395,3 +467,5 @@
      A number of professional gangs  penetrate systems, install ransomware, wait
      until several days  or weeks of backup data have  been encrypted and demand
      substantial sums of bitcoin.
+
+** Chapter 3 - Psychology and Usability
