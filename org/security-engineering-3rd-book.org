@@ -1,4 +1,5 @@
 #+TITLE: [book] Security Engineering
+#+AUTHOR: Ross Anderson
 #+EDITION: 3rd
 
 * About the author
@@ -469,3 +470,65 @@
      substantial sums of bitcoin.
 
 ** Chapter 3 - Psychology and Usability
+   Deception, of  various kinds, is now  the principal mechanism used  to defeat
+   online security. It can be used  to get passwords, to compromise confidential
+   information  or to  manipulate  financial transactions  directly. Hoaxes  and
+   frauds have always happened, but the Internet makes some of them easiers, and
+   lets others be  repackaged in ways that may bypass  our existing controls (be
+   they personal intuitions, company procedures or even laws).
+
+   Another driver for  the surge in attacks based on  social engineering is that
+   people are getting better at technology.  As designers learn how to forestall
+   the easier technical  attacks, psychological manipulation of  system users or
+   operators becomes ever  more attractive. So the  security engineer absolutely
+   must understand  basic psycology, as  a prerequisite for  dealing competently
+   with  everything from  passwords  to  CAPTCHAs and  from  phishing to  social
+   engineering  in general;  a working  appreciation of  risk misperception  and
+   scaremongering  is also  necessary  to understand  the mechanisms  underlying
+   angry online mobs and the societal  response to emergencies from terrorism to
+   pandemic disease.  So just as  research in security  economics led to  a real
+   shift in  perspective between  the first  and second  editions of  this book,
+   research in  security psychology has  made much of  the difference to  how we
+   view the world between the second edition and this one.
+
+*** Insights from psychology research
+
+**** Cognitive psychology
+     Is the classical approach to the subject - building on early empirical work
+     in  the nineteenth  century. It  deals with  how we  think, remember,  make
+     decisions  and even  daydream.   Twentieth-century pioneers  such as  Ulric
+     Neisser discovered  that human memory  doesn't work like a  video recorder:
+     our memories are  stored in networks across the brain,  from which they are
+     reconstructed,  so they  change  over  time and  can  be manipulated.  Some
+     well-known results:
+
+     + It's easier to memorise things that are repeated frequently.
+     + It's easier to store things in context.
+
+**** Gender, diversity and interpersonal variation
+     Many women  die because medical  tests and technology assume  that patients
+     are men,  or because engineers  use male crash-test dummies  when designing
+     cars;  protective   equipment,  from   sportswear  through   stab-vests  to
+     spacesuits, gets tailored  for men by default. So do  we have problems with
+     information systems too?  They are designed by men, and  young geeky men at
+     that, yet over half  their users may be women. This  realisation has led to
+     research on gender HCI (Human Computer  Interface) - on how software should
+     be designed  so that women can  also use it effectively.  Early experiments
+     started  from the  study of  behaviour: experiments  showed that  women use
+     peripheral vision more, and it duly  turned out that larger displays reduce
+     gender bias. Work on American female programmers suggested that they tinker
+     less than males, but more effectively. But how much is nature, and how much
+     nurture? Societal  factors matter, and  US women  who program appear  to be
+     more thoughtful, but lower self-esteem  and higher risk-aversion leads them
+     to use fewer features.
+
+     [...] Might  this explain why men  are more interested in  computer science
+     than women,  with women consistently taking  about a sixth of  CS places in
+     the USA and the UK? But here, we run into trouble. Women make up a third of
+     CS students  in the former communist  countries of Poland, Romania  and the
+     Baltic states, while numbers in India are close to equal. Male dominance of
+     software is  also a  fairly recent  phenomenon. When I  started out  in the
+     1970s, there were almost as many women  programmers as men, and many of the
+     pioneers  were women,  whether in  industry, academia  or government.  This
+     suggests that  the relevant differences  are more cultural than  genetic or
+     developmental.
