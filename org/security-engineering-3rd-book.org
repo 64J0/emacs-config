@@ -532,3 +532,144 @@
      pioneers  were women,  whether in  industry, academia  or government.  This
      suggests that  the relevant differences  are more cultural than  genetic or
      developmental.
+
+**** Social psychology
+     This  attempts to  explain how  the  thoughts, feelings,  and behaviour  of
+     individuals are influenced by the  actual, imagined, or implied presence of
+     others. It  has many  aspects, from  the identity  that people  derive from
+     belonging to  groups - whether of  gender, tribe, team, profession  or even
+     religion  - through  the self-esteem  we  get by  comparing ourselves  with
+     others.
+
+**** The social-brain theory of deception
+     :TODO:
+
+**** Heuristics, biases and behavioural economics
+     One field of psychology that has been applied by security researchers since
+     the mid-2000s  has been /decision science/,  which sits at the  boundary of
+     psycology and economics and studies the heuristics that people use, and the
+     biases that  influence them,  when making  decisions. It  is also  known as
+     /behavioural economics/, as it examines the ways in which people's decision
+     processes depart from the rational behaviour modeled by economists.
+
+***** Prospect theory and risk misperception
+      Kahneman and  Tversky did extensive  experimental work on how  people made
+      decisions faced  with uncertainty. They first  developed /prospect theory/
+      which models risk  appetite: in many circumstances,  people dislike losing
+      $100  they already  have more  than they  value winning  $100. Framing  an
+      action  as  avoiding a  loss  can  make people  more  likely  to take  it;
+      phishermen hook people  by sending messages like 'Your  PayPal account has
+      been frozen, and you need to click here to unlock it.'
+
+      - We often base a judgement on an initial guess or comparison and then adjust
+        it if need be - the /anchoring effect/;
+      - We base inferences on the ease of bringing examples to mind - the /availability heuristic/,
+        which was OK for lion attacks 50 thousand years ago but gives the wrong answers when
+        mass media bombard us with images of terrorism;
+      - We're more likely to be sceptical about things we've heard than about things
+        we've seen, perhaps as we have more neurons processing vision;
+      - We worry too much about events that are very unlikely but have very bad consequences;
+      - We're more likely to believe things we've worked out for ouselves rather than
+        things we've been told.
+
+***** Present bias and hyperbolic discounting
+      [...] /Hyperbolic discounting/  is a model used by  decision scientists to
+      quantify present bias. Intuitive reasoning  may lead people to use utility
+      functions that discount the future  so deeply that immediate gratification
+      seems to  be the best  course of action, even  when it isn't.  Such models
+      have been applied to try to explain the /privacy paradox/ - why people say
+      in surveys that they care about privacy but act otherwise online.
+
+***** Defaults and nudges
+      [...]  Many people  usually take  the easiest  path and  use the  standard
+      configuration of  a system, as they  assume it will be  good enough. [...]
+      For example, if a firm's staff are  enrolled in a pension plan by default,
+      most will  not bother  to opt out,  while if it's  optional most  will not
+      bother to  opt in.  A second  example is  that many  more organs  are made
+      available for  transplant in  Spain, where  the law  lets a  dead person's
+      organs be used unless they objected,  than in Britain where donors have to
+      consent actively. A third example is that tax evasion can be cut by having
+      the taxpayer  declare that the information  in the form is  true when they
+      start to fill  it out, rather than  at the end. The set  of choices people
+      have to make, the order in which  they make them, and the defaults if they
+      do nothing, are called the /choice architecture/.
+
+      Defaults matter in security too, but often they are set by an adversary so
+      as  to  trip  you  up.  For example,  Facebook  defaults  to  fairly  open
+      information sharing,  and whenever enough  people have figured out  how to
+      increase their privacy  settings, the architecture is changed  so you have
+      to opt out  all over again. This exploits not  just hazardous defaults but
+      also the control paradox – providing the illusion of control causes people
+      to  share more  information. We  like  to feel  in control;  we feel  more
+      comfortable driving  in our cars  than letting someone  else fly us  in an
+      airplane – even if  the latter is an order of  magnitude safer. “Pri- vacy
+      control settings give people more  rope to hang themselves,” as behavioral
+      economist George Loewenstein  puts it. “Facebook has figured  this out, so
+      they give you incredibly granular controls.”
+
+***** The affect heuristic
+      [...] The idea  is that while the human brain  can handle multiple threads
+      of cognitive  processing, our emotions remain  resolutely single-threaded,
+      and they are  even less good ar probability theory  than the rational part
+      of our brains. So by making emotion salient, a marketer or a fraudster can
+      try to get  you to answer questions using emotion  rather than reason, and
+      using heuristics rather than calculation.
+
+      So it  should not  surprise anyone  that porn websites  have been  used to
+      install a lot of malware - as have church websites, which are often poorly
+      maintained and  easy to hack.  Similarly, events  that evoke a  feeling of
+      dread -  from cancer to  terrorism - not only  scare people more  than the
+      naked probabilities justify,  but also make those  probabilities harder to
+      calculate, and deter people from even making the effort.
+
+      Other factors that can reinforce our  tendency to explain things by intent
+      include cognitive  overload, where the  rational part of the  brain simply
+      gets tired. Our capacity for self-control  is also liable to fatigue, both
+      physical and mental; some mental  arithmetic will increase the probability
+      that we’ll pick up a chocolate rather than an apple. So a bank that builds
+      a busy  website may  be able to  sell more life  insurance, but  it’s also
+      likely to make its customers more vulnerable to phishing.
+
+*** Deception in practice
+    Not only do  marketers push the most profitable option  rather than the best
+    value, but they  use every other available trick  too. Stanford’s Persuasive
+    Technology Lab  has been at the  forefront of developing techniques  to keep
+    people  addicted to  their  screens,  and one  of  their alumni,  ex-Googler
+    Tristan  Harris,  has become  a  vocal  critic.  Sometimes  dubbed  ‘Silicon
+    valley’s conscience’, he  explains how tech earns its  money by manipulating
+    not  just   defaults  but   choices,  and   asks  how   this  can   be  done
+    ethically. Phones and other screens  present menus and thus control choices,
+    but there’s  more to  it than  that. Two techniques  that screens  have made
+    mainstream are the casino’s technique of using intermittent variable rewards
+    to create addiction (we  check our phones 150 times a day  to see if someone
+    has rewarded  us with attention)  and bottomless  message feeds (to  keep us
+    consuming even  when we aren’t  hungry any more).  But there are  many older
+    techniques that predate computers.
+
+**** The salesman and the scamster
+     Deception is  the twin brother of  marketing, so one starting  point is the
+     huge  literature  about sales  techniques.  One  eminent writer  is  Robert
+     Cialdini, a  psychology professor who  took summer jobs  selling everything
+     from used cars to home improvements and life insurance in order to document
+     the tricks  of the  trade. His  book 'Influence:  Science and  Practice' is
+     widely  read by  sales  professionals  and describes  six  main classes  of
+     technique used to influence people and close a sale.
+
+     1. Reciprocity:
+        Most people feel the need to return favours;
+     2. Commitment and consistency:
+        People  suffer   cognitive  dissonance   if  they  feel   they're  being
+        inconsistent;
+     3. Social proof:
+        Most people want the approval of  others. This means following others in
+        a  group of  which  they're a  member,  and the  smaller  the group  the
+        stronger the pressure;
+     4. Liking:
+        Most people want to do what  a good-looking or otherwise likeable person
+        asks;
+     5. Authority:
+        Most people  are deferential  to authority  figures (recall  the Milgran
+        study mentioned above);
+     6. Scarcity:
+        We're afraid of  missing out, if something we might  want could suddenly
+        be unavailable.

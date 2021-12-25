@@ -152,3 +152,68 @@
 
    Before creating the virtual machine we can have an estimation of it's cost in
    the Azure platform.
+
+** Azure Compute Units (ACU's)
+   Created  by   Microsoft  and   it  describes  the   process  speed   in  some
+   machine. There  is no  formula for  use to use  to completely  understand the
+   relation for all machine tiers.
+
+   As a general rule, when the value is bigger it can compute more things.
+
+   Nested virtualization  -> could create  more virtualized machines  within the
+   same machine.
+
+** Windows 2019 machine
+   When creating VM's using windows the price is a bit higher due to the license
+   that  is paid.  If you  already have  a  license you  could use  it there  to
+   decrease the costs.
+
+   The strategy  adopted by the instructor  is to create a  resource group every
+   time that  he is going to  start a new  laboratory experiment - focused  in a
+   specific  theme, for  example the  projects  that deal  with virtual  machine
+   experiments. This way it is much easier to delete everything that will not be
+   necessary anymore.
+
+   The default protocol to access Windows  machines is using RDP protocol in the
+   port 3389.
+
+   When  selecting the  disk,  the instructor  said that  he  always select  the
+   Premium SSD.
+
+** Acessing remotely through RDP
+   + Instructor is using PowerShell to run the commands.
+
+#+begin_src bash
+  # get information about virtual machines
+  $ get-azvm
+  
+  # access some vm
+  $ Get-AzRemoteDesktopFile -ResourceGroupName <RG> -Name <NAME> -Launch
+  # then it opens a different application that asks for the password
+#+end_src
+
+   This command  is used  only to  check the virtual  machine state.   Then, the
+   instructor go  back to Azure Portal  and download a RDP  connection file. The
+   interface with the Azure machine is pretty cool.
+
+** Create a Linux VM
+   + Instructor will use Ubuntu.
+   + He will not set username + password, will use a key.
+   + He will use PuTTY.
+     ssh username@public-ip
+
+** Data redundancy
+   + LRS -> Locally Redundant Storage
+   + ZRS -> Zone (Region)  Redundant Storage
+   + GRS -> Geo Redundant Storage
+   + RA-GRS -> Readable Geo Redundant Storage
+   + GZRS -> Geo-Zone Redundant Storage
+   + RA-GZRS -> Readable Geo-Zone Redundant Storage
+
+** Disk storage
+   Instructor will  add a new  storage in the Z:/  path for the  Windows machine
+   that he created before.
+
+   + Managed disk.
+
+   Always assignt the extra disks to the same region as the other disks.
