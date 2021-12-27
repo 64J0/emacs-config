@@ -217,3 +217,34 @@
    + Managed disk.
 
    Always assignt the extra disks to the same region as the other disks.
+
+** Disk caching
+   + VHD
+   Using Disk  caching you make the  VHD performance much better  because it use
+   RAM.
+
+   + OS Disk
+     Disk where we can install OS -> Win/Linux.
+     Cache is Read-Write.
+   + Data Disk
+     Cache is none.
+
+** IP address (VM)
+   + VNET
+
+** Availability set
+   Provider grants 99.9% of SLA. But sometimes it goes down. You can define some
+   policies to grant that the system will keep operational even if some disaster
+   occur.
+
+   + Contingency plan.
+
+   + Fault domain -> Different racks inside the datacenter.
+     Disaster scenario.
+   + Update domain ->
+     If MS need to apply some update  patch then it will move the application to
+     other rack and  after the update finishes MS will  get the application back
+     to the original rack.
+
+   After the  creation of  VM it is  not possible to  apply a  new configuration
+   related to this topic.

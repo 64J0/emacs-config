@@ -673,3 +673,79 @@
      6. Scarcity:
         We're afraid of  missing out, if something we might  want could suddenly
         be unavailable.
+
+**** Social engineering
+     Hacking systems  through the people who  operate them is not  net. Military
+     and  intelligence organizations  have always  targeted each  other's staff;
+     most of  the intelligence successes  of the old  Soviet Union were  of this
+     kind. Private investigation agencies have not been far behind.
+
+     + Kevin Mitnick's 'Art of Deception'.
+
+     [...] Amid growing  publicity about social engineering, there  was an audit
+     of  the   IRS  in  2007   by  the   Treasury  Inspector  General   for  Tax
+     Administration, whose staff  called 102 IRS employees at  all levels, asked
+     for their  user IDs,  and told them  to change their  passwords to  a known
+     value; 62 did  so. What’s worse, this happened despite  similar audit tests
+     in 2001 and 2004  [1676]. Since then, a number of  audit firms have offered
+     social engineering as a service; they phish their audit clients to show how
+     easy it is. Since the mid-2010s, opinion has shifted against this practice,
+     as it causes a  lot of distress to staff without  chang- ing behaviour very
+     much.
+
+**** Phishing
+     While phone-based  social engineering was  the favoured tactic of  the 20th
+     century, online  phishing seems to have  replaced it as the  main tactic of
+     the 21st.
+
+     [...] The word 'phishing'  appeared in 1996 in the context  of the theft of
+     AOL passwords. By  then, attempts to crack email accounts  to send spam had
+     become  common enough  for AOL  to  have a  'report password  solicitation'
+     button on its web page; and the first reference to 'password fishing' is in
+     1990, in the  context of people altering terminal firmware  to collect Unix
+     logon passwords.
+
+**** Opsec
+     Getting your  staff to resist attempts  by outsiders to inveigle  them into
+     revealing secrets, whether  over the phone or online, is  known in military
+     circles  as /operational  security/  or opsec.  Protecting really  valuable
+     secrets, such  as unpublished  financial data,  not-yet-patented industrial
+     research and military plans, depends on  limiting the number of people with
+     access, and  also on doctrines  about what may  be discussed with  whom and
+     how. It's not  enough for rules to  exist; you have to train  the staff who
+     have access, explain the reasons behind  the rules, and embed them socially
+     in the organisation.
+
+**** Deception research
+     Since 9/11, huge amounts of money  have been spent by governments trying to
+     find  better lie  detectors, and  deception researchers  are funded  across
+     about five subdisciplines of psychology.  The polygraph measures stress via
+     heart rate and skin conductance; it has  been around since the 1920s and is
+     used  by some  US states  in  criminal investigations,  as well  as by  the
+     Federal government in screening people for Top Secret clearances.
+
+     [...]   A  second  approach  to  dealing  with  deception  is  to  train  a
+     machine-learning  classifier  on real  customer  behaviour.   This is  what
+     credit-card fraud engines have been doing  since the late 1990s, and recent
+     research has  pushed into  other fields too.  [...] Dealing  with deception
+     using statistical machine learning rather than physiological monitoring may
+     also be felt to intrude less into privacy.
+
+*** Passwords
+    The management of passwords gives an instructive context in which usability,
+    applied psychology and security meet. Passwords have been one of the biggest
+    practical problems  facing security engineers  since perhaps the  1970s.  In
+    fact, as the  usability researcher Angela Sasse puts it,  it’s hard to think
+    of a worse authentication mechanism than passwords, given what we know about
+    human memory: people can’t remember infrequently-used or frequently- changed
+    items; we  can’t forget on  demand; recall  is harder than  recognition; and
+    non-meaningful words are more difficult.
+
+    [...] Developing a  full-feature password management system can be  a lot of
+    work, and  providing support for password  recovery also costs money  (a few
+    years  ago,  the  UK  phone  company  BT  had  two  hundred  prople  in  its
+    password-reset  centre).  So  outsourcing  'identity  management'  can  make
+    business sense.  In addition,  intrusion detection works  best at  scale: if
+    someone uses  my gmail  password in  an Internet cafe  in Peru  while Google
+    knows I'm in  Scotland, they send an SMS  to my phone to check,  and a small
+    website can't do that.
