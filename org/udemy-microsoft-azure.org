@@ -247,4 +247,20 @@
      to the original rack.
 
    After the  creation of  VM it is  not possible to  apply a  new configuration
-   related to this topic.
+   related to this topic.  So, we first need to create  the Availability set and
+   then create the VMs.
+
+** Scaling set (virtual machine scale set)
+   You can define  a rule to auto-scale  the quantity of VM's, based  in que CPU
+   utilization.
+
+   + Scale out:
+     Rule to increase the quantity of VMs.
+   + Scale in:
+     Rule to decrease the quantity of VMs.
+
+   Tip to increase the CPU % on Linux:
+
+#+begin_src bash
+  $ yes > /dev/null &
+#+end_src

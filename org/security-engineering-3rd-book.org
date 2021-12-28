@@ -749,3 +749,57 @@
     someone uses  my gmail  password in  an Internet cafe  in Peru  while Google
     knows I'm in  Scotland, they send an SMS  to my phone to check,  and a small
     website can't do that.
+
+**** Social-engineering attacks
+     Careful organisations communicate security context  in various ways to help
+     staff avoid  making mistakes. The  NSA, for example, had  different colored
+     internal and external  telephones, and when an external phone  in a room is
+     off-hook, classified  material can't even  be discussed  in the room  - let
+     alone on the phone.
+
+**** Customer education
+     After phishing  became a real  threat to  online banking in  the mid-2000s,
+     banks  tried to  train  their customers  to look  for  certain features  in
+     websites. This  has been partly risk  reduction, but partly risk  dumping -
+     seeing  to  it  that  customers  that  don't  understand  or  can't  follow
+     instructions can  be held  resposible for the  resulting loss.  The general
+     pattern  has been  that as  soon as  customers are  trained to  follow some
+     particular rule, the  phishermen exploit this, as the reasons  for the rule
+     are not adequately explained.
+
+**** Can you deny service?
+     There are  basically three  ways to  deal with  password guessing  when you
+     detect it: lockout, throttling, and protective monitoring. Banks may freeze
+     your card  after three wrong PINs;  but if they freeze  your online account
+     after  three   bad  password  attempts   they  open  themselves  up   to  a
+     denial-of-service   attack.    Service   can   also   fail   by   accident;
+     poorly-configured   systems   can   generate  repeat   fails   with   stale
+     credentials.  So many  commercial websites  nowadays use  throttling rather
+     than lockout. In a  military system, you might not want  even that, in case
+     an enemy who gets access to the network  could jam it with a flood of false
+     logon attempts. In this case,  protective monitoring might be the preferred
+     option, with a plan to abandon rate-limiting if need be in a crisis.
+
+**** Attacks on password storage
+
+***** One-way encryption
+      Such incidents taught people to protect passwords by encrypting them using
+      a one-way algorithm, an innovation due  to Roger Needham and Mike Guy. The
+      password, when entered, is passed through  a one-way function and the user
+      is logged on  only if it matches a previously  stored value. However, it's
+      often implemented wrong.  The right way to  do it is to  generate a random
+      key, historically known in this context  as a /salt/; combine the password
+      with the salt using a slow, cryptographically strong one-way function; and
+      store both the salt and the hash.
+
+**** Absolute limits
+     If you have confidence in the cryptographic algorithms and operating-system
+     security mechanisms that protect passwords,  then the probability of a suc-
+     cessful password guessing attack is a function of the entropy of passwords,
+     if they  are centrally  assigned, and  the psychology  of users  if they’re
+     allowed to  choose them.  Military sysadmins often  prefer to  issue random
+     passwords,  so  the  probability  of   password  guessing  attacks  can  be
+     managed. For  example, if L  is the maximum  password lifetime, R  is login
+     attempt rate,  S is the  size of the  password space, then  the probability
+     that a password  can be guessed in  its lifetime is P =  LR∕S, according to
+     the US Department of Defense password management guideline.
