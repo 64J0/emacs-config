@@ -803,3 +803,47 @@
      attempt rate,  S is the  size of the  password space, then  the probability
      that a password  can be guessed in  its lifetime is P =  LR∕S, according to
      the US Department of Defense password management guideline.
+
+**** Will we ever get rid of passwords?
+     Passwords are annoying, so many people  have discussed getting rid of them,
+     and the move from laptops to phones gives us a chance. The proliferation of
+     IoT devices that don't have keyboards will  force us to do without them for
+     some  purposes.  A  handful  of  firms  have  tried  to  get  rid  of  them
+     completely.  One  example   is  the  online  bank   Monzo,  which  operates
+     exclusively  via an  app. They  leave it  up to  the customer  whether they
+     protect  their phone  using  a fingerprint,  a  pattern lock,  a  PIN or  a
+     password. However they still use email  to prompt people to upgrade, and to
+     authenticate  people who  buy a  new  phone, so  account takeover  involves
+     either  phone takeover,  or  guessing  a password  or  a password  recovery
+     question. The most popular app that  uses SMS to authenticate rather than a
+     password may be  WhatsApp. I expect that this will  become more widespread;
+     so we'll see  more attacks based on phone takeover,  from SIM swaps through
+     Android malware,  SS7 and RCS  hacking, to  simple physical theft.  In such
+     cases, recovery often means an email  loop, making your email password more
+     critical  than ever  -  or phoning  a  call centre  and  telling them  your
+     mother's maiden name. So things may change less than they seem.
+
+     Criterias against an authentication system can be evaluated:
+
+     + resilience to theft
+     + resilience to physical observation
+     + resilience to guessing
+     + resilience to malware and other internal compromise
+     + resilience to leaks from other verifiers
+     + resilience to phishing and to targeted impersonation
+     + ease of use
+     + ease of learning
+     + whether you need to carry something extra
+     + error rate
+     + ease of recovery
+     + cost per user
+     + whether it's an open design that anyone can use
+
+     [...] Firms that  are targets of state-level attackers, such  as Google and
+     Microsoft, now  give authentication tokens of  some kind or another  to all
+     their staff.
+
+*** CAPTCHAs
+    'Completely  Automated  Public Turing  Test  to  Tell Computers  and  Humans
+    Apart'. [...] The idea is that  people can solve such problems easily, while
+    computers find them hard.
