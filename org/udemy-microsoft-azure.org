@@ -280,3 +280,58 @@
      | A     | 10.0.0.0 ~ 10.255.255.255     |
      | B     | 172.16.0.0 ~ 172.31.255.255   |
      | C     | 192.168.0.0 ~ 192.168.255.255 |
+
+   When you create a sub-net Azure take the 4 first IPs. For example:
+
+   + 172.16.1.0/24
+     172.16.1.0 -> Network ip
+     172.16.1.1 -> Azure reserved, DNS/Gateway
+     172.16.1.2 -> Azure reserved, DNS/Gateway
+     172.16.1.3 -> Azure reserved, DNS/Gateway
+     172.16.1.255 -> Broadcast
+
+   To access the VNet both the VM and VNet should be in the same region.
+
+#+begin_src shell
+  az network vnet create --name projetosvnet2 --resource-group networkgroup --subnet-name SubC
+#+end_src
+
+** Routing
+   + It's enabled by default.
+     So, if you ping from a machine  to another machine that are inside the same
+     network those hosts will be reachable.
+
+   + Also called /implicit routing/.
+
+   Inside the VNet we could reach other machines due to the implicit routing. To
+   allow those  networks to be  reachable from the  internet we use  a component
+   called Internet Gateway.
+
+   If we want to  use a virtual firewall we'll need to set  an UDR (User Defined
+   Routing).
+
+   There's a service called *Route table*.
+
+** Peers
+   + Communication between VNets.
+     Not through sub-nets.
+
+   Instructor added this  configuration under the VNet, there's a  button to add
+   Peerings there.
+
+   + Forward traffic
+     When traffic reaches a  VNet 1 but it is actually intended  to reach VNet 2
+     we could define if this package will be delivered automatically or not.
+
+** Network Security Groups
+   + Security to the VNet and VM.
+   + Could be seem as a firewall.
+     Network filter according to official docs.
+   + Allow or disable traffic.
+     Filtered through:
+     - Protocol
+     - Port number
+     - Source/destination IP address
+   + Inboud/Outbound rules
+     Apply rules to packages sent from inside or outside the network.
+   + Each VNet/NIC card could have a different NSG.
