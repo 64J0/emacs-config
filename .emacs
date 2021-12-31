@@ -8,6 +8,7 @@
 (setq inhibit-startup-message t
       standard-indent 4
       auto-save-no-message t) ;; remove startup message
+(tool-bar-mode -1) ;; remove tool bar
 (menu-bar-mode -1) ;; remove menu bar
 (global-linum-mode t) ;; show the line number
 (set-face-attribute 'default nil
@@ -244,7 +245,8 @@
         `((nil :maxlevel . 9)
           (org-agenda-files :maxlevel . 2)
           (,"~/org/srs/deck.org" :maxlevel . 2)
-          (,"~/org/work/meetings.org" :maxlevel . 2))
+          (,"~/org/agenda/meetings.org" :maxlevel . 2)
+          (,"~/org/srs/refile.org" :maxlevel . 2))
         org-capture-templates
         `(("e" "Email [m4ue]" entry (file main-agenda)
            ,(concat "* TODO Process \"%a\"\n"
