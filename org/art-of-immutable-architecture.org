@@ -1,7 +1,7 @@
 #+TITLE: [book] The art of immutable architecture
 #+AUTHOR: Michael L. Perry
 
-+ Notes about the book
++ Notes about the book, DevSecOps coaching.
 
 * Chapter 1 - Why Immutable Architecture
   If you're in QA,  it is your job to imagine all of  the possible scenarios and
@@ -113,7 +113,7 @@
    + /records/: things that do not change (immutable)
 
 ** Projections
-   Our  goal now  it to  use  immutable records  to model  mutable objects.  The
+   Our  goal now  is to  use  immutable records  to model  mutable objects.  The
    records clearly are  not the objects themselves. That  would be insufficient,
    as  records  would not  allow  for  the  mutability  that objects  expect  to
    have.  Instead, the  records  must in  some way  represent  /changes/ to  the
@@ -126,13 +126,13 @@
 
 ** Projecting objects
    No matter what  you call it - formulas, dependent  variables, projections, or
-   view models  - derived  state is a  deterministic transformation  of observed
-   state. It adds no information to the system; it only presents the information
-   that's already there in a different way.  In mathematics, we say that it adds
-   no degrees of freedom to the system. In software, you might say that the view
-   model is backed  by the model. The  important point is that the  user gets to
-   change  observed state  directly. They  can only  see the  results indirectly
-   projected onto the derived state.
+   view models  - *derived state  is a deterministic transformation  of observed
+   state*.  It  adds  no  information  to  the  system;  it  only  presents  the
+   information that's already there in a  different way.  In mathematics, we say
+   that it adds no degrees of freedom  to the system. In software, you might say
+   that the view model  is backed by the model. The important  point is that the
+   user gets  to change observed state  directly. They can only  see the results
+   indirectly projected onto the derived state.
 
    In an immutable architecture, the  historical records are observed state. The
    user gets to create new records directly through their actions. Those records
@@ -149,7 +149,7 @@
    demand that they are the sole source of truth. That is the origin of the term
    /event sourcing/ (ES).
 
-   In  an  event-sourced application,  the  user  interacts  (through a  UI  and
+   In  an event-sourced  application,  the  user interacts  (through  an UI  and
    possibly an  API) with  a domain  model.  The domain  model does  not respond
    immediately to the  request. Instead, it validates the  request and generates
    an event. The event is an immutable  record of the user's intent. It is named
@@ -236,8 +236,8 @@
   a < b and b < c \Rightarrow a < c
 #+end_src
 
-    It must also be *non-reflexive*. That is to say that an object does no "come
-    before" itself.
+    It must  also be  *non-reflexive*. That is  to say that  an object  does not
+    "come before" itself.
 
 #+begin_src latex
   a \nless a
@@ -271,10 +271,10 @@
     The presence  of a successor does  not change the predecessor.  However, the
     successor changes our interpretation of the predecessor.
 
-    It is important to recognize that  there is no mechanism within a historical
+    *It is important to recognize that there is no mechanism within a historical
     model to  /prevent/ the creation  of additional successors. If  we carefully
     control /who/ can create successors, and  on what machine, then we can avoid
-    this situation in any practical scenario.
+    this situation in any practical scenario*.
 
     A fact  does not know  about its successors.  New successors are  added over
     time. To fully understand the state of  a fact, we must query the historical
@@ -325,11 +325,11 @@
     closure of each fact.  They have to know that the recipient  is aware of all
     of the predecessors at every step.
 
-    When a machine records a new piece of information—a decision that a user has
-    made or the  outcome of some business  process—it does so by  creating a new
-    fact. It cannot  create that fact based  on predecessors of which  it is not
-    yet aware. It  must either create those predecessors first,  or have learned
-    about them from its peers.
+    When a machine records  a new piece of information — a  decision that a user
+    has made or the outcome of some business  process — it does so by creating a
+    new fact. It  cannot create that fact  based on predecessors of  which it is
+    not  yet aware.  It must  either create  those predecessors  first, or  have
+    learned about them from its peers.
 
     The  predecessor  relationship  between  facts  captures  the  communication
     structure between  machines. A successor from  one machine can be  seen as a
@@ -343,7 +343,33 @@
     autonomously.
 
 *** Acyclic Graphs
-    :TODO:
+    The immutability of facts constrains them  to know their predecessors at the
+    time of creation. But there are two  more constraints that we have to put on
+    the system. *First, we have to be able  to construct the graph one fact at a
+    time.  And  second,  we  cannot  allow  a fact  to  refer  to  itself  as  a
+    predecessor. We must disallow both simultaneous creation and self-reference,
+    lest we introduce cycles*.
+
+    Every graph starts empty. It contains no  facts. The first fact added to the
+    graph therefore  can have  no predecessors. There  is no  existing knowledge
+    upon which to build.  The first fact is a root. A  graph containing only one
+    root has no cycles, because there are no edges.
+
+    Let time  pass, and let more  facts be added  to the graph. Assume  that the
+    graph still contains no cycles. As I add  a new fact to the graph, that fact
+    may  refer to  any of  the existing  facts as  predecessors. However,  those
+    existing facts  may not refer  to this new fact  as a predecessor.  I cannot
+    change  their predecessor  relationships,  and  this new  fact  did not  yet
+    exist. I therefore cannot introduce a cycle by adding a single fact.
+
+    If  we were  to  allow self-reference,  then we  could  introduce a  trivial
+    cycle.  And if  we  were  to allow  simultaneous  insertion,  then we  might
+    introduce two facts  that have each other as predecessors.  Since neither of
+    these operations is  allowed, the resulting graph of facts  must not contain
+    cycles.  In mathematics,  this kind  of structure  is known  as a  *directed
+    acyclic graph*, and  has many interesting properties. As we  get deeper into
+    the analytical  and implementation details  of historical modeling,  we will
+    take full advantage of the acyclic nature of the graph.
 
 *** Timeliness
     In a system based on the exchange  of historical facts, not all parties will
@@ -384,3 +410,127 @@
     same fact.  We cannot guarantee—and  therefore cannot rely  upon—there being
     only  one  successor   for  any  given  fact.  And  we   cannot  change  our
     interpretation of history based on the timeliness of our knowledge of it
+
+** Limitations of Historical Modeling
+   With  the  power  of  historical   modeling  comes  some  constraints.  These
+   constraints make  it inappropriate  to apply  historical modeling  to certain
+   types of systems. In these situations, it is best to model all or part of the
+   system statically - that is, using a method that captures current state - and
+   integrate  where appropriate.  Fortunately, good  integration strategies  are
+   available.
+
+   We  will often  find that  we can  pair a  historical model  with a  /static/
+   model. A static model, as the name implies, is based upon state. The model is
+   mutable, centralized, and can enforce serialized access. Relational databases
+   are  good static  models, as  they  have a  long track  record of  supporting
+   efficient locking.
+
+*** No central authority
+    A  historical model  allows for  decisions to  be made  with autonomy.  Each
+    decision is  recorded in the  local history  and eventually shared  with the
+    rest of the system. As a result, the system cannot reject facts based on age
+    or current state.
+
+    This  makes historical  modeling inappropriate  for parts  of a  system that
+    require  a central  authority. For  example, a  conference room  reservation
+    system will need  to know with certainty  whether a room was  available at a
+    certain time.  When a reservation  is approved,  the approver needs  to know
+    that  no other  reservation for  the same  room at  the same  time has  been
+    approved. That decision must be made by a central authority.
+
+*** No real-time clock
+    A  time-sensitive request  must be  fulfilled within  a specified  period of
+    time. If  it is  not, the request  is invalid. Such  requests are  common in
+    real-time systems such  as factory automation. A request for  a door to open
+    or a robotic  arm to move must be  fulfilled with a narrow span  of time. If
+    the message does not arrive in time, then the request must be rejected.
+
+    Facts in  a historical model, however,  are honored no matter  what the time
+    frame. The decision is made at the time that the fact is recorded and cannot
+    be  rejected thereafter.  It may  take an  indeterminate period  of time  to
+    transmit the  fact. The recipient is  simply informed of something  that has
+    already happened in history.
+
+*** No uniqueness constraints
+    In  a historical  model, any  query for  successors of  a fact  might return
+    multiple results. It is not possible to constrain a query to return only one
+    result. The consequence of  this is that a domain that  requires at most one
+    result cannot effectively be modeled historically.
+
+    For example, a login that requires a unique user name should be supported by
+    a static model. A historical model would be unable to enforce the uniqueness
+    of a user name.
+
+    To  model a  system that  requires uniqueness  constraints, you  must use  a
+    static model. The  model can be consulted to determine  if the desired value
+    is already in use.
+
+    If uniqueness is required, such as registering for a user name, a historical
+    model could be used for registration  requests, as well as for acceptance or
+    rejection responses. The requests can be recorded as facts by clients at the
+    edge of the system.  These facts will make their way  to a central authority
+    that has  access to  a static  model. The  static model  enforces uniqueness
+    constraints. That central authority will decide whether to approve or reject
+    the request based on the the static model and then record that decision as a
+    successor fact.
+
+*** No aggregation
+    After a certain amount of activity, a system might be expected to provide an
+    aggregate or  summary of  that period's activity.  For example,  a financial
+    ledger could  be closed at the  end of the day,  a month, or a  quarter. The
+    system would then produce a summary  that records the total of that period's
+    transactions. From that  point forward, no additional  transactions would be
+    allowed into that period.
+
+    A historical  model cannot guarantee  that all  facts within a  given period
+    have been  seen. The system  responsible for generating the  aggregate might
+    not have all of the period's records  at the required time. If it receives a
+    fact after computing  and recording the summary, then it  is not permitted -
+    by the rules  of historical modeling -  to reject it. The  decision was made
+    elsewhere, and the fact of that decision was merely shared.
+
+* Chapter 3 - How to read a historical model
+  Throughout  the rest  of this  book,  we will  be exploring  many examples  of
+  historical models. To do so, we wil  need a language for describing them. This
+  language  will be  part visual  and part  textual. The  visual aspect  of this
+  language  will aide  in overall  understanding,  while the  textual part  will
+  provide specificity.
+
+  [...] The modeling language that we  will describe - Historical Modeling - has
+  two graphical components and one textual component.
+
+** Fact type graphs
+   Within the  visual language,  we will  create two kinds  of graphs.  One will
+   represent the types of facts, and  the other instances. Fact type graphs will
+   be the more common of the two, so let's describe them first.
+
+   In a fact type graph, the type of a fact is represented as a labeled ellipse,
+   as in the next figure.
+
+#+begin_src dot :file imgs/a-single-fact-type.png :cmdline -Kdot -Tpng
+  digraph G {
+    { 
+      node [margin=0 fontcolor=blue fontsize=32 width=0.5 shape=circle style=filled]
+    }
+    Product
+  }
+#+end_src
+
+#+RESULTS:
+[[file:imgs/a-single-fact-type.png]]
+
+   An   arrow  between   two  fact   types  indicates   a  predecessor/successor
+   relationship.
+
+   #+begin_src dot :file imgs/arrows-point-up-toward-predecessors.png :cmdline -Kdot -Tpng
+     digraph G {
+             rankdir=BT
+             order [label="Order Line"]
+             product [label="Product"]
+             order -> product
+     }
+   #+end_src
+
+   #+RESULTS:
+   [[file:imgs/arrows-point-up-toward-predecessors.png]]
+   

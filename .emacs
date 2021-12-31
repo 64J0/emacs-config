@@ -157,6 +157,10 @@
   :preface
   (setq org-export-backends '(moderncv md gfm beamer ascii taskjuggler html latex odt org))
   :config
+  ;; Required for PlantUML diagrams
+  ;; From: https://plantuml.com/download
+  (setq org-plantuml-jar-path
+      (expand-file-name "~/Desktop/codes/emacs-config/deps/plantuml-1.2021.16.jar"))
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((sql . t)

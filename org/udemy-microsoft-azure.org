@@ -323,7 +323,7 @@
      When traffic reaches a  VNet 1 but it is actually intended  to reach VNet 2
      we could define if this package will be delivered automatically or not.
 
-** Network Security Groups
+** Network Security Groups - NSG
    + Security to the VNet and VM.
    + Could be seem as a firewall.
      Network filter according to official docs.
@@ -335,3 +335,19 @@
    + Inboud/Outbound rules
      Apply rules to packages sent from inside or outside the network.
    + Each VNet/NIC card could have a different NSG.
+
+   On  Azure the  network  security  group policies  take  some  time to  really
+   apply. For  the example  provided by  instructor it took  almost 1  minute to
+   apply a simple ICMP deny.
+
+** Network watcher
+   - Traffic analysis
+   - Monitoring
+     Conectivity, latency and network topology changes.
+
+   The network watcher should be enabled in the region you're using.
+
+   IP flow verify:
+
+   Check if a  package could reach a different VM/internet.  This tool verify it
+   and also tell which rule is enabling it.
