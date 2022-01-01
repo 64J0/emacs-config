@@ -351,3 +351,56 @@
 
    Check if a  package could reach a different VM/internet.  This tool verify it
    and also tell which rule is enabling it.
+
+** VPN (Virtual Private Network)
+   + S2S
+     Site-to-site VPN
+   + ExpressRoute
+     Office + cloud.
+
+     You want to keep part of the  network still physical and other parts in the
+     cloud provider. In  this enviroment, you could use the  infra provided by a
+     partner ISP.
+   + P2S
+     Point-to-site
+
+** Load Balancer
+   + Azure load balancer
+     Always point to an AS (Availability Set).
+   + Works on layer 4 of the TCP stack
+   + Probes (Service monitoring)
+   + Auto-reconfiguration
+     If the LB is pointed to a specific AS (availability set) and there are only
+     2 machines in the beginning but then you  created a new one, and now the AS
+     has  3  VM,  the  load  balancer understand  this  automatically  and  auto
+     re-configure itself to distribute the requests between all the machines.
+
+#+begin_src dot
+
+#+end_src
+
+* Active Directory
+  + Register users under a specific domain.
+    Assign roles (groups) to users.
+    Assign permissions to roles.
+
+  + AAD:
+    Azure Active Directory.
+    100% cloud.
+  + ADDS:
+    Active Directory Domain Service.
+    Use Kerberos.
+  + AADDS
+    Azure Active Directory Domain Service.
+    Microsoft manage the AD for your application.
+    $$$.
+
+** AAD
+   + AD is always related to the company domain.
+
+** MFA:
+   + Multi-Factor Authentication
+
+   This  is  a  security  feature   to  prevent  unauthorized  access  to  Azure
+   accounts. It is a good decision to enable  it by default for all the users in
+   the directory.
