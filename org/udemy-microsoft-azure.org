@@ -375,9 +375,45 @@
      has  3  VM,  the  load  balancer understand  this  automatically  and  auto
      re-configure itself to distribute the requests between all the machines.
 
-#+begin_src dot
+   #+begin_src dot :file imgs/load-balancer-lab.png :cmdline -Kdot -Tpng
+     digraph G {
+        size="8,6"
+     
+        client [label="Client PC"]
+     
+        subgraph resource_group {
+          label="Resource Group -> Webserver app"
+          color=purple
+          subgraph virtual_network {
+            rank=same
+            label="VNet - Webserver app"
+            subnet [label="Subnet 1 - 172.16.20.0/24"]
+            subgraph application_gateway {
+              rank=same
+              loadBalancer [label="Load Balancer", shape=square]
+              subgraph availability_set {
+                rank=same
+                color=green
+                label="Availability Set"
+                web01 [label="Web 01 - 172.16.20.4", shape=square]
+                web02 [label="Web 02 - 172.16.20.5", shape=square]
+                web03 [label="Web 03 - 172.16.20.6", shape=square]
+              }
+            }
+          }
+        }
+     
+        edge [style=line]
+        rankdir=LR
+        loadBalancer -> web01
+        loadBalancer -> web02
+        loadBalancer -> web03
+        client -> loadBalancer
+     }
+   #+end_src
 
-#+end_src
+   #+RESULTS:
+   [[file:imgs/load-balancer-lab.png]]
 
 * Active Directory
   + Register users under a specific domain.
@@ -404,3 +440,106 @@
    This  is  a  security  feature   to  prevent  unauthorized  access  to  Azure
    accounts. It is a good decision to enable  it by default for all the users in
    the directory.
+
+** AD connect synch
+   + Tool to migrate local AD to cloud.
+
+   We can apply filters.
+
+   + Password writeback.
+   + Device writeback.
+   + Safe deletes.
+
+   To simulate the  local AD, the instructor  said that we should  use a Windows
+   2019 in a virtual machine (VirtualBox for example).
+
+** PIM (Privileged Identity Manager)
+   Manager users privileges.
+
+   + Enable/disable the access to resources.
+   + View adiministrator history.
+   + Setup alerts.
+   + Create workflow to automate the process.
+     
+   + Required a P2 license.
+
+   We can create two types of roles:
+   + Directory Roles:
+     AD roles.
+   + Resource Roles:
+     RBAC.
+     Roles.
+     Subscriptions.
+
+* RBAC
+  + Role Based Access Control
+
+  Delegate privileges to some users based on their roles.
+
+  User:
+  - Write -> PUT, POST, PATCH, DELETE
+  - Read  -> GET
+
+  Instructor decided to  create a new group called webapp  where the users could
+  monitor applications. So, those users will  have only read privileges for some
+  resources.
+
+  He created a new resource group and added the roles there.
+
+** RBAC policy
+   Give permission and set a specific rule for the users under a policy.
+
+** Locks
+   Prevent someone to delete resource groups and their content.
+
+   + Delete
+     Not able to delete but able to add resources.
+   + Read only
+     Not able to delete and add resources to the resource group.
+
+* Apps
+  + Web apps.
+  + Mobile apps.
+  + Logic apps.
+  + API's.
+
+  Azure service to deploy and manage websites.
+
+  Take care of the code only.
+
+  + Automation.
+
+** Creating a Web App
+   + App Services
+
+   Instructor decided to use PHP 7 as the runtime platform.
+   
+** Slot
+   + Test new features in the production environment.
+
+   Azure creates a  new environment for us  to test and then we  could just swap
+   the projects to change from test to production.
+
+* Serverless
+  Deploy  a project  without taking  care of  the infrastructure.  This part  is
+  managed by the cloud provider you're using.
+
+  + Azure Function:
+    Support: C, JS, Java, etc.
+    Just write your code and Azure deploy/manage it.
+    Very cheap price, and you pay only for the quantity of executions.
+  + Logic Apps:
+    Workflow/orchestration.
+    Automation.
+  + Event grid:
+    I think it is similar to a webhook.
+    You can print logs to a front-end page.
+    Monitoring the quantity of sales.
+
+* Apps and containers
+  + Docker
+
+** ACR
+   + Azure Container Registry
+
+   Previously the instructor just installed Docker and Git on the local machine.
