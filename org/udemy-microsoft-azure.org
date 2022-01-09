@@ -543,3 +543,26 @@
    + Azure Container Registry
 
    Previously the instructor just installed Docker and Git on the local machine.
+
+* Migrations
+
+* Automation
+
+* Database
+  + Azure SQL
+    Database as a service.
+    Cheaper than creating a VM and setting the database there.
+    Could migrate the local database to the cloud.
+    Performance is pretty cool according to the instructor.
+    Simplified management.
+    
+  + DTU - Database Throughput Unit   
+    The way  that Azure  define the quantity  of data that  could navigate  in a
+    database.
+
+    High compatibility with other systems.
+
+  + LTR
+    Long Term Retention backups.
+
+* Monitoring
