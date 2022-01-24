@@ -69,10 +69,6 @@
 	     '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives
 	     '("org"  . "https://orgmode.org/elpa/"))
-(add-to-list 'package-archives
-	     '("marmalade" . "http://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives
-	     '("gnu" . "http://elpa.gnu.org/packages/"))
 (package-initialize)
 
 ;; automatically download and load other packages from the emacs
@@ -141,6 +137,8 @@
   :demand
   :config
   (centaur-tabs-mode t)
+  (setq centaur-tabs-set-icons t)
+  (setq centaur-tabs-set-bar 'over)
   :bind
   ("C-<prior>" . centaur-tabs-backward)
   ("C-<next>" . centaur-tabs-forward))
@@ -160,7 +158,9 @@
   ;; Required for PlantUML diagrams
   ;; From: https://plantuml.com/download
   (setq org-plantuml-jar-path
-      (expand-file-name "~/Desktop/codes/emacs-config/deps/plantuml-1.2021.16.jar"))
+        (expand-file-name "~/Desktop/codes/emacs-config/deps/plantuml-1.2021.16.jar"))
+  (setq org-ditaa-jar-path
+        (expand-file-name "~/Desktop/codes/emacs-config/deps/ditaa0_9.jar"))
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((sql . t)
@@ -383,6 +383,23 @@
   :config
   (tooltip-mode 0))
 
+;; Second brain
+;; https://www.youtube.com/watch?v=AyhPmypHDEw
+(use-package org-roam
+  :ensure t
+  :init
+  (setq org-roam-v2-ack t)
+  :custom
+  (org-roam-directory "~/RoamNotes")
+  (org-roam-complete-everywhere t)
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert)
+         :map org-mode-map
+         ("C-M-i"   . completion-at-point))
+  :config
+  (org-roam-setup))
+
 ;; Spaced repetition algorithm to conduct interactive "drill sessions",
 ;; using org files as sources of facts to be memorised.
 ;; https://orgmode.org/worg/org-contrib/org-drill.html
@@ -538,8 +555,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-    (centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package))))
+   '(org-roam centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
