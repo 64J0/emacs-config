@@ -1,0 +1,46 @@
+:PROPERTIES:
+:ID:       61e93da7-245e-4b05-a68b-29140f926091
+:END:
+#+title: [Book] Designing Data-Intensive Applications
+
+This org file will  be used to store some notes regarding  the book mentioned in
+the title.  Btw, my idea  is to actually develop  a system concomitantly  to put
+those lessons in practice. Later I'll describe this project in more detail.
+
+#+BEGIN_QUOTE
+
+  Technology  is  a   powerful  force  in  our  society.   Data,  software,  and
+  communication can  be used for  bad: to  entrench unfair power  structures, to
+  undermine human rights, and to protect  vested interests. But they can also be
+  used  for good:  to make  underrepresented  people's voices  heard, to  create
+  opportunities for everyone, and to avert disasters.  This book is dedicated to
+  everyone working toward the good.
+
+#+END_QUOTE
+
+* Foundations of data systems
+
++ *Reliability:*
+  Tolerating hardware & software faults and human errors.
+
+  The  system  should  continue  to work  /correctly/  (performing  the  correct
+  function at the desired level of  performance) even in the face of /adversity/
+  (hardware or software faults, and even human error).
+  
++ *Scalability:*
+  Measuring load & performance. Latency, percentiles, throughput.
+
+  As the  system grows (in  data volume,  traffic volume, or  complexity), there
+  should be reasonable ways of dealing with that growth.
+  
++ *Maintainability:*
+  Operability, simplicity & evolvability.
+
+  Over time,  many different  people will  work on  the system  (engineering and
+  operations, both maintaining  current behavior and adapting the  system to new
+  use cases), and they should all be able to work on it /productively/.
+
+Many    applications    today    are    /data-intensive/,    as    opposed    to
+/compute-intensive/.  Raw  CPU power  is  rarely  a  limiting factor  for  these
+applications - bigger problems are usually the amount of data, the complexity of
+data, and the speed at which it is changing.
