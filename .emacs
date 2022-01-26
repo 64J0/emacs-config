@@ -481,6 +481,12 @@
   :ensure t
   :mode "\\.json\\'")
 
+;; Python code
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable))
+
 ;; Pretty syntax highlight for editing Dockerfiles.
 (use-package dockerfile-mode
   :ensure t
