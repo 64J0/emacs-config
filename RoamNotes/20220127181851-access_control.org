@@ -1,0 +1,33 @@
+:PROPERTIES:
+:ID:       273edbf4-0d24-45f6-bd13-a8fadfbb6a15
+:END:
+#+title: Access Control
+
+Notes taken from *[book] Secutiry Engineering*.
+
+[...] From  the 1970s, access control  became the centre of  gravity of computer
+security. It's where  security engineering meets computer  science. its function
+is to control  which principals (persons, processes, machines,  ...) have access
+to which  resources in the  system - which files  they can read,  which programs
+they can execute, how they share data with other principals, and so on.
+
+** Definitions:
+
++ Discretionary access control (DAC):
+  Leave protection to the machine operator.
+
++ Mandatory access control (MAC):
+  Under the control  of the vendor and protect the  operating system itself from
+  being modified by malware.
+
+** Operating system access controls
+
+In a  common system it's  not practical to  set permissions individually.  It is
+better to group people under some configuration that share the same permissions.
+   
+*** Groups and roles
+
+[...] Some vendors  (such as Microsoft) use the words  /group/ and /role/ almost
+interchangeably, but  a more  careful definition is  that a group  is a  list of
+principals, while a role  is a fixed set of access permissions  that one or more
+principals may assume for a period of time.

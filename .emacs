@@ -482,6 +482,8 @@
   :mode "\\.json\\'")
 
 ;; Python code
+;; to fix problems: https://www.higithub.com/jorgenschaefer/issue/elpy/1936
+;; M-x elpy-rpc-reinstall-virtualenv
 (use-package elpy
   :ensure t
   :init
@@ -552,6 +554,15 @@
   :ensure t
   :defer t
   :mode "\\.hs\\'")
+
+;; Keybindings to comment line region and single line
+(use-package undo-tree
+  :ensure t
+  :init
+  (undo-tree-mode))
+
+;; (global-set-key (kbd "C-/") 'comment-or-uncomment-region)
+(global-set-key (kbd "C-/") 'comment-line)
 
 ;; ======================================================
 ;; AUTOMATIC GENERATED
