@@ -5,21 +5,21 @@
 (require 'cl-lib) ;; cl -> common lisp
 
 ;; INITIAL CONFIG
-(setq inhibit-startup-message t
-      standard-indent 4
-      auto-save-no-message t) ;; remove startup message
-(tool-bar-mode -1) ;; remove tool bar
-(menu-bar-mode -1) ;; remove menu bar
-(global-linum-mode t) ;; show the line number
+(setq inhibit-startup-message t  ;; remove startup message
+      standard-indent 4 ;; default indent spaces
+      auto-save-no-message t
+      tool-bar-mode -1 ;; remove tool bar
+      menu-bar-mode -1 ;; remove menu bar
+      global-linum-mode t ;; show the line number
+      delete-selection-mode t ;; delete text when selected and start typing
+      system-time-locale "pt_BR.UTF-8" ;; set encode
+      initial-buffer-choice "~/org/activities.org" ;; initial file
+      )
 (set-face-attribute 'default nil
 		    :height 140
-		    :family "DejaVu Sans Mono") ;; font-size
-(setq delete-selection-mode t) ;; delete text when selected and start typing
-(setq system-time-locale "pt_BR.UTF-8")
-(fset 'yes-or-no-p 'y-or-n-p)
+		    :family "DejaVu Sans Mono") ;; font size and family
 (setq-default indent-tabs-mode nil
-	      fill-column 80)
-(setq initial-buffer-choice "~/org/activities.org")
+	      fill-column 80) ;; set indent size
 
 ;; GLOBAL KEY BINDINGS
 (global-set-key (kbd "C-<tab>") 'other-window)
@@ -27,37 +27,7 @@
 (global-set-key (kbd "M-<up>") 'shrink-window)
 (global-set-key (kbd "M-<left>") 'enlarge-window-horizontally)
 (global-set-key (kbd "M-<right>") 'shrink-window-horizontally)
-
-;; ;PATH SETUP
-(defcustom my/path-aliases
-  (list :emacs  "~/.emacs.d"
-	:srs    "~/.emacs.d"
-	:work   "~/.emacs.d"
-	:agenda "~/.emacs.d")
-  "Location of my paths for ease of usage. Customize for each env
-   if needed.")
-
-(defun my/path (dir &optional subpath)
-  "Build a path name. See https://github.com/arecker/emacs.d"
-  (let ((dir (file-name-as-directory
-              (cl-getf my/path-aliases dir
-                       (format "~/%s" dir))))
-        (subpath (or subpath "")))
-    (concat dir subpath)))
-
-;; (defcustom main-agenda (my/path :emacs "agenda.org")
-;;   "This is used to store quickly todo items without refiling.")
-
-;; (add-to-list 'load-path (my/path :emacs "lib"))
-
-;; ;; add the custom file inside the emacs folder
-
-;; (let ((custom-file-path (my/path :emacs "custom.el")))
-;;   (if (file-readable-p custom-file-path)
-;;       (progn
-;; 	(setq custom-file custom-file-path)
-;; 	(load custom-file))
-;;     (warn "Custom file not found at expected path %s" custom-file-path)))
+(global-set-key (kbd "C-/") 'comment-line)
 
 ;; PACKAGE REPOSITORIES
 ;; when error: M-x package-refresh-contents
@@ -498,7 +468,6 @@
 (use-package kubernetes
   :ensure t
   :commands (kubernetes-overview))
-
 (global-set-key (kbd "C-c K") 'kubernetes-overview)
 
 (use-package yaml-mode
@@ -560,9 +529,6 @@
   :ensure t
   :init
   (undo-tree-mode))
-
-;; (global-set-key (kbd "C-/") 'comment-or-uncomment-region)
-(global-set-key (kbd "C-/") 'comment-line)
 
 ;; ======================================================
 ;; AUTOMATIC GENERATED
