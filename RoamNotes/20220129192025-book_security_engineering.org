@@ -1,0 +1,7 @@
+:PROPERTIES:
+:ID:       f009f5b6-ec4d-4449-b91e-54397f3ab822
+:END:
+#+title: [Book] Security Engineering
+
+Chapter 6 - [[id:273edbf4-0d24-45f6-bd13-a8fadfbb6a15][[Security Engineering] Access Control]]
+

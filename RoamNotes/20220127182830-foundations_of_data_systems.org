@@ -1,5 +1,0 @@
-:PROPERTIES:
-:ID:       afed1993-235d-4755-91b3-329d691f4a73
-:END:
-#+title: Foundations of data systems
-

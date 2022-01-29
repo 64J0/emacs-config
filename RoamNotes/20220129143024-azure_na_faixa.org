@@ -76,4 +76,3 @@ https://www.microsoft.com/en-us/trainingdays
 
 + [[https://medium.com/@robson_rocha/list/o-caminho-para-se-tornar-um-arquiteto-azure-atraves-das-certificacoes-microsoft-5e998ce7289b][O caminho para se tornar um Arquiteto Azure através das Certificações Microsoft]]
 + [[https://renatogroffe.medium.com/exame-az-900-azure-fundamentals-dicas-e-conte%C3%BAdos-gratuitos-5af72d1a8a29][Exame AZ-900 - Azure Fundamentals: dicas e conteúdos gratuitos]]
-

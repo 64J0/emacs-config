@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       273edbf4-0d24-45f6-bd13-a8fadfbb6a15
 :END:
-#+title: [Security Engineering] Access Control
+#+title: Access Control
 
 Notes taken from *[book] Secutiry Engineering*.
 
