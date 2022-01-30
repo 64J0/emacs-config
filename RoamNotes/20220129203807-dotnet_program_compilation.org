@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       91d6d4bb-f508-4750-bd2d-a22cbd4c4e52
+:END:
+#+title: .NET Program Compilation
+#+date: [2022-01-29 sáb 20:38]
+
+- Reference link: [[https://www.c-sharpcorner.com/UploadFile/a8024d/C-Sharp-program-compliation-steps/][C# Program Compilation Steps]]
+
+:TODO:
+
+* Decompilation of .NET program
+
+- Reference link: [[https://dev.to/dotnetsafer/i-show-you-how-to-crack-a-net-application-3-clicks-47ke][I show you how to Crack a .NET Application (3 clicks)]]
+
+:TODO:
