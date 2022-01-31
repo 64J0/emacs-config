@@ -75,3 +75,48 @@ order of magnitude load increase —or perhaps even more often than that.
 [...]  In an  early-stage startup  or an  unpro‐ ven  product it’s  usually more
 important to  be able to  iterate quickly  on product fea‐  tures than it  is to
 scale to some hypothetical future load.
+
+* Data models and query languages
+
+In this chapter we will look at  a range of general-purpose data models for data
+storage  and querying.  In particular,  we  will compare  relational model,  the
+document model, and a few graph-based data  models. We will also look at various
+query languages and compare their use cases.
+
+*** The birth of NoSQL
+
+There  are  several driving  forces  behind  the  adoption of  NoSQL  databases,
+including:
+
+- A need for  greater scalability than relational databases  can easily achieve,
+  including very large datasets or very high write throughput;
+
+- A  widespread preference  for free  and open  source software  over commercial
+  database products;
+
+- Specialized query  operations that  are not well  supported by  the relational
+  model;
+
+- Frustration with the restrictiveness of relational schemas, and a desire for a
+  more dynamic and expressive data model.
+
+*** The object-relational mismatch
+
+Most  applications  development today  is  done  in object-oriented  programming
+languages, which leads to  a common criticism of the SQL data  model: if data is
+stored in  relational tables, an  awkward translation layer is  required between
+the objects in the application code and  the database model of tables, rows, and
+columns. The  disconnect between  the models is  sometimes called  an *impedance
+mismatch*.
+
+ORM,  Object-relational mapping,  frameworks are  used to  reduce the  amount of
+boilerplate required for this translation  layer, but they can't completely hide
+the differences between the two models.
+
+*** Normalization
+
+Literature on the relational model distinguishes several different normal forms,
+but the distinctions  are of little practical  interest.
+
+*As a rule of  thumb, if you're duplicating values that could  be stored in just
+one place, the schema is not normalized*.

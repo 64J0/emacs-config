@@ -355,6 +355,8 @@
 
 ;; Second brain
 ;; https://www.youtube.com/watch?v=AyhPmypHDEw
+;; templates from:
+;; https://systemcrafters.net/build-a-second-brain-in-emacs/capturing-notes-efficiently/
 (use-package org-roam
   :ensure t
   :init
@@ -362,13 +364,29 @@
   :custom
   (org-roam-directory "~/Desktop/codes/emacs-config/RoamNotes")
   (org-roam-complete-everywhere t)
+  (org-roam-capture-templates
+   '(("d" "default" plain
+      "%?"
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+date: %U\n")
+      :unnarrowed t)
+     ("l" "programming language" plain
+      "* Characteristics\n\n- Family: %?\n- Inspired by: \n\n* Reference:\n\n"
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+      :unnarrowed t)
+     ("b" "book notes" plain
+      "\n* Source\n\nAuthor: %^{Author}\nTitle: ${title}\nYear: %^{Year}\n\n* Summary\n\n%?"
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+      :unnarrowed t)
+     ("p" "project" plain "* Goals\n\n%?\n\n* Tasks\n\n** TODO Add initial tasks\n\n* Dates\n\n"
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: Project")
+      :unnarrowed t)))
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
          ("C-c n i" . org-roam-node-insert)
          :map org-mode-map
          ("C-M-i"   . completion-at-point))
   :config
-  (org-roam-setup))
+  (org-roam-db-autosync-mode))
 
 ;; Spaced repetition algorithm to conduct interactive "drill sessions",
 ;; using org files as sources of facts to be memorised.
