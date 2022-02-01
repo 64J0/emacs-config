@@ -120,3 +120,10 @@ but the distinctions  are of little practical  interest.
 
 *As a rule of  thumb, if you're duplicating values that could  be stored in just
 one place, the schema is not normalized*.
+
+*** MapReduce querying
+
+/MapReduce/ is a programming model for  processing large amounts of data in bulk
+across many  machines, popularized  by Google.  A limited  form of  MapReduce is
+supported  by  some  NoSQL  datastores,  including MongoDB  and  CouchDB,  as  a
+mechanism for performing read-only queries across many documents.
