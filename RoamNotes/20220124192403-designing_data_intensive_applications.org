@@ -21,6 +21,7 @@ those lessons in practice. Later I'll describe this project in more detail.
 * Foundations of data systems
 
 + *Reliability:*
+
   Tolerating hardware & software faults and human errors.
 
   The  system  should  continue  to work  /correctly/  (performing  the  correct
@@ -28,12 +29,14 @@ those lessons in practice. Later I'll describe this project in more detail.
   (hardware or software faults, and even human error).
   
 + *Scalability:*
+
   Measuring load & performance. Latency, percentiles, throughput.
 
   As the  system grows (in  data volume,  traffic volume, or  complexity), there
   should be reasonable ways of dealing with that growth.
   
 + *Maintainability:*
+
   Operability, simplicity & evolvability.
 
   Over time,  many different  people will  work on  the system  (engineering and
@@ -55,7 +58,7 @@ best systems combine several approaches:
   can cause failures (provide a /sandbox/ environment).
 
 - Test thoroughly at all levels, from unit tests to whole-system integration tests
-  ans manual tests.
+  and manual tests.
 
 - Allow quick and easy recovery from human errors, to minimize the impact in the
   case of a failure.
@@ -72,9 +75,9 @@ is therefore  likely that you  will need to  rethink your architecture  on every
 order of magnitude load increase —or perhaps even more often than that.
 
 ---
-[...]  In an  early-stage startup  or an  unpro‐ ven  product it’s  usually more
-important to  be able to  iterate quickly  on product fea‐  tures than it  is to
-scale to some hypothetical future load.
+[...]   In an  early-stage  startup or  an unproven  product  it’s usually  more
+important to be able to iterate quickly  on product features than it is to scale
+to some hypothetical future load.
 
 * Data models and query languages
 

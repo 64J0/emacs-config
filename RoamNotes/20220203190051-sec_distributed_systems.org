@@ -1,0 +1,73 @@
+:PROPERTIES:
+:ID:       8994353b-0aaf-441f-b88d-ae46f37714f0
+:END:
+#+title: [Security] Distributed systems
+#+date: [2022-02-03 qui 19:00]
+
+Chapter 7 of the Security Engineering book that I'm reading as a coaching
+exercise.
+
+** Concurrency
+
+Processes are called /concurrent/ if they can run at the same time, and this is
+essential for performance; modern computers have many cores and run many
+programs at a time, typically for many users.
+
+Concurrency is hard to do robustly, especially when processes can act on the
+same data. Processes may use old data; they can make inconsistent updates; the
+order of updates may or may not matter; the system might deadlock; the data in
+different systems might never converge to consistent values; and when it's
+important to make things happen in the right order, or even to know the exact
+time, this can be trickier than you might think. The issues go up and down the
+entire stack.
+
+[...] Concurrency control in the real world is also a security issue. Like
+access control, it is needed to prevent users interfering with each other,
+whether accidentally or on purpose. And concurrency problems can occur at many
+levels in a system, from the hardware right up to the business logic.
+
+**** Why systems are becoming more concurrent?
+
++ Scale (serve more users)
++ Device complexity (more devices are able to use robust computer processors)
++ Interaction complexity (projects depending on other projects to run)
+
+*** Using old data versus paying to propagate state
+
+We've already covered two kinds of concurrency problems:
+
++ Replay attacks on protocols:
+  Where an attacker manages to pass out-of-date credentials.
+
++ Race conditions:
+  Where two programs can race to update some security state.
+
+[...] Preventing some attacks isn't always economical, as propagating changes in
+security state can be expensive.
+
+**** Card fraud example
+
+Credit and debit cards got popular in the 1970s, and so did fraus. To deal with
+it banking industry had to manage lists of /hot cards/ (whether stolen or
+abused) and this scenario got worse in 1980s as card networks went
+international.
+
+It isn't possible to keep a complete hot card list in every merchant terminal,
+since it requires the instant transmition of data to tens of milions of devices,
+and even if we tried to verify all transactions with the bank that issued the
+card, we'd be unable to use cards in places with no network (remote villages and
+on airplanes).
+
+To cope with those problems, most terminals are built to accept low cost
+transactions. Merchant terminals are allowed to process transactions up to a
+certain limit (the /floor limit/) offline; larger transactions need online
+verification with the merchant's bank, which will know all the local hot cards
+plus foreign cards that are being actively abused.
+
+Experience taught that a more centralised approach can work better for bad
+terminals. FICO observed that criminals take a handful of stolen cards to a cash
+machine and try them out one by one; they maintain a list of the 40 ATMs
+worldwide that have been used most recently for attempted fraud, and banks that
+subscribe to their service decline all transactions at those machines - which
+become unusable by those banks' cards for maybe half an hour. Most thieves don't
+understand this and just throw them away.
