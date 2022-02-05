@@ -71,3 +71,81 @@ worldwide that have been used most recently for attempted fraud, and banks that
 subscribe to their service decline all transactions at those machines - which
 become unusable by those banks' cards for maybe half an hour. Most thieves don't
 understand this and just throw them away.
+
+*** Locking to prevent inconsistent updates
+
+When people work concurrently on a document, they may use a version control
+system to ensure that only one eprson has write access at any time to any given
+part of it, or at least to warn of contention and flag up any inconsistent
+edits. /Locking/ is one general way to manage contention for resources such as
+filesystems and to make conflicting updates less likely. Another approach is
+/callback/; a server may keep a list of all those clients which rely on it for
+security state and notify them when the state changes.
+
+** Fault tolerance and failure recovery
+
+Failure recovery is often the most important aspect of security engineering, yet
+it is one of the most neglected. [...] As you read through this book, you'll see
+that many other applications, from burglar alarms through electronic warfare to
+protecting a company from DDoS attacks, are fundamentally about
+availability. Fault tolerance and failure recovery are often the core of the
+security engineer's job.
+
+Classical fault tolerance is usually based on redudancy, fortified using
+mechanism such as logs and locking.
+
++ Mean-time-before-failure (MTBF)
++ Mean-time-to-repair (MTTR)
+
+*** Interaction with fault tolerance
+
+We can constrain the failure rate in a number of ways. The two most obvious are
+by using /redudancy/ and /fail-stop processes/.
+
++ /fail-stop-processes/:
+
+  Process error-correction information along with data, and stop when an
+  inconsistency is detected.
+
+  Example: bank transactions processing will typically stop if an out-of-balance
+  condition is detected after a processing task.
+
+There was pioneering work on a /fault-tolerant multiprocessor/ (FTMP) in the
+1970s, where both tecniques we mentioned before are used together. This initial
+study was driven by the Space Shuttle project, where people explored which
+components should be redundant and the associated design trade-offs around where
+the error detection takes places and how closely everything is
+synchronised. Such research ended up driving the design of fault-tolerant
+processors used in various submarines and spacecraft, as well as architectures
+used by Boeing and Airbus, along with some payment machine companies.
+
+** Naming
+
+Naming is tricky in our current global scenario.
+
+*** The Needham naming principles
+
+People building distributed systems soon realised that naming gets complex
+quickly, and the lessons are set out in a classic article by Needham. Here are
+his ten principles:
+
+1. The function of names is to facilitate sharing.
+2. The naming information may not be all in one place, and so resolving names
+   brings all the general problems of a distributed system.
+3. It is bad to assume that only so many names will be needed.
+
+   The shortage of IP addresses, which motivated the development of IP version 6
+   (IPv6), is well enough discussed.
+
+4. Global names buy you less than you think.
+5. Names imply commitments, so keep the scheme flexible enough to cope with
+   organisational changes.
+6. Names may double as access tickets, or capabilities.
+7. Things are made much simpler if an incorrect name is obvious.
+8. Consistency is hard, and is often fudged. If directories are replicated, then
+   you may find yourself unable to read, or to write, depending on whether too
+   many or too few directories are available.
+9. Don't get too smart. Phone numbers are much more robust than computer
+   addresses.
+10. Some names are bound early, others not; and in general it is a bad thing
+    to bind early if you can avoid it.
