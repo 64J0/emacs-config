@@ -130,3 +130,45 @@ one place, the schema is not normalized*.
 across many  machines, popularized  by Google.  A limited  form of  MapReduce is
 supported  by  some  NoSQL  datastores,  including MongoDB  and  CouchDB,  as  a
 mechanism for performing read-only queries across many documents.
+
+** Graph-like data models
+
+There are several different, but related, ways of structuring and querying data
+in graphs. In this sections we will discuss the /property graph/ model
+(implemented by Neo4j, Titan, and InfiniteGraph) and the /triple-store/ model
+(implemented by Datomic, AllegroGraph, and others).
+
+*** Property graphs
+
+In a property graph model, each vertex consists of:
+
++ A unique identifier
++ A set of outgoing edges
++ A set of incoming edges
++ A collection of properties (key-value pairs)
+
+Each edge consists of:
+
++ A unique identifier
++ The vertex at which the edge starts (the /tail/ vertex)
++ The vertex at which the edge ends (the /head/ vertex)
++ A label to describe the kind of relationship between the two vertices
++ A collection of properties (key-value pairs)
+
+[...] Graphs are good for evolvability: as you add features to your application,
+a graph can easily be extended to accommodate changes in your application's data
+structures.
+
+** Summary
+
+1. /Document databases/ target use cases where data comes in self-contained
+   documents and relationships between one document and another are rare.
+2. /Graph databases/ go in the opposite direction, targeting use cases where
+   anything is potentially related to everything.
+
+One thing that document and graph databases have in common is that they
+typically don't enforce a schema for the data they store, which can make it
+easier to adapt applications to changing requirements. However, your application
+most likely still assumes that data has a certain structure; it's just a
+question of whether the schema is explicit (enforced on write) or implicit
+(handled on read).

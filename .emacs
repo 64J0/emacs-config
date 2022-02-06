@@ -5,19 +5,23 @@
 (require 'cl-lib) ;; cl -> common lisp
 
 ;; INITIAL CONFIG
-(setq inhibit-startup-message t  ;; remove startup message
-      standard-indent 4 ;; default indent spaces
-      auto-save-no-message t
-      tool-bar-mode -1 ;; remove tool bar
-      menu-bar-mode -1 ;; remove menu bar
-      global-linum-mode t ;; show the line number
-      delete-selection-mode t ;; delete text when selected and start typing
-      system-time-locale "pt_BR.UTF-8" ;; set encode
-      initial-buffer-choice "~/org/activities.org" ;; initial file
-      )
+(global-linum-mode) ;; show the line number
+(setq inhibit-startup-message t)  ;; remove startup message
+(setq standard-indent 4) ;; default indent spaces
+(setq auto-save-no-message t)
+(setq tool-bar-mode -1) ;; remove tool bar
+(setq menu-bar-mode -1) ;; remove menu bar
+(setq column-number-mode t) ;; show coordinates (y, x)
+(setq delete-selection-mode t) ;; delete text when selected and start typing
+(setq system-time-locale "pt_BR.UTF-8") ;; set encode
+(setq initial-buffer-choice "~/org/activities.org") ;; initial file
+;; https://stackoverflow.com/questions/12031830/what-are-file-and-file-and-how-can-i-get-rid-of-them
+(setq make-backup-files nil) ;; avoid ~ files
+
 (set-face-attribute 'default nil
 		    :height 140
 		    :family "DejaVu Sans Mono") ;; font size and family
+
 (setq-default indent-tabs-mode nil
 	      fill-column 80) ;; set indent size
 
