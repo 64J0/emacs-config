@@ -172,3 +172,21 @@ easier to adapt applications to changing requirements. However, your application
 most likely still assumes that data has a certain structure; it's just a
 question of whether the schema is explicit (enforced on write) or implicit
 (handled on read).
+
+* Storage and retrieval
+
+On the most fundamental level, a database needs to do two things: when you give
+it some data, it should store the data, and when you ask it again later, it
+should give the data back to you.
+
+Why should you, as an application developer, care how the database handles
+storage and retrieval internally? You're probably not going to implement your
+own storage engine from scratch, but you do need to select a storage engine that
+is appropriate for your application, from the many that are available. In order
+to tune a storage engine to perform well on your kind of workload, you need to
+have a rough idea of what the storage engine is doing under the hood.
+
+The word /log/ is often used to refer to application logs, where an application
+outputs text that describes what's happening. In this book, /log/ is used in the
+more general sense: an append-only sequence of records. It doesn't have to be
+human-readable; it might be binary and intended only for other programs to read.
