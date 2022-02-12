@@ -6,11 +6,11 @@
 
 ;; INITIAL CONFIG
 (global-linum-mode) ;; show the line number
+(tool-bar-mode -1) ;; remove tool bar
+(menu-bar-mode -1) ;; remove menu bar
 (setq inhibit-startup-message t)  ;; remove startup message
 (setq standard-indent 4) ;; default indent spaces
 (setq auto-save-no-message t)
-(setq tool-bar-mode -1) ;; remove tool bar
-(setq menu-bar-mode -1) ;; remove menu bar
 (setq column-number-mode t) ;; show coordinates (y, x)
 (setq delete-selection-mode t) ;; delete text when selected and start typing
 (setq system-time-locale "pt_BR.UTF-8") ;; set encode
@@ -54,7 +54,10 @@
 (eval-when-compile
   (require 'use-package))
 
-(load-theme 'dracula t)
+(use-package dracula-theme
+  :ensure t
+  :init
+  (load-theme 'dracula t))
 
 ;; COMplete ANYthing
 ;; Could give wrong completions (orgmode)
@@ -404,6 +407,23 @@
 (use-package org-super-agenda
   :ensure t)
 
+;; Replacement of DocView for PDF files.
+;; https://github.com/politza/pdf-tools
+(use-package pdf-tools
+  :ensure t
+  :config (pdf-tools-install))
+
+;; Is a complete text-based user interface to Git.
+;; https://magit.vc/
+(use-package magit
+  :ensure t)
+
+;; An Emacs LSP client that stays out of your way
+;; https://github.com/joaotavora/eglot
+(use-package eglot
+  :ensure t
+  :after company)
+
 ;; ======================================================
 ;; F# CONFIG
 
@@ -414,29 +434,24 @@
   :ensure t
   :hook (fsharp-mode . dotnet-mode))
 
-;; An Emacs LSP client that stays out of your way
-;; https://github.com/joaotavora/eglot
-(use-package eglot
-  :ensure t
-  :after company)
-
 ;; Provides support for the F# language in Emacs
 ;; https://github.com/fsharp/emacs-fsharp-mode
 (use-package fsharp-mode
   :ensure t
   :after company
-  :mode (("\\.fs$" .  fsharp-mode)
-	 ("\\.fsx$" .  fsharp-mode))
   :config
   (setq-default fsharp-indent-offset 4)
   (setq inferior-fsharp-program "dotnet fsi")
-  :hook (fsharp-mode . highlight-indentation-mode))
+  :hook
+  (fsharp-mode . highlight-indentation-mode))
+
+;; Code evaluation in org-mode
+(use-package ob-fsharp
+  :ensure t)
 
 (use-package eglot-fsharp
   :ensure t
-  :after fsharp-mode
-  :init
-  (add-hook 'inferior-fsharp-mode-hook 'turn-on-comint-history))
+  :after fsharp-mode)
 
 ;; Language Server Protocol Support for Emacs
 ;; Aims to provide IDE-like experience by providing optional integration
@@ -454,17 +469,6 @@
 (use-package lsp-ui
   :ensure t
   :commands lsp-ui-mode)
-
-;; Is a complete text-based user interface to Git.
-;; https://magit.vc/
-(use-package magit
-  :ensure t)
-
-;; Replacement of DocView for PDF files.
-;; https://github.com/politza/pdf-tools
-(use-package pdf-tools
-  :ensure t
-  :config (pdf-tools-install))
 
 ;; ======================================================
 ;; DEVSECOPS
@@ -560,7 +564,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(org-roam centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package)))
+   '(ob-fsharp org-roam centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
