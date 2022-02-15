@@ -79,3 +79,15 @@ exam discount is valid for 90 days. See FAQ for further info
 - Any tip on how to succeed in AI-900 exam?
 
 Go through the information at https://aka.ms/aifunpath.
+
+
+** What is AI?
+
+Simply put, AI is the creation of software that imitates human behaviors and
+capabilities. Key elements include:
+
+- Machine learning;
+- Anomaly detection;
+- Computer vision;
+- Natural language processing;
+- Conversational AI.
