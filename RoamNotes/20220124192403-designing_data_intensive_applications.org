@@ -195,3 +195,12 @@ more general sense: an append-only sequence of records. It doesn't have to be
 human-readable; it might be binary and intended only for other programs to read.
 
 ---
+
+*** Comparing B-Trees and LSM-Trees
+
+Even though B-tree implementations are generally more mature than LSM-tree
+implementations, LSM-trees are also interesting due to their performance
+characteristics. As a rule of thumb, LSM-trees are typically faster for writes,
+whereas B-trees are thought to be faster for reads. Reads are typically slower
+on LSM-trees because they have to check several different data structures and
+SSTables at different stages of compaction.

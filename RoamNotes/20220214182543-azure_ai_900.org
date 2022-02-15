@@ -1,0 +1,81 @@
+:PROPERTIES:
+:ID:       ac1af467-8d9d-436b-ba1c-2c57251aa93b
+:END:
+#+title: [Azure] AI-900
+#+date: [2022-02-14 seg 18:25]
+
+Microsoft Azure Virtual Training Day: AI Fundamentals
+
+On 02-14-2022 I have participated in a session of the Microsoft Azure Virtual
+Training Day focused in the AI Fundamentals services.
+
+Instructor: Tycho Juta
+His LinkedIn: https://linkedin.com/in/tychojuta
+
+Principles of responsible AI:
+- Fairness
+- Reliability & safety
+- Privacy & security
+- Inclusiveness
+- Transparency
+- Accountability
+
+https://aka.ms/learn-artificial-intelligence
+
+*** Azure Machine Learning
+
+"Creating predictive models by finding relationships in data."
+    
+- Regression
+- Classification
+- Clusterization
+
+*** Some useful links shared in presentation
+
+  Responsible AI - https://www.microsoft.com/ai/responsible-ai
+
+  Cards Demo - https://aka.ms/hci-demo
+
+  Learn more - https://aka.ms/learn-artificial-intelligence
+
+  Machine Learning Demo - https://aka.ms/No-code-automl
+
+  Computer Vision Demo - https://aidemos.microsoft.com/computer-vision
+
+  Image Classification Demo -
+  https://aka.ms/learn-image-classification
+
+  Learn more - https://aka.ms/explore-computer-vision
+
+  Natural Language Processing Demo -
+  https://aidemos.microsoft.com/text-analytics
+
+  Text Analytics Demo - https://aidemos.microsoft.com/luis/demo
+
+  Language Understanding Demo - https://aka.ms/learn-luis
+
+  Using a Bot Demo -
+  https://www.microsoft.com/en-us/research/project/health-bot/
+
+  Learn more - https://aka.ms/explore-bots
+
+  QnA Maker Link - https://www.qnamaker.ai/
+
+  Learn more - https://aka.ms/explore-nlp
+
+  You can find demos here - https://aidemos.microsoft.com/
+
+*** Voucher information
+  
+- How do I get my exam voucher?
+
+You will receive an email with instructions after the event concludes on how to
+access your exam discount for a single attempt of AI-900 (https://aka.ms/ai900)
+that will be linked automatically with your Microsoft Certification Dashboard
+(https://docs.microsoft.com/en-us/learn/certifications/) in 5 business days. The
+exam discount is valid for 90 days. See FAQ for further info
+-https://query.prod.cms.rt.microsoft.com/cms/api/am/binary/RWG1g3.
+
+- Any tip on how to succeed in AI-900 exam?
+
+Go through the information at https://aka.ms/aifunpath.
