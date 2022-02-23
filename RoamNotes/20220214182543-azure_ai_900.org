@@ -125,3 +125,41 @@ training data includes known label values.
 
   Links to existing Azure compute resources, such as Virtual Machines or Azure
   Databricks clusters.
+
+* Azure computer vision
+
+- Custom vision:
+  
+  A dedicated resource for the custom vision service, which can be training, a
+  prediction, or both resources.
+  
+- Cognitive services:
+  
+  A general cognitive services resource that includes Custom Vision along with
+  many other cognitive services. You can use this type of resource for training,
+  prediction, or both.
+
+** Uses of image classification
+
+- Product identification:
+
+  Performing visual searches for specific products in online searches or even,
+  in-store using a mobile device.
+
+- Disaster investigation:
+
+  Identifying key infrastructure for major disaster preparation efforts. For
+  example, identifying bridges and roads in aerial images can help disaster
+  relief teams plan ahead in regions that are not well mapped.
+
+- Medical diagnosis:
+
+  Evaluating images from X-ray or MRI devices could quickly classify specific
+  issues found as cancerous tumors, or many other medical conditions related to
+  medical imaging diagnosis.
+
+Most modern image classification solutions are based on deep learning techniques
+that make use of convolutional neural networks (CNNs) to uncover patterns in the
+pixels that correspond to particular classes. Training an effective CNN is a
+complex task that requires considerable expertise in data science and machine
+learning.

@@ -210,3 +210,94 @@ SSTables at different stages of compaction.
 On a high level, we saw that storage engines fall into two broad categories:
 those optimized for transaction processing (OLTP), and those optimized for
 analytics (OLAP). 
+
+* Encoding and evolution
+
+In this chapter we will look at several formats for encoding data, including
+JSON, XML, Protocol Buffers, Thrift, and Avro. In particular, we will look at
+how they handle schema changes and how they support systems where old and new
+data and code need to coexist. We will then discuss how those formats are used
+for data storage and for communication: in web services, Representational State
+Transfer (REST), and remote procedure calls (RPC), as well as message-passing
+systems such as actors and message queues.
+
+** Formats of encoding data
+
+Programs usually work with data in (at least) two different representations:
+
++ *In memory* (objects, structs, lists, arrays, hash tables, trees, etc). This
+  data structures are optimized for efficient acces and manipulation by the
+  CPU (typically using pointers);
+
++ *Encoded data* (when you want to write data to a file or sent it over the
+  network). You need to encode this data in some kind of self-contained sequence
+  of bytes (JSON for example).
+
+  The translation from the in-memory representation to a byte sequence is called
+  /encoding/ (also known as /serialization/ or /marshalling/), and the reverse
+  is called /decoding/ (/parsing/, /deserialization/, /unmarshalling/).
+
+** Language-specific encoding formats
+
+Many programming languages come with built-in support for encoding in-memory
+objects into byte sequences.
+
++ Java -> java.io.Serializable
++ Ruby -> Marshal
++ Python -> pickle
+
+These encoding libraries are very convenient, because they allow in-memory
+objects to be saved and restored with minimal additional code.
+
+*** Deep problems in language-specific encoding
+
+The encoding is often tied to a particular programming language, and reading the
+data in another language is very difficult.
+
+In order to restore data in the same object types, the decoding process needs to
+be able to instantiate arbitrary classes. This is frequently a source of
+security problems: if an attacker can get your application to decode an
+arbitrary byte sequence, they can instantiate arbitrary classes, which in turn
+often allows them to do terrible things such as remotely executing arbitrary
+code.
+
+Versioning data is often an afterthought in these libraries (inconvenient
+problems of forward and backward compatibility).
+
+Efficiency (CPU time taken to encode or decode, and the size of the encoded
+structure) is also often an afterthought.
+
+** JSON, XML and binary variants
+
+- Standardized encodings.
+
+** Thrift and protocol buffers
+
+Apache Thrift (made by Facebook) and Protocol buffers (aka protobuf, made by
+Google) are binary encoding libraries that are based on the same principle.
+
+Both technologies require a schema for any data that is encoded.
+
+#+begin_src json
+  {
+    "username": "Martin",
+    "favoritenumber": 1337,
+    "intersts": ["daydreaming", "hacking"]
+  }
+#+end_src
+
+#+begin_src thrift
+  struct Person {
+    1: required string       userName,
+    2: optional i64          favoriteNumber,
+    3: optional list<string> interests
+  }
+#+end_src
+
+#+begin_src protobuf
+  message Person {
+    required string userName      = 1;
+    optional int64 favoriteNumber = 2;
+    repeated string interests     = 3;
+  }
+#+end_src
