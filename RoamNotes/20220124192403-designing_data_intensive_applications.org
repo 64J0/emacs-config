@@ -301,3 +301,92 @@ Both technologies require a schema for any data that is encoded.
     repeated string interests     = 3;
   }
 #+end_src
+
+One detail to note: in these schemas, each field was marked either required or
+optional, but this makes no difference to how the field is encoded (nothing in
+the binary data indicates whether a field was required). The difference is
+simply that required enables a runtime check that fails if the field is not set,
+which can be useful for catching bugs.
+
+*** Backward compatibility
+
+Those data encoding formats are organized by their tag number. Removing a field
+is just like adding a field, with backward and forward compatibility concerns
+reversed. That means you can only remove a field that is optional (a required
+field can never be removed), and you can never use the same tag number again
+(because you may still have data written somewhere that includes the old tag
+number, and that field must be ignored by new code).
+
+*** Changing datatype of a field
+
+What about changing the datatype of a field? That may be possible - check the
+documentation for details - but there is a risk that values will lose precision
+or get truncated.
+
+**** Example:
+
+Previous data field -> 32-bit integer
+New data field      -> 64-bit integer
+
+Parser can fill in any missing bits with zero.
+
+---
+
+Previous data field -> 64-bit integer
+New data field      -> 32-bit integer
+
+If the decoded 64-bit value won't fit in 32-bits, it will be truncated.
+
+*** Protobuf array
+
+A curous detail of Protocol Buffers is that it does not have a list of array
+datatype, but instead has a repeated marker for fields (which is a third option
+alongside required and optional).
+
+** Avro
+
+Apache Avro is another binary encoding format that is interestingly different
+from Protocol Buffers and Thrift. It was started in 2009 as a subproject of
+Hadoop, as a result of Thrift not being a good fit for Hadoop's use cases.
+
+Avro also uses a schema to specify the structure of the data being encoded. It
+has two schema languages: one (Avro IDL) intended for human editing, and one
+(based on JSON) that is more easily machine readable.
+
+#+BEGIN_SRC avro-idl
+  record Person {
+    string               userName;
+    union { null, long } favoriteNumber = null;
+    array<string>        interests;
+  }
+#+END_SRC
+
+To parse the binary data, you go through the fields in the order that they
+appear in the schema and use the schema to tell you the datatype of each
+field. This means that the binary data can only be decoded correctly if the code
+reading the data is using the /exact same schema/ as the code that wrote the
+data. Any mismatch in the schema between the reader and the writer would mean
+incorrectly decoded data.
+
+The key idea with Avro is that the writer's schema and the reader's schema don't
+have to be the same - they only need to be compatible.
+
+** Code generation and dynamically typed languages
+
+Thrift and Protocol Buffers rely on code generation: after a schema has been
+defined, you can generate code that implements this schema in a programming
+language of your choice. This is useful in statically typed languages such as
+Java, C++, or C#, because it allows efficient in-memory structures to be used
+for decoded data, and it allows type checking and autocompletion in IDEs when
+writing programs that access the data structures.
+
+In dynamically typed programming languages such as JavaScript, Ruby or Python,
+there is not much point in generating code, since there is no compile-time type
+checker to satisfy.
+
+** Message brokers
+
+One process sends a message to a named queue or topic, and the broker ensures
+that the message is delivered to one or more consumers of or subscribers to that
+queue or topic. There can be many producers and many consumers on the same
+topic.

@@ -1,0 +1,20 @@
+:PROPERTIES:
+:ID:       ce17dca8-9209-46ba-8c0a-8f884063878a
+:END:
+#+title: Git in depth
+#+date: [2022-02-23 qua 12:54]
+
++ frontendmasters.com/workshops/git-indepth/
++ git.io/advanced-git
+
+* Git foundations
+  
+Commit points to a tree and contains metadata:
+  - author and committer
+  - date
+  - message
+  - parent commit (one or more)
+
+The SHA1 of the commit is the hash of all this information.
+
+~Currently on the 3rd video.~
