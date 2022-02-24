@@ -402,6 +402,14 @@
   :ensure t
   :commands (org-drill))
 
+;; Highlight uncommited changes on the left side of the window
+;; area known as the "gutter"
+;; https://github.com/dgutov/diff-hl
+(use-package diff-hl
+  :ensure t
+  :init
+  (global-diff-hl-mode))
+
 ;; Supercharge your org daily/weekly/agenda
 ;; https://github.com/alphapapa/org-super-agenda
 (use-package org-super-agenda
@@ -564,7 +572,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(ob-fsharp org-roam centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package)))
+   '(diff-hl diff-hl-mode ob-fsharp org-roam centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

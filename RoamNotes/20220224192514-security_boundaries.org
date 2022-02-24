@@ -1,0 +1,10 @@
+:PROPERTIES:
+:ID:       7f7ccf26-37e9-46a5-aa0c-b5fcd38fb4fd
+:END:
+#+title: [Security] Boundaries
+#+date: [2022-02-24 qui 19:25]
+
+The basic problem is that if you centralise systems containing sensitive
+information, you create a more valuable asset and simultaneously give more
+people access to it. Just as the benefits of networks can scale more than
+linearly, so can the harms.
