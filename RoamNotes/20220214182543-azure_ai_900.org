@@ -126,7 +126,6 @@ training data includes known label values.
   Links to existing Azure compute resources, such as Virtual Machines or Azure
   Databricks clusters.
 
-
 * Azure computer vision
 
 - Custom vision:
@@ -188,3 +187,37 @@ learning.
 
       Medical imaging such as an MRI or x-rays that can detect known objects for
       medical diagnosis.
+
+** Face service
+
+   Face detection, analysis, and recognition is an important capability for
+   artificial intelligence solutions. The Face cognitive service in Azure makes
+   it easy integrate these capabilities into your applications.
+
+*** Facial detection
+   
+    Face detection involves identifying regions of an image that contain a human
+    face, typically by returning a bounding box coordinates that form a
+    rectangle around the face.
+
+*** Facial analysis
+
+    Detect facial landmarks (nose, eyes, eyebrows, lips, etc), to train a
+    machine learning model from which you can infer information about a person,
+    such as their perceived emotional state.
+
+*** Facial recognition
+
+    Identify known individuals from their facial features.
+
+*** Microsoft Azure services
+
+    + Computer vision:
+      Offers face detection and some basic face analysis, such as determining
+      age.
+
+    + Video indexer:
+      Detect and identify faces in a video.
+
+    + Face:
+      Offers pre-built algorithms that can detect, recognize and analyze faces.
