@@ -194,3 +194,7 @@ The SHA1 of the commit is the hash of all this information.
        Keep the previous commit message.
      + Exec: run the command on this line after picking the previous commit.
      + Drop: remove the commit
+
+** 9 - Github vs Git
+   
+** 10 - Danger zone
