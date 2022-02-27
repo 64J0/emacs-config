@@ -140,24 +140,24 @@
         (expand-file-name "~/Desktop/codes/emacs-config/deps/ditaa0_9.jar"))
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((sql . t)
-     (dot     . t)
-     (latex   . t)
-     (shell   . t)
-     (python  . t)
-     (js      . t)
-     (ditaa   . t)
-     (ocaml   . t)
-     (java    . t)
-     (scheme  . t)
+   '((sql      . t)
+     (dot      . t)
+     (latex    . t)
+     (shell    . t)
+     (python   . t)
+     (js       . t)
+     (ditaa    . t)
+     (ocaml    . t)
+     (java     . t)
+     (scheme   . t)
      (plantuml . t)
-     (ditaa   . t)
-     (sqlite  . t)
-     (gnuplot . t)
-     (ditaa  . t)
-     (C      . t)
-     (ledger . t)
-     (org    . t)))
+     (ditaa    . t)
+     (sqlite   . t)
+     (gnuplot  . t)
+     (ditaa    . t)
+     (C        . t)
+     (ledger   . t)
+     (org      . t)))
   (add-to-list
    'auto-mode-alist
    '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
@@ -408,7 +408,8 @@
 (use-package diff-hl
   :ensure t
   :init
-  (global-diff-hl-mode))
+  (global-diff-hl-mode)
+  (diff-hl-flydiff-mode))
 
 ;; Supercharge your org daily/weekly/agenda
 ;; https://github.com/alphapapa/org-super-agenda

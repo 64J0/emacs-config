@@ -4,7 +4,39 @@
 #+title: [Security] Boundaries
 #+date: [2022-02-24 qui 19:25]
 
+** Description
+
+In this chapter, we look at the problem of setting boundaries when systems scale
+up to collect large amounts of sensitive information, to which many people need
+access in order to do their jobs. This is an issue in many information security
+problems, ranging from the protection of national intelligence data and data
+about the wildlife at risk from poaching, through the privacy and confidence of
+medical and social-care information, to professional practice in general.
+   
+---
+
 The basic problem is that if you centralise systems containing sensitive
 information, you create a more valuable asset and simultaneously give more
 people access to it. Just as the benefits of networks can scale more than
 linearly, so can the harms.
+
+** Health record privacy
+
+Perhaps the most complex and instructive example of security policies where
+access control supports privacy is found in clinical information systems. The
+healthcare sector spends a much larger share of national income than the
+military in all developed countries, and although hospitals are still less
+automated, they are catching up fast. The protection of medical information is
+thus an important case study for us all, with many rich and complex tradeoffs.
+
+[...]
+
+The appropriate context to study health IT threats is not privacy alone, but
+safety and privacy together. The main objective is safety, and privacy is often
+subordinate. The two are also intertwined, though in many ways.
+
+[...]
+
+The likelihood that a resource will be abused depends on its value and on the
+number of people with access to it. Aggregating personal information into large
+databases increases both these risk factors at the same time.
