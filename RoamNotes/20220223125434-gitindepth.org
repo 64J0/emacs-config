@@ -1,13 +1,15 @@
 :PROPERTIES:
 :ID:       ce17dca8-9209-46ba-8c0a-8f884063878a
 :END:
-#+title: Git in depth
+#+title: [Course] Git in depth
 #+date: [2022-02-23 qua 12:54]
 
 + frontendmasters.com/workshops/git-indepth/
 + git.io/advanced-git
 
 * Git foundations
+
+  Git mantra: "Commit often, perfect later, publish once".
   
 Commit points to a tree and contains metadata:
   - author and committer
@@ -17,4 +19,178 @@ Commit points to a tree and contains metadata:
 
 The SHA1 of the commit is the hash of all this information.
 
-~Currently on the 3rd video.~
++ Commits point to parent commits and trees.
+
+** Three areas where code lives
+
+   + Working area -> Staging area -> Repository.
+   
+*** Working area
+
+    The files in your working area are also not in the staging area are not
+    handled by git.
+
+    Also called untracked files.
+
+*** Staging area
+
+    What files are going to be part of the next commit.
+
+    The staging area is how git knows what will change ebtween the current
+    commit and the next commit.
+
+    Consider the baseline staging are as being an exact copy of the latest
+    commit.
+
+#+BEGIN_SRC bash
+  $ git ls-files -s
+  # ...
+  $ git add <file>
+  # ...
+  $ git rm <file>
+  # ...
+  $ git mv <file>
+  # ...
+
+  $ git add -p
+  # allows you to stage commits in hunks
+  # interactively!
+
+  # STASH
+  # -----------------------------
+  # Keep untracked files
+  $ git stash --include-untracked
+  # Name stashes for easy reference
+  $ git stash save "WIP: making progress on foo"
+  # Start a branch from stash
+  $ git stash branch <option_branch_name>
+  # Grab a single file from a stash
+  $ git checkout <stash_name> -- <filename>
+  # Remove the last stash and apply changes
+  $ git stash pop
+  # it will not remove if there's a merge conflict
+  # remove the last stash
+  $ git stash drop
+  # remove the nth stash
+  $ git stash drop stash@{n}
+#+END_SRC
+
+*** Repository
+
+    The files git knows about!
+
+    Contains all of your commits.
+
+** 4 - References
+
+   HEAD is how git knows what branch you're currently on, and what the next
+   parent will be.
+
+   + It's a pointer.
+     + It usually points at the name of the current branch.
+     + But, it can point at a commit too (detached HEAD).
+   + It moves when:
+     + You make a commit in the currently active branch.
+     + When you checkout a new branch.
+
+** 5 - Merging and rebasing
+
+   Git rerere - Reuse Recorded Resolution
+
+   Turn it on:
+
+   + git config rerere.enabled true
+   + use --global flag to enable for all projects
+
+** 6 - History and diffs
+
+   Good commits help preserve the history of a code base.
+
+   They help with:
+
+   + debugging & troubleshooting;
+   + creating release notes;
+   + code reviews;
+   + rolling back;
+   + associating the code with an issue or ticket.
+
+#+BEGIN_SRC bash
+  $ git log --since="2 weeks ago"
+#+END_SRC
+
+*** Show commit and contents
+
+#+BEGIN_SRC bash
+  # show commit and contents
+  $ git show <commit>
+
+  # show files changed in commit:
+  $ git show <commit> --stat
+
+  # look at a file from another commit:
+  $ git show <commit>:<file>
+#+END_SRC
+
+*** Show changes between commits (diff)
+
+#+BEGIN_SRC bash
+  $ git diff
+  $ git diff --staged
+#+END_SRC
+
+** 7 - Fixing mistakes
+
+   What happens when you git checkout a branch?
+
+   1. Change HEAD to point to the new branch
+   2. Copy the commit snapshot to the staging area
+   3. Update the working area with the branch contents
+
+*** Git clean
+
+    Will clear your working area by deleting untracked files. ~Warning: this
+    operation cannot be undone.~ 
+
+*** Git reset
+
+    Reset is another command that performs different actions depending on the
+    arguments. ~Warning: this operation cannot be undone under certain
+    circunstances (--hard).~
+
+    + Git reset can change history!
+
+*** Git revert
+
+    Creates a new commit that introduces the opposite changes from the specified
+    commit.
+
+    + Git reset does not change history!
+
+** 8 - Rebase, amend
+
+   + Rewrite history!
+   + Before we rebase, make a copy of the current branch.
+
+*** Amend a commit
+
+    Amend is a quick and easy shortcur that lets you make changes to the
+    previous commit.
+
+*** Rebase
+
+    Reorder our commit history to fix merge errors.
+
+    + Give a commit a new parent.
+    + We can use rebase to split commits.
+
+**** Rebase options
+
+     + Pick: keep the commit
+     + Reword: keep the commit, just change the message
+     + Edit: keep the commit, but stop to edit more than the message
+     + Squash: combine this commit with the previous one.
+       Stop to edit the message.
+     + Fixup: combine this commit with the previous one.
+       Keep the previous commit message.
+     + Exec: run the command on this line after picking the previous commit.
+     + Drop: remove the commit
