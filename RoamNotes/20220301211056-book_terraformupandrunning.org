@@ -1,0 +1,18 @@
+:PROPERTIES:
+:ID:       a3c36c62-c2b3-407a-ae33-25e2cef65089
+:END:
+#+title: [Book] Terraform Up And Running
+#+date: [2022-03-01 ter 21:10]
+#+edition: 2nd
+
++ What is Terraform?
+
+Terraform is an open source tool created by HashiCorp that allows you to define
+your infrastructure as code using a simple, declarative language and to deploy
+and manage that infrastructure across a variety of public cloud providers (e.g.,
+AWS, Azure, GCP, DigitalOcean) and private cloud and virtualization platforms
+(e.g., OpenStack, VMWare) using a few commands.
+
++ Where to find this book codes?
+
+https://github.com/brikis98/terraform-up-and-running-code
