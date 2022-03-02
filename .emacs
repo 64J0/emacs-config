@@ -400,7 +400,9 @@
 ;; https://orgmode.org/worg/org-contrib/org-drill.html
 (use-package org-drill
   :ensure t
-  :commands (org-drill))
+  :commands (org-drill)
+  :init
+  (setq org-drill-add-random-noise-to-intervals-p t))
 
 ;; Highlight uncommited changes on the left side of the window
 ;; area known as the "gutter"

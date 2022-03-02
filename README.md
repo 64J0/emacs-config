@@ -33,3 +33,10 @@ $ sudo make install
 Since Emacs could be configured using Elisp it is totally useful to learn this programming language in order to create new functionalities or even get more familiar with this tool.
 
 In order to learn this I'm currently using this reference: [(Book) Introduction to programming in Emacs Lisp](https://www.gnu.org/software/emacs/manual/eintr.html).
+
+After finishing this first book, I plan to read [Paradigms of Artificial Intelligence Programming: Case Studies in Common Lisp](https://github.com/norvig/paip-lisp).
+
+## Some cool packages link
+
+* [org-drill](https://orgmode.org/worg/org-contrib/org-drill.html#:~:text=Running%20the%20drill%20session) reference for running the drill session. This part of the docs is very good since it explains what each number means and how to run the session passing the scope to read our drills.
+  * Before publishing an org-drill deck we should use `org-drill-strip-all-data` to remove personal scheduling data.
