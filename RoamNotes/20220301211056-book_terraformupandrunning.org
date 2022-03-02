@@ -13,6 +13,106 @@ and manage that infrastructure across a variety of public cloud providers (e.g.,
 AWS, Azure, GCP, DigitalOcean) and private cloud and virtualization platforms
 (e.g., OpenStack, VMWare) using a few commands.
 
+Terraform is an open source tool created by Hashicorp and written in the Go
+programming language.
+
 + Where to find this book codes?
 
 https://github.com/brikis98/terraform-up-and-running-code
+
+* 1 - Why Terraform
+
+  [...] Software isn't done until you deliver it to the user.
+
+  Software delivery consists of all of the work you need to do to make the code
+  available to a customer, such as running that code on production servers,
+  making the code resilient to outages and traffic spikes, and protecting the
+  code from attackers.
+
+  Some tools to keep an eye on:
+
+  + Chef
+  + Puppet
+  + Terraform
+  + Docker
+
+  DevOps definition adopted by this book author:
+
+  + The goal of DevOps is to make software delivery vastly more efficient.
+
+  Instead of multiday merge nightmares, you integrate code continuously and
+  always keep it in a deployable state. Instead of deploying code once per
+  month, you can deploy code dozens of times per day, or even after every single
+  commit. And instead of constant outages and downtime, you build resilient,
+  self-healing systems and use monitoring and alerting to catch problems that
+  can't be resolved automatically.
+
+** IAC (Infrastructure As Code)
+
+   The idea behind IAC is that you write and execute code to define, deploy,
+   update, and destroy your infrastructure. [...] In fact, a key insight of
+   DevOps is that you can manage almost everything in code, including servers,
+   databases, networks, log files, application configuration, documentation,
+   automated tests, deployment processes, and so on.
+
+   There are five broad categories of IAC tools that I'll write some notes next.
+
+*** Ad Hoc Scripts
+
+    This is the most straighforward approach to automate anything. You take
+    whatever task you were doing manually, break it down into discrete steps,
+    use your favorite scripting language (e.g., Bash, Ruby, Python) to define
+    each of those steps in code, and execute that script on your server.
+
+*** Configuration Management Tools
+
+    Chef, Puppet, Ansible, and SaltStack are all configuration management tools,
+    which means that they are designed to install and manage software on
+    existing servers.
+
+*** Server Templating Tools
+
+    An alternative to configuration management that has been growing in
+    popularity recently are server templating tools such as Docker, Packer, and
+    Vagrant. Instead of launching a bunch of server and configuring them by
+    running the same code on each one, the idea behind server templating tools
+    is to create an image of the server that captures a fully self-contained
+    "snapshot" of the operating system (OS), the software, the files, and all
+    other relevant details.
+
+*** Orchestration Tools
+
+    For most real-world use cases, you'll need a way to do the following:
+
+    - Deploy VMs and containers, making efficient use of your hardware.
+    - Roll out updates to an existing fleet of VMs and containers using strategies
+      such as rolling deployment, blue-green deployment, and canary deployment.
+    - Monitor the health of your VMs and containers and automatically replace
+      unhealthy ones (auto healing).
+    - Scale the number of VMs and containers up or down in response to load (auto
+      scaling).
+    - Distribute traffic across your VMs and containers (load balancing).
+    - Allows your VMs and containers to find and talk one another over the network
+      (service discovery).
+
+    Handling these tasks is the realm of orchestration tools such as Kubernetes,
+    Marathon/Mesos, Amazon Elastic Container Service (Amazon ECS), Docker Swarm,
+    Nomad, AKS.
+
+*** Provisioning Tools
+
+    Whereas configuration management, server templating, and orchestration tools
+    define the code that runs on each server, provisioning tools such as
+    Terraform, CloudFormation, and OpenStack Heat are responsible for creating
+    the servers themselves. In fact, you can use provisioning tools to not only
+    create servers, but also databases, caches, load balancers, queues,
+    monitoring, subnet configurations, firewall settings, routing rules, Secure
+    Sockets Layer (SSL) certificates, and almost every other aspect of your
+    infrastructure.
+
+** The benefits of IAC
+
+   According to the 2016 State of DevOps Report, organizations that use DevOps
+   practices, such as IaC, deploy 200 times more frequently, recover from
+   failures 24 times faster, and have lead times that are 2,555 times lower.
+
