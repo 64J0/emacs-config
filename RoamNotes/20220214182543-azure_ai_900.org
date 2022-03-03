@@ -221,3 +221,64 @@ learning.
 
     + Face:
       Offers pre-built algorithms that can detect, recognize and analyze faces.
+
+** Optical character recognition (OCR)
+
+   Optical character recognition (OCR) enables artificial intelligence (AI)
+   systems to read text in images, enabling applications to extract information
+   from photographs, scanned documents, and other sources of digitized text.
+
+   This is related to:
+
+   + Process written or printed text
+
+   The basic foundation of processing printed text is optical character
+   recognition (OCR), in which a model can be trained to recognize individual
+   shapes as letters, numerals, punctuation, or other elements of text. Much of
+   the early work on implementing this kind of capability was performed by
+   postal services to support automatic sorting of mail based on postal
+   codes. Since then, the state-of-the-art for reading text has moved on, and
+   it's now possible to build models that can detect printed or handwritten text
+   in an image and read it line-by-line or even word-by-word.
+
+   At the other end of the scale, there is machine reading comprehension (MRC),
+   in which AI systems not only reads the text characters, but can use a
+   semantic model to interpret what the text is about.
+
+*** Uses of OCR
+
+    + note taking;
+    + digitizing forms, such as medical records or historical documents;
+    + scanning printed or handwritten checks for bank deposits.
+
+*** Azure resources for computer vision
+
+    + Computer Vision:
+
+      A specific resource for the Computer Vision service. Use this resource
+      type if you don't intend to use any other cognitive services, or if you
+      want to track utilization and costs for your Computer Vision resource
+      separately.
+
+    + Cognitive Services:
+
+      A general cognitive services resource that includes Computer Vision along
+      with many other cognitive services; such as Text Analytics, Translator
+      Text, and others. Use this resource if you plan to use multiple cognitive
+      services and want to simplify administration and development.
+
+*** Knowledge check
+
+    1. You want to extract text from images and then use the Text Analytics
+       service to analyze the text. You want developers to require only one key
+       and endpoint to access all of your services. What kind of resource
+       should you create in your Azure subscription?
+
+       A: Cognitive Services. This resource support both Computer Vision for text
+       extraction, and Text Analytics for text analysis.
+
+    2. You plan to use the Computer Vision service to read text in a large PDF
+       document. Which API should you use?
+
+       A: The Read API. This API is better suited for larger images but it runs
+       asynchronously so it will not block your application while it is running.

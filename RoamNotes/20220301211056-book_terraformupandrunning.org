@@ -116,3 +116,6 @@ https://github.com/brikis98/terraform-up-and-running-code
    practices, such as IaC, deploy 200 times more frequently, recover from
    failures 24 times faster, and have lead times that are 2,555 times lower.
 
+* 2 - Getting started with Terraform
+
+  In this chapter, you're going to learn the basics of how to use Terraform.
