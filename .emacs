@@ -22,8 +22,8 @@
 		    :height 140
 		    :family "DejaVu Sans Mono") ;; font size and family
 
-(setq-default indent-tabs-mode nil
-	      fill-column 80) ;; set indent size
+(setq-default indent-tabs-mode nil)
+(setq-default fill-column 80)
 
 ;; GLOBAL KEY BINDINGS
 (global-set-key (kbd "C-<tab>") 'other-window)
@@ -66,7 +66,7 @@
   :ensure t
   :commands (company-mode company-indent-or-complete-common)
   :config
-  (setf company-idle-delay 0
+  (setf company-idle-delay 1
         company-selection-wrap-around t)
   :hook (after-init . global-company-mode))
 
@@ -91,10 +91,19 @@
   :bind (("M-x" . helm-M-x)
 	 ("C-x b" . helm-buffers-list)))
 
+;; lsp -> language server protocol
 ;; https://github.com/emacs-lsp/helm-lsp
 (use-package helm-lsp
   :ensure t
   :commands helm-lsp-workspace-symbol)
+
+;; Highlight delimiters such as parentheses, brackets or braces
+;; according to their depth
+;; https://github.com/Fanael/rainbow-delimiters
+(use-package rainbow-delimiters
+  :ensure t
+  :init
+  (rainbow-delimiters-mode))
 
 ;; Show directory tree on the lateral
 ;; https://github.com/jaypei/emacs-neotree
@@ -124,6 +133,8 @@
 ;; computational notebooks, literate programming, maintaining to-do
 ;; lists, planning projects, and more.
 ;; https://orgmode.org/
+;; https://github.com/alphapapa/org-super-agenda/blob/master/examples.org
+;; https://github.com/ebellani/Emacs.d/blob/master/init.el
 (use-package org
   :ensure t
   :bind (("C-c l" . org-store-link)
@@ -161,10 +172,43 @@
   (add-to-list
    'auto-mode-alist
    '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
+  (setq org-log-done t)
+  (setq org-export-backends
+	'(md gfm beamer ascii taskjuggler html latex odt org))
+  (setq org-support-shift-select 'always)
+  (setq org-directory "~/org")
+  (setq org-default-notes-file "~/org/notes-refile.org")
+  (setq org-refile-file-path "~/org/refile.org")
+  (setq org-refile-allow-creating-parent-nodes t)
+  (setq org-refile-use-outline-path 'full-file-path)
+  (setq org-babel-inline-result-wrap "%s")
+  (setq org-habit-graph-column 60)
+  (setq org-habit-following-days 0)
+  (setq org-habit-preceding-days 14)
+  (setq org-outline-path-complete-in-steps nil)
+  (setq org-use-fast-todo-selection t) ;; C-c C-t KEY
+  (setq org-imenu-depth 6)
+  (setq org-src-fontify-natively t)
+  (setq org-use-sub-superscripts '{})
+  (setq org-export-with-sub-superscripts '{})
+  (setq org-duration-format '((special . h:mm)))
+  (setq org-goto-interface 'outline-path-completion)
+  (setq org-agenda-skip-scheduled-if-done t)
+  (setq org-agenda-skip-deadline-if-done t)
+  (setq org-agenda-block-separator nil)
+  (setq org-agenda-include-diary nil)
+  (setq org-agenda-compact-blocks t)
+  (setq org-agenda-start-with-log-mode t)
+  (setq org-agenda-sticky nil)
+  (setq org-agenda-span 'day)
+  (setq org-latex-pdf-process (list "latexmk -silent -f -pdf %f"))
+  (setq org-cite-export-processors '((latex biblatex)
+                                     (moderncv basic)
+                                     (t basic)))
   (setq org-todo-keywords
 	(quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-		(sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING")))
-        org-todo-keyword-faces
+		(sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
+  (setq org-todo-keyword-faces
 	(quote (("TODO" :foreground "red" :weight bold)
 		("NEXT" :foreground "blue" :weight bold)
 		("DONE" :foreground "forest green" :weight bold)
@@ -172,10 +216,8 @@
 		("HOLD" :foreground "magenta" :weight bold)
 		("CANCELLED" :foreground "forest green" :weight bold)
 		("PHONE" :foreground "forest green" :weight bold)
-		("MEETING" :foreground "forest green" :weight bold))
-	       )
-        org-use-fast-todo-selection t ;; C-c C-t KEY
-        org-todo-state-tags-triggers
+		("MEETING" :foreground "forest green" :weight bold))))
+  (setq org-todo-state-tags-triggers
 	(quote (("CANCELLED" ("CANCELLED" . t))
 		("WAITING" ("WAITING" . t))
 		("HOLD" ("WAITING") ("HOLD" . t))
@@ -183,52 +225,17 @@
 		("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
 		("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
 		("DONE" ("WAITING") ("CANCELLED") ("HOLD"))
-		))
-        org-log-done t
-        org-export-backends
-	'(md gfm beamer ascii taskjuggler html latex odt org)
-        org-support-shift-select
-	'always
-        org-directory "~/org"
-        org-default-notes-file "~/org/refile.org"
-        org-capture-templates
-	(quote (("t" "todo" entry (file "~/org/refile.org")
-		 "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
-		("r" "respond" entry (file "~/org/refile.org")
-		 "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-		("n" "note" entry (file "~/org/refile.org")
-		 "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-		("j" "Journal" entry (file+datetree "~/org/refile.org")
-		 "* %?\n%U\n" :clock-in t :clock-resume t)
-		("w" "org-protocol" entry (file "~/org/refile.org")
-		 "* TODO Review %c\n%U\n" :immediate-finish t)
-		("m" "Meeting" entry (file "~/org/refile.org")
-		 "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
-		("p" "Phone call" entry (file "~/org/refile.org")
-		 "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-		("h" "Habit" entry (file "~/org/refile.org")
-		 "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
 		)))
-  ;; Bellani config area
-  (setq org-refile-file-path "~/org/refile.org"
-        org-refile-allow-creating-parent-nodes 'confirm
-        org-babel-inline-result-wrap "%s"
-        org-habit-graph-column 60
-        org-habit-following-days 0
-        org-habit-preceding-days 14
-        org-refile-use-outline-path 'file
-        org-outline-path-complete-in-steps nil
-        org-tag-alist '((:startgroup)
+  (setq org-tag-alist '((:startgroup)
                         ("noexport" . ?n)
-                        ("export" . ?e)
-                        (:endgroup))
-        org-refile-targets
-        `((nil :maxlevel . 9)
-          (org-agenda-files :maxlevel . 2)
-          (,"~/org/srs/deck.org" :maxlevel . 2)
-          (,"~/org/agenda/meetings.org" :maxlevel . 2)
-          (,"~/org/srs/refile.org" :maxlevel . 2))
-        org-capture-templates
+                        ("export"   . ?e)
+                        (:endgroup)))
+  (setq org-refile-targets
+        `((nil                          :maxlevel . 9)
+          (org-agenda-files             :maxlevel . 2)
+          (,"~/org/srs/deck.org"        :maxlevel . 2)
+          (,"~/org/agenda/meetings.org" :maxlevel . 2)))
+  (setq org-capture-templates
         `(("e" "Email [m4ue]" entry (file main-agenda)
            ,(concat "* TODO Process \"%a\"\n"
                     "SCHEDULED: %t\n"
@@ -308,16 +315,8 @@
                     ":PROPERTIES:\n"
                     ":drill_card_type: hide2cloze\n"
                     ":END:\n"
-                    "%?\n")))
-        org-todo-keywords
-        '((sequence "TODO(t@/!)" "|" "DONE(d@/!)")
-          (sequence "WAITING(w@/!)" "|" "CANCELLED(c@/!)")
-          (sequence "REPEAT(r@/!)"))
-        org-imenu-depth 6
-        org-src-fontify-natively t
-        org-use-sub-superscripts '{}
-        org-export-with-sub-superscripts '{}
-        org-babel-default-header-args
+                    "%?\n"))))
+  (setq org-babel-default-header-args
         (cons '(:noweb . "yes")
               (assq-delete-all :noweb org-babel-default-header-args))
         org-babel-default-header-args
@@ -325,26 +324,7 @@
               (assq-delete-all :tangle org-babel-default-header-args))
         org-babel-default-header-args
         (cons '(:comments . "link")
-              (assq-delete-all :comments org-babel-default-header-args))
-        org-duration-format '((special . h:mm))
-        org-goto-interface 'outline-path-completion
-        ;; agenda stuff copied from
-        ;; https://github.com/alphapapa/org-super-agenda/blob/master/examples.org
-        org-agenda-skip-scheduled-if-done t
-        org-agenda-skip-deadline-if-done t
-        org-agenda-block-separator nil
-        org-agenda-include-diary nil
-        org-agenda-compact-blocks t
-        org-agenda-start-with-log-mode t
-        ;; allows multiple agenda views to coexist
-        org-agenda-sticky nil ;; setting it to t breaks capture from agenda, for now
-        org-agenda-span 'day
-        org-plantuml-jar-path "/home/user/bin/plantuml.jar"
-        org-latex-pdf-process (list "latexmk -silent -f -pdf %f")
-        org-cite-export-processors '((latex biblatex)
-                                     (moderncv basic)
-                                     (t basic))
-        )
+              (assq-delete-all :comments org-babel-default-header-args)))
   )
 
 ;; Taskjuggler is a project planning software which uses a plain text file for the
@@ -403,6 +383,13 @@
   :commands (org-drill)
   :init
   (setq org-drill-add-random-noise-to-intervals-p t))
+
+;; https://github.com/emacs-grammarly/lsp-grammarly
+;; (use-package lsp-grammarly
+;;   :ensure t
+;;   :hook (text-mode . (lambda ()
+;;                        (require 'lsp-grammarly)
+;;                        (lsp))))  ; or lsp-deferred
 
 ;; Highlight uncommited changes on the left side of the window
 ;; area known as the "gutter"
@@ -575,7 +562,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(diff-hl diff-hl-mode ob-fsharp org-roam centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package)))
+   '(rainbow-delimiters lsp-grammarly diff-hl diff-hl-mode ob-fsharp org-roam centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
