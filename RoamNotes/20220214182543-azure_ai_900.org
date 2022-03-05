@@ -282,3 +282,33 @@ learning.
 
        A: The Read API. This API is better suited for larger images but it runs
        asynchronously so it will not block your application while it is running.
+
+** Analyze receipts with the Form Recognizer service
+
+   A common problem in many organizations is the need to process receipt or
+   invoice data. For example, a company might require expense claims to be
+   submitted electronically with scanned receipts, or invoices might need to be
+   digitizes and routed to the correct accounts department. Typically after a
+   document is scanned, someone will still need to manually enter the extracted
+   text into a database.
+
+   Increasingly, organizations with large volumes of receipt and invoices to
+   process are looking for artificial inteliggence (AI) solutions that can not
+   only extract the text data from receipts, but also inteliggently interpret
+   the information they contain.
+
+   Azure's *Form Recognizer* service can solve this issue by digitizing fields
+   from forms using optical character recognition (OCR).
+
+*** Knowledge check
+
+    1. You plan to use the Form Recognizer pre-built receipt model. Which kind
+       of Azure resource should you create?
+
+       A: Form Recognizer or Cognitive Services resource.
+
+    2. You are using the Form Recognizer service to analyze receipts that you
+       have scanned into JPG format images. What is the maximum file size of
+       JPG file that you can submit to the pre-built receipt model?
+
+       A: 50 MB

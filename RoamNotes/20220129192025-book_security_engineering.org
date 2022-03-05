@@ -36,3 +36,81 @@
   Anonymisation is an aspirational term that means stripping identifying
   information from data in such a way that useful statistical research can be
   done without leaking information about identifiable data subjects.
+
+  [...]
+
+  Since 2006, we have a solid theory of exactly how much protection we can get
+  from adding randomness: differential privacy.
+
+  [...]
+
+  By 2011 Google was describing its core competence as 'thes tatistical data
+  mining of crowdsourced data'; as the datasets got larger, and basic
+  statistical techniques were augmented with machine learning, the amount we can
+  learn has grown.
+
+  [...]
+
+  So is it possible to do anonymisation properly? The answer is yes; in certain
+  circumstances, it is. Although it is not possible to create anonymous datasets
+  that can be used to answer any question, we can sometimes provide a dependable
+  measure of privacy when we set out to answer a specific set of reasearch
+  questions. This brings us to the theory of differential privacy.
+
+** 11.3- Differential privacy
+
+   In 2006, Cynthia Dwork, Frank McSherry, Kobbi Nissim and Adam Smith published
+   a seminal paper showing how you could systematically analyse privacy systems
+   that added noise to prevent disclosure of sensitive statistics in a
+   database. (“Calibrating noise to sensitivity in private data analysis”, Third
+   conference on Theory of Cryptography (2006)). Their theory, /differential
+   privacy/, enables the security engineer to limit the probability of
+   disclosure, even in the presence of an adversary with unbounded computational
+   power and copious side information, and can thus be seen as the equivalent of
+   the one-time pad and unconditionally secure authentication codes in
+   cryptography.
+
+   + Gold standard for both statistical database security and for anonymisation
+     in general.
+
+   [...]
+
+   There is now a growing research literature exploring how such mechanisms can
+   be extended for static to dynamic databases, to data streams, to mechanism
+   design and to machine learning. But can the promise of learning nothing
+   useful about individuals while learning useful information about a
+   population, be realised in practical applications?
+
+   Differential privacy is now getting a full-scale test in the 2020 US
+   census. The census is not allowed to publish anything that identifies the
+   data of any individual or establishment; collected data must by law be kept
+   confidential for 72 years and used only for statistical purposes until then.
+
+** 11.4 - Mind the gap?
+
+   Firms want to be responsible, but how do you give live data to your
+   development and test teams? How can you collaborate with academics and
+   startups? How can you sell data products? Anonymisation technologyu is all
+   pretty rudimentary at this scale, and as you just don't know what's goingo
+   on, it's beyong the scope of differential privacy or anything else you can
+   analyse cleanly. You can tokenise the data on ingest to get rid of the
+   obvious names, then control access and use special tricks for time series and
+   location streams, but noise addition doesn't work on trajectories and there
+   are lots of creative ways to re-identify location data (e.g., photos of
+   celebs getting in and out of taxis). This get even harder where people are
+   partially authorised and have partial access.
+
+   Future problems may come from AI and machine learning; that's the fashion
+   now, following the 'Big Data' fashion of the mid-2010s that led firms to set
+   up large data warehouses. You're now training up systems that generally can't
+   explain what they do, on data you don't really understand. We already know of
+   lots of things that can go wrong. Insurance systems jack up premiums in
+   minority neighbourhoods, breaking anti-discrimination laws. And machine
+   learning systems inhale existing social prejudices along with their training
+   data; as machine-translation systems read gigabytes of online text, they
+   become much better at translation but they also become racist, sexist and
+   homophobic. Another problem is that if a neural network is trained on
+   personal data, then it will often be able to identify some of those persons
+   if it comes across them again - so you can't just train it and then release
+   it in the hope that its knowledge is somehow anonymous, as we might hope for
+   averages derived from large aggregates of data.
