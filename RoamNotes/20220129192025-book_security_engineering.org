@@ -5,8 +5,34 @@
 
 [[https://github.com/64J0/Emacs-config/blob/master/org/security-engineering-3rd-book.org][Repository on github]].
 
-Chapter 6 - [[id:273edbf4-0d24-45f6-bd13-a8fadfbb6a15][Access Control]]
-Chapter 7 - [[id:8994353b-0aaf-441f-b88d-ae46f37714f0][[Security] Distributed systems]]
-Chapter 8 - [[id:7972dc99-50c7-4c2e-946c-df7fa41c3154][[Security] Economics]]
-Chapter 9 - [[id:6cc42aac-f451-4f5d-bcf6-c1d33c0d0118][[Security] Multilevel security]]
-Chapter 10 - [[id:7f7ccf26-37e9-46a5-aa0c-b5fcd38fb4fd][[Security] Boundaries]]
+* Chapter 6 - Access Control
+
+[[id:273edbf4-0d24-45f6-bd13-a8fadfbb6a15][Access Control]]
+
+* Chapter 7 - Distributed Systems
+
+[[id:8994353b-0aaf-441f-b88d-ae46f37714f0][[Security] Distributed systems]]
+
+* Chapter 8 - Economics
+
+[[id:7972dc99-50c7-4c2e-946c-df7fa41c3154][[Security] Economics]]
+
+* Chapter 9 - Multilevel Security
+
+[[id:6cc42aac-f451-4f5d-bcf6-c1d33c0d0118][[Security] Multilevel security]]
+
+* Chapter 10 - Boundaries
+
+[[id:7f7ccf26-37e9-46a5-aa0c-b5fcd38fb4fd][[Security] Boundaries]]
+
+* Chapter 11 - Inference Control
+
+  Just as Big Tobacco spent decades denying that smoking causes lung cancer, and
+  Big Oil spent decades denying climate change, so also Big Data has spent
+  decades pretending that sensitive personal data can easily be 'anonymised' so
+  it can be used as an industrial raw material without infriging on the privacy
+  rights of the data subjects.
+
+  Anonymisation is an aspirational term that means stripping identifying
+  information from data in such a way that useful statistical research can be
+  done without leaking information about identifiable data subjects.
