@@ -9,8 +9,8 @@
 On 02-14-2022 I have participated in a session of the Microsoft Azure Virtual
 Training Day focused in the AI Fundamentals services.
 
-Instructor: Tycho Juta
-His LinkedIn: https://linkedin.com/in/tychojuta
++ Instructor: Tycho Juta.
++ His LinkedIn: https://linkedin.com/in/tychojuta.
 
 Principles of responsible AI:
 - Fairness
@@ -22,65 +22,6 @@ Principles of responsible AI:
 
 https://aka.ms/learn-artificial-intelligence
 
-*** Azure Machine Learning
-
-"Creating predictive models by finding relationships in data."
-    
-- Regression
-- Classification
-- Clusterization
-
-*** Some useful links shared in presentation
-
-  Responsible AI - https://www.microsoft.com/ai/responsible-ai
-
-  Cards Demo - https://aka.ms/hci-demo
-
-  Learn more - https://aka.ms/learn-artificial-intelligence
-
-  Machine Learning Demo - https://aka.ms/No-code-automl
-
-  Computer Vision Demo - https://aidemos.microsoft.com/computer-vision
-
-  Image Classification Demo -
-  https://aka.ms/learn-image-classification
-
-  Learn more - https://aka.ms/explore-computer-vision
-
-  Natural Language Processing Demo -
-  https://aidemos.microsoft.com/text-analytics
-
-  Text Analytics Demo - https://aidemos.microsoft.com/luis/demo
-
-  Language Understanding Demo - https://aka.ms/learn-luis
-
-  Using a Bot Demo -
-  https://www.microsoft.com/en-us/research/project/health-bot/
-
-  Learn more - https://aka.ms/explore-bots
-
-  QnA Maker Link - https://www.qnamaker.ai/
-
-  Learn more - https://aka.ms/explore-nlp
-
-  You can find demos here - https://aidemos.microsoft.com/
-
-*** Voucher information
-  
-- How do I get my exam voucher?
-
-You will receive an email with instructions after the event concludes on how to
-access your exam discount for a single attempt of AI-900 (https://aka.ms/ai900)
-that will be linked automatically with your Microsoft Certification Dashboard
-(https://docs.microsoft.com/en-us/learn/certifications/) in 5 business days. The
-exam discount is valid for 90 days. See FAQ for further info
--https://query.prod.cms.rt.microsoft.com/cms/api/am/binary/RWG1g3.
-
-- Any tip on how to succeed in AI-900 exam?
-
-Go through the information at https://aka.ms/aifunpath.
-
-
 ** What is AI?
 
 Simply put, AI is the creation of software that imitates human behaviors and
@@ -91,6 +32,14 @@ capabilities. Key elements include:
 - Computer vision;
 - Natural language processing;
 - Conversational AI.
+
+** Azure Machine Learning
+
+"Creating predictive models by finding relationships in data."
+    
+- Regression
+- Classification
+- Clusterization
 
 ** Azure machine learning
 
@@ -126,7 +75,57 @@ training data includes known label values.
   Links to existing Azure compute resources, such as Virtual Machines or Azure
   Databricks clusters.
 
-* Azure computer vision
+** Voucher information
+  
+- How do I get my exam voucher?
+
+You will receive an email with instructions after the event concludes on how to
+access your exam discount for a single attempt of AI-900 (https://aka.ms/ai900)
+that will be linked automatically with your Microsoft Certification Dashboard
+(https://docs.microsoft.com/en-us/learn/certifications/) in 5 business days. The
+exam discount is valid for 90 days. See FAQ for further info
+-https://query.prod.cms.rt.microsoft.com/cms/api/am/binary/RWG1g3.
+
+- Any tip on how to succeed in AI-900 exam?
+
+Go through the information at https://aka.ms/aifunpath.
+
+** Some useful links shared in presentation
+
+  + Responsible AI - https://www.microsoft.com/ai/responsible-ai
+
+  + Cards Demo - https://aka.ms/hci-demo
+
+  + Learn more - https://aka.ms/learn-artificial-intelligence
+
+  + Machine Learning Demo - https://aka.ms/No-code-automl
+
+  + Computer Vision Demo - https://aidemos.microsoft.com/computer-vision
+
+  + Image Classification Demo -
+  https://aka.ms/learn-image-classification
+
+  + Learn more - https://aka.ms/explore-computer-vision
+
+  + Natural Language Processing Demo -
+  https://aidemos.microsoft.com/text-analytics
+
+  + Text Analytics Demo - https://aidemos.microsoft.com/luis/demo
+
+  + Language Understanding Demo - https://aka.ms/learn-luis
+
+  + Using a Bot Demo -
+  https://www.microsoft.com/en-us/research/project/health-bot/
+
+  + Learn more - https://aka.ms/explore-bots
+
+  + QnA Maker Link - https://www.qnamaker.ai/
+
+  + Learn more - https://aka.ms/explore-nlp
+
+  + You can find demos here - https://aidemos.microsoft.com/
+
+* Azure Computer Vision
 
 - Custom vision:
   
@@ -312,3 +311,123 @@ learning.
        JPG file that you can submit to the pre-built receipt model?
 
        A: 50 MB
+
+* Natural Language Processing
+  
+  Natural language processing supports applications that can see, hear, speak
+  with, and understand users. Using text analytics, translation, and language
+  understanding services, Microsoft Azure makes it easy to build applications
+  that support natural language.
+
+** Text Analysis with the Language service
+
+   + Text mining;
+   + Text analysis:
+     + Sentiment analysis;
+     + Key phrase extraction;
+     + Named entity recognition;
+     + Language detection.
+
+*** What is text analysis?
+
+    It is a process where computer program (AI algorithm) evaluate different
+    aspects of a phrase, in order to gain insights into the content of that
+    text.
+
+*** What are the most common techniques used to build NPL algorithms?
+
+    + Statistical analysis of terms used in the text.
+
+      Removing common "stop words" (words like "the" or "a", which reveal little
+      semantic information about the text).
+
+      Performing frequency analysis of the remaining words (counting how often
+      each word appears) can provide clues about the main subject of the text.
+
+    + Extending frequency analysis to multi-term phrases.
+
+      This technique is commonly known as N-grams (a two-word phrase is a
+      bi-gram, a three-word is a tri-gram, and so on).
+
+    + Applying stemming or lemmatization algorithms to normalize words before
+      counting them.
+
+      For example, so that words like "power", "powered", and "powerful" are
+      interpreted as being the same word.
+
+    + Applying linguistic structure rules to analyse sentences.
+
+      For example, breaking down sentences into tree-like structures such as a
+      noun phrase, which itself contains nouns, verbs, adjectives, and so on.
+
+    + Encoding words or terms as numeric features.
+
+      This can be used to train a machine learning model. For example, this
+      model can classify a text document based on the terms it contains. This
+      technique is often used to perform sentiment analysis, in which a document
+      is classified as positive or negative.
+
+    + Creating vectorized models.
+
+      Those models capture semantic relationships between words by assigning
+      them to locations in n-dimensional space.
+
+      This modeling technique might, for example, assign values to the words
+      "flower" and "plant" that locate them close to one another, while
+      "skateboard" might be given a value that positions it much further away.
+
+*** Microsoft Azure - Language service
+
+    This service was created to simplify application development by using
+    pre-trained models that can:
+
+    + Determine the language of a document or text (for example, French or
+      English).
+    + Sentiment analysis on text to determine positive or negative sentiment.
+    + Key phrases extraction.
+    + Identify and categorize entities in the text.
+
+      For example: people, places, organizations, or even everyday items such as
+      dates, times, quantities, and so on.
+
+*** How can someone use the Language service?
+
+    You must provision an appropriate resource in your Azure subscription. You
+    can choose to provision either of the following types of resources:
+
+    + A Language resource:
+
+      Choose this resource type if you only plan to use natural language
+      processing services, or if you want to manage access and billing for the
+      resource separately from other services.
+
+    + A Cognitive Services resource:
+
+      Choose this resource type if you plan to use the language service in
+      combination with other cognitive services, and you want to manage access
+      and billing for these services together.
+
+*** Knowledge check
+
+    1. You want to use the Language service to determine the key talking
+       points in a text document. Which featue of the service should you use?
+
+       A) Sentiment analysis.
+       B) Key phrase extraction. x
+       C) Entity detection.
+
+    2. You use the Language service to perform sentiment analysis on a
+       document, and a score of 0.99 is returned. What does this score indicate
+       about the document sentiment?
+
+       A) The document is positive. x
+       B) The document is neutral.
+       C) The document is negative.
+
+    3. When might you see NaN returned for a score in Language Detection?
+
+       A) When the score calculated by the service is outside the range of
+       0 to 1.
+       B) When the predominant language in the text is mixed with other
+       languages.
+       C) When the language is ambiguous. x

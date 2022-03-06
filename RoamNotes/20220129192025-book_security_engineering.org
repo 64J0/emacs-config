@@ -2,6 +2,7 @@
 :ID:       f009f5b6-ec4d-4449-b91e-54397f3ab822
 :END:
 #+title: [Book] Security Engineering
+#+bibliography: "../bib/security-engineering-3rd.bib"
 
 [[https://github.com/64J0/Emacs-config/blob/master/org/security-engineering-3rd-book.org][Repository on github]].
 

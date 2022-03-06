@@ -4,6 +4,7 @@
 #+title: [Book] Terraform Up And Running
 #+date: [2022-03-01 ter 21:10]
 #+edition: 2nd
+#+bibliography: "../bib/Terraform_Up_Running.bibtex"
 
 + What is Terraform?
 
@@ -16,9 +17,8 @@ AWS, Azure, GCP, DigitalOcean) and private cloud and virtualization platforms
 Terraform is an open source tool created by Hashicorp and written in the Go
 programming language.
 
-+ Where to find this book codes?
-
-https://github.com/brikis98/terraform-up-and-running-code
++ Where to find this book codes? [[https://github.com/brikis98/terraform-up-and-running-code][Book's github repository]].
++ [[https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs][Azure resources]].
 
 * 1 - Why Terraform
 
@@ -119,3 +119,37 @@ https://github.com/brikis98/terraform-up-and-running-code
 * 2 - Getting started with Terraform
 
   In this chapter, you're going to learn the basics of how to use Terraform.
+
+** Deploy a Single Server
+
+   Terraform code is written in the HashiCorp Configuration Language (HCL) in
+   files with the extension /.tf/. It is a declarative language, so your goal is
+   to describe the infrastructure you want, and Terraform will figure out how to
+   create it.
+  
+   #+begin_src hcl :file main.tf
+     provider "aws" {
+       region = "us-east-2"
+     }
+
+     # ami -> Amazon Machine Image
+     resource "aws_instance" "example" {
+       ami           = "ami-0c55b159cbfafe1f0"
+       instance_type = "t2.micro"
+     }
+   #+end_src
+
+   How to run this?
+
+   #+begin_src shell
+     # install provider code (AWS, Azure, GCP, etc)
+     # will save it in .terraform folder
+     # one could add this folder to the gitignore
+     $ terraform init # this command is idempotent
+
+     # see what Terraform will do before actually making changes
+     $ terraform plan # sanity check
+
+     # create the instance
+     $ terraform apply
+   #+end_src
