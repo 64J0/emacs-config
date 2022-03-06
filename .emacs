@@ -180,7 +180,7 @@
   (setq org-default-notes-file "~/org/notes-refile.org")
   (setq org-refile-file-path "~/org/refile.org")
   (setq org-refile-allow-creating-parent-nodes t)
-  (setq org-refile-use-outline-path 'full-file-path)
+  (setq org-refile-use-outline-path 'file)
   (setq org-babel-inline-result-wrap "%s")
   (setq org-habit-graph-column 60)
   (setq org-habit-following-days 0)
@@ -382,7 +382,9 @@
   :ensure t
   :commands (org-drill)
   :init
-  (setq org-drill-add-random-noise-to-intervals-p t))
+  (setq org-drill-add-random-noise-to-intervals-p t)
+  (setq org-drill-scope 'directory) ;; file
+  )
 
 ;; https://github.com/emacs-grammarly/lsp-grammarly
 ;; (use-package lsp-grammarly
@@ -497,7 +499,14 @@
 (use-package yaml-mode
   :ensure t
   :defer t
-  :mode ("\\.yml\\'" "\\.yaml\\'"))
+  :mode ("\\.ya?ml\\'"))
+
+;; https://github.com/emacsorphanage/terraform-mode
+(use-package terraform-mode
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode))
+  (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode))
 
 (use-package go-mode
   :ensure t
@@ -561,8 +570,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-agenda-files
+   '("~/Desktop/codes/emacs-config/RoamNotes/20220129192025-book_security_engineering.org"))
  '(package-selected-packages
-   '(rainbow-delimiters lsp-grammarly diff-hl diff-hl-mode ob-fsharp org-roam centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package)))
+   '(terraform-mode rainbow-delimiters lsp-grammarly diff-hl diff-hl-mode ob-fsharp org-roam centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
