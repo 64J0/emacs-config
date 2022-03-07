@@ -133,9 +133,21 @@ programming language.
      }
 
      # ami -> Amazon Machine Image
+     # set this machine name
+     # start a new http server listening in port 8080
      resource "aws_instance" "example" {
        ami           = "ami-0c55b159cbfafe1f0"
        instance_type = "t2.micro"
+
+       user_data = <<-EOF
+                    #!/bin/bash
+                    echo "Hello, World" > index.html
+                    nohup busybox httpd -f -p 8080 &
+                    EOF
+
+       tags = {
+         Name = "terraform-example"
+       }
      }
    #+end_src
 
@@ -152,4 +164,12 @@ programming language.
 
      # create the instance
      $ terraform apply
+   #+end_src
+
+   What are the files that we should put in the gitignore?
+
+   #+begin_src txt
+     .terraform
+     *.tfstate
+     *.tfstate.backup
    #+end_src
