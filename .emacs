@@ -501,17 +501,18 @@
   :defer t
   :mode ("\\.ya?ml\\'"))
 
+(use-package go-mode
+  :ensure t
+  :init
+  (add-hook 'before-save-hook 'gofmt-before-save))
+
 ;; https://github.com/emacsorphanage/terraform-mode
 (use-package terraform-mode
   :ensure t
   :init
   (add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode))
-  (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode))
-
-(use-package go-mode
-  :ensure t
-  :init
-  (add-hook 'before-save-hook 'gofmt-before-save))
+  (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
+  (setq terraform-indent-level 2))
 
 ;; ======================================================
 ;; OTHER LANGS

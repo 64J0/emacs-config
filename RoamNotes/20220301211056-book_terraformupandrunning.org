@@ -138,6 +138,7 @@ programming language.
      resource "aws_instance" "example" {
        ami           = "ami-0c55b159cbfafe1f0"
        instance_type = "t2.micro"
+       vpc_security_group_ids = [aws_security_group.instance.id]
 
        user_data = <<-EOF
                     #!/bin/bash
@@ -147,6 +148,20 @@ programming language.
 
        tags = {
          Name = "terraform-example"
+       }
+     }
+
+     # AWS does not allow any incoming or outgoing traffic from an
+     # EC2 instance.
+     resource "aws_security_group" "instance" {
+       name = "terraform-example-instance"
+
+       ingress {
+         from_port   = 8080
+         to_port     = 8080
+         protocol    = "tcp"
+         # CIDR blocks are a concise way to specify IP addr ranges
+         cidr_blocks = ["0.0.0.0/0"]
        }
      }
    #+end_src
@@ -164,6 +179,10 @@ programming language.
 
      # create the instance
      $ terraform apply
+
+     # show the dependency graph for the operation
+     # output is in a graph description lang called DOT
+     $ terraform graph
    #+end_src
 
    What are the files that we should put in the gitignore?
@@ -173,3 +192,16 @@ programming language.
      *.tfstate
      *.tfstate.backup
    #+end_src
+
+   [...]
+
+   The reason to use big numbered ports to expose projects is that listening on
+   any port less than 1024 requires root user privileges. This is a security
+   risk, because any attacker who manages to compromise your server would get
+   root privileges, too.
+
+   [...]
+
+   The <<-EOF and EOF are Terraform's /heredoc/ syntax, which allows you to
+   create multiline strings without having to insert newline characters all over
+   the place.
