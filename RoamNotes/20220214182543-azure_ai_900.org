@@ -495,3 +495,41 @@ learning.
        A) Speech-to-Text
        B) Text-to-Speech x
        C) Translate
+
+** Translate text and speech
+
+   + Literal translation:
+
+     Each word is translated to the corresponding word in the target language.
+
+   Artificial intelligence systems must be able to understand, not only the
+   words, but also the /semantic/ context in which they are used.
+
+*** Microsoft services
+
+    + Translator Text: text-to-text translation.
+    + Speech: speech-to-text and speech-to-speech translation.
+    + Cognitive Services: both services and more.
+
+*** Knowledge check
+
+    1. You are developing an application that must take English input from a
+       microphone and generate a real-time text-based transcription in Hindi.
+       Which service should you use?
+
+       A) Translator Text
+       B) Speech x
+       C) Text Analytics
+
+    2. You need to use the Translator Text service to translate an email
+       message from Spanish into both English and French. What is the most
+       efficient way to accomplish this goal?
+
+       A) Make a single call to the service; specifying a "from" language
+       of "es", a "to" language of "en", and another "to" language of "fr".
+       x
+       B) Make a single call to the service; specifying a "from" language
+       of "es", and a "to" language of "en-fr".
+       C) Make two calls to the service; one with a "from" language of "es"
+       and a "to" language of "en", and another with a "from" language of
+       "es" and a "to" language of "fr".
