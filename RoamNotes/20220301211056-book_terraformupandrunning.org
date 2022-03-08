@@ -128,6 +128,17 @@ programming language.
    create it.
   
    #+begin_src hcl :file main.tf
+     variable "server_port" {
+       description = "The port the server will use for HTTP requests"
+       type        = number
+       default     = 8080
+     }
+
+     output "public_ip" {
+       value       = aws_instance.example.public_ip
+       description = "The public IP address of the web server"
+     }
+
      provider "aws" {
        region = "us-east-2"
      }
@@ -141,10 +152,10 @@ programming language.
        vpc_security_group_ids = [aws_security_group.instance.id]
 
        user_data = <<-EOF
-                    #!/bin/bash
-                    echo "Hello, World" > index.html
-                    nohup busybox httpd -f -p 8080 &
-                    EOF
+                   #!/bin/bash
+                   echo "Hello, World" > index.html
+                   nohup busybox httpd -f -p ${var.server_port} &
+                   EOF
 
        tags = {
          Name = "terraform-example"
@@ -157,8 +168,8 @@ programming language.
        name = "terraform-example-instance"
 
        ingress {
-         from_port   = 8080
-         to_port     = 8080
+         from_port   = var.server_port
+         to_port     = var.server_port
          protocol    = "tcp"
          # CIDR blocks are a concise way to specify IP addr ranges
          cidr_blocks = ["0.0.0.0/0"]
@@ -183,6 +194,9 @@ programming language.
      # show the dependency graph for the operation
      # output is in a graph description lang called DOT
      $ terraform graph
+
+     # see just the output of a configuration
+     $ terraform output
    #+end_src
 
    What are the files that we should put in the gitignore?
@@ -205,3 +219,188 @@ programming language.
    The <<-EOF and EOF are Terraform's /heredoc/ syntax, which allows you to
    create multiline strings without having to insert newline characters all over
    the place.
+
+   [...]
+
+   When Terraform walks your dependency tree, it creates as many resources in
+   parallel as it can, which means that it can apply your changes faily
+   efficiently. That's the beauty of a declarative language: you just specify
+   what you want and Terraform determines the most efficient way to make it
+   happen.
+
+** Deploy a cluster of web servers
+
+   Managing a cluster manually is a lot of work. Fortunately, you can let AWS
+   take care of it for by you using an Auto Scaling Group (ASG).
+   
+   #+begin_src hcl :file main.tf
+     variable "server_port" {
+       description = "The port the server will use for HTTP requests"
+       type        = number
+       default     = 8080
+     }
+
+     output "public_ip" {
+       value       = aws_instance.example.public_ip
+       description = "The public IP address of the web server"
+     }
+
+     data "aws_vpc" "default" {
+       default = true
+     }
+
+     data "aws_subnet_ids" "default" {
+       vpc_id = data.aws_vpc.default.id
+     }
+
+     provider "aws" {
+       region = "us-east-2"
+     }
+
+     # ami -> Amazon Machine Image
+     # set this machine name
+     # start a new http server listening in port 8080
+     resource "aws_launch_configuration" "example" {
+       ami            = "ami-0c55b159cbfafe1f0"
+       instance_type  = "t2.micro"
+       security_group = [aws_security_group.instance.id]
+
+       user_data = <<-EOF
+                   #!/bin/bash
+                   echo "Hello, World" > index.html
+                   nohup busybox httpd -f -p ${var.server_port} &
+                   EOF
+
+       # Required when using a launch configuration with an auto scaling group.
+       # https://www.terraform.io/docs/providers/aws/r/launch_configuration.html
+       lifecycle {
+         create_before_destroy = true
+       }
+
+       tags = {
+         Name = "terraform-example"
+       }
+     }
+
+     resource "aws_autoscalling_group" "example" {
+       launch_configuration = aws_launch_configuration.example.name
+       vpc_zone_identifier  = data.aws_subnet.ids.default.ids
+
+       min_size = 2
+       max_size = 10
+
+       tag {
+         key                 = "Name"
+         value               = "terraform-asg-example"
+         propagate_at_launch = true
+       }
+     }
+
+     # AWS does not allow any incoming or outgoing traffic from an
+     # EC2 instance.
+     resource "aws_security_group" "instance" {
+       name = "terraform-example-instance"
+
+       ingress {
+         from_port   = var.server_port
+         to_port     = var.server_port
+         protocol    = "tcp"
+         # CIDR blocks are a concise way to specify IP addr ranges
+         cidr_blocks = ["0.0.0.0/0"]
+       }
+     }
+   #+end_src
+
+** Deploying a Load Balancer
+
+   At this point, you can deploy your ASG, but you'll have a small problem: you
+   now have multiple servers, each with its own IP address, but you typically
+   want to give of your end users only a single IP to use. One way to solve this
+   problem is to deploy a /load balancer/ to distribute traffic across your
+   servers and to give all your users the IP (actually, the DNS name) of the
+   load balancer. [...] Once again, you can let AWS take care of it for you,
+   this time by using Amazon's /Elastic Load Balancer/ (ELB) service.
+
+   #+begin_src hcl :file main.tf
+     variable "server_port" {
+       description = "The port the server will use for HTTP requests"
+       type        = number
+       default     = 8080
+     }
+
+     output "public_ip" {
+       value       = aws_instance.example.public_ip
+       description = "The public IP address of the web server"
+     }
+
+     data "aws_vpc" "default" {
+       default = true
+     }
+
+     data "aws_subnet_ids" "default" {
+       vpc_id = data.aws_vpc.default.id
+     }
+
+     provider "aws" {
+       region = "us-east-2"
+     }
+
+     # ami -> Amazon Machine Image
+     # set this machine name
+     # start a new http server listening in port 8080
+     resource "aws_launch_configuration" "example" {
+       ami            = "ami-0c55b159cbfafe1f0"
+       instance_type  = "t2.micro"
+       security_group = [aws_security_group.instance.id]
+
+       user_data = <<-EOF
+                   #!/bin/bash
+                   echo "Hello, World" > index.html
+                   nohup busybox httpd -f -p ${var.server_port} &
+                   EOF
+
+       # Required when using a launch configuration with an auto scaling group.
+       # https://www.terraform.io/docs/providers/aws/r/launch_configuration.html
+       lifecycle {
+         create_before_destroy = true
+       }
+
+       tags = {
+         Name = "terraform-example"
+       }
+     }
+
+     resource "aws_autoscalling_group" "example" {
+       launch_configuration = aws_launch_configuration.example.name
+       vpc_zone_identifier  = data.aws_subnet.ids.default.ids
+
+       min_size = 2
+       max_size = 10
+
+       tag {
+         key                 = "Name"
+         value               = "terraform-asg-example"
+         propagate_at_launch = true
+       }
+     }
+
+     resource "aws_lb" "example" {
+       name               = "terraform-asg-example"
+       load_balancer_type = "application"
+       subnets            = data.aws_subnet_ids.default.ids
+     }
+
+     # AWS does not allow any incoming or outgoing traffic from an
+     # EC2 instance.
+     resource "aws_security_group" "instance" {
+       name = "terraform-example-instance"
+
+       ingress {
+         from_port   = var.server_port
+         to_port     = var.server_port
+         protocol    = "tcp"
+         # CIDR blocks are a concise way to specify IP addr ranges
+         cidr_blocks = ["0.0.0.0/0"]
+       }
+     }
+   #+end_src
