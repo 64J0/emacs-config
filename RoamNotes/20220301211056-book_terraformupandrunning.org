@@ -177,36 +177,6 @@ programming language.
      }
    #+end_src
 
-   How to run this?
-
-   #+begin_src shell
-     # install provider code (AWS, Azure, GCP, etc)
-     # will save it in .terraform folder
-     # one could add this folder to the gitignore
-     $ terraform init # this command is idempotent
-
-     # see what Terraform will do before actually making changes
-     $ terraform plan # sanity check
-
-     # create the instance
-     $ terraform apply
-
-     # show the dependency graph for the operation
-     # output is in a graph description lang called DOT
-     $ terraform graph
-
-     # see just the output of a configuration
-     $ terraform output
-   #+end_src
-
-   What are the files that we should put in the gitignore?
-
-   #+begin_src txt
-     .terraform
-     *.tfstate
-     *.tfstate.backup
-   #+end_src
-
    [...]
 
    The reason to use big numbered ports to expose projects is that listening on
@@ -388,6 +358,61 @@ programming language.
        name               = "terraform-asg-example"
        load_balancer_type = "application"
        subnets            = data.aws_subnet_ids.default.ids
+       security_groups    = [aws_security_group.alb.id]
+     }
+
+     resource "aws_lb_listener" "http" {
+       load_balancer_arn = aws_lb.example.arn
+       port              = 80
+       protocol          = "HTTP"
+
+       # By default, return a simple 404 page
+       default_action {
+         type = "fixed-response"
+
+         fixed_response {
+           content_type = "text/plain"
+           message_body = "404: page not found"
+           status_code  = 404
+         }
+       }
+     }
+
+     resource "aws_security_group" "alb" {
+       name = "terraform-example-alb"
+
+       ingress {
+         from_port   = 80
+         to_port     = 80
+         protocol    = "tcp"
+         # CIDR blocks are a concise way to specify IP addr ranges
+         cidr_blocks = ["0.0.0.0/0"]
+       }
+
+       # Allow all outbound requests
+       egress {
+         from_port = 0
+         to_port = 0
+         protocol = "-1"
+         cidr_blocks = ["0.0.0.0/0"]
+       }
+     }
+
+     resource "aws_lb_target_group" "asg" {
+       name     = "terraform-asg-example"
+       port     = var.server_port
+       protocol = "HTTP"
+       vpc_id   = data.aws_vpc.default.id
+
+       health_check {
+         path                = "/"
+         protocol            = "HTTP"
+         matcher             = "200"
+         interval            = 15
+         timeout             = 3
+         healthy_threshold   = 2
+         unhealthy_threshold = 2
+       }
      }
 
      # AWS does not allow any incoming or outgoing traffic from an
@@ -403,4 +428,40 @@ programming language.
          cidr_blocks = ["0.0.0.0/0"]
        }
      }
+   #+end_src
+
+** Terraform commands
+
+    How to run this?
+
+   #+begin_src shell
+     # install provider code (AWS, Azure, GCP, etc)
+     # will save it in .terraform folder
+     # one could add this folder to the gitignore
+     $ terraform init # this command is idempotent
+
+     # see what Terraform will do before actually making changes
+     $ terraform plan # sanity check
+
+     # create the instance
+     $ terraform apply
+
+     # show the dependency graph for the operation
+     # output is in a graph description lang called DOT
+     $ terraform graph
+
+     # see just the output of a configuration
+     $ terraform output
+
+     # destroy services
+     # WARNING: there's no undo for this command
+     $ terraform destroy
+   #+end_src
+
+   What are the files that we should put in the gitignore?
+
+   #+begin_src txt
+     .terraform
+     *.tfstate
+     *.tfstate.backup
    #+end_src
