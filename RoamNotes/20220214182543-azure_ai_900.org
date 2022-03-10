@@ -565,3 +565,42 @@ learning.
        B) The endpoint and key for the application's authoring resource.
        C) The Azure credentials of the user who published the Language
        Understanding application.
+
+* Build a bot with the Language Service and Azure Bot Service
+
+  Increasinlgy, organizations are turning to AI solutions that make use of AI
+  agents, commonly known as bots to provide a first-line of automated support
+  through the full range of channels that we use to communicate. Bots are
+  designed to interact with users in a conversational manner.
+
+  You can easily create a user support bot solution on Microsoft Azure using a
+  combination of two core services.
+
+  + Language service.
+  + Azure Bot service.
+
+** Knowledge check
+
+   1. You organization has an existing frequently asked questions (FAQ)
+      document. You need to create a knowledge base that includes the
+      questions and answers from the FAQ with the least possible effort.
+      What should you do?
+
+      A) Create an empty knowledge base, and then manually copy and paste
+      the FAQ entries into it.
+      B) Import the existing FAQ document into a new knowledge base. X
+      C) Import a pre-defined chit-chat data source.
+
+   2. You need to deliver a support bot for internal use in your organization.
+      Some users want to be able to submit questions to the bot using Microsoft
+      Teams, others want to use a web chat interface on an internal web site.
+      What should you do?
+
+      A) Create a knowledge base. Then create a bot for the knowledge base
+      and connect the Web Chat and Microsoft Teams channel for your bot.
+      B) Create a knowledge base. Then create two bots that use the same
+      knowledge base - one bot connected to the Microsoft Teams channel, and
+      the other to the Web Chat channel.
+      C) Create two knowledge bases with the same question and answer pairs.
+      Then create a bot for each knowledge base; one connected to the
+      Microsoft Teams channel, and the other to the Web Chat channel.
