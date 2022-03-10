@@ -41,3 +41,4 @@ After finishing this first book, I plan to read [Paradigms of Artificial Intelli
 * [org-drill](https://orgmode.org/worg/org-contrib/org-drill.html#:~:text=Running%20the%20drill%20session) reference for running the drill session. This part of the docs is very good since it explains what each number means and how to run the session passing the scope to read our drills.
   * Before publishing an org-drill deck we should use `org-drill-strip-all-data` to remove personal scheduling data.
 * [Emacs and BibTeX](https://lucidmanager.org/productivity/emacs-bibtex-mode/).
+* [Lisp Hackers (book)](https://leanpub.com/lisphackers/read)
