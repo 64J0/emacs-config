@@ -604,3 +604,54 @@ learning.
       C) Create two knowledge bases with the same question and answer pairs.
       Then create a bot for each knowledge base; one connected to the
       Microsoft Teams channel, and the other to the Web Chat channel.
+
+* Decision support
+
+  Anomaly detection is an artificial intelligence technique used to determine
+  whether values in a series are within expected parameters.
+
+  + Monitoring blood pressure;
+  + Evaluating mean time between failures for hardware products;
+  + Comparing month-over-month expenses for product costs.
+
+  Definition:
+
+  Anomalies are values that are outside the expected values or range of values.
+
+** Azure's Anomaly Detector service
+
+   Anomaly Detector is a part of the Decision Services category within Azure
+   Cognitive Services. It is a cloud-based service that enables you to monitor
+   time series data, and to detect anomalies in that data. It does not require
+   you to know machine learning. You can use the REST API to integrate Anomaly
+   Detector into your applications with relative ease.
+
+   The service uses the concept of a "one parameter" strategy. The main
+   parameter you need to customize is "Sensitivity", which is from 1 to 99 to
+   adjust the outcome to fit the scenario. The service can detect anomalies in
+   historical time series data and also in real-time data such as streaming
+   input from IoT devices, sensors, or other streaming input sources.
+
+   [...]
+
+   This service supports a maximum of *8640* data points only in a single JSON
+   however, sending this many data points in the same JSON object result in
+   latency for the response.
+
+*** Data consistency recommendations
+
+    If your data may have missing values in the sequence, consider the following
+    recommendations:
+
+    + Sampling occurs every few minutes and has less than 10% of the expected
+      number of points missing. In this case, the impact should be negligible
+      on the detection results.
+    + If you have more than 10% missing, there are options to help "fill" the
+      data set. Consider using a linear interpolation method to fill in the
+      missing values and complete the data set. This will fill gaps with
+      evenly distributed values.
+
+    The Anomaly Detector service will provide the best results if your time
+    series data is evenly distributed. If the data is more randomly distributed,
+    you can use an aggregation method to create a more even distribution data
+    set.
