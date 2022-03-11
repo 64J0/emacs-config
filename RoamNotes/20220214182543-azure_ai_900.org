@@ -655,3 +655,27 @@ learning.
     series data is evenly distributed. If the data is more randomly distributed,
     you can use an aggregation method to create a more even distribution data
     set.
+
+** Knowledge check
+
+   1. What is meant by seasonal data?
+
+      A) Data based on the time of year it was recorded.
+      B) How far apart the values are by default for each recorded period.
+      C) Data ocurring at regular intervals. X
+
+   2. What is the purpose of specifying granularity in your JSON data object?
+
+      A) It's used to indicate the recording pattern of the data. X
+      B) It tells the service how to chunk up the results that are returned
+      for review, independent of the time series data pattern.
+      C) It's used to indicate the range of acceptable values.
+
+   3. How does the Anomaly Detector service evaluate real-time data for
+      anomalies?
+
+      A) It collects all the values in a window of time and evaluates them
+      all at once.
+      B) It evaluates the current value against the previous value. X
+      C) It uses interpolation based on the current value and the previous
+      value to predict what the expected value should be.
