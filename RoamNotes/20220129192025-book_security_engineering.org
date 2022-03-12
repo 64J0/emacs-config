@@ -115,3 +115,113 @@
    if it comes across them again - so you can't just train it and then release
    it in the hope that its knowledge is somehow anonymous, as we might hope for
    averages derived from large aggregates of data.
+
+* Chapter 12 - Banking and Bookkeeping
+
+  #+note_br:bookkeeping = contabilidade.
+  
+  A banking system should prevent customers from cheating on each other, or the
+  bank; it should prevent bank staff from cheating the bank, or its customers;
+  and the evidence it provides should be good enough that none of them can get
+  away with falsely accusing others of cheating. Banking and bookkeeping
+  pioneered the use of dual control, also known nowadays as multi-party
+  authorisation. [...] This kind of system gives us a well-understood model of
+  protection in which confidentiality plays little role, but where the integrity
+  of records (and their immutability once made) is paramount.
+
+*** Double-entry bookkeeping
+
+    The idea behind double-entry bookkeeping is simple: each transaction is
+    posted to two separate books, as a credit in one and a debit in the
+    other. [...] At the end of the day, the books should /balance/, that is, add
+    up to zero; the assets and the liabilities should be equal. In all but the
+    smallest firms, the books were kept by different clerks.
+
+    We arrange things so that each branch can be balanced separately. Each
+    cashier will balance their cash tray before locking it in the vault
+    overnight; the debits in the cash ledger should exactly balance the physical
+    banknotes they've collected. So most frauds need the collusion of two or
+    more people, and this principle of split responsibility, also known as dual
+    control or multi-party authorisation (MPA), is complemented by audit. Not
+    only are the books audited at year end, but there are random audits too;
+    inspectors may descend on a branch at no notice and insist that all the
+    books are balanced before the staff go home.
+
+*** The Clark-Wilson security policy model
+
+    In this model, some data items are constrained so that they can only be
+    acted on by a certain set of transformation procedures.
+
+    + UDI: Unconstrained data item
+    + CDI: Constrained data item
+    + IVP: Integrity verification procedures
+    + TP: Transformation procedures
+
+    ---
+    
+    1. The system will have an IVP for validating the integrity of any CDI;
+    2. The application of a TP to any CDI must maintain its integrity;
+    3. A CDI can only be changed by a TP;
+    4. Subjects can only initiate certain TPs on certain CDIs;
+    5. Triples must enforce an appropriate separatio-of-duty policy on
+       subjects;
+    6. Certain special TPs on UDIs can produce CDIs as output;
+    7. Each application of a TP must cause enough information to reconstruct
+       it to be written to a special append-only CDI;
+    8. The system must authenticate subjects attempting to initiate a TP;
+    9. The system must let only special subjects (i.e., security officers)
+       make changes to authorization-related lists.
+
+    [...]
+
+    The hard question remains, namely: how do we control the risks from
+    dishonest staff? (rule 5).
+
+    [...]
+    
+    What happens in practice is that the big four accountancy firms have a list
+    of controls that they push to their audit clients - a typical company may
+    have a checklist of about 300 internal controls that it has to maintain,
+    depending on what sector it's in.
+
+*** Designing internal controls
+
+    [...] Self-regulation failed to stop the excesses of the dotcom era, and
+    following the collapse of Enron there was intervention from US lawmakers in
+    the form of the /Sarbanes-Oxley Act/ (SOX) of 2002. SOX regulates all US
+    public companies, making senior executives responsible for the accuracy and
+    completeness of financial reports, whose truthfulness CEOs have to certify;
+    protecting whistleblowers, who are the main source of information on insider
+    fraud; and making managers responsible for maintaining "adequate internal
+    control structure and procedures for financial reporting". It also demands
+    that auditors disclose any "material weaknesses". Most of the compliance
+    cost of SOX are reckoned to come from internal controls. 
+
+*** Finding the weak spots
+
+    If you are ever responsible for security in an organisation, you should not
+    just think about which components might, by their failure, cause a bad
+    enough loss to make a material difference to the bottom line. You need to
+    think about the people too, and their external relationships.
+
+    + Which of your managers could defraud your company by colluding with
+      customers or suppliers?
+    + Could a branch manager be lending money to a dodgy business run by his
+      cousin against forged collateral?
+    + Could he have sold life-insurance policies to nonexistent people and
+      forged their death certificates?
+    + Could an operations manager be taking bribes from a supplier?
+    + Could your call-centre staff be selling data from the accounts they've
+      dealt with to a phishing gang who use this data to impersonate your
+      company to your customers?
+
+    ---
+    
+    Lessons:
+    
+    According to statistical studies, 1% of staff fall into temptation every
+    year.
+
+    A trusted person is one who can damage you.
+      
+    ---
