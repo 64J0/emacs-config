@@ -225,3 +225,39 @@
     A trusted person is one who can damage you.
       
     ---
+
+** Credit cards
+
+   [...]
+
+   When you use a credit card to pay for a purchase in a store, the transaction
+   flows from the merchant to their bank (the acquiring bank), which pays them
+   after deducting a merchant discount of typically just under 2% for a small
+   merchant. If the card was issued by a different bank, the transaction now
+   flows to a switch such as VISA, which passes it to the issuing bank for
+   payment. Each transaction involves two components: authorisation, when you
+   present your card at a merchant and they want to know right now whether to
+   give you the goods, and settlement, which flows through a separate system and
+   gets money to the merchant, often two or three days later. The issuer also
+   gets a slice of the merchant discount, but makes most of its money from
+   extending credit to cardholders.
+   
+*** Fraud engines
+
+    [...]
+
+    The core of a good fraud engine tends to be several dozen signals extracted
+    from the transaction stream on the basis of a set of well-understood threat
+    vectors (such as bad IP addresses, or too many logons from the same IP
+    address) and a set of quality signals (such as 'card old but good'). These
+    signals are then fed to a machine-learning system that scores the
+    transactions. The signals appear to be the most important part of the
+    design, not whether you use an SVM or a Bayesian network. The signals need
+    to be continuously curated and updated as the bad guys learn new tricks, and
+    the fraud engine needs to be well integrated with the human processes. As
+    for how engines fail, the regulator's report into a 2016 fraud against Tesco
+    Bank found that the staff failed to 'exercise due skill, case and
+    dilligence' over the fraud detection rules, and to 'respond to the attack
+    with sufficient rigor, skill and urgency'. In that case, the bank failed to
+    update its fraud engine following a warning from Mastercard the previous day
+    of a new type of card scam.
