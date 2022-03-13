@@ -4,6 +4,10 @@
 #+title: [Azure] AI-900
 #+date: [2022-02-14 seg 18:25]
 
++ Exam date: 2022-03-13 21:30.
+
+  It is required to use Windows system.
+
 * Virtual Training Day: AI Fundamentals
 
 On 02-14-2022 I have participated in a session of the Microsoft Azure Virtual
@@ -43,12 +47,17 @@ capabilities. Key elements include:
 
 ** Azure machine learning
 
-What? Is a cloud service that you can use to train and manage machine learning
-models.
++ What?
 
-How? Math and statistics. Classification (predicting categories or
-classes). Regression (predicting numeric values). Time series forecasting
-(predicting numeric values at a future point in time).
+  Is a cloud service that you can use to train and manage machine learning
+  models.
+
++ How?
+
+  Math and statistics.
+  Regression (predicting numeric values).
+  Classification (predicting categories or classes).
+  Time series forecasting (predicting numeric values at a future point in time).
 
 The automated machine learning capability in Azure Machine Learning supports
 supervised machine learning models - in other words, models for which the
