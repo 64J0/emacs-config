@@ -679,3 +679,96 @@ learning.
       B) It evaluates the current value against the previous value. X
       C) It uses interpolation based on the current value and the previous
       value to predict what the expected value should be.
+
+* Knowledge mining
+
+  Searching for information online has never been easier. However, it is still a
+  challenge to find information from documentse that are not in a search
+  index. For example, every day, people deal with unstructured, typed,
+  image-based, or hand-written documents. Often, people must manually read
+  through these documents to extract and record their insights in order to
+  persist the found data. Now we have solutions that can automate information
+  extraction.
+
+  Knowledge mining is the term used to describe solutions that involve
+  extracting information from large volumes of often unstructured data.
+
+** Azure service
+
+   Azure Cognitive Search provides the infrastructure and tools to create search
+   solutions that extract data from a variety of structured, semi-structured,
+   and non-structured documents.
+
+   + Built on [[https://lucene.apache.org/][Apache Lucene]].
+   + High available platform offering a 99.9% SLA for cloud and on-premises
+     assets.
+
+*** Azure Cognitive Search features:
+
+    + Data from any source:
+
+      Azure Cognitive Search accepts data from any source provided in JSON
+      format, with auto crawling support for selected data sources in Azure.
+
+    + Full text search and analysis:
+
+      Azure Cognitive Search offers full text search capabilities supporting
+      both simple query and full Lucene query syntax.
+
+    + AI powered search:
+
+      Azure Cognitive Search has Cognitive AI capabilities built in for image
+      and text analysis from raw content.
+
+    + Multi-lingual:
+
+      Azure Cognitive Search offers linguistic analysis for 56 languages to
+      intelligently handle phonetic matching or language-specific
+      linguistics. Natural language processors available in Azure Cognitive
+      Search are the same as those used by Bing and Office.
+
+    + Geo-enabled:
+
+      Azure Cognitive Search supports geo-search filtering based on proximity to
+      a physical location.
+
+    + Configurable user experience:
+
+      Azure Cognitive Search has several features to improve the user experience
+      including autocomplete, autosuggest, pagination, and hit highlighting.
+
+*** Understand indexes
+
+    An Azure Cognitive Search index can be thought of as a container of
+    searchable documents. Conceptually:
+
+    - You can think of an index as a table;
+    - Each row in the table represents a document;
+    - Tables have columns;
+    - Columns can be thought of as equivalent to the fields in a document;
+    - Columns have data types, just as the fields do on the documents.
+
+** Knowledge check
+
+   1. Which data format is accepted by Azure Cognitive Search when you are pushing
+      data to the index?
+
+      A) CSV
+      B) SQL
+      C) JSON x
+
+   2. What is a correct explanation of an indexer and an index?
+
+      A) Azure's indexer exports incoming documents into JSON and pushes the
+      JSON to an index for storage. X
+      B) Azure's indexer can be used instead of an index if the files are already
+      in the proper format.
+      C) Azure's indexer is only used to implement a knowledge store which is
+      stored in the index.
+
+   3. If you set up a search index without including any AI skillsets, which
+      would you still be able to query?
+
+      A) Sentiment.
+      B) Text content. X
+      C) Image captions.
