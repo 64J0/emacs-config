@@ -116,7 +116,7 @@ programming language.
    practices, such as IaC, deploy 200 times more frequently, recover from
    failures 24 times faster, and have lead times that are 2,555 times lower.
 
-* 2 - Getting started with Terraform
+* 2 - Getting Started with Terraform
 
   In this chapter, you're going to learn the basics of how to use Terraform.
 
@@ -465,3 +465,20 @@ programming language.
      *.tfstate
      *.tfstate.backup
    #+end_src
+
+* 3 - How to Manage Terraform State
+
+  Previously when we were using Terraform to create and update resources, one
+  must notice that every time we ran /terraform plan/ or /terraform apply/,
+  Terraform was able to find the resources it created previously and update them
+  accordingly. This is totally related to Terraform state.
+
+** What is Terraform state?
+
+   Every time you run Terraform, it records information about what
+   infrastructure it created in a Terraform state file (/terraform.tfstate/ file
+   in the root directory the command is triggered).
+
+   This /tfstate/ file contains a custom JSON format that records a mapping from
+   the Terraform resources in your configuration files to the representation of
+   those resources in the real world.
