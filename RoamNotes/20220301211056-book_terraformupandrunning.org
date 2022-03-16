@@ -437,6 +437,23 @@ programming language.
   Terraform was able to find the resources it created previously and update them
   accordingly. This is totally related to Terraform state.
 
+  This chapter's focus are:
+
+  + Terraform state management and locking
+  + Configuration isolation (workspace and file layout)
+  + Secrets management
+
+  The reason you need to put so much thought into isolation, locking, and state
+  is that infrastructure as code (IAC) has different trade-offs than normal
+  coding.
+
+  When you're writing code for a typical app, most bugs are relatively minor and
+  break only a small part of a single app.
+
+  When you're writing code that controls your infrastructure, bugs tend to be
+  more severe, given that they can break all of your apps - and all of your data
+  stores and your entire network topology, and just about everything else.
+  
 ** What is Terraform State?
 
    Every time you run Terraform, it records information about what
@@ -511,6 +528,34 @@ programming language.
        }
      }
    #+end_src
+
+** Isolation via File Layout
+
+   To achieve full isolation between environments, you need to do the following:
+
+   + Put the Terraform configuration files for each environment into a separate
+     folder. For example, all of the configurations for the staging environment
+     can be in a folder called stage and all the configurations for the
+     production environment can be in a folder called prod.
+   + Configure a different backend for each environment, using different
+     authentication mechanisms and access controls (e.g., each environment
+     could live in a separate AWS account with a separate S3 bucket as a
+     backend).
+
+** Secrets management
+
+   Reading secrets from a secrets store or environment variables is a good
+   practice to ensure secrets aren't stored in plain text in your code, but just
+   a remainder: no matter how you read in the secret, if you pass it as an
+   argument to a Terraform resource, such as aws_db_instance, that secret will
+   be stored in the Terraform state file, in plain text.
+
+   This is a known weakness of Terraform, with no effective solutions available,
+   so be extra paranoid with how you store your state files (e.g., always enable
+   encryption) and who can access those state files (e.g., use IAM permissions
+   to lock down access to your S3 bucket)!
+
+* 4 - How to Create Reusable Infrastructure with Terraform Modules
 
 * Terraform commands
 
