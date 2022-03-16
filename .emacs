@@ -70,6 +70,8 @@
         company-selection-wrap-around t)
   :hook (after-init . global-company-mode))
 
+
+
 ;; Puts angry red squiggles on the screen when I do something stupid.
 ;; https://www.flycheck.org/en/latest/
 (use-package flycheck
@@ -386,6 +388,13 @@
   (setq org-drill-scope 'directory) ;; file
   )
 
+;; https://github.com/integral-dw/org-superstar-mode
+(use-package org-superstar
+  :ensure t
+  :init
+  (add-hook
+   'org-mode-hook (lambda () (org-superstar-mode 1))))
+
 ;; https://github.com/emacs-grammarly/lsp-grammarly
 ;; (use-package lsp-grammarly
 ;;   :ensure t
@@ -423,6 +432,14 @@
 (use-package eglot
   :ensure t
   :after company)
+
+;; ======================================================
+;; Latex + Beamer config
+(require 'ox-beamer)
+;; the add "beamer" to your org-export-backend
+;; sudo apt-get install -f texlive-latex-extra
+(setq org-export-backends '(ascii html beamer))
+(require 'ox-latex)
 
 ;; ======================================================
 ;; F# CONFIG
@@ -498,7 +515,6 @@
 
 (use-package yaml-mode
   :ensure t
-  :defer t
   :mode ("\\.ya?ml\\'"))
 
 (use-package go-mode
@@ -574,7 +590,7 @@
  '(org-agenda-files
    '("~/Desktop/codes/emacs-config/RoamNotes/20220129192025-book_security_engineering.org"))
  '(package-selected-packages
-   '(terraform-mode rainbow-delimiters lsp-grammarly diff-hl diff-hl-mode ob-fsharp org-roam centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package)))
+   '(ox-latex ox-beamer org-superstar terraform-mode rainbow-delimiters lsp-grammarly diff-hl diff-hl-mode ob-fsharp org-roam centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

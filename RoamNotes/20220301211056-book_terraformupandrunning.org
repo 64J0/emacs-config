@@ -473,7 +473,7 @@ programming language.
   Terraform was able to find the resources it created previously and update them
   accordingly. This is totally related to Terraform state.
 
-** What is Terraform state?
+** What is Terraform State?
 
    Every time you run Terraform, it records information about what
    infrastructure it created in a Terraform state file (/terraform.tfstate/ file
@@ -482,3 +482,68 @@ programming language.
    This /tfstate/ file contains a custom JSON format that records a mapping from
    the Terraform resources in your configuration files to the representation of
    those resources in the real world.
+
+** Shared Storage for State Files
+
+   [...] storing Terraform in version control is a bad idea for the following
+   reasons:
+
+   + Manual error
+     - Easy to forget to pull down;
+     - Easy to forget to push latest changes.
+   + Locking
+     - There must be a way to prevent two team members from running terraform
+       aply on the same state file at the same time.
+   + Secrets
+     - All data in Terraform state files is stored in plain text. This is a
+       problem because certain Terraform resources need to store sensitive
+       data.
+
+   Instead of using version control, the best way to manage shared storage for
+   state files is to use Terraform's built-in support for remote backends. A
+   Terraform /backend/ determines how Terraform loads and stores state. The
+   default backend, which you've been using this entire time, is the local
+   backend, which stores the state file on your local disk. Remote backends
+   allow you to store the state file in a remote, shared store.
+
+   A number of remote backends are supported, including:
+
+   + Amazon S3;
+   + Azure Storage;
+   + Google Cloud Storage;
+     ...
+
+   To enable remote state storage with Amazon S3, the first step is to create an
+   S3 bucket.
+
+   #+begin_src hcl :file terraform-state/main.tf
+     provider "aws" {
+       region = "us-east-2"
+     }
+
+     # Creating S3 bucket to store terraform state
+     resource "aws_s3_bucket" "terraform_state" {
+       # Name of the S3 bucket (globally unique)
+       bucket = "terraform-up-and-running-state"
+
+       # Prevent accidental deletion of this S3 bucket
+       lifecycle {
+         prevent_destroy = true
+       }
+
+       # Enable versioning so we can see the full revision history of our
+       # state files
+       versioning {
+         enabled = true
+       }
+
+       # Enable server-side encryption by default
+       server_side_encryption_configuration {
+         rule {
+           apply_server_side_encryption_by_default {
+             sse_algorithm = "AES256"
+           }
+         }
+       }
+     }
+   #+end_src
