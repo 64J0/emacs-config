@@ -430,42 +430,6 @@ programming language.
      }
    #+end_src
 
-** Terraform commands
-
-    How to run this?
-
-   #+begin_src shell
-     # install provider code (AWS, Azure, GCP, etc)
-     # will save it in .terraform folder
-     # one could add this folder to the gitignore
-     $ terraform init # this command is idempotent
-
-     # see what Terraform will do before actually making changes
-     $ terraform plan # sanity check
-
-     # create the instance
-     $ terraform apply
-
-     # show the dependency graph for the operation
-     # output is in a graph description lang called DOT
-     $ terraform graph
-
-     # see just the output of a configuration
-     $ terraform output
-
-     # destroy services
-     # WARNING: there's no undo for this command
-     $ terraform destroy
-   #+end_src
-
-   What are the files that we should put in the gitignore?
-
-   #+begin_src txt
-     .terraform
-     *.tfstate
-     *.tfstate.backup
-   #+end_src
-
 * 3 - How to Manage Terraform State
 
   Previously when we were using Terraform to create and update resources, one
@@ -546,4 +510,49 @@ programming language.
          }
        }
      }
+   #+end_src
+
+* Terraform commands
+
+    How to run this?
+
+   #+begin_src shell
+     # install provider code (AWS, Azure, GCP, etc)
+     # will save it in .terraform folder
+     # one could add this folder to the gitignore
+     $ terraform init # this command is idempotent
+
+     # see what Terraform will do before actually making changes
+     $ terraform plan # sanity check
+
+     # create the instance
+     $ terraform apply
+
+     # show the dependency graph for the operation
+     # output is in a graph description lang called DOT
+     $ terraform graph
+
+     # see just the output of a configuration
+     $ terraform output
+
+     # destroy services
+     # WARNING: there's no undo for this command
+     $ terraform destroy
+
+     # show which workspace you're in
+     $ terraform workspace show
+     # create and switch to a new workspace
+     $ terraform workspace new example1
+     # list possible workspaces
+     $ terraform workspace list
+     # switch to a different workspace
+     $ terraform workspace select example1
+   #+end_src
+
+   What are the files that we should put in the gitignore?
+
+   #+begin_src txt
+     .terraform
+     *.tfstate
+     *.tfstate.backup
    #+end_src
