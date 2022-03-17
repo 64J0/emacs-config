@@ -318,15 +318,15 @@
                     ":drill_card_type: hide2cloze\n"
                     ":END:\n"
                     "%?\n"))))
-  (setq org-babel-default-header-args
-        (cons '(:noweb . "yes")
-              (assq-delete-all :noweb org-babel-default-header-args))
-        org-babel-default-header-args
-        (cons '(:tangle . "yes")
-              (assq-delete-all :tangle org-babel-default-header-args))
-        org-babel-default-header-args
-        (cons '(:comments . "link")
-              (assq-delete-all :comments org-babel-default-header-args)))
+  ;; (setq org-babel-default-header-args
+  ;;       (cons '(:noweb . "yes")
+  ;;             (assq-delete-all :noweb org-babel-default-header-args))
+  ;;       org-babel-default-header-args
+  ;;       (cons '(:tangle . "yes")
+  ;;             (assq-delete-all :tangle org-babel-default-header-args))
+  ;;       org-babel-default-header-args
+  ;;       (cons '(:comments . "link")
+  ;;             (assq-delete-all :comments org-babel-default-header-args)))
   )
 
 ;; Taskjuggler is a project planning software which uses a plain text file for the
