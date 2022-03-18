@@ -557,12 +557,40 @@ programming language.
 
 * 4 - How to Create Reusable Infrastructure with Terraform Modules
 
+  Using Modules.
+
+  Modules are the key ingredient to writing reusable, maintainable, and testable
+  Terraform code.
+
+** Module Basics
+
+   A Terraform module is very simple: any set of Terraform configuration files
+   in a folder is a module. All of the configuration you've written so far have
+   technically been modules, although not particularly interesting ones, since
+   you deployed them directly (the module in the current working directory is
+   called the root module).
+
+   Syntax to use a module:
+
+   #+begin_src hcl
+     module "<NAME>" {
+       source = "<SOURCE>" # path to the module config
+
+       [CONFIG...] # one or more arguments specific to the module
+     }
+   #+end_src
+
+   Note that whenever you add a module to your Terraform configurations or
+   modify the /source/ parameter of a module, you need to run the /init/
+   command before you run /plan/ or /apply/.
+   
 * Terraform commands
 
     How to run this?
 
    #+begin_src shell
      # install provider code (AWS, Azure, GCP, etc)
+     # download and update modules
      # will save it in .terraform folder
      # one could add this folder to the gitignore
      $ terraform init # this command is idempotent
