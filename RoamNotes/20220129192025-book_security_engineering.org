@@ -261,3 +261,63 @@
     with sufficient rigor, skill and urgency'. In that case, the bank failed to
     update its fraud engine following a warning from Mastercard the previous day
     of a new type of card scam.
+
+* Chapter 13 - Locks and Alarms
+
+  Most security engineers nowadays focus on electronic systems, but physical
+  protection cannot be neglected.
+
+  First, if you're advising on a company's overall risk management, then walls
+  and locks are a factor.
+
+  Second, as it's easier to teach someone with an electrical engineering or
+  computer science background the basics of physical security than the other way
+  round, interactions between physical and logical protection are usually up to
+  the systems person to manage.
+
+  Third, you will often be asked for your opinion on your client's
+  installations - which may have been built by contractors with little
+  understanding of system issues. You'll need to be able to give informed, but
+  diplomatic, advice.
+
+  Fourth, many information security mechanisms can be defeated if a bad man gets
+  physical access, whether at the factory, or during shipment, or before
+  installation.
+
+  Fifth, many mechanical locks have recently been completely compromised by
+  'bumping', an easy covert-entry technique; their manufactures often seem
+  unaware of vulnerabilities that enable their products to be quickly bypassed.
+
+  Finally, many of the electronic locks that are replacing them are easy to
+  compromise, either because they use cryptography that's broken (such as Mifare
+  classic) or because of poor integration of the mechanical and digital
+  components.
+
+** Threats and barriers
+
+   [...] The design and testing of entry controls and alarms are driven by a
+   policy based on:
+
+   + Deter - detect - alarm - delay - respond
+
+*** Deterrence
+
+    The first consideration is whether you can prevent bad people from ever
+    trying to break in. In this regard, it's a good idea to make your asset
+    anonymous and inconspicuous if you can.
+
+    Location matters; some neighbourhoods have much less crime than others. Part
+    of this has to do with whether property nearby is protected, and how easy it
+    is for a crook to tell which properties are protected.
+
+    If owners just install visible alarms, they may redistribute crime to their
+    neighbours; but invisible alarms that get criminals caught rather than just
+    sent next door can deter crime in a whole neighbourhood.
+
+    For example, Ian Ayres and Steven Levitt studied the effect on auto thefts
+    of Lojack, a radio tag that's embedded invisibly in cars and lets the police
+    find them if they're stolen. In tows where a lot of cars have Lojack, car
+    thieves are caught quickly, and 'chop-shops' that break up stole cars for
+    parts are closed down. [...] The same applies to real estate; a
+    neighbourhood in which lots of houses have high-grade alarms that quietly
+    call the police is a dangerous place for a burglar to work.
