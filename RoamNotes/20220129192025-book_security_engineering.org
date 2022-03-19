@@ -321,3 +321,22 @@
     parts are closed down. [...] The same applies to real estate; a
     neighbourhood in which lots of houses have high-grade alarms that quietly
     call the police is a dangerous place for a burglar to work.
+
+**** Situational crime prevention
+
+     + Increase the risks and efforts
+     + Reduce the rewards and provocations
+     + Remove excuses
+
+** Alarms
+
+   Alarms are used to deal with much more than burglary. Their applications
+   range from monitoring freezer temperatures in supermarkets (so staff don't
+   'accidentally' switch off freezer cabinets in the hope of being given food to
+   take home), right through to improvised explosive devices in conflict zones
+   that are often booby-trapped.
+
+   [...]
+
+   The /Titanic Effect/ of over-reliance on the latest technology often blinds
+   people to common sense.
