@@ -59,26 +59,6 @@
   :init
   (load-theme 'dracula t))
 
-;; COMplete ANYthing
-;; Could give wrong completions (orgmode)
-;; http://company-mode.github.io/
-(use-package company
-  :ensure t
-  :commands (company-mode company-indent-or-complete-common)
-  :config
-  (setf company-idle-delay 1
-        company-selection-wrap-around t)
-  :hook (after-init . global-company-mode))
-
-
-
-;; Puts angry red squiggles on the screen when I do something stupid.
-;; https://www.flycheck.org/en/latest/
-(use-package flycheck
-  :ensure t
-  :init
-  (global-flycheck-mode))
-
 ;; Displays the key bindings following your currently entered incomplete
 ;; command (a prefix) in a popup.
 ;; https://github.com/justbur/emacs-which-key
@@ -131,6 +111,17 @@
   ("C-<prior>" . centaur-tabs-backward)
   ("C-<next>" . centaur-tabs-forward))
 
+;; COMplete ANYthing
+;; Could give wrong completions (orgmode)
+;; http://company-mode.github.io/
+(use-package company
+  :ensure t
+  :commands (company-mode company-indent-or-complete-common)
+  :config
+  (setf company-idle-delay 1
+        company-selection-wrap-around t)
+  :hook (after-init . global-company-mode))
+
 ;; A GNU Emacs major mode for keeping notes, authoring documents,
 ;; computational notebooks, literate programming, maintaining to-do
 ;; lists, planning projects, and more.
@@ -143,7 +134,7 @@
 	 ("C-c a" . org-agenda)
 	 ("C-c c" . org-capture))
   :preface
-  (setq org-export-backends '(moderncv md gfm beamer ascii taskjuggler html latex odt org))
+  (setq org-export-backends '(moderncv md beamer ascii html latex odt org))
   :config
   ;; Required for PlantUML diagrams
   ;; From: https://plantuml.com/download
@@ -427,12 +418,6 @@
 (use-package magit
   :ensure t)
 
-;; An Emacs LSP client that stays out of your way
-;; https://github.com/joaotavora/eglot
-(use-package eglot
-  :ensure t
-  :after company)
-
 ;; ======================================================
 ;; Latex + Beamer config
 (require 'ox-beamer)
@@ -443,32 +428,29 @@
 
 ;; ======================================================
 ;; F# CONFIG
+;; Got this configuration from Magueta's config
+;; https://github.com/MMagueta/MageMacs/blob/macintosh/init.el
 
-;; This package gives you a set of key combinations to perform dotnet
-;; CLI tasks within your .NET Core projects
-;; https://github.com/julienXX/dotnet.el
-(use-package dotnet
-  :ensure t
-  :hook (fsharp-mode . dotnet-mode))
+;; Static analysis
+;; https://github.com/emacs-elsa/Elsa
+;; (use-package elsa
+;;   :ensure t
+;;   :hook
+;;   (emacs-lisp-mode . (lambda () (flycheck-elsa-setup)))
+;;   :config
+;;   (use-package flycheck-elsa
+;;     :ensure t
+;;     :hook
+;;     ((emacs-lisp-mode . (lambda () (flycheck-mode)))
+;;      (emacs-lisp-mode . (lambda () (flymake-mode))))))
 
-;; Provides support for the F# language in Emacs
-;; https://github.com/fsharp/emacs-fsharp-mode
-(use-package fsharp-mode
+;; Puts angry red squiggles on the screen when I do something stupid.
+;; https://www.flycheck.org/en/latest/
+(use-package flycheck
   :ensure t
-  :after company
   :config
-  (setq-default fsharp-indent-offset 4)
-  (setq inferior-fsharp-program "dotnet fsi")
-  :hook
-  (fsharp-mode . highlight-indentation-mode))
-
-;; Code evaluation in org-mode
-(use-package ob-fsharp
-  :ensure t)
-
-(use-package eglot-fsharp
-  :ensure t
-  :after fsharp-mode)
+  (use-package flymake-flycheck
+    :ensure t))
 
 ;; Language Server Protocol Support for Emacs
 ;; Aims to provide IDE-like experience by providing optional integration
@@ -477,15 +459,119 @@
 ;; https://github.com/emacs-lsp/lsp-mode
 (use-package lsp-mode
   :ensure t
-  :hook (fsharp-mode . lsp-deferred)
-  :commands (lsp lsp-deferred))
+  :hook (fsharp-mode . lsp-lens-mode)
+  :init
+  (add-hook 'before-save-hook #'(lambda () (when (eq major-mode 'fsharp-mode)
+                                             (lsp-format-buffer))))
+  :config
+  (use-package lsp-treemacs
+    :ensure t))
+
+;; Emacs client/library for Debug Adapter Protocol is a wire protocol for
+;; communication between client and Debug Server. It's similar to the LSP
+;; but provides integration with debug server.
+;; https://github.com/emacs-lsp/dap-mode
+;; (use-package dap-mode
+;;   :ensure t
+;;   :after lsp-mode
+;;   :config
+;;   ;; Enabling only some features
+;;   (setq dap-auto-configure-features '(sessions locals controls tooltip))
+;;   (dap-mode 1)
+;;   ;; The modes below are optional
+;;   (dap-ui-mode 1)
+;;   ;; enables mouse hover support
+;;   (dap-tooltip-mode 1)
+;;   ;; use tooltips for mouse hover
+;;   ;; if it is not enabled `dap-mode' will use the minibuffer.
+;;   (tooltip-mode 1)
+;;   ;; displays floating panel with debug buttons
+;;   ;; requies emacs 26+
+;;   (dap-ui-controls-mode 1)
+;;   (add-hook 'dap-stopped-hook
+;;             (lambda (arg) (call-interactively #'dap-hydra)))
+;;   :hook
+;;   (lsp-mode . dap-mode)
+;;   (lsp-mode . dap-ui-mode))
+
+;; (defun magueta/lsp-ui-doc-toggle ()
+;;   "For some reason it is required to do at least once a call to lsp-ui-doc-show in order for this to work."
+;;   (interactive)
+;;   (let ((frame (lsp-ui-doc--get-frame)))
+;;     (cond ((frame-visible-p frame) (lsp-ui-doc-hide))
+;; 	  (t (lsp-ui-doc-show)))))
 
 ;; This package contains all the higher level UI modules of lsp-mode,
 ;; like flycheck support and code lenses.
 ;; https://emacs-lsp.github.io/lsp-ui/#intro
 (use-package lsp-ui
   :ensure t
-  :commands lsp-ui-mode)
+  :commands lsp-ui-mode
+  :init
+  (setq lsp-ui-doc-enable t)
+  (setq lsp-ui-sideline-diagnostic-max-lines 7))
+
+;; https://github.com/company-mode/company-quickhelp
+(use-package company-quickhelp
+   :ensure t
+   :init
+   (setq company-tooltip-limit 10 ; bigger popup window
+	 company-tooltip-minimum-width 15
+	 company-tooltip-align-annotations t ; align annotations to the right tooltip border
+	 company-quickhelp-delay '1.0)
+   :config
+   (company-quickhelp-mode nil)
+   :hook
+   ((emacs-lisp-mode . (lambda () (company-mode)))))
+
+;; Provides support for the F# language in Emacs
+;; https://github.com/fsharp/emacs-fsharp-mode
+(use-package fsharp-mode
+   :ensure t
+   :mode (("\\.fs$"  .  fsharp-mode)
+	  ("\\.fsx$" .  fsharp-mode)
+	  ("\\.fsi$" .  fsharp-mode))
+   :hook ((fsharp-mode      . (lambda () (lsp))))
+   :bind
+   (("C-c C-,"     . 'fsharp-shift-region-left)
+    ("C-c C-."     . 'fsharp-shift-region-right)
+    ("C-o"         . 'fsharp-newline-and-indent)
+    ("C-c C-i"     . 'run-fsharp)
+    ("C-c C-a"     . 'fsharp-find-alternate-file)
+    ("M-h"         . 'fsharp-mark-phrase))
+   :config
+   (setq compile-command "dotnet watch run")
+   (setq inferior-fsharp-program "dotnet fsi")
+   (add-hook 'inferior-fsharp-mode-hook 'turn-on-comint-history))
+
+(use-package eshell-syntax-highlighting
+  :ensure t
+  :config
+  (eshell-syntax-highlighting-global-mode +1))
+
+;; This package gives you a set of key combinations to perform dotnet
+;; CLI tasks within your .NET Core projects
+;; https://github.com/julienXX/dotnet.el
+;; (use-package dotnet
+;;   :ensure t
+;;   :hook (fsharp-mode . dotnet-mode))
+
+;; Code evaluation in org-mode
+(use-package ob-fsharp
+  :ensure t)
+
+;; An Emacs LSP client that stays out of your way
+;; https://github.com/joaotavora/eglot
+(use-package eglot
+  :ensure t
+  :after company
+  :config
+  (use-package eglot-fsharp
+    :ensure t
+    :after fsharp-mode
+    :config
+    (setq toggle-debug-on-error t)
+    (setq lsp-print-io t)))
 
 ;; ======================================================
 ;; DEVSECOPS
@@ -590,7 +676,7 @@
  '(org-agenda-files
    '("~/Desktop/codes/emacs-config/RoamNotes/20220129192025-book_security_engineering.org"))
  '(package-selected-packages
-   '(ox-latex ox-beamer org-superstar terraform-mode rainbow-delimiters lsp-grammarly diff-hl diff-hl-mode ob-fsharp org-roam centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package)))
+   '(company-quickhelp eshell-syntax-highlighting all-the-icons flymake-flycheck elsa ox-latex ox-beamer org-superstar terraform-mode rainbow-delimiters lsp-grammarly diff-hl diff-hl-mode ob-fsharp org-roam centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
