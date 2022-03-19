@@ -1,0 +1,49 @@
+:PROPERTIES:
+:ID:       a4177ca6-4609-4a3a-94b1-7f0fd2daa593
+:END:
+#+title: [DevSecOps] Literate DevOps
+#+date: [2022-03-19 sáb 16:59]
+
+* Introduction
+
+Literate programming is a term created by Donald E. Knuth to express a methodoly
+that combines a programming language with a documentation language, making
+programs more robust, more portable, easier to spot problems, easier to reason
+about and more easy to maintain than programs written only in a high-level
+language.
+
++ [[https://www.amazon.com.br/Literate-Programming-Donald-Ervin-Knuth/dp/0937073806][Link to the Amazon book]].
+
+In this methodology explanations are presented in a natural language, such
+English, interpersed with snippets of macros and traditional source code, from
+which compilable source code can be generated.
+
++ [[https://en.wikipedia.org/wiki/Literate_programming][Wikipedia article about this topic]].
+
+Inspired by [[http://howardism.org/Technical/Emacs/literate-devops.html][this article]] from Howard about Literate DevOps, my goal is to extend
+this methodology by providing more examples and insights to this new field of
+Literate DevOps.
+
+In this regard, my plan is to keep using Emacs to write programs like initially
+presented by Howard.
+
+** Example of Org + Babel
+
+   #+begin_src shell :tangle no :shebang "#!/bin/bash" :results output
+     set -euxo pipefail
+
+     SCRIPT_NAME="20220319165942-devsecops_literatedevops.org"
+     FILE_SIZE=$(du -h $SCRIPT_NAME | awk '{print $1}' | sed 's/,/./')
+     echo "This file takes up to $FILE_SIZE"
+   #+end_src
+
+   #+RESULTS:
+   : This file takes up to 4.0K
+
+
+* Useful links
+
+Some useful links that are related to Emacs docs:
+
++ [[https://orgmode.org/worg/org-contrib/babel/intro.html][Introducing Babel]]
++ [[https://orgmode.org/manual/Extracting-Source-Code.html][Extracting Source Code (tangle)]]
