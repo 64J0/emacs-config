@@ -702,6 +702,27 @@ programming language.
      module.<MODULE_NAME>.<OUTPUT_NAME>
    #+end_src
    
+** Module Versioning
+
+   If both your staging and production environment are pointing to the same
+   module folder, as soon as you make a change in that folder, it will affect
+   both environments on the very next deployment. This sorte of coupling makes
+   it more difficult to test a change in staging without any chance of affecting
+   production. A better approach is to create /versioned modules/ so that you
+   can use one version in staging (v0.0.2) and a different version in production
+   (v0.0.1).
+
+*** Private Git Repos
+
+    If your Terraform module is in a private Git repository, to use that repo as
+    a module source, you need to give Terraform a way to authenticate to that
+    Git repository. I recommend using SSH auth so that you don't need to
+    hardcode the credentials for your repo in the code itself. With SSH
+    authentication, each developer can create an SSH key, associate it with
+    their Git user, and add it to ssh-agent, and Terraform will automatically
+    use that key for authentication if you use an SSH source URL.
+
+* 5 - Terraform Tips and Tricks 
 * Terraform commands
 
     How to run this?
@@ -747,3 +768,4 @@ programming language.
      *.tfstate
      *.tfstate.backup
    #+end_src
+
