@@ -572,7 +572,7 @@ programming language.
 
    Syntax to use a module:
 
-   #+begin_src hcl
+   #+begin_src hcl :tangle no
      module "<NAME>" {
        source = "<SOURCE>" # path to the module config
 
@@ -580,9 +580,127 @@ programming language.
      }
    #+end_src
 
+   #+begin_src hcl :tangle no :file main.tf
+     provider "aws" {
+       region = "us-east-2"
+     }
+
+     module "webserver_cluster" {
+       source = "../../../modules/services/webserver-cluster"
+     }
+   #+end_src
+   
    Note that whenever you add a module to your Terraform configurations or
    modify the /source/ parameter of a module, you need to run the /init/
    command before you run /plan/ or /apply/.
+   
+** Module Inputs
+
+   In Terraform, one can use input variables to define module inputs. It is just
+   a matter of creating a new /variables.tf/ file inside the module.
+
+   #+begin_src hcl :tangle no :file variables.tf
+     variable "cluster_name" {
+       description = "The name to use for all the cluster resources"
+       type        = string
+     }
+
+     variable "db_remote_state_bucket" {
+       description = "The name of the S3 bucket for the database's remote state"
+       type        = string
+     }
+
+     variable "db_remote_state_key" {
+       description = "The path for the database's remote state in S3"
+       type        = string
+     }
+   #+end_src
+
+   #+begin_src hcl :tangle no :file main.tf
+     provider "aws" {
+       region = "us-east-2"
+     }
+
+     module "webserver_cluster" {
+       source = "../../../modules/services/webserver-cluster"
+
+       cluster_name           = "webservers-stage"
+       db_remote_state_bucket = "(YOUR_BUCKET_NAME)"
+       db_remote_state_key    = "stage/data-stores/mysql/terraform.tfstate"
+     }
+
+     resource "aws_security_group" "alb" {
+       name = "${var.cluster_name}-alb"
+
+       ingress {
+         from_port   = 80
+         to_port     = 80
+         protocol    = "tcp"
+         cidr_blocks = ["0.0.0.0/0"]
+       }
+
+       egress {
+         from_port   = 0
+         to_port     = 0
+         protocol    = "-1"
+         cidr_blocks = ["0.0.0.0/0"]
+       }
+     }
+   #+end_src
+
+** Module Locals
+
+   When we're creating the configuration for our services, sometimes we need to
+   write multiple times the same information. Having these magical values
+   hardcoded in multiple places makes the code more difficult to read and
+   maintain.
+
+   To solve this problem, you could extract values into input variables, but
+   then users of your module will be able to (accidentally) override these
+   values, which you might not want.
+
+   So, instead of using input variables, you can define these as /local values/
+   in a /locals/ block:
+
+   #+begin_src hcl :tangle no
+     locals {
+       http_port    = 80
+       any_port     = 0
+       any_protocol = "-1"
+       tcp_protocol = "tcp"
+       all_ips      = ["0.0.0.0/0"]
+     }
+   #+end_src
+
+   Local values allow you to assign a name to any Terraform expression, and to
+   use that name throughout the module. These names are only visible within the
+   module, so they will have no impact on other modules, and you can't override
+   these values from outside of the module. To read the value of a local, you
+   need to use a /local reference/, which uses the following syntax:
+
+   #+begin_src hcl :tangle no
+     local.<NAME>
+   #+end_src
+
+   Locals make your code easier to read and maintain, so use them often.
+   
+** Module Outputs
+
+   In Terraform, a module also return values. Again, you do this using a
+   mechanism you already know: output variables.
+
+   #+begin_src hcl :tangle no :file outputs.fs
+     output "asg_name" {
+       value       = aws_autoscaling_group.example.name
+       description = "The name of the Auto Scaling Group"
+     }
+   #+end_src
+
+   You can access module output variables using the following syntax:
+
+   #+begin_src hcl :tangle no
+     module.<MODULE_NAME>.<OUTPUT_NAME>
+   #+end_src
    
 * Terraform commands
 
