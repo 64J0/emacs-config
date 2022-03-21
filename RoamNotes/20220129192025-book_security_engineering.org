@@ -45,7 +45,7 @@
 
   [...]
 
-  By 2011 Google was describing its core competence as 'thes tatistical data
+  By 2011 Google was describing its core competence as 'the statistical data
   mining of crowdsourced data'; as the datasets got larger, and basic
   statistical techniques were augmented with machine learning, the amount we can
   learn has grown.
@@ -58,7 +58,7 @@
   measure of privacy when we set out to answer a specific set of reasearch
   questions. This brings us to the theory of differential privacy.
 
-** 11.3- Differential privacy
+** 11.3 - Differential privacy
 
    In 2006, Cynthia Dwork, Frank McSherry, Kobbi Nissim and Adam Smith published
    a seminal paper showing how you could systematically analyse privacy systems
@@ -118,7 +118,9 @@
 
 * Chapter 12 - Banking and Bookkeeping
 
-  #+note_br:bookkeeping = contabilidade.
+  #+begin_comment
+    bookkeeping = contabilidade.
+  #+end_comment
   
   A banking system should prevent customers from cheating on each other, or the
   bank; it should prevent bank staff from cheating the bank, or its customers;
