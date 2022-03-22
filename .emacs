@@ -420,10 +420,10 @@
 
 ;; ======================================================
 ;; Latex + Beamer config
-(require 'ox-beamer)
-;; the add "beamer" to your org-export-backend
+;; Beamer is a LaTeX package for writing presentations.
+;; https://orgmode.org/worg/exporters/beamer/tutorial.html
 ;; sudo apt-get install -f texlive-latex-extra
-(setq org-export-backends '(ascii html beamer))
+(require 'ox-beamer)
 (require 'ox-latex)
 
 ;; ======================================================
