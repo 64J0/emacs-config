@@ -105,3 +105,93 @@
      sudo systemctl start prometheus
    #+end_src
    
+* Data
+
+** Data Model
+
+   Prometheus stores data as time series. Every time series is identified by
+   metric name and labels.
+
+   Labels are optional and are a key and value pair.
+
+   + <metric name> {key=value, key=value, ...}
+   + auth_api_hit {count=1, time_taken=800}
+
+** Data Types in PromQL
+
+   We use data types when storing and retrieving values.
+
+   + Scalar:
+     
+     {Float; String}
+
+     Store:
+     prometheus_http_requests_total{code="200", job="prometheus"}
+
+     Query:
+     prometheus_http_requests_total{code=~"2.*", job="prometheus"}
+
+   + Instant vector:
+     
+     Instant vector selectors allow the selection of a set of time series and a
+     single sample value for each at a given timestamp (instant).
+
+     Only a metric name is specified, and results can be filtered by providing
+     labels.
+
+   + Range vectors:
+
+     Are similar to Instant vectors except they select a range of samples.
+
+     label_name[time_spec]
+     
+     auth_api_hit[5m]
+
+** Operators
+
+   | Symbol | Operation      | Notes                          |
+   |--------+----------------+--------------------------------|
+   | +      | Addition       |                                |
+   | -      | Subtraction    |                                |
+   | *      | Multiplication |                                |
+   | /      | Division       |                                |
+   | %      | Modulo         |                                |
+   | ^      | Power          |                                |
+   | ==     | Comparison     |                                |
+   | and    |                | Apply only for Instant Vectors |
+   | or     |                | Apply only for Instant Vectors |
+   | unless |                | Apply only for Instant Vectors |
+
+** Filters
+
+   <metric_name> {filter_key=value, filter_key=value, ...}
+
+   prometheus_http_requests_total{code=200, job="prometheus}
+
+   | Symbol | Operation                                       |
+   |--------+-------------------------------------------------|
+   | =      | Two values must be equal                        |
+   | !=     | Two values must NOT be equal                    |
+   | =~     | Value on left must match the regex on right     |
+   | !~     | Value on left must NOT match the regex on right |
+   
+** Aggregation Operators
+
+   Aggregate the elements of a single Instant Vector. The result is a new
+   Instant Vector with aggregated values.
+
+   <aggregation_operator>(<instant_vector>)
+
+   sum(node_cpu_total)
+
+   <aggregation_operator>(<instant_vector>) by (<label_list>)
+
+   sum(node_cpu_total) by (http_code)
+
+   <aggregation_operator>(<instant_vector>) without (<label_list>)
+
+   sum(node_cpu_total) without  (http_code)
+
+** Time Offsets
+
+   <metric> offset <time>
