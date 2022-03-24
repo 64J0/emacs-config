@@ -722,7 +722,24 @@ programming language.
     their Git user, and add it to ssh-agent, and Terraform will automatically
     use that key for authentication if you use an SSH source URL.
 
-* 5 - Terraform Tips and Tricks 
+* 5 - Terraform Tips and Tricks
+
+  Here are the topics covered in this chapter:
+
+  + Loops
+  + Conditionals
+  + Zero-downtime deployment
+  + Terraform gotchas
+
+** Loops
+
+   #+begin_src hcl :tangle no
+     resource "aws_iam_user" "example" {
+       count = 3
+       name = "neo.${count.index}"
+     }
+   #+end_src
+
 * Terraform commands
 
     How to run this?
