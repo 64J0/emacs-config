@@ -1,0 +1,107 @@
+:PROPERTIES:
+:ID:       74041e6e-ba29-4039-8c21-edc55a2b671f
+:END:
+#+title: [Udemy] Mastering Prometheus And Grafana
+#+date: [2022-03-23 qua 18:41]
+
+* Introduction
+
+** Telemetry
+
+   Applications produce logs (errors and exceptions with rich information like
+   stack trace and error codes). This kind of information is easy to grab when
+   running a project locally, with just one instance, but it gets tricky when
+   the scenario scales to several machines in different parts of the world.
+
+   With telemetry we could grab several metrics from servers in different
+   locations, join all this and produce some piece of information that could be
+   used later to get insights on products, spot problems and errors, and enhance
+   applications.
+
+   Example of some information that we could grab:
+   
+   - How many errors and exceptions per minute or other period of time?
+   - What is the response time?
+   - How many times API is called?
+   - How many servers are running in a specific time?
+   - How many users are from a specific location?
+
+
+   #+begin_src ditaa :file telemetry-overview.png
+     +---------+        +-------+        +------+
+     | metric  | -----> | value | -----> | time |
+     +---------+        +-------+        +------+
+   #+end_src
+
+   #+RESULTS:
+   [[file:telemetry-overview.png]]
+
+   #+begin_quote
+     Telemetry in software refers to the collection of business and diagnosis
+     data from the software in production, and store and visualise it for the
+     purpose of diagnosing production issues or improving the business.
+   #+end_quote
+
+** Installing
+
+   #+begin_src bash :tangle no
+     # download the package
+     wget https://github.com/prometheus/prometheus/releases/download/v2.34.0/prometheus-2.34.0.linux-amd64.tar.gz
+
+     # create required group
+     sudo groupadd --system prometheus
+     sudo useradd -s /sbin/nologin --system -g prometheus prometheus
+     sudo mkdir /var/lib/prometheus
+     sudo mkdir -p /etc/prometheus/rules
+     sudo mkdir -p /etc/prometheus/rules.s
+     sudo mkdir -p /etc/prometheus/files_sd
+
+     # extract the tar file
+     sudo tar xvf prometheus-2.34.0.linux-amd64.tar.gz
+
+     # make prometheus available to the user through terminal
+     cd prometheus-2.34.0.linux-amd64
+     sudo mv prometheus promtool /usr/local/bin/
+     prometheus --version
+
+     sudo mv prometheus.yml /etc/prometheus/prometheus.yml
+     #...
+     # copy the yaml configuration from teacher config
+
+     # change the ownership of folder to the prometheus user
+     # under prometheus group
+     sudo chrown -R prometheus:prometheus /etc/prometheus
+     sudo chrown -R prometheus:prometheus /etc/prometheus/*
+     sudo chmod -R 775 /etc/prometheus
+     sudo chmod -R 775 /etc/prometheus/*
+     sudo chrown -R prometheus:prometheus /var/lib/prometheus/
+     sudo chrown -R prometheus:prometheus /var/lib/prometheus/*
+
+     # reload the daemon
+     sudo systemctl daemon-reload
+     sudo systemctl start prometheus
+     sudo systemctl enable prometheus
+
+     # check the service running
+     systemctl status prometheus
+   #+end_src
+
+** Data Collection
+
+   Install /node_exporter/ in the client machines so Prometheus can query the
+   information from those machines. This technique where Prometheus grabs data
+   from cliente machines running /node_exporter/ tool is called scrapping.
+
+   If the application is being created by our team and we can change the code,
+   we could use a tool called /Push gateway/ where we don't need to install the
+   /node_exporter/ in the client machine, the application itself can send the
+   data to the Prometheus server.
+
+   + YAML configuration for the Prometheus server.
+
+   #+begin_src shell :tangle no
+     # after changing Prometheus config we need to restart the daemon
+     sudo systemctl stop prometheus
+     sudo systemctl start prometheus
+   #+end_src
+   
