@@ -195,3 +195,8 @@
 ** Time Offsets
 
    <metric> offset <time>
+
+* Alerts
+  
+  [[https://awesome-prometheus-alerts.grep.to/][Awesome Prometheus alerts]]
+
