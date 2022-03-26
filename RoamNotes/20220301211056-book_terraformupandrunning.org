@@ -733,13 +733,217 @@ programming language.
 
 ** Loops
 
-   #+begin_src hcl :tangle no
-     resource "aws_iam_user" "example" {
-       count = 3
-       name = "neo.${count.index}"
-     }
-   #+end_src
+   Terraform offers several different looping constructs, each intended to be
+   used in a slightly different scenario:
 
+   + /count/ parameter, to loop over resources
+   + /for_each/ expressions, to loop over resources and inline blocks within
+     a resource
+   + /for/ expressions, to loop over lists and maps
+   + /for/ string directive, to loop over lists and maps within a string
+
+*** count
+
+    A simple example:
+    
+    #+begin_src hcl :tangle no
+      resource "aws_iam_user" "example" {
+        count = 3
+        name  = "neo.${count.index}"
+      }
+    #+end_src
+
+    A more complex example:
+
+    #+filename: variables.tf
+    #+begin_src hcl :tangle no
+      variables "user_names" {
+        description = "Create IAM users with these names"
+        type        = list(string)
+        default     = ["neo", "trinity", "morpheus"]
+      }
+    #+end_src
+
+    #+filename: main.tf
+    #+begin_src hcl :tangle no
+      resource "aws_iam_user" "example" {
+        count = length(var.user_names)
+        name  = var.user_names[count.index]
+      }
+    #+end_src
+
+    Note that after you've used count on a resource, it becomes an array of
+    resources rather than just one resource. [...] you must specify which IAM
+    user you're interested in by specifying its index in the array using the
+    same array lookup syntax:
+
+    #+filename: output.tf
+    #+begin_src hcl :tangle no
+      output "neo_arn" {
+        value        = aws_iam_user.example[0].arn
+        description  = "The ARN for user Neo"
+      }
+
+      output "all_arns" {
+        value = aws_iam_user.example[*].arn
+        description = "The ARNs for all users"
+      }
+    #+end_src
+
+    Unfortunately, /count/ has two limitations that significantly reduce its
+    usefulness.
+
+    First, although you can use /count/ to loop over an entire resource, you
+    can't use /count/ within a resource to loop over inline blocks.
+
+    The second limitation with /count/ is what happens when you try to change
+    it. [...] When you use the /count/ parameter on a resource, that resource
+    becomes a list or array of resources. Unfortunately, the way Terraform
+    identifies each resource within the array is by its position (index) in that
+    array.
+    
+*** for_each
+
+    The /for_each/ expression allows you to loop over lists, sets, and maps to
+    create either:
+
+    (a) multiple copies of an entire resource
+
+    (b) multiple copies of an inline block within a resource
+
+    #+begin_src hcl :tangle no
+      resource "<PROVIDER>_<TYPE>" "<NAME>" {
+        for_each = <COLLECTION>
+
+        [CONFIG...]
+      }
+    #+end_src
+
+    #+filename: main.tf
+    #+begin_src hcl :tangle no
+      resource "aws_iam_user" "example" {
+        for_each = toset(var.user_names)
+        name     = each.value
+      }
+    #+end_src
+
+    #+filename: output.tf
+    #+begin_src hcl :tangle no
+      output "all_users" {
+        value = aws_iam_user.example
+      }
+
+      output "all_arns" {
+        value = values(aws_iam_user.example)[*].arn
+      }
+    #+end_src
+
+    Note the use of /toset/ to convert the /var.user_names/ list into a set.
+    
+*** for
+
+    You've now seen how to loop over resources and inline blocks, but what if
+    you need a loop to generate a single value?
+
+    Terraform offerts a functionality in the form of a /for/ expression (not to
+    be confused with the /for_each/ expression of the last section. The basic
+    syntax of a /for/ expression is:
+
+    #+begin_src hcl :tangle no
+      [for <ITEM> in <LIST> : <OUTPUT>]
+    #+end_src
+
+    For example, consider this block of code that transforms a lisp of names to
+    uppercase:
+
+    #+name: upper-transformation-example.tf
+    #+begin_src hcl :tangle no
+      variable "name" {
+        description = "A list of names"
+        type        = list(string)
+        default     = ["neo", "trinity", "morpheus"]
+      }
+
+      output "upper_names" {
+        value = [for name in var.names : upper(name)]
+      }
+    #+end_src
+
+    We can also apply filters:
+
+    #+name: upper-transformation-with-filter-example.tf
+    #+begin_src hcl :tangle no
+      variable "name" {
+        description = "A list of names"
+        type        = list(string)
+        default     = ["neo", "trinity", "morpheus"]
+      }
+
+      output "upper_names" {
+        value = [for name in var.names : upper(name) if length(name) < 5]
+      }
+    #+end_src
+
+    /for/ works even for maps:
+
+    #+name: map-upper-transformation-with-filter-example.tf
+    #+begin_src hcl :tangle no
+      variable "hero_thousand_faces" {
+        description = "A list of names"
+        type        = map(string)
+        default     = {
+          neo      = "hero"
+          trinity  = "love interest"
+          morpheus = "mentor"
+        }
+      }
+
+      output "bios" {
+        value = [for name, role in var.hero_thousand_faces : "${name} is the ${role}"]
+      }
+    #+end_src
+
+** String directives
+
+   String directives allow you to use control statements (e.g., for-loops and
+   if-statements) within strings using a syntax similar to string
+   interpolations, but instead of a dollar sign and curly braces (${...}), you
+   use a percent sign and curly braces (%{...}). For example:
+
+   #+begin_src hcl :tangle no
+     variable "name" {
+       description = "A list of names"
+       type        = list(string)
+       default     = ["neo", "trinity", "morpheus"]
+     }
+
+     output "for_directive" {
+       value = <<EOF
+     %{ for name in var.names }
+       ${name}
+     %{ endfor }
+     EOF
+     }
+    #+end_src
+
+    You can use a /strip marker/ (~) in your string directive to consume all of
+    the whitespace (spaces and newlines) either before the string directive (if
+    the marker appears at the beginning of the string directive) or after (if
+    the marker appears at the end of the string directive).
+
+    #+begin_src hcl :tangle no
+      output "for_directive_strip_marker" {
+        value = <<EOF
+      %{~ for name in var.names }
+        ${name}
+      %{~ endfor }
+      EOF
+      }
+    #+end_src
+ 
+** Conditionals
+
+   
 * Terraform commands
 
     How to run this?
