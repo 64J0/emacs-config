@@ -943,6 +943,11 @@ programming language.
  
 ** Conditionals
 
+   Terraform supports /conditional expressions/ of the format <CONDITION> ?
+   <TRUE_VAL> : <FALSE_VAL>. This is called /ternary syntax/.
+
+   This ternary operator can be combined with the /count/ operator mentioned
+   before to produce a conditional statement.
    
 * Terraform commands
 
