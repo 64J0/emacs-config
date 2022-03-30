@@ -35,7 +35,9 @@
 
 ;; PACKAGE REPOSITORIES
 ;; when error: M-x package-refresh-contents
-(require 'package)
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+(require 'use-package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives
 	     '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
@@ -84,8 +86,8 @@
 ;; https://github.com/Fanael/rainbow-delimiters
 (use-package rainbow-delimiters
   :ensure t
-  :init
-  (rainbow-delimiters-mode))
+  :config
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 ;; Show directory tree on the lateral
 ;; https://github.com/jaypei/emacs-neotree
@@ -121,6 +123,38 @@
   (setf company-idle-delay 1
         company-selection-wrap-around t)
   :hook (after-init . global-company-mode))
+
+;; https://github.com/alhassy/emacs.d#quickly-pop-up-a-terminal-run-a-command-close-it-and-zsh
+(use-package shell-pop
+  :ensure t
+  :custom
+    ;; This binding toggles popping up a shell, or moving cursour to the shell pop-up.
+    (shell-pop-universal-key "C-t")
+    ;; Percentage for shell-buffer window size.
+    (shell-pop-window-size 30)
+    ;; Position of the popped buffer: top, bottom, left, right, full.
+    (shell-pop-window-position "bottom")
+    ;; Please use an awesome shell.
+    (shell-pop-term-shell "/bin/bash"))
+
+;; Displays help text (e.g. for buttons and menu items that you put the mouse on)
+;; in a pop-up window.
+;; https://github.com/emacs-mirror/emacs/blob/master/lisp/tooltip.el
+(use-package tooltip
+  :config
+  (tooltip-mode 0))
+
+;; https://oremacs.com/swiper/#copying
+;; https://github.com/abo-abo/swiper
+;; Ivy: generic completion mechanism for Emacs
+;; Counsel: collection of Ivy-enhanced versions of common Emacs commands
+;; Swiper: Ivy-enhanced alternative to Isearch
+(use-package counsel
+  :ensure t
+  :config
+  (ivy-mode 1)
+  (global-set-key (kbd "C-s") 'swiper-isearch)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file))
 
 ;; A GNU Emacs major mode for keeping notes, authoring documents,
 ;; computational notebooks, literate programming, maintaining to-do
@@ -309,29 +343,7 @@
                     ":drill_card_type: hide2cloze\n"
                     ":END:\n"
                     "%?\n"))))
-  ;; (setq org-babel-default-header-args
-  ;;       (cons '(:noweb . "yes")
-  ;;             (assq-delete-all :noweb org-babel-default-header-args))
-  ;;       org-babel-default-header-args
-  ;;       (cons '(:tangle . "yes")
-  ;;             (assq-delete-all :tangle org-babel-default-header-args))
-  ;;       org-babel-default-header-args
-  ;;       (cons '(:comments . "link")
-  ;;             (assq-delete-all :comments org-babel-default-header-args)))
   )
-
-;; Taskjuggler is a project planning software which uses a plain text file for the
-;; definition of tasks which is then processed to create the schedule.
-;; https://www.skamphausen.de/cgi-bin/ska/taskjuggler-mode
-;; (use-package taskjuggler-mode
-;;   :ensure t)
-
-;; Displays help text (e.g. for buttons and menu items that you put the mouse on)
-;; in a pop-up window.
-;; https://github.com/emacs-mirror/emacs/blob/master/lisp/tooltip.el
-(use-package tooltip
-  :config
-  (tooltip-mode 0))
 
 ;; Second brain
 ;; https://www.youtube.com/watch?v=AyhPmypHDEw
@@ -687,7 +699,7 @@
  '(org-agenda-files
    '("~/Desktop/codes/emacs-config/RoamNotes/20220129192025-book_security_engineering.org"))
  '(package-selected-packages
-   '(languagetool highlight-indentation-mode company-quickhelp eshell-syntax-highlighting all-the-icons flymake-flycheck elsa ox-latex ox-beamer org-superstar terraform-mode rainbow-delimiters lsp-grammarly diff-hl diff-hl-mode ob-fsharp org-roam centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package)))
+   '(counsel shell-pop languagetool highlight-indentation-mode company-quickhelp eshell-syntax-highlighting all-the-icons flymake-flycheck elsa ox-latex ox-beamer org-superstar terraform-mode rainbow-delimiters lsp-grammarly diff-hl diff-hl-mode ob-fsharp org-roam centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
