@@ -449,6 +449,14 @@
 (require 'ox-beamer)
 (require 'ox-latex)
 
+;; https://github.com/bdarcus/citar
+(use-package citar
+  :bind (("C-c b" . citar-insert-citation)
+         :map minibuffer-local-map
+         ("M-b" . citar-insert-preset))
+  :custom
+  (citar-bibliography '("~/Desktop/codes/emacs-config/bib/references.bib")))
+
 ;; ======================================================
 ;; F# CONFIG
 ;; Got this configuration from Magueta's config
@@ -697,7 +705,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
-   '("~/Desktop/codes/emacs-config/RoamNotes/20220129192025-book_security_engineering.org"))
+   '())
  '(package-selected-packages
    '(counsel shell-pop languagetool highlight-indentation-mode company-quickhelp eshell-syntax-highlighting all-the-icons flymake-flycheck elsa ox-latex ox-beamer org-superstar terraform-mode rainbow-delimiters lsp-grammarly diff-hl diff-hl-mode ob-fsharp org-roam centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package)))
 (custom-set-faces
