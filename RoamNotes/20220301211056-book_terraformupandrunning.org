@@ -949,6 +949,98 @@ programming language.
    This ternary operator can be combined with the /count/ operator mentioned
    before to produce a conditional statement.
    
+* 7 - How to Test Terraform Code
+
+  #+begin_quote
+    Infrastructure code without automated tests is broken.
+  #+end_quote
+
+  + When testing Terraform code, there is no localhost.
+
+    In other words, when working with Terraform, every developer needs good
+    example code to test and a real deployment environment (e.g., an AWS
+    account) to use as an equivalent to localhost for running those tests. In
+    the process of manual testing, you're likely to bring up and tear down a lot
+    of infrastructure, and likely make lots of mistakes along the way, so this
+    environment should be completely isolated from your other, more stable
+    environments, such as staging, and especially production.
+
+    In fact, to reduce the chances of conflicts between multiple developers
+    (e.g., two developers trying to create a load balancer with the same name),
+    the gold standard is that each developer gets their own completely isolated
+    sandbox environment. For example, if you're using Terraform with AWS, the
+    gold standard is for each developer to have their own AWS account that they
+    can use to test anything they want.
+
+  + Regularly clean up your sandbox environments.
+
+  + You cannot do /pure/ unit testing for Terraform code.
+
+    In other words, unit tests for Terraform are really integration tests.
+
+** Unit tests
+
+   Unit tests verify the functionality of a single, small unit of code. The
+   definition of /unit/ varies, but in a general-purpose programming language,
+   it's typically a single function or class. Usually, any external
+   dependencies - for example, databases, web services, even the filesystem -
+   are replaced with /test doubles/ or /mocks/ that allow you to finely control
+   the behavior of those dependencies (e.g., by returning a hard-coded response
+   from a database mock) to test that your code handles a variety of scenarios.
+
+   The basic strategy for writing unit tests for Terraform is:
+
+   1. Create a generic, standalone module.
+   2. Create an easy-to-deploy example for that module.
+   3. Run /terraform apply/ to deploy the example into a real environment.
+   4. Validate that what you just deployed works as expected. This step is
+      specuific to the type of infrastructure you're testing: for example,
+      for an ALB, you'd validate it by sending an HTTP request and checking
+      that you receive back the expected response.
+   5. Run /terraform destroy/ at the end of the test to clean up.
+
+   In order to achieve this, one can use [[https://github.com/gruntwork-io/terratest][Terratest (Go lang)]].
+
+   Terratest is a bit like a Swiss Army knife, with hundreds of tools built in
+   that make it significantly easier to test infrastructure code, including
+   first-class support for the test strategy just described, where you terraform
+   apply some code, validate that it works, and then run /terraform destroy/ at
+   the end to clean up.
+   
+** Integration tests
+
+   Integration tests verify that multiple units work together correctly. In a
+   general-purpose programming language, an integration test consist of code
+   that validates that several functions or classes work together
+   correctly. Integration tests typically use a mix of real dependencies and
+   mocks: for example, if you're testing the part of your app that communicates
+   with the database, you might want to test it with a real database, but mock
+   out other dependencies, such as the app's authentication system.
+
+** End-to-end tests
+
+   End-to-end tests involve running your entire architecture - for example, your
+   apps, your data stores, your load balancers - and validating that your system
+   works as a whole. Usually, these tests are done from the end-user's
+   perspective, such as using Selenium to automate interacting with your product
+   via a web browser. End-to-end tests typically use real systems everywhere,
+   without any mocks, in an architecture that mirrors production (albeit with
+   fewer/smaller servers to save money).
+
+** Static analysis
+
+   + terraform validate
+   + tflint
+   + HashiCorp Sentinel
+
+** Property testing
+
+   + kitchen-terraform
+   + rspec-terraform
+   + serverspec
+   + inspec
+   + goss
+   
 * Terraform commands
 
     How to run this?
