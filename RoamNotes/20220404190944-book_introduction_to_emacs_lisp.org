@@ -61,3 +61,115 @@ Emacs Lisp".
    #+begin_src elisp :tangle no
      (+ 2 2) ; C-x C-e
    #+end_src
+
+   In Lisp, one set of instructions can be attached to several names. On the
+   other hand, a symbol can have only one function definition attached to it at
+   a time.
+
+** Lisp Interpreter
+
+   First, it looks to see whether there is a quote before the list; if there is,
+   the interpreter just gives us the list.  On the other hand, if there is no
+   quote, the interpreter looks at the first element in the list and see whether
+   it has a function definition. If it does, the interpreter carries out the
+   instructions in the function definition. Otherwise, the interpreter prints an
+   error message.
+
+   There are some special functions that don't behave like normal functions and
+   those are called /special forms/. They are used for special jobs, like
+   defining a function, and there are not many of them.
+
+   As well as special forms, there are also /macros/. A macro is a construct
+   defined in Lisp, which differs from a function in that it translates a Lisp
+   expression into another expression that is to be evaluated in place of the
+   original expression.
+
+   [...]
+
+   When the Lisp interpreter works on an expression, the term for the activity
+   is called /evaluation/. We say that the interpreter "evaluates the
+   expression".
+
+*** Byte Compiling
+
+    One other aspect of interpreting: the Lisp interpreter is able to interpret
+    two kinds of entity: humanly readable code, on which we will focus
+    exclusively, and specially processes code, called /byte compiled/ code,
+    which is not humanly readable. Byte compiled code runs faster than humanly
+    readable code.
+
+    You can transform humanly readable code into byte compiled code by running
+    one of the compile commands such as /byte-compile-file/. Byte compiled code
+    is usually stored in a file that ends with a /.elc/ extension rather than a
+    /.el/ extension.
+
+    As a practical matter, for most things you might do to customize or extend
+    Emacs, you do not need to byte compile.
+
+** Variables
+
+   In Emacs Lisp, a symbol can have a value attached to it just as it can have a
+   function definition attached to it. [...] A symbol that has a value is often
+   called a variable.
+
+** Arguments
+
+   + Marker: a special object representing a buffer position.
+
+     This is a specific feature of Emacs Lisp.
+
+     In Emacs, locations in a buffer are recorded as markers. When the mark is
+     set with the C-@ or C-SPC command, its position is kept as a marker. The
+     mark can be considered a number - the number of characters the location is
+     from the beginning of the buffer.
+
+   + 'p' stands for "predicate".
+
+     In the jargon used by the early Lisp researchers, a predicate refers to a
+     function to determine whether some property is true or false.
+
+     /number-or-marker-p/.
+
+   + The /message/ function.
+
+     This function is used to send messages to the user, similar to a
+     console.log from javascript.
+
+     #+begin_src elisp :tangle no
+       (message "This message appears in the echo area!")
+
+       (message "The name of this buffer: %s" (buffer-name))
+
+       (message "The value of fill-column: %d" fill-column)
+     #+end_src
+
+** Binding a Value to a Variable
+
+   Instead of thinking in terms of "assignment", the is another of thinking
+   about binding values to variables and dealing with /set/ and /setq/, which is
+   to say that /set/ and /setq/ make the symbol /point/ to the list.
+
+   + set
+
+     Note that when you use /set/, you need to quote both arguments to /set/,
+     unless you want them evaluated.
+
+     #+begin_src elisp :tangle no
+       (set 'flowers '(rose violet daisy buttercup))
+
+       flowers
+       'flowers
+     #+end_src
+
+   + setq
+
+     As a practical matter, you almost always quote the first argument to
+     /set/. The combination of /set/ and a quoted first argument is so common
+     that it has its own name: the special form /setq/.
+
+     #+begin_src elisp :tangle no
+       (setq carnivores '(lion tiger leopard))
+
+       carnivores
+       'carnivores
+     #+end_src
