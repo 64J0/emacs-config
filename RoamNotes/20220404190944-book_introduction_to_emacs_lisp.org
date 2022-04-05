@@ -1,0 +1,63 @@
+:PROPERTIES:
+:ID:       2a3287c2-0103-4e20-9dc0-5f1ec602fd7c
+:END:
+#+title: [Book] Introduction to Emacs Lisp
+#+date: [2022-04-04 seg 19:09]
+
+Those notes are based on the free pdf called "An Introduction to Programming in
+Emacs Lisp".
+
++ Lisp History
+
+  Lisp was first developed in the late 1950s at the MIT for research in
+  artificial intelligence. The great power of the Lisp language makes it
+  superior for other purposes as well, such as writing editor commands and
+  integrated environments.
+
+  GNU Emacs Lisp is largely inspired by Maclisp, which was written at MIT in the
+  1960s. It is somewhat inspired by Common Lisp, which became a standard in the
+  1980s. However, Emacs Lisp is much simpler than Common Lisp. (The standard
+  Emacs distribution contains an optional extensions file, cl.el, that adds many
+  Common Lisp features to Emacs Lisp.)
+
+* Lisp Processing
+
+  Lisp stands for LISt Processing, and the programming language handles lists
+  (and lists of lists) by putting them between parentheses. Those parentheses
+  mark the boundaries of the list.
+
+  #+begin_src elisp :tangle no
+    ;; Lisp example
+    '(rose volet daisy buttercup)
+  #+end_src
+
+  In Lisp, both data and programs are represented the same way: lists. Since a
+  program looks like data, one program may easily serve as data for another;
+  this is a very powerful feature of Lisp.
+
+** Lisp Atoms
+
+   Technically speaking, a list in Lisp consists of parentheses surrounding
+   atoms separated by whitespace or surrounding other lists or surrounding both
+   atoms and other lists.
+
+   The printed representation of both atoms and lists are called /symbolic
+   expressions/ or, more concisely, /s-expressions/.
+
+** Programs
+
+   A list in Lisp is a program ready to run. If you run it (for which the Lisp
+   jargon is /evaluate/), the computer will do one of three: do nothing except
+   return to you the list itself; send you an error message; or, treat the first
+   symbol in the list as a command to do something.
+
+   The single apostrophe, /'/, is called a /quote/; when it precedes a list, it
+   tells Lisp to do nothing with the list, other than take it as it is written.
+
+   But, if there is no quote preceding a list, the first item of the list is
+   special: it is a command for the computer to obey. In Lisp, these commands
+   are called /functions/.
+
+   #+begin_src elisp :tangle no
+     (+ 2 2) ; C-x C-e
+   #+end_src
