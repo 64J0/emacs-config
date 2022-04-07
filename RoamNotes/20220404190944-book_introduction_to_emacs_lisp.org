@@ -20,7 +20,7 @@ Emacs Lisp".
   Emacs distribution contains an optional extensions file, cl.el, that adds many
   Common Lisp features to Emacs Lisp.)
 
-* Lisp Processing
+* 1 - Lisp Processing
 
   Lisp stands for LISt Processing, and the programming language handles lists
   (and lists of lists) by putting them between parentheses. Those parentheses
@@ -170,6 +170,39 @@ Emacs Lisp".
      #+begin_src elisp :tangle no
        (setq carnivores '(lion tiger leopard))
 
-       carnivores
-       'carnivores
+       carnivores 'carnivores
      #+end_src
+
+* 2 - Practicing Evaluation
+
+  + The functions you evaluate by typing keystrokes are called /interactive/
+    /functions/, or /commands/. How to make a function interactive is illustrated
+    in the next chapter.
+
+  In addition to typing keyboard commands, we have seen a second way to evaluate
+  an expression: by positioning the cursor after a list and typing /C-x C-e/.
+
+  #+begin_src elisp :tangle no
+    (buffer-name) ; name of the file
+    (buffer-file-name) ; full-path of the file
+  #+end_src
+
+  In those expressions, the parentheses tell the Lisp interpreter to treat
+  buffer-name and buffer-file-name as functions; without the parentheses, the
+  interpreter would attempt to evaluate the symbols as variables.
+
+** Difference between file and buffer
+  
+   A file and a buffer are two different entities. A file is information
+   recorded permanently in the computer (unless you delete it). A buffer, on the
+   other hand, is information inside of Emacs that will vanish at the end of the
+   editing session (or when you kill the buffer). Usually a buffer contains
+   information that you have copied from a file; we say the buffer is visiting
+   that file. This copy is what you work on and modify. Changes to the buffer do
+   not change the file, until you save the buffer. When you save the buffer, the
+   buffer is copied to the file and is thus saved permanently.
+
+** Nil
+
+   The symbol /nil/ is from the Latin word for "nothing". In Lisp, nil is also
+   used to mean "false" and is a synonym for the empty list, ().
