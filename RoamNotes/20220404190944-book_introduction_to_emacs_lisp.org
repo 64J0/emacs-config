@@ -206,3 +206,63 @@ Emacs Lisp".
 
    The symbol /nil/ is from the Latin word for "nothing". In Lisp, nil is also
    used to mean "false" and is a synonym for the empty list, ().
+
+** Emacs functions
+
+   #+begin_src elisp :tangle no
+     (current-buffer)
+     (other-buffer)
+     (switch-to-buffer (other-buffer))
+     (buffer-size)
+     (point)
+     (point-min)
+     (point-max)
+   #+end_src
+
+* 3 - How to Write Function Definitions
+
+  When the Lisp interpreter evaluates a list, it looks to see whether the first
+  symbol on the listhas a function definition attached to it; or, put another
+  way, whether the symbol points to a function definition. If it does, the
+  computer carries out the instruction in the definition.
+
+  When you write code in Emacs Lisp, you do not distinguish between the use of
+  functions written in C and the use of functions written in Emacs Lisp. The
+  difference is irrelevant.
+
+** The defun Macro
+
+   + defun is an abbreviation for /define function/.
+
+   A function definition has up to five parts following the word /defun/:
+
+   1. The name of the symbol to which the function definition should be attached.
+   2. A list of the arguments that will be passed to the function. If no arguments
+      will be passed to the function, this is an empty list, ().
+   3. Documentation describing the function. (Technically optional, but strongly
+      recommended).
+   4. Optionally, an expression to make the function interactive so you can use it
+      by typing M-x and then the name of the function; or by typing an appropriate
+      key of keychord.
+   5. The code that instructs the computer what to do: the body of the function
+      definition.
+
+   It's helpful to think of the five parts of a function definition as being
+   organized in a template, with slods for each part:
+   
+   #+begin_src elisp :tangle no
+     (defun function-name (arguments...)
+       "optional-documentation ..."
+       (interactive argument-passing-info) ; optional
+       body...)
+   #+end_src
+
+*** Function example
+
+    #+begin_src elisp :tangle no
+      (defun multiply-by-seven (number)
+        "Multiply NUMBER by seven."
+        (* 7 number))
+
+      (multiply-by-seven 5)
+    #+end_src
