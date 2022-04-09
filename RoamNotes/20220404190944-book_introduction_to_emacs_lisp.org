@@ -266,3 +266,27 @@ Emacs Lisp".
 
       (multiply-by-seven 5)
     #+end_src
+
+** Comments
+
+   In Lisp, everything on a line that follows a semicolon is a comment. The end
+   of the line is the end of the comment. To stretch a comment over two or more
+   lines, begin each line with a semicolon (;).
+
+** Interactive Function
+
+   You make a function interactive by placing a list that begins with the
+   special form /interactive/ immediately after the documentation. A user can
+   invoke an interactive function by typing /M-x/ and then the name of the
+   function; or by typing the keys to which it is bound, for example, by typing
+   /C-n/ for /next-line/ or /C-x h/ for /mark-whole-buffer/.
+
+   #+begin_src elisp :tangle no
+     (defun multiply-by-seven (number) ; Interactive version
+       "Multiply NUMBER by seven."
+       (interactive "p")
+       (message "The result is %d" (* 7 number)))
+   #+end_src
+
+   To use this function you must do /C-u/, write a number, and then /M-x/
+   /multiply-by-seven/.
