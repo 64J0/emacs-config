@@ -469,3 +469,77 @@ Emacs Lisp".
      (is_fill_column_bigger_than 10)
      (is_fill_column_bigger_than 100)
    #+end_src
+* 4 - A Few Buffer-Related Functions
+
+  In this chapter we study in detail several of the functions used in GNU Emacs.
+
+  If you're interested, you can get the full documentation of any Emacs Lisp
+  function at any time by typing /C-h f/ and then the name of the function (and
+  then RET). Similarly, you can get the full documentation for a variable by
+  typing /C-h v/ and then the name of the variable (and then RET).
+
+** A Simplified beginning-of-buffer Definition
+
+   #+begin_src elisp :tangle no
+     (defun simplified-beginning-of-buffer ()
+       "Move point to the beginning of the buffer;
+             leave mark at previous position."
+       (interactive)
+       (push-mark)
+       (goto-char (point-min)))
+   #+end_src
+
+** The Definition of mark-whole-buffer
+
+   The mark-whole-buffer function is not as commonly used as the
+   beginning-of-buffer function, but is useful nonetheless: it marks a whole
+   buffer as a region by putting point at the beginning and a mark at the end of
+   the buffer. It is generally bound to C-x h.
+
+   #+begin_src elisp :tangle no
+     (defun mark-whole-buffer ()
+       "Put point at beginning and mark at the end of buffer.
+     You probably should not use this function in Lisp programs;
+     it is usually a mistake for a Lisp function to use any subroutine
+     that uses or sets the mark."
+       (interactive)
+       (push-mark (point))
+       (push-mark (point-max) nil t)
+       (goto-char (point-min)))
+   #+end_src
+
+** The Definition of append-to-buffer
+
+   This command does copy the region (that is, the part of the buffer between
+   point and mark) from the current buffer to a specified buffer.
+
+   Most of append-to-buffer is concerned with setting up the conditions for
+   insert-buffer-substring to work: the code must specify the buffer to which
+   the text will go, the window it comes from and goes to, and the region that
+   will be copied.
+
+   #+begin_src elisp :tangle no
+     (defun append-to-buffer (buffer start end)
+       "Append to specified buffer the text of the region.
+     It is inserted into that buffer before its point.
+
+     When calling from a program, give threee arguments:
+     BUFFER (or buffer name), START and END.
+     START and END specify the portion of the current buffer to be copied."
+       (interactive
+        (list (read-buffer "Append to buffer: " (other-buffer
+                                                 (current-buffer) t))
+              (region-beginning) (region-end)))
+       (let ((oldbuf (current-buffer)))
+         (save-excursion
+           (let* ((append-to (get-buffer-create buffer))
+                  (windows (get-buffer-window-list append-to t t))
+                  point)
+             (set-buffer append-to)
+             (setq point (point))
+             (barf-if-buffer-read-only)
+             (insert-buffer-substring oldbuf start end)
+             (dolist (window windows)
+               (when (= (window-point window) point)
+                 (set-window-point window (point))))))))
+   #+end_src
