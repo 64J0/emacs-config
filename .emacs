@@ -89,6 +89,13 @@
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
+;; https://github.com/magnars/multiple-cursors.el
+(use-package multiple-cursors
+   :ensure t
+   :config
+   (global-set-key (kbd "C-d") 'mc/mark-next-like-this-word)
+   (global-set-key (kbd "C-c m c") 'mc/edit-lines))
+
 ;; Show directory tree on the lateral
 ;; https://github.com/jaypei/emacs-neotree
 (use-package neotree
@@ -488,6 +495,13 @@
 ;; with the most popular Emacs packages like comapny, flycheck and
 ;; projectile.
 ;; https://github.com/emacs-lsp/lsp-mode
+   ;; :bind
+   ;; (("C-c C-,"     . 'fsharp-shift-region-left)
+   ;;  ("C-c C-."     . 'fsharp-shift-region-right)
+   ;;  ("C-o"         . 'fsharp-newline-and-indent)
+   ;;  ("C-c C-i"     . 'run-fsharp)
+   ;;  ("C-c C-a"     . 'fsharp-find-alternate-file)
+   ;;  ("M-h"         . 'fsharp-mark-phrase))
 (use-package lsp-mode
   :ensure t
   :hook (fsharp-mode . lsp-lens-mode)
@@ -704,10 +718,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-agenda-files
-   '())
+ '(org-agenda-files 'nil)
  '(package-selected-packages
-   '(counsel shell-pop languagetool highlight-indentation-mode company-quickhelp eshell-syntax-highlighting all-the-icons flymake-flycheck elsa ox-latex ox-beamer org-superstar terraform-mode rainbow-delimiters lsp-grammarly diff-hl diff-hl-mode ob-fsharp org-roam centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package)))
+   '(multiple-cursors counsel shell-pop languagetool highlight-indentation-mode company-quickhelp eshell-syntax-highlighting all-the-icons flymake-flycheck elsa ox-latex ox-beamer org-superstar terraform-mode rainbow-delimiters lsp-grammarly diff-hl diff-hl-mode ob-fsharp org-roam centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
