@@ -42,13 +42,17 @@
      purpose of diagnosing production issues or improving the business.
    #+end_quote
 
-** Installing
+** Installing in Ubuntu
+
+   Prometheus is a kind of a time-series database specialized in storing logs
+   and other useful information. It works great with Grafana, which provides a
+   cool interface to present the stored data.
+
+   Some configuration provided by the course teacher: [[https://github.com/aussiearef/Prometheus/blob/main/prometheus.service][Github link]].
 
    #+begin_src bash :tangle no
-     # download the package
-     wget https://github.com/prometheus/prometheus/releases/download/v2.34.0/prometheus-2.34.0.linux-amd64.tar.gz
-
      # create required group
+     # one user and one group for prometheus itself
      sudo groupadd --system prometheus
      sudo useradd -s /sbin/nologin --system -g prometheus prometheus
      sudo mkdir /var/lib/prometheus
@@ -56,6 +60,9 @@
      sudo mkdir -p /etc/prometheus/rules.s
      sudo mkdir -p /etc/prometheus/files_sd
 
+     # prometheus.io/download
+     # download the package
+     wget https://github.com/prometheus/prometheus/releases/download/v2.34.0/prometheus-2.34.0.linux-amd64.tar.gz
      # extract the tar file
      sudo tar xvf prometheus-2.34.0.linux-amd64.tar.gz
 
@@ -65,89 +72,195 @@
      prometheus --version
 
      sudo mv prometheus.yml /etc/prometheus/prometheus.yml
-     #...
+     # ...
      # copy the yaml configuration from teacher config
+     # I have the link above here
+     sudo tee /etc/systemd/system/prometheus.service<<EOF
+     # ... paste the command
+     EOF
 
-     # change the ownership of folder to the prometheus user
+     # change the ownership of folder and files to the prometheus user
      # under prometheus group
-     sudo chrown -R prometheus:prometheus /etc/prometheus
-     sudo chrown -R prometheus:prometheus /etc/prometheus/*
+     sudo chown -R prometheus:prometheus /etc/prometheus
+     sudo chown -R prometheus:prometheus /etc/prometheus/*
      sudo chmod -R 775 /etc/prometheus
      sudo chmod -R 775 /etc/prometheus/*
-     sudo chrown -R prometheus:prometheus /var/lib/prometheus/
-     sudo chrown -R prometheus:prometheus /var/lib/prometheus/*
+     sudo chown -R prometheus:prometheus /var/lib/prometheus/
+     sudo chown -R prometheus:prometheus /var/lib/prometheus/*
 
+     # start the service
      # reload the daemon
      sudo systemctl daemon-reload
      sudo systemctl start prometheus
      sudo systemctl enable prometheus
-
      # check the service running
      systemctl status prometheus
    #+end_src
 
 ** Data Collection
 
-   Install /node_exporter/ in the client machines so Prometheus can query the
-   information from those machines. This technique where Prometheus grabs data
-   from cliente machines running /node_exporter/ tool is called scrapping.
+   If we can control the code of the project, we can just add a library to
+   automatically send metrics to Prometheus. When we don't control the code of
+   the application we can create a scheduled job (cron job) to send information
+   to Prometheus, although this is not good because it does not scale very
+   well. The solution, then, is to use a component called /node_exporter/.
 
-   If the application is being created by our team and we can change the code,
-   we could use a tool called /Push gateway/ where we don't need to install the
-   /node_exporter/ in the client machine, the application itself can send the
-   data to the Prometheus server.
+   + The process of collecting data and sending to Prometheus is called
+     scraping.
 
-   + YAML configuration for the Prometheus server.
+   + A Push Gateway is a tool that allows other applications to send data to
+     Prometheus.
 
-   #+begin_src shell :tangle no
-     # after changing Prometheus config we need to restart the daemon
-     sudo systemctl stop prometheus
-     sudo systemctl start prometheus
-   #+end_src
+*** Node Exporter
+
+    Node Exporter is an official Prometheus exporter for collecting metrics that
+    are exposed by Unix-based kernels e.g. Linux and Ubuntu.
+
+    Example of metrics are CPU, Disk, Memory and Network I/O. Node Exporter can
+    also be extended with pluggable metric collectors.
+
+    By default, the port ~9100~ is used to collect metrics from the
+    node_exporter. There must be some extra layer of security to avoid other
+    people accessing your data in this port.
    
-* Data
+    Install /node_exporter/ in the ~client~ machines so Prometheus can query the
+    information from those machines. This technique, where Prometheus collect
+    data from client machines running /node_exporter/ tool is called scrapping.
 
+    If the application is being created by our team and we can change the code,
+    we could use a tool called /Push gateway/ where we don't need to install the
+    /node_exporter/ in the client machine, the application itself can send the
+    data to the Prometheus server.
+
+    + Pay attention to the ~security group~ configuration if you're using the
+      AWS environment to run those projects.
+
+    #+begin_src shell :tangle no
+      # install node_exporter in client machine
+      # prometheus.io/download/#node_exporter
+      # copy the  node_exporter package link
+      wget <URL>
+      sudo tar -xvf node_exporter...tar.gz
+      cd node_exporter...
+      ./node_exporter
+    #+end_src
+
+**** Prometheus Server Machine
+
+     After setting up the node_exporter configuration in the client machine we
+     need to get back to the Prometheus server and update its configuration
+     YAML.
+
+     #+begin_src shell :tangle no
+       # on the Prometheus server machine
+       cd /etc/prometheus
+       sudo nano prometheus.yaml
+       # check the scrape_configs:
+       # do the changes you want
+       # after changing Prometheus config we need to restart
+       # the daemon
+       sudo systemctl stop prometheus
+       sudo systemctl start prometheus
+     #+end_src
+
+**** node_exporter as Service
+
+     Running the node_exporter manually is not the best approach. Instead, you
+     must use an Linux service to automatically start the command.
+     
+     The instructor already left a link for the repository with the already
+     created configuration for this service. [[https://github.com/aussiearef/Prometheus/blob/main/node.service][node.service Github link]].
+
+     Before using the following configuration, you need to run some
+     configuration in the ~client~ VM:
+
+     #+begin_src shell :tangle no
+       # client VM
+       cd node_exporter...
+       sudo groupadd --system prometheus
+       sudo useradd -s /sbin/nologin --system -g prometheus prometheus
+       sudo mkdir /var/lib/node/
+       sudo mv node_exporter /var/lib/node/
+       sudo nano /etc/systemd/system/node.service
+       # copy the code from the github repository and paste in the above
+       # file
+       sudo chown -R prometheus:prometheus /var/lib/node
+       sudo chown -R prometheus:prometheus /var/lib/node/*
+       sudo chmod -R 775 /var/lib/node
+       sudo chmod -R 775 /var/lib/node/*
+       # restart the daemon
+       sudo systemctl daemon-reload
+       sudo systemctl start node
+       sudo systemctl enable node
+       # check daemon status
+       sudo systemctl status node
+     #+end_src
+     
+* Data
 ** Data Model
 
    Prometheus stores data as time series. Every time series is identified by
-   metric name and labels.
+   ~metric name~ and ~labels~, where labels are optional and are a key and value
+   pair.
 
-   Labels are optional and are a key and value pair.
+**** Template:
+   
+     + <metric name> {key=value, key=value, ...}
 
-   + <metric name> {key=value, key=value, ...}
-   + auth_api_hit {count=1, time_taken=800}
+**** Example:
+     
+     + auth_api_hit {count=1, time_taken=800}
 
 ** Data Types in PromQL
 
+   Prometheus comes with a query language called PromQL which can be used to
+   retrieve values from the time series database.
+
    We use data types when storing and retrieving values.
 
-   + Scalar:
+*** Scalar:
      
-     {Float; String}
+    { Float;
+      String }
 
-     Store:
-     prometheus_http_requests_total{code="200", job="prometheus"}
+    Store:
+    prometheus_http_requests_total{code="200", job="prometheus"}
 
-     Query:
-     prometheus_http_requests_total{code=~"2.*", job="prometheus"}
+    Query:
+    prometheus_http_requests_total{code=~"2.*", job="prometheus"}
 
-   + Instant vector:
+*** Instant vector:
      
-     Instant vector selectors allow the selection of a set of time series and a
-     single sample value for each at a given timestamp (instant).
+    Instant vector selectors allow the selection of a set of time series and a
+    single sample value for each at a given timestamp (instant).
 
-     Only a metric name is specified, and results can be filtered by providing
-     labels.
+    Only a metric name is specified, and results can be filtered by providing
+    labels.
 
-   + Range vectors:
+*** Range vectors:
 
-     Are similar to Instant vectors except they select a range of samples.
+    Are similar to Instant vectors except they select a range of samples.
 
+    | ms | milliseconds                     |
+    | s  | seconds                          |
+    | m  | minutes                          |
+    | h  | hours                            |
+    | d  | days - assuming a day has 24h    |
+    | w  | weeks - assuming a week has 7d   |
+    | y  | years - assuming a year has 365d |
+    
+**** Template
+    
      label_name[time_spec]
+
+**** Example
      
      auth_api_hit[5m]
 
 ** Operators
+
+   The following table presents a small compilation of binary arithmetic
+   operators, binary comparison operators and set binary operators.
 
    | Symbol | Operation      | Notes                          |
    |--------+----------------+--------------------------------|
@@ -164,9 +277,8 @@
 
 ** Filters
 
-   <metric_name> {filter_key=value, filter_key=value, ...}
-
-   prometheus_http_requests_total{code=200, job="prometheus}
+   The following table presents a small compilation of the symbols one can use
+   to filter the response of Prometheus queries.
 
    | Symbol | Operation                                       |
    |--------+-------------------------------------------------|
@@ -174,29 +286,329 @@
    | !=     | Two values must NOT be equal                    |
    | =~     | Value on left must match the regex on right     |
    | !~     | Value on left must NOT match the regex on right |
+
+**** Template
+     
+     <metric_name> {filter_key=value, filter_key=value, ...}
+
+**** Example
+     
+     prometheus_http_requests_total{code=200, job="prometheus}
    
 ** Aggregation Operators
 
    Aggregate the elements of a single Instant Vector. The result is a new
    Instant Vector with aggregated values.
 
-   <aggregation_operator>(<instant_vector>)
+**** Template
 
-   sum(node_cpu_total)
+     <aggregation_operator>(<instant_vector>)
 
-   <aggregation_operator>(<instant_vector>) by (<label_list>)
+     <aggregation_operator>(<instant_vector>) by (<label_list>)
 
-   sum(node_cpu_total) by (http_code)
+     <aggregation_operator>(<instant_vector>) without (<label_list>)
 
-   <aggregation_operator>(<instant_vector>) without (<label_list>)
+**** Example
 
-   sum(node_cpu_total) without  (http_code)
+     sum(node_cpu_total)
+
+     sum(node_cpu_total) by (http_code)
+
+     sum(node_cpu_total) without  (http_code)
 
 ** Time Offsets
 
-   <metric> offset <time>
+   Sometimes we want to query the results for some specific time offset. In
+   order to achieve this, we can use a built in Prometheus operator called
+   offset.
+
+**** Template
+
+     <metric> offset <time>
+
+* Functions
+
+** Instant Vector
+
+*** absent(<instant_vector>)
+
+    Check if an instant vector has any members. 
+
+    Return an empty vector if parameter has elements.
+
+*** abs(<instant_vector>)
+
+    Converts all values to their absolute value e.g., -5 to 5.
+
+*** ceil(<instant_vector>)
+    
+    Converts all values to their nearest larger integer.
+
+*** floor(<instant_vector>)
+
+    Converts all values to their nearest smaller integer.
+
+*** clamp(<instant_vector>, min, max)
+
+    Have also: 
+    
+    + ~clamp_min(<instant_vector>, min)~
+    + ~clamp_max(<instant_vector>, max)~
+
+    This command sets boundaries to the values one must get from the Prometheus
+    query. Good for trimming the values and make the graph look better.
+
+*** day_of_month(<instant_vector>)
+
+    For every UTC time returns day of month 1..31
+
+*** day_of_week(<instant_vector>)
+
+    For every UTC time returns day of week 1..7
+
+*** delta(<instant_vector>)
+
+    Can only be used with Gauges.
+
+*** log2(<instant_vector>), log10(<instant_vector>) and ln(<instant_vector>)
+
+    Returns binary, decimal or natural log for each scalar value.
+
+*** sort(<instant_vector>) and sort_desc(<instant_vector>)
+
+    Sorts elements in ascending or descending order.
+
+*** time() and timestamp(<instant_vector>)
+
+    Return a near-current time stamp.
+
+    Returns the time stamp of each time series (element).
+
+** Range Vector
+
+*** idelta(<range_vector>)
+
+    Returns the difference between first and last items.
+
+*** absent_over_time(<range_vector>)
+
+    Checks if an range vector has any members.
+
+    Return an empty vector if parameter has elements.
+
+*** avg_over_time(<range_vector>)
+
+    Returns the average of items in a range vector.
+
+*** sum_over_time(<range_vector>)
+
+    Returns the sum of items in a range vector.
+
+*** min_over_time(<range_vector>) and max_over_time(<range_vector>)
+
+    Returns the minimum or maximum of items in a range vector.
+
+*** count_over_time(<range_vector>)
+
+    Return the count of items in a range vector.
 
 * Alerts
   
-  [[https://awesome-prometheus-alerts.grep.to/][Awesome Prometheus alerts]]
+  If we don't watch for errors then we will not be able to work on problems
+  before users notice it. The blast radius could be huge.
 
+  We must always set a threshold in order to identify real errors and not only
+  noise.
+
+  Alerts are defined in Prometheus, using YAML and uses PromQL. Alert Manager is
+  a tool which transform the alerts from Prometheus to some other media which is
+  easier to reach the monitoring team, like through e-mail, slack, pagerduty or
+  webhook integration.
+
+  + In Linux we put the alerts rule files in ~/etc/prometheus/rules~.
+
+**** Example
+
+     #+begin_src yaml :tangle no
+       # alerts.yml
+       groups:
+       - name: Alerts
+         rules:
+         - alert: Is Node Exporter Up
+           expr: up(job="node_exporter") == 0
+     #+end_src
+
+     Later you need to update the ~prometheus.yml~ file as well to make the
+     alert really work. Also, restart the daemon service.
+
+** Awesome Prometheus Alerts
+
+   + [[https://awesome-prometheus-alerts.grep.to/][Awesome Prometheus alerts]]
+
+** Defining a Time Threshold
+
+   This is important in order to avoid false alarms. We can use the "for"
+   expression to define a time threshold.
+
+**** Example
+
+     #+begin_src yaml :tangle no
+       # alerts.yml
+       groups:
+       - name: Alerts
+         rules:
+         - alert: Is Node Exporter Up
+           expr: up(job="node_exporter") == 0
+           for: 5m # 5 minutes
+     #+end_src
+
+** Labels, Annotations, and Templates
+
+   Labels and Annotations help to identify the alert and mention the necessary
+   team to be consulted in order to solve the problem.
+
+   In Prometheus, every item has a label associated to it.
+
+**** Example
+
+     #+begin_src yaml :tangle no
+       # alerts.yml
+       groups:
+       - name: Alerts
+         rules:
+         - alert: Is Node Exporter Up
+           expr: up(job="node_exporter") == 0
+           for: 5m # 5 minutes
+           labels:
+             team: Team Alpha
+             severity: Critical
+           annotations:
+             summary: Node Exporter Is Down
+             description: Team Alpha has to restart the server
+     #+end_src
+
+**** Template Example
+
+     #+begin_src yaml :tangle no
+       # alerts.yml
+       groups:
+       - name: Alerts
+         rules:
+         - alert: Is Node Exporter Up
+           expr: up(job="node_exporter") == 0
+           for: 5m # 5 minutes
+           labels:
+             team: Team Alpha
+             severity: Critical
+           annotations:
+             summary: "{{ $labels.instance }} Is Down"
+             description: "Team Alpha has to restart the server {{ $labels }}"
+             value: "{{ $value }}"
+     #+end_src
+
+** Alert Manager
+
+   Converts alerts to notifications. 
+
+   An alert is a message controlled by Prometheus while notifications are
+   messages sent in other medias, like SMS, e-mail, etc.
+
+   Alert Manager can receive alerts from multiple Prometheus servers and can
+   de-duplicate them, consolidating a single alert.
+
+   Alert Manager can also silent alerts, which is useful in some special
+   situations.
+
+   This tool also has a web user interface, which serves via the port ~9093~.
+
+   + It is configured via ~alertmanager.yml~ file.
+
+*** Installing Alert Manager in Ubuntu
+
+    Alert Manager daemon configuration in the teacher [[https://github.com/aussiearef/Prometheus/blob/main/alertmanager.service][Github link]].
+
+    #+begin_src shell :tangle no
+      # go for prometheus.io/download/#alertmanager
+      # copy the download url
+      # go for the Prometheus server machine
+      sudo wget <alert_manager_url>
+      sudo tar -xvf alertmanager...
+      cd alertmanager...
+
+      # create a folder for alert manager
+      sudo mkdir /var/lib/alertmanager
+      sudo mv * /var/lib/alertmanager
+      cd /var/lib/alertmanager
+      sudo mkdir data
+      sudo chown -R prometheus:prometheus /var/lib/alertmanager
+      sudo chown -R prometheus:prometheus /var/lib/alertmanager/*
+      sudo chmod -R 755 /var/lib/alertmanager
+      sudo chmod -R 755 /var/lib/alertmanager/*
+
+      # update the configuration
+      sudo nano /etc/systemd/system/alertmanager.service
+      # paste the configuration from the teacher repository
+      sudo systemctl daemon-reload
+      sudo systemctl start alertmanager
+      sudo systemctl enable alertmanager
+      # check it is running
+      sudo systemctl status alertmanager
+    #+end_src
+
+    In order to bind this Alert Manager configuration with some external service
+    for messages, you need to configure the Matchers.
+
+*** Matchers
+
+    Matchers are used to integrate with external message services, like e-mail
+    servers, Slack, etc. For Slack specifically you need to use a webhook
+    configuration in order to peer those two services.
+
+* Recording Rules
+
+  In Prometheus we have operators like avg, sum, count, etc. Sometimes the
+  amount of data to apply for those operators are just too much, making those
+  functions slow.
+
+  A recording rule aims to solve this problem by storing the calculated values,
+  say, calculate "avg" of "temperature" from IoT every 5 minutes and save it as
+  IoT_Avg_Temp.
+
+  + Rules are defined in YAML files.
+    
+    iot_rules.yml 
+
+    vm_rules.yml
+
+  + In Linux-based operating systems put those .yml files in 
+    ~/etc/prometheus/rules~ folder.
+
+**** Example
+
+     #+begin_src yaml :tangle no
+       # recording_rule.yml
+       groups:
+         - name: node exporter rules
+           rules:
+             - record: cpu:node_cpu_seconds_total:avg
+               expr: avg by(cpu) (rate(node_cpu_seconds_total[1m]))
+               labels:
+                 exporter_type: node
+     #+end_src
+
+     Next, you need to go for the ~prometheus.yml~ and update the configuration
+     there to point the recording rules file.
+
+     Later, just stop and start the Prometheus daemon again.
+
+* Client Libraries of Prometheus and Short-lived Jobs
+
+  + Short Lived Jobs:
+
+    Piece of code, or a function in the code that you call, which unlike
+    exporters they are not always available. For example, if you have a big
+    application with lots of code, sometimes your application is running a
+    different part of the program instead of the part that deals with other
+    steps.
+
+  + [[https://prometheus.io/docs/instrumenting/clientlibs/][Docs related]] to the client libraries of Prometheus.
