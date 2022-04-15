@@ -543,3 +543,5 @@ Emacs Lisp".
                (when (= (window-point window) point)
                  (set-window-point window (point))))))))
    #+end_src
+
+* 5 - A Few More Complex Functions
