@@ -612,3 +612,158 @@
     steps.
 
   + [[https://prometheus.io/docs/instrumenting/clientlibs/][Docs related]] to the client libraries of Prometheus.
+
+* Service Discovery
+
+** Introduction
+
+   Until now we have a small number of servers to configure, but this is not
+   scalable for the cloud environment, for example AWS or Azure. There we could
+   set some rules to automatically increase the quantity of application servers,
+   but the Prometheus configuration does not find those servers automatically by
+   default.
+
+   The solution for this is a Prometheus service called Service Discovery.
+
+   This service works along with Prometheus Push Gateway.
+
+   #+begin_src ditaa :file prometheus-push-gateway.png
+     +---------+               +--------------+               +------------+
+     | Server  | push metrics  | Push Gateway | query metrics | Prometheus |
+     | Priv IP |-------------->|              |-------------->|            |
+     +---------+               +--------------+               +------------+
+   #+end_src
+
+** Prometheus Configuration
+
+   Service Discovery is configured in ~prometheus.yml~ file. It is already
+   installed with default Prometheus.
+
+   There are some already made configuration for some cloud providers, like
+   ec2_sd_config, dns_sd_config, file_sd_config, kubernetes_sd_config,
+   azure_sd_config, gce_sd_config.
+
+** Service Discovery and AWS
+
+   + Works with AWS EC2 and AWS LightSail.
+
+** File-based Service Discovery
+
+   We use file-based service discovery for scenarios where we don't have
+   available service discovery out-of-the-box for the cloud you're using. For
+   example, if you're using IBM Cloud or Alibaba Cloud.
+
+   Go for the prometheus directory and create a new folder with name ~file_sd/~
+   with a file inside named ~file.yml~.
+
+* Push Gateway
+
+  We use Push Gateway when scrapping metrics from servers is not possible. For
+  example, when servers are running behind a load balancer, or when we're using
+  serverless functions. In those scenarios we use the library packages of your
+  choice, for example, python or .NET, to push metrics to Push Gateway.
+
+  Push Gateway is a component you need to install on top of Prometheus. It does
+  not need to be installed in the same server of Prometheus but if you have only
+  one Prometheus server then it makes sense to install those together.
+
+** Install in Ubuntu
+
+   #+begin_src shell :tangle no
+     # prometheus.io/download/#pushgateway
+     # get the download link for the package
+     # instructor configuration: 
+     # https://github.com/aussiearef/Prometheus/blob/main/pushgateway.service
+     wget <package_link>
+     sudo tar -xvf pushgateway...
+     cd pushgateway...
+     ./pushgateway --help # test the package
+     sudo cp pushgateway /usr/local/bin/pushgateway
+     # installing the pushgateway in the prometheus server
+     # make sure you have user and group prometheus
+     sudo chown prometheus:prometheus /usr/local/bin/
+     sudo chown prometheus:prometheus /usr/local/bin/*
+
+     sudo nano /etc/systemd/system/pushgateway.service
+     # paste the content from github
+     # reload daemons
+     sudo systemctl daemon-reload
+     sudo systemctl start pushgateway
+     sudo systemctl enable pushgateway
+     sudo systemctl status pushgateway # test the service
+   #+end_src
+
+** Send Metrics to Push Gateway
+
+   + Install the Prometheus client in the project.
+
+* Security in Prometheus
+
+** Authentication
+
+   + Securing Web UI
+   + Securing APIs
+   + Securing Push Gateway
+   + Securing Exporters
+   + Securing Alert Manager
+
+   + Basic authentication
+   + Enable HTTPS for the Prometheus UI and node_exporters
+   + Secure Push Gateway
+   + Secure Alert Manager
+
+* Grafana
+
+  Grafana is an open-source software to:
+
+  + Visualise time-series data (metrics)
+  + Visualise metrics from various data-sources
+  + Supports alerting
+  + Multi-organisational
+
+  Grafana can pull data from different sources other than Prometheus, for
+  example, from databases directly, or cloud services.
+
+** Install on Ubuntu
+
+   #+begin_src shell :tangle no
+     # make sure that the required ports are allowed
+     # by default grafana works on port 3000
+     sudo apt update
+     sudo apt upgrade
+     sudo reboot
+
+     # install wget
+     sudo apt install wget -y
+
+     # go for grafana.com and get the download link
+     wget <download_link>
+
+     # unpack the package
+     sudo dpkg -i grafana...
+
+     # check the service running
+     systemctl status grafana-server
+     sudo systemctl start grafana-server
+
+     # make sure grafana is always on when we reboot machine
+     sudo systemctl enable grafana-server
+   #+end_src
+
+** Configure Grafana
+
+   #+begin_src shell :tangle no
+     cd /etc/grafana
+     sudo cp grafana.ini custom.ini
+     sudo nano grafana.ini
+     # ...
+     sudo systemctl restart grafana-server
+     sudo systemctl stop grafana-server
+     sudo systemctl start grafana-server
+   #+end_src
+
+** Connect Grafana to Prometheus
+
+   1. Go for the Grafana UI;
+   2. Hover Configuration on the middle left and hit Data Sources;
+   3. Select Prometheus and add its configuration.
