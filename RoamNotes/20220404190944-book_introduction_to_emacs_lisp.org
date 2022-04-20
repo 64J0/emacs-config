@@ -545,3 +545,25 @@ Emacs Lisp".
    #+end_src
 
 * 5 - A Few More Complex Functions
+
+  In this chapter, we build on what we have learned in previous chapters by
+  looking at more complex functions.
+
+  + copy-to-buffer
+  + insert-buffer
+  + beginning-of-buffer
+
+* 6 - Narrowing and Widening
+
+  Narrowing is a feature of Emacs that makes it possible for you to focus on a
+  specific part of a buffer, and work without accidentally changing other parts.
+
+  + Narrowing is normally disabled since it can confuse novices.
+
+  With narrowing, the rest of the buffer is made invisible, as if it weren't
+  there. This is an advantage if, for example, you want to replace a word in one
+  part of a buffer but not in another: you narrow to the part you want and the
+  replacement is carried out only in that section, not in the rest of the
+  buffer.
+
+  The key binding for ~narrow-to-region~ is ~C-x n n~.
