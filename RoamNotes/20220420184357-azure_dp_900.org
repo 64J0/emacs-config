@@ -1,0 +1,18 @@
+:PROPERTIES:
+:ID:       b6ad175a-2e72-4423-9274-58c423f3cf3b
+:END:
+#+title: [Azure] DP-900
+#+date: [2022-04-20 qua 18:43]
+
+* Explore core data concepts
+
+  + Identify common data formats
+  + Describe options for storing data in files
+  + Describe options for storing data in databases
+  + Describe characteristics of transactional data processing solutions
+  + Describe characteristics of analytical data processing solutions
+
+  During this path I decided to not take notes, but instead create lots of
+  org-drill cards with the lessons I'm learning. This seems to be more effective
+  since I don't intend to get back for those notes in the future, while the
+  org-drills are easy to see again later.
