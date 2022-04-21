@@ -567,3 +567,55 @@ Emacs Lisp".
   buffer.
 
   The key binding for ~narrow-to-region~ is ~C-x n n~.
+
+  + The function ~widen~ is used to restore from the narrowed region.
+
+* 7 - car, cdr, cons: Fundamental Functions
+
+  In Lisp, ~car~, ~cdr~, and ~cons~ are fundamental functions. The ~cons~
+  function is used to construct lists, and the ~car~ and ~cdr~ functions are
+  used to take them apart.
+
+  The name of the ~cons~ function is an abbreviation of the word "construct".
+
+  The origins of the names for ~car~ and ~cdr~, on the other hand, are esoteric:
+  ~car~ is an acronym for the phrase "Contents of the Address part of the
+  Register"; and ~cdr~ (pronounced "could-er") is an acronym from the phrase
+  "Contents of the Decrement part of the Register".
+
+  These phrases refer to specific pieces of hardware on the very early computer
+  on which the original Lisp was developed. Besides being obsolete, the phrases
+  have been completely irrelevant for more than 25 years to anyone thinking
+  about Lisp. Nonethless, although a few brave scholars have begun to use more
+  reasonable names for these functions, the old terms are still in use.
+
+** car and cdr
+
+*** car
+   
+    The ~car~ or a list is, quite simply, the first item in the list. Thus the
+    ~car~ of the list (rose violet daisy buttercup) is rose.
+
+    #+begin_src elisp :tangle no
+      (car '(rose violet daisy buttercup)) ; rose
+    #+end_src
+
+    ~car~ does not remove the first item from the list; it only reports what it
+    is. After ~car~ has been applied to a list, the list is still the same as it
+    was. In the jargon, ~car~ is “non-destructive”. This feature turns out to be
+    important.
+
+*** cdr
+
+    The ~cdr~ of a list is the rest of the list, that is, the ~cdr~ function
+    returns the part of the list that follows the first item. Thus, while the
+    ~car~ of the list '(rose violet daisy buttercup) is rose, the rest of the
+    list, the values returned by the ~cdr~ function is, (violet daisy
+    buttercup).
+
+    #+begin_src elisp :tangle no
+      (cdr '(rose violet daisy buttercup)) ; (violet daisy buttercup)
+    #+end_src
+
+    Like ~car~, ~cdr~ does not remove any elements from the list — it just
+    returns a report of what the second and subsequent elements are.
