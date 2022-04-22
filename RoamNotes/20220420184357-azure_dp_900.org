@@ -16,3 +16,8 @@
   org-drill cards with the lessons I'm learning. This seems to be more effective
   since I don't intend to get back for those notes in the future, while the
   org-drills are easy to see again later.
+
+* Explore data roles and services
+
+  + Identify common data professional roles
+  + Identify common cloud services used by data professionals
