@@ -21,3 +21,10 @@
 
   + Identify common data professional roles
   + Identify common cloud services used by data professionals
+
+* Explore fundamental relational data concepts
+
+  + Identify characteristics of relational data
+  + Define normalization
+  + Identify types of SQL statements
+  + Identify common relational database objects

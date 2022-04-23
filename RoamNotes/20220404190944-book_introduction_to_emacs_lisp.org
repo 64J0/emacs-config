@@ -619,3 +619,94 @@ Emacs Lisp".
 
     Like ~car~, ~cdr~ does not remove any elements from the list — it just
     returns a report of what the second and subsequent elements are.
+** cons
+
+   The cons function constructs lists; it is the inverse of ~car~ and ~cdr~. For
+   example:
+
+   #+begin_src elisp :tangle no
+     (cons 'pine '(fir oak maple)) ; (pine fir oak maple)
+   #+end_src
+
+   We often say that cons puts a new element at the beginning of a list, or that
+   it attaches or pushes elements onto the list, but this phrasing can be
+   misleading, since cons does not change an existing list, but creates a new
+   one.
+   
+   Like car and cdr, cons is non-destructive.
+
+*** length of a list
+   
+   You can find out how many elements there are in a list by using the Lisp
+   function length, as in the following examples:
+
+   #+begin_src elisp :tangle no
+     (length '(buttercup daisy)) ; 2
+   #+end_src
+
+** nthcdr
+
+   The ~nthcdr~ function is associated with the cdr function. What it does is
+   take the cdr of a list repeatedly. For example:
+
+   #+begin_src elisp :tangle no
+     (nthcdr 2 '(pine fir oak maple)) ; (oak maple)
+     ; ==
+     (cdr (cdr '(pine fir oak maple))) ; (oak maple)
+   #+end_src
+
+** nth
+
+   The ~nthcdr~ function takes the ~cdr~ of a list repeatedly. The ~nth~
+   function takes the ~car~ of the result returned by ~nthcdr~. It returns the
+   Nth element of the list.
+
+   #+begin_src elisp :tangle no
+     (nth 0 '("one" "two" "three")) ; "one"
+     (nth 1 '("one" "two" "three")) ; "two"
+   #+end_src
+
+** setcar
+
+   The ~setcar~ and ~setcdr~ functions set the ~car~ or the ~cdr~ of a list to a
+   new value. They actually change the original list, unlike ~car~ and ~cdr~
+   which leave the original list as it was.
+
+   #+begin_src elisp :tangle no
+     (setq animals (list 'antelope 'giraffe 'lion 'tiger))
+     animals ; (antelope giraffe lion tiger)
+
+     (setcar animals 'hippopotamus)
+     animals ; (hippopotamus giraffe lion tiger)
+   #+end_src
+
+** setcdr
+
+   The ~setcdr~ function is similar to the ~setcar~ function, except that the
+   function replaces the second and subsequent elements of a list rather than
+   the first element.
+
+   #+begin_src elisp :tangle no
+     (setq domesticated-animals (list 'horse 'cow 'sheep 'goat))
+     domesticated-animals ; (horse cow sheep goat)
+
+     (setcdr domesticated-animals '(cat dog))
+     domesticated-animals ; (horse cat dog)
+   #+end_src
+
+** Exercise
+
+   #+begin_src elisp :tangle no
+     (setq list_of_birds
+           (cons 'bird_1
+                 (cons 'bird_2
+                       (cons 'bird_3 '(bird_4)))))
+     list_of_birds
+     (cons list_of_birds list_of_birds)
+
+     (setcar list_of_birds 'fish_1)
+     list_of_birds
+
+     (setcdr list_of_birds '(fish_2 fish_3 fish_4))
+     list_of_birds
+   #+end_src

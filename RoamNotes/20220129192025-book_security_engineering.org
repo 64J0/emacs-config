@@ -342,3 +342,7 @@
 
    The /Titanic Effect/ of over-reliance on the latest technology often blinds
    people to common sense.
+
+* Chapter 14 - Monitoring and Metering
+
+  No notes for this chapter.
