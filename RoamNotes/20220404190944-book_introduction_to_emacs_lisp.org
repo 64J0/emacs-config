@@ -710,3 +710,16 @@ Emacs Lisp".
      (setcdr list_of_birds '(fish_2 fish_3 fish_4))
      list_of_birds
    #+end_src
+
+* 8 - Cutting and Storing Text
+
+  Whenever you cut or clip text out of a buffer with a ~kill~ command in GNU
+  Emacs, it is stored in a list and you can bring it back with a ~yank~ command.
+
+  The use of the word "kill" in Emacs for processes which specifically do not
+  destroy the values of the entities is an unfortunate historical accident. A
+  much more appropriate word would be "clip" since that is what the kill
+  commands do; they clip text out of a buffer and put it into storage from which
+  it can be brought back.
+
+** zap-to-char
