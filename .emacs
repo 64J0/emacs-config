@@ -5,6 +5,7 @@
 (require 'cl-lib) ;; cl -> common lisp
 
 ;; INITIAL CONFIG
+(setq user-full-name "Vinícius Gajo Marques Oliveira")
 (global-linum-mode) ;; show the line number
 (tool-bar-mode -1) ;; remove tool bar
 (menu-bar-mode -1) ;; remove menu bar
