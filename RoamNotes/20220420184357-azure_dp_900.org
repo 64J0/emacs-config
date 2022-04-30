@@ -49,3 +49,20 @@
   + Identify the APIs supported in Azure Cosmos DB
   + Provision and use an Azure Cosmos DB instance
  
+* Explore fundamentals of modern data warehousing
+
+  + Identify common elements of a modern data warehousing solution
+  + Describe key features for data ingestion pipelines
+  + Identify common types of analytical data store and related Azure
+    services
+  + Provision Azure Synapse Analytics and use it to ingest, process,
+    and query data
+
+* Explore fundamentals of real-time analytics
+
+  + Compare btach and stream processing
+  + Describe common elements of streaming data solutions
+  + Describe features and capabilities of Azure Stream Analytics
+  + Describe features and capabilities of Spark Structured Streaming on Azure
+  + Describe features and capabilities of Azure Synapse Data Explorer
+
