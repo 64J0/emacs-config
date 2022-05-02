@@ -66,3 +66,10 @@
   + Describe features and capabilities of Spark Structured Streaming on Azure
   + Describe features and capabilities of Azure Synapse Data Explorer
 
+* Explore fundamentals of data visualization
+
+  + Describe a high-level process for creating reporting solutions with
+    Microsoft Power BI
+  + Describe core principlles of analytical data modeling
+  + Identify common types of data visualization and their uses
+  + Create an interactive report with Power BI Desktop
