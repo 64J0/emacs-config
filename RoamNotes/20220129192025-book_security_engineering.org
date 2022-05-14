@@ -348,3 +348,36 @@
   No notes for this chapter.
 
 * Chapter 15 - Nuclear Command and Control
+* Chapter 17 - Biometrics
+
+  Biometrics identify people by measuring some aspect of individual anatomy or
+  physiology (such as your hand geometry or fingerprint), some deeply ingrained
+  skill or behavior (such as your handwritten signature), or some combination of
+  the two (such as your voice).
+
+  [...]
+
+  The biometric systems market has taken off like a rocket, growing fro $50m in
+  1998 to over $1.5bn in 2005 and $33bn in 2019.
+
+  [...]
+
+  In most of the English-speaking world, most documents do not need to be
+  authenticated by special measures. The essence of a signature is the intent of
+  the signer, so an illiterate’s ‘X’ on a document is perfectly valid. A
+  plaintext name at the bottom of an email message therefore has full legal
+  force, except where there are specific regulations to the contrary.
+
+  [...]
+
+  Like alarms, most biometric systems have a tradeoff between false-accept and
+  false-reject rates, often referred to in the banking industry as the fraud and
+  insult rates and in the biometric literature as type 1 and type 2 errors.
+
+  [...]
+
+  Recognizing people by the patterns in the irises of their eyes has far and
+  away the best error rates of any automated biometric system when measured
+  under lab conditions.
+
+* Chapter 18 - Tamper Resistance
