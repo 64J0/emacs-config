@@ -381,3 +381,43 @@
   under lab conditions.
 
 * Chapter 18 - Tamper Resistance
+
+The best cryptographic modules used in banking and government withstand all
+known types of physical attack, and can only be defeated when people either run
+insecure software on them or rely on inse- cure devices to interface with
+users. Smartcard tamper resistance has evolved in a long war between pay-TV
+pirates cloning subscriber cards and the pay-TV industry trying to stop them,
+and was honed in an arms race between firms that wanted to lock down their
+products, and others who wanted to unlock them.  The tussles over printer
+cartridges were important here, as both the printer makers who were trying to
+control aftermarkets, and the independent car- tridge makers who were trying to
+break into these markets, are acting lawfully.  Other hackers work for lawyers,
+reverse engineering products to prove patent infringements. There are academics
+who hack systems for glory, and to push forward the state of the art. And
+finally there are lots of grey areas. If you find a way to unlock a mobile
+phone, so that it can be used on any network, is that a crime? It depends on how
+you do it, and on what country you’re in.
+
++ Our subject here is the physical defenses against tampering.
+
+** IBM 4758 cryptoprocessor
+
+It was the first commercial product to be evaluated to the highest level of
+tamper resistance (FIPS 140-1 level 4) [1401] then set by the US
+government. Second, there is an extensive literature about it, including its
+history, hardware and software. Third, it was therefore a high-profile target,
+and from 2000–2005 my students and I put a lot of effort into attacking it and
+understanding the residual vulnerabilities. Fourth, the current IBM flagship
+product, the 4765, isn’t hugely changed except for fixing some of the bugs we
+found.
+
+** HSM - Hardware Security Modules
+
+These are micro-computers encased in robust metal enclosures, with encryption
+hardware and special key memory, static RAM that is zeroized when the enclosure
+is opened.  Initially, this just involved wiring the power supply to the key
+memory through a number of lid switches. So whenever the maintenance crew came
+to replace batteries, they’d open the lid and destroy the keys. Once they’d
+finished, the HSM custodians would reload the key material. In this way, the
+HSM’s owner could hope that its keys were under the unique control of its own
+trustwor- thy staff.
