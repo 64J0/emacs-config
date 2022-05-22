@@ -235,11 +235,15 @@
   (setq org-agenda-compact-blocks t)
   (setq org-agenda-start-with-log-mode t)
   (setq org-agenda-sticky nil)
-  (setq org-agenda-span 'day)
+  (setq org-agenda-span 21)
   (setq org-latex-pdf-process (list "latexmk -silent -f -pdf %f"))
   (setq org-cite-export-processors '((latex biblatex)
                                      (moderncv basic)
                                      (t basic)))
+  (setq org-agenda-files '(
+                     "~/org/agenda.org"
+                     ;; "~/Desktop/personal-todo.org"
+                     ))
   (setq org-todo-keywords
 	(quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
 		(sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
@@ -271,7 +275,7 @@
           (,"~/org/srs/deck.org"        :maxlevel . 2)
           (,"~/org/agenda/meetings.org" :maxlevel . 2)))
   (setq org-capture-templates
-        `(("e" "Email [m4ue]" entry (file main-agenda)
+        `(("e" "Email [m4ue]" entry (file "~/org/work.org")
            ,(concat "* TODO Process \"%a\"\n"
                     "SCHEDULED: %t\n"
                     ":LOGBOOK:\n"
@@ -280,7 +284,7 @@
                     "  from %:from\n"
                     ":END:"))
           ("t" "todo" entry
-           (file main-agenda)
+           (file "~/org/agenda.org")
            ,(concat "* TODO %^{Title}\n"
                     "SCHEDULED: %t\n"
                     ":PROPERTIES:\n"
@@ -292,9 +296,10 @@
                     ":LOGBOOK:\n"
                     " - State \"TODO\"       from \"\"  %U  \\\\\n"
                     "  %^{Initial log} %?\n"
-                    ":END:"))
+                    ":END:")
+           :jump-to-captured t)
           ("w" "work reminder" entry
-           (file main-agenda)
+           (file "~/org/work.org")
            ,(concat "* TODO %^{Title}\n"
                     "SCHEDULED: <%%(memq (calendar-day-of-week date) '(1 2 3 4 5))>%?\n"
                     ":PROPERTIES:\n"
@@ -309,7 +314,7 @@
                     "%^{Initial note}\n"
                     ":END:\n"))
           ("h" "habit" entry
-           (file main-agenda)
+           (file "~/org/habit.org")
            ,(concat "* TODO %^{Title}\n"
                     "SCHEDULED: %(org-insert-time-stamp nil nil nil nil nil \" +1w\")%?\n"
                     ":PROPERTIES:\n"
@@ -469,19 +474,6 @@
 ;; F# CONFIG
 ;; Got this configuration from Magueta's config
 ;; https://github.com/MMagueta/MageMacs/blob/macintosh/init.el
-
-;; Static analysis
-;; https://github.com/emacs-elsa/Elsa
-;; (use-package elsa
-;;   :ensure t
-;;   :hook
-;;   (emacs-lisp-mode . (lambda () (flycheck-elsa-setup)))
-;;   :config
-;;   (use-package flycheck-elsa
-;;     :ensure t
-;;     :hook
-;;     ((emacs-lisp-mode . (lambda () (flycheck-mode)))
-;;      (emacs-lisp-mode . (lambda () (flymake-mode))))))
 
 ;; Puts angry red squiggles on the screen when I do something stupid.
 ;; https://www.flycheck.org/en/latest/
