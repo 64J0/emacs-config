@@ -421,3 +421,46 @@ to replace batteries, they’d open the lid and destroy the keys. Once they’d
 finished, the HSM custodians would reload the key material. In this way, the
 HSM’s owner could hope that its keys were under the unique control of its own
 trustwor- thy staff.
+
+* Chapter 19 - Side Channels
+
+  ~Fire answers fire.~
+
+Side channel attacks are everywhere, and 3-4 of them have caused multi-billion
+dollar losses.
+
+1. First, there are conducted or radiated electromagnetic signals,
+   which can compromise information locally and occasionally at
+   longer ranges. These ‘Tempest’ attacks led NATO governments
+   to spend billions of dollars a year on shielding equipment, start-
+   ing in the 1960s. After the end of the Cold War, people started
+   to realise that there had usually been nobody listening.
+2. Second, side channels leak data between tasks on a single device, or
+   between devices that are closely coupled; these can exploit both power
+   and timing information, and also contention for shared system resources.
+   The discovery of Differential Power Analysis in the late 1990s held up
+   the deployment of smartcards in banking and elsewhere by 2–3 years
+   once it was realised that all the cards then on sale were vulnerable.
+3. The third multibillion-dollar incident started in January 2018 with
+   the announcement of the ‘Spectre’ and ‘Meltdown’ attacks, which
+   exploit speculative execution to enable one process on a CPU to snoop
+   on another, for example to steal its cryptographic keys. This will
+   probably force the redesign of all superscalar CPUs over 2020.
+4. There are attacks that exploit shared local physical resources, such as
+   when a phone listens to keystrokes entered on a nearby keyboard, or
+   indeed on a keyboard on its own touch screen – whether that sensing is
+   done with microphones, the accelerometer and gyro, or even the camera.
+   Another example is that a laser pulse can create a click on a microphone,
+   so a voice command can be given to a home assistant through a window.
+   So far, none of the side-channel attacks on phones and other IoT devices
+   has scaled up to have major impact – but there are ever more of them.
+5. Finally, there are attacks that exploit shared social resources. An
+   example is identifying someone in a supposedly anonymous
+   dataset from patterns of communications, location history or even
+   just knowing when they went on holiday. This has led to many
+   poor policy decisions and much wishful thinking around whether
+   personal data can be anonymised sufficiently to escape privacy
+   law. There have been both scandalous data leaks, and complaints
+   that data should be made more available for research and other
+   uses. It’s hard to put a dollar value on this, but it is significant in
+   fields such as medical research.
