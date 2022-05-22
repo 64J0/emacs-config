@@ -1,0 +1,67 @@
+:PROPERTIES:
+:ID:       b6273991-a45e-4d88-b77e-f4479fb5754d
+:END:
+#+title: [Emacs] 4Me
+#+date: [2022-05-18 qua 09:30]
+
+* Buffers and windows
+
++ [[https://www.oreilly.com/library/view/learning-gnu-emacs/0596006489/ch04.html][[Book] Learning GNU Emacs]]
+
+When you start Emacs, it generates two buffers: *Messages* and *scratch*.
+
+*Messages* is a buffer where Emacs accumulates messages from its startup and
+from the minibuffer. *scratch* is just what it sounds like: a temporary
+scratchpad where you can type. It won't be saved unless you explicitly write it
+to a file using ~C-x C-w~.
+
+Each buffer has an associated major mode that determines much about how Emacs
+behaves in that buffer. For example, text mode, designed for writing text,
+behaves differently from Lisp mode, which is designed for writing Lisp programs.
+
+** Deleting Buffers
+
+It’s easy to create buffers, and just as easy to delete them when you want
+to. You may want to delete buffers if you feel your Emacs session is getting
+cluttered with too many buffers. Perhaps you started out working on a set of
+five buffers and now want to do something with another five. Getting rid of the
+first set of buffers makes it a bit easier to keep things straight. Deleting a
+buffer can also be a useful emergency escape. For example, some replacement
+operation may have had disastrous results. You can kill the buffer and choose
+not to save the changes, then read the file again.
+
+Deleting a buffer doesn’t delete the underlying file nor is it the same as not
+displaying a buffer. Buffers that are not displayed are still active whereas
+deleted buffers are no longer part of your Emacs session. Using the analogy of a
+stack of pages, deleting a buffer is like taking a page out of the current stack
+of buffers you are editing and filing it away.
+
+Deleting buffers doesn’t put you at risk of losing changes, either. If you’ve
+changed the buffer (and the buffer is associated with a file), Emacs asks if you
+want to save your changes before the buffer is deleted. You will lose changes to
+any buffers that aren’t connected to files, but you probably don’t care about
+these buffers.
+
+To delete a buffer, type ~C-x k~ (for ~kill-buffer~). Emacs shows the name of
+the buffer currently displayed; press Enter to delete it or type another buffer
+name if the one being displayed is not the one you want to delete, then press
+Enter. If you’ve made changes that you haven’t yet saved, Emacs displays the
+following message:
+
+#+begin_quote
+  Buffer buffer name  modified. Kill anyway? (yes or no).
+#+end_quote
+
+** Commands
+
++ ~C-x C-b~: Check the open buffer list.
++ ~C-x b~: Move between buffers.
++ ~C-x k~: Delete a buffer (kill-buffer).
++ ~C-x 3~: Create new window in the left.
++ ~C-x o~: Change to the other window.
++ ~C-x 1~: Close all windows and keep only one open (the one with the cursor).
+
+* Terminals
+  :todo:
+
++ https://www.youtube.com/watch?v=wa_wZIuT9Vw&ab_channel=SystemCrafters
