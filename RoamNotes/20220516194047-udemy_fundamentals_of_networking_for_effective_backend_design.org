@@ -1,0 +1,75 @@
+:PROPERTIES:
+:ID:       d37bc864-7ac4-46bf-92b2-b518d8467f20
+:END:
+#+title: [Udemy] Fundamentals of Networking for Effective Backend Design
+#+date: [2022-05-16 seg 19:40]
+
+Those notes are based in the Fundamentals of Networking for Effective Backend
+Design from Udemy by Hussein Nasser in Udemy.
+
+* Fundamentals of Networking
+
++ RPC: Remote Procedure Call. Make a call to a function in some server in some
+  different place. ~gRPC~, the Google protocol, drinks from this source. Pay
+  attention to the fallacies of distributed systems.
+
++ OSI -> Open System Interconnection model. This is the basis of networking.
+  Focus on the seven layers, and understand in which layer the application you'
+  re working lives in.
+
+Why would we need OSI?
+
+In order to build agnostic application. Without a standard model you application
+must have knowledge of the underlying network medium.
+
++ ~Layer 7 - Application~ - HTTP/FTP/gRPC.
+  POST request with JSON data to HTTPS server.
++ ~Layer 6 - Presentation~ - Encoding, Serialization.
+  Serialize JSON to flat byte string.
++ ~Layer 5 - Session~ - Connection establishment, TLS.
+  Request to establish TCP connection/TLS.
++ ~Layer 4 - Transport~ - UDP/TCP.
+  Sends SYN request target port 443.
++ ~Layer 3 - Network~ - IP.
+  SYN is placed an IP packet(s) and adds the source/dest IPs.
++ ~Layer 2 - Data link~ - Frames, Mac address Ethernet.
+  Each packet goes into a single frame and adds the source/dest MAC addresses.
++ ~Layer 1 - Physical~ - Electric signals, fiber or radio waves.
+  Each frame becomes string of bits which converted into either a radio signal
+  (wifi), electric signal (ethernet), or light (fiber).
+
+* Internet Protocol (IP)
+
+IP's are a layer 3 property. So they don't know about PORT concepts.
+
++ Put your database in the same sub-network that you have the application that
+  is using it. This way you can route packages using route 2 concepts (switch)
+  instead of using a proper router in the layer 3. In general, routers (layer
+  3) are more expensive than layer 2 communication (routing based on IP versus
+  routing based on MAC address).
+
+The IP Packet has headers and data sections.
+
+IP Packet header is 20 bytes, and can go up to 60 bytes if options are enabled.
+
++ IP Packet mental model representation:
+
+#+begin_src
+  { Source IP Address | Data | Destination IP Address }
+#+end_src
+
+** ICMP
+
+Stands for Internet Control Message Protocol. This protocol was designed for
+informational messages, like, host unreachable, port unreachable, fragmentation
+needed, packet experience (infinite loop in routers).
+
+The commands ~ping~ and ~traceroute~ use it.
+
+** ARP
+
+Stands for Address Resolution Protocol.
+
+We need the MAC address to send frames (layer 2). Most of the time we know the
+IP address but not the MAC. So, we use cached ARP Table to translate IP into MAC
+address for some network.
