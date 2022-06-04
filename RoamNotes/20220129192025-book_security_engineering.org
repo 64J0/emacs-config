@@ -464,3 +464,66 @@ dollar losses.
    that data should be made more available for research and other
    uses. It’s hard to put a dollar value on this, but it is significant in
    fields such as medical research.
+
+* Chapter 20 - Advanced Cryptographic Engineering
+
+** Full-disk encryption
+
+The idea behind full-disk encryption (FDE) is simple. You encrypt data as it’s
+written to disk, and do decryption as it’s read again. The key depends on an
+initial authentication step such as a password, which is forgotten when the
+machine sleeps or is switched off. So if a doctor leaves their laptop on a
+train, only the hardware is lost; the medical records are not. FDE has become a
+regulatory requirement in many industries. In Europe, privacy regulators
+generally see the loss of machines with FDE as not serious enough to attract a
+fine or to need mandatory notification of data subjects. Many phones and laptops
+come with FDE; with some it’s enabled by default (Android) while with others it
+just takes a click (Mac).
+
+** Signal
+
+Signal is a free messaging app, initially developed by a man who uses the name
+of Moxie Marlinspike. It set the standard for end-to-end encryption of
+messaging, and its mechanisms have been adopted by competing products including
+WhatsApp. Mobile messages can be highly sensitive, with everything from lovers’
+assignations through business deals to political intrigues at diplomatic
+summits; yet mobile phones are often lost or stolen, or sent in for repair when
+the screens break. So key material in phones is frequently exposed to
+compromise, and it’s not enough to just have a single long-lived private key in
+an app. The Signal protocol therefore provides the properties of forward
+secrecy, that a key compromise today won’t expose any future traffic, and back-
+ward secrecy, which means that it won’t expose previous traffic either. These
+are now formalised as post-compromise security.
+
+The protocol has three main components: the Extended Triple Diffie-Hellman
+(X3DH) protocol to set up keys between Alice, Bob and the server; a ratchet
+protocol to derive message keys once a secret key is established; and mechanisms
+for finding the Signal keys of other people in your address book.
+
+(...)
+
+Previous attempts to help ordinary people use end-to-end encryption, such as the
+email encryption program PGP, never got much traction outside specialist niches
+because key management was too much bother. Messaging apps solved the usability
+problem by demanding access to your address book, looking up all your contacts
+on their servers to see who else was a user and then flagging them so you know
+you can message them. However, giving service firms a copy of your address book
+is already a privacy compromise, and if you also let them keep a plaintext
+record of your social graph, profile name, location, group memberships and who
+is messaging whom, then investigators can get all this by subpoena.
+
+** Tor
+
+The Onion Router (Tor) is the main system people use to get serious anonymity
+online, with about 2 million concurrent users in 2020. It began its life in 1998
+at the US Naval Research Laboratory, and was called Onion Routing because
+messages in it are nested like the layers of an onion. If Alice wants to visit
+Eve’s website without Eve or anyone else being able to identify her, she sets up
+a TLS connection to a Tor relay operated by Bob, which sets up a TLS connection
+to a Tor relay operated by Carol, which in turn sets up a TLS connection to a
+Tor relay operated by David – from whose ‘exit node’ Alice can now establish a
+connection to Eve’s website. The idea is to separate routing from identity –
+anyone wanting to link Alice to Eve has to subvert Bob, Carol and Dave, or
+monitor the traffic in and out of Bob’s and David’s systems.
+
+* Chapter 21 - Network Attack and Defence
