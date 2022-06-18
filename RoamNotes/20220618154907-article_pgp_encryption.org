@@ -55,12 +55,64 @@ describe each of those activities.
 
 ** Assimetric encryption
 
+** Signature verification
+
 * [Linux] How to start using it?
+
+In this tutorial I'll present the commands to run considering that you're using
+a system with the *apt* package manager (Ubuntu, for example).
+
+To install and start using the GPG tool one can simply run those commands:
+
+#+begin_src bash
+  # install the GPG tool
+  apt install gnupg
+
+  # generate your keys
+  gpg --gen-key
+  # fulfill next questions...
+  # select the algorithm used to generate your keys,
+  # the size, your name, e-mail, ..., and finally your
+  # passphrase (please, use something hard to guess).
+
+  # by default your keys will be stored in
+  # ~/.gnupg/
+#+end_src
+
+After creating your keys, make sure to keep the private key hidden, otherwise
+all of this would be useless.
+
+Then, add your key to some key server. In the sequence we explain how to do this
+for the Ubuntu key server.
+
+*** Key sharing
+
+Although there are lots of options to share your public GPG key, one of the most
+easy is the Ubuntu key server.
+
+You can find it in [[https://keyserver.ubuntu.com/][this link]].
+
+*** E-mail - Chrome extension
+
+One of the most used scenario for the GPG encryption is to deal with e-mail
+security. If you use Chrome or some variant of it, consider taking a look at
+this extension called [[https://chrome.google.com/webstore/detail/flowcrypt-encrypt-gmail-w/bnjglocicdkmhmoohhfkfkbbkejdhdgc?hl=en-US][FlowCrypt]].
+
+*** Cheatsheet
+
+Everybody likes cheatsheets. This is a pretty useful tool to consult for
+commands and quick tutorials on how to use something. For GPG there is this
+cheatsheet which I use during my daily routine:
+
++ [[http://irtfweb.ifa.hawaii.edu/~lockhart/gpg/][GPG cheatsheet]].
+
+Make sure to consult this link when you forget about some feature or command.
 
 * Conclusion
 
 * References
 
 [1] - Security Engineering. Anderson, R. 3rd edition.
-  
-In this article I'll cover some details of what is the 
+[2] - [[https://www.gnupg.org/][GnuPG official site]].
+[3] - [[https://en.wikipedia.org/wiki/GNU_Privacy_Guard][GNU Privacy Guard. Wikipedia]].
+[4] - [[https://latacora.micro.blog/2019/07/16/the-pgp-problem.html][The PGP Problem. Latacora]].
