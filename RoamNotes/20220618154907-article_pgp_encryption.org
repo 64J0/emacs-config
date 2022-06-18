@@ -1,0 +1,66 @@
+:PROPERTIES:
+:ID:       379d7da1-13cf-490a-8015-8de58be3fd59
+:END:
+#+title: [Article] GPG encryption
+#+date: [2022-06-18 sáb 15:49]
+
+#+begin_quote
+  Cryptography is where security engineering meets mathematics.
+
+  --- [1]
+#+end_quote
+
+* Introduction
+
+There is a very big area in computer systems focused only to deal with
+information security. Everyday, deliberately we share great details of ourselves
+in the internet, as virtual data. This data, when collected by some bad actor
+with wrong incentives can be used against you in many different ways, ultimately
+enabling some group to manipulate you.
+
+If you never thought about it, please consider it now.
+
+With this in mind, some pretty smart people use their time to enhance the
+security, where one of the most used tools in this regard is called GPG
+encryption.
+
+In this article my goal is to share some definitions related to the encryption
+field, present how to use GPG encryption in a Linux system and finally conclude
+with final thoughts.
+
+With no further ado, let's start defining some terms.
+
+** Crypt... what?
+
+It's pretty common to use the word "crypto" to refer for different concepts,
+usually for both the process of applying some encryption technique to some
+information and the process of breaking it.
+
+The following quote dismistifies the term presenting some accurate vocabulary
+describe each of those activities.
+
+#+begin_quote
+  *Cryptography* refers to the science and art of designing ciphers;
+  *cryptanalysis* to the science and art of breaking them; while *cryptology*,
+  often shortened to just crypto, is the study of both. The input to an
+  encryption process is commonly called the plaintext or cleartext, and the
+  output the ciphertext.
+
+  --- [1]
+#+end_quote
+   
+** Hash
+
+** Simmetric encryption
+
+** Assimetric encryption
+
+* [Linux] How to start using it?
+
+* Conclusion
+
+* References
+
+[1] - Security Engineering. Anderson, R. 3rd edition.
+  
+In this article I'll cover some details of what is the 
