@@ -5,6 +5,8 @@
 (require 'cl-lib) ;; cl -> common lisp
 
 ;; INITIAL CONFIG
+;; Just used to set some default values to make Emacs look and behave the
+;; way I want.
 (setq user-full-name "Vinícius Gajo Marques Oliveira")
 (global-linum-mode) ;; show the line number
 (tool-bar-mode -1) ;; remove tool bar
@@ -18,11 +20,9 @@
 (setq initial-buffer-choice "~/org/activities.org") ;; initial file
 ;; https://stackoverflow.com/questions/12031830/what-are-file-and-file-and-how-can-i-get-rid-of-them
 (setq make-backup-files nil) ;; avoid ~ files
-
 (set-face-attribute 'default nil
 		    :height 140
 		    :family "DejaVu Sans Mono") ;; font size and family
-
 (setq-default indent-tabs-mode nil)
 (setq-default fill-column 80)
 
@@ -33,6 +33,24 @@
 (global-set-key (kbd "M-<left>") 'enlarge-window-horizontally)
 (global-set-key (kbd "M-<right>") 'shrink-window-horizontally)
 (global-set-key (kbd "C-/") 'comment-line)
+
+;; CUSTOM FUNCTIONS
+;; Elisp functions I use to configure my Emacs.
+(defun concat-deps-path (filename)
+  "This function helps to avoid repeating the full path for the
+   deps folder."
+  (concat "~/Desktop/codes/emacs-config/deps/" filename))
+
+;; CUSTOM VARIABLES
+(setq gajo-org-srs-path "~/org/srs/deck-refile.org")
+(setq gajo-org-notes-path "~/org/notes.org")
+(setq gajo-org-refile-path "~/org/refile.org")
+(setq gajo-org-agenda-path "~/org/agenda.org")
+(setq gajo-org-email-path "~/org/email.org")
+(setq gajo-org-todo-path "~/org/todo.org")
+(setq gajo-org-work-path "~/org/work.org")
+(setq gajo-org-habit-path "~/org/habit.org")
+(setq gajo-org-meetings-path "~/org/meetings.org")
 
 ;; PACKAGE REPOSITORIES
 ;; when error: M-x package-refresh-contents
@@ -181,9 +199,9 @@
   ;; Required for PlantUML diagrams
   ;; From: https://plantuml.com/download
   (setq org-plantuml-jar-path
-        (expand-file-name "~/Desktop/codes/emacs-config/deps/plantuml-1.2021.16.jar"))
+        (expand-file-name (concat-deps-path "plantuml-1.2021.16.jar")))
   (setq org-ditaa-jar-path
-        (expand-file-name "~/Desktop/codes/emacs-config/deps/ditaa0_9.jar"))
+        (expand-file-name (concat-deps-path "ditaa0_9.jar")))
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((sql      . t)
@@ -192,12 +210,10 @@
      (shell    . t)
      (python   . t)
      (js       . t)
-     (ditaa    . t)
      (ocaml    . t)
      (java     . t)
      (scheme   . t)
      (plantuml . t)
-     (ditaa    . t)
      (sqlite   . t)
      (gnuplot  . t)
      (ditaa    . t)
@@ -212,8 +228,8 @@
 	'(md gfm beamer ascii taskjuggler html latex odt org))
   (setq org-support-shift-select 'always)
   (setq org-directory "~/org")
-  (setq org-default-notes-file "~/org/notes-refile.org")
-  (setq org-refile-file-path "~/org/refile.org")
+  (setq org-default-notes-file gajo-org-notes-path)
+  (setq org-refile-file-path gajo-org-refile-path)
   (setq org-refile-allow-creating-parent-nodes t)
   (setq org-refile-use-outline-path 'file)
   (setq org-babel-inline-result-wrap "%s")
@@ -228,6 +244,7 @@
   (setq org-export-with-sub-superscripts '{})
   (setq org-duration-format '((special . h:mm)))
   (setq org-goto-interface 'outline-path-completion)
+  ;; AGENDA
   (setq org-agenda-skip-scheduled-if-done t)
   (setq org-agenda-skip-deadline-if-done t)
   (setq org-agenda-block-separator nil)
@@ -236,14 +253,11 @@
   (setq org-agenda-start-with-log-mode t)
   (setq org-agenda-sticky nil)
   (setq org-agenda-span 21)
+  (setq org-agenda-files '(gajo-org-agenda-path))
   (setq org-latex-pdf-process (list "latexmk -silent -f -pdf %f"))
   (setq org-cite-export-processors '((latex biblatex)
                                      (moderncv basic)
                                      (t basic)))
-  (setq org-agenda-files '(
-                     "~/org/agenda.org"
-                     ;; "~/Desktop/personal-todo.org"
-                     ))
   (setq org-todo-keywords
 	(quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
 		(sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
@@ -270,12 +284,12 @@
                         ("export"   . ?e)
                         (:endgroup)))
   (setq org-refile-targets
-        `((nil                          :maxlevel . 9)
-          (org-agenda-files             :maxlevel . 2)
-          (,"~/org/srs/deck.org"        :maxlevel . 2)
-          (,"~/org/agenda/meetings.org" :maxlevel . 2)))
+        `((nil                     :maxlevel . 9)
+          (org-agenda-files        :maxlevel . 2)
+          (,gajo-org-srs-path      :maxlevel . 2)
+          (,gajo-org-agenda-path   :maxlevel . 2)))
   (setq org-capture-templates
-        `(("e" "Email [m4ue]" entry (file "~/org/work.org")
+        `(("e" "Email [m4ue]" entry (file gajo-org-email-path)
            ,(concat "* TODO Process \"%a\"\n"
                     "SCHEDULED: %t\n"
                     ":LOGBOOK:\n"
@@ -283,8 +297,7 @@
                     "  %^{Initial log} %?\n"
                     "  from %:from\n"
                     ":END:"))
-          ("t" "todo" entry
-           (file "~/org/agenda.org")
+          ("t" "todo" entry (file gajo-org-todo-path)
            ,(concat "* TODO %^{Title}\n"
                     "SCHEDULED: %t\n"
                     ":PROPERTIES:\n"
@@ -298,8 +311,7 @@
                     "  %^{Initial log} %?\n"
                     ":END:")
            :jump-to-captured t)
-          ("w" "work reminder" entry
-           (file "~/org/work.org")
+          ("w" "work reminder" entry (file gajo-org-work-path)
            ,(concat "* TODO %^{Title}\n"
                     "SCHEDULED: <%%(memq (calendar-day-of-week date) '(1 2 3 4 5))>%?\n"
                     ":PROPERTIES:\n"
@@ -313,8 +325,7 @@
                     "- Initial note taken on %U \\\n"
                     "%^{Initial note}\n"
                     ":END:\n"))
-          ("h" "habit" entry
-           (file "~/org/habit.org")
+          ("h" "habit" entry (file gajo-org-habit-path)
            ,(concat "* TODO %^{Title}\n"
                     "SCHEDULED: %(org-insert-time-stamp nil nil nil nil nil \" +1w\")%?\n"
                     ":PROPERTIES:\n"
@@ -328,8 +339,7 @@
                     "- State \"TODO\"       from \"\"  %U  \\\\\n"
                     "%^{Initial log}\n"
                     ":END:\n"))
-          ("m" "meeting log" entry
-           (file ,"~/org/work/meetings.org")
+          ("m" "meeting log" entry (file ,gajo-org-meetings-path)
            ,(concat "* %^{Title}\n"
                     "** Context\n"
                     "%^{Context}\n"
@@ -339,18 +349,15 @@
                     "%^{Agenda}\n"
                     "** Ata\n"
                     "%^{Minutes})\n"))
-          ("d" "Drill card with answer" entry
-           (file ,"~/org/srs/deck.org")
+          ("d" "Drill card with answer" entry (file ,gajo-org-srs-path)
            ,(concat "* Item           :drill:\n"
                     "%^{Question}\n"
                     "** Answer\n"
                     "%^{Answer}\n"))
-          ("z" "Drill" entry
-           (file ,"~/org/srs/deck.org")
+          ("z" "Drill" entry (file ,gajo-org-srs-path)
            ,(concat "* Item           :drill:\n"
                     "%?\n"))
-          ("x" "Drill cloze 2" entry
-           (file ,"~/org/srs/deck.org")
+          ("x" "Drill cloze 2" entry (file ,gajo-org-srs-path)
            ,(concat "* Item           :drill:\n"
                     ":PROPERTIES:\n"
                     ":drill_card_type: hide2cloze\n"
