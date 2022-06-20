@@ -5,9 +5,9 @@
 #+date: [2022-06-18 sáb 15:49]
 
 #+begin_quote
-  Cryptography is where security engineering meets mathematics.
+Cryptography is where security engineering meets mathematics.
 
-  --- [1]
+--- [1]
 #+end_quote
 
 * Introduction
@@ -40,22 +40,123 @@ The following quote dismistifies the term presenting some accurate vocabulary
 describe each of those activities.
 
 #+begin_quote
-  *Cryptography* refers to the science and art of designing ciphers;
-  *cryptanalysis* to the science and art of breaking them; while *cryptology*,
-  often shortened to just crypto, is the study of both. The input to an
-  encryption process is commonly called the plaintext or cleartext, and the
-  output the ciphertext.
+*Cryptography* refers to the science and art of designing ciphers;
+*cryptanalysis* to the science and art of breaking them; while *cryptology*,
+often shortened to just crypto, is the study of both. The input to an encryption
+process is commonly called the plaintext or cleartext, and the output the
+ciphertext.
 
-  --- [1]
+--- [1]
 #+end_quote
    
 ** Hash
 
+Among the classical types of cipher functions, the "hash" is one of the most
+known and used.
+   
+#+begin_quote
+For a stronger cipher, we will want the effects of small changes in the cipher's
+input to diffuse completely through its output. Changing one input bit should,
+on average, cause half of the output bits to change.
+
+--- [1]
+#+end_quote
+
+In systems nowadays it's pretty common to use a variant of this function, with
+the addition of two other components, known as salt and pepper. The usage flow
+is like this:
+
+1. A user is creating an account in our system. Due to the LGPD regulation
+   (GDPR's brother from Brazil), we must not store this user's passphrase as
+   plaintext, otherwise some bad actor with access to this database could read
+   it and start trying to access other accounts from this user (please, don't
+   repeat your passphrase for more than one online service).
+2. In order to make the hash output stronger, we concat a "random" string to the
+   beginning of the passphrase, and we manage to store this value somewhere else
+   (environment variables, for example). This string is named the *salt*. Notice
+   that in this system we reuse the same salt for all passphrases.
+3. To make this system stronger, we add another string to it, usually some
+   incremental value like a counter value or some date. This way, if the user
+   wants to change the passphrase, the counter or date value that will be added
+   will be different, generating a different hash in the end. This string is
+   named the *pepper*.
+
+Notice that in this system, if we have more than one user with the same
+passphrase, we could assert that they would not generate the same hash in the
+end.
+
+Also, notice that we're not interested into getting the real value back someday
+in the future in this system. We can simply store the hash as the user
+passphrase and later apply the same operation done to create the hash and
+compare the output generated for some login attempt.
+
+*** Properties
+
+1. The hash function must be a one-way operation, that is, from the value /x/ we
+   must be able to easily compute /f(x)/ but, in general, starting from /f(x)/
+   it must be not possible to compute /x/, of course, if we already don't know
+   this transformation value. The most used technique to break this process is
+   to go with brute force, testing many combinations and storing their results
+   to compare later.
+2. The hashed value must not provide any useful information about the original
+   value.
+3. The hashed value should, in general, have a fixed size independent of the
+   input. In general we stick with some small size to keep things optimized for
+   storage and process. Also, notice that this size will impact directly in the
+   collision rate, that is, the event when an input /x/ will generate the same
+   output as a different input /y/, that is /f(x) = f(y)/.
+
+*** Famous hash algorithms
+
+Those are some of the most famous hash algorithms: MD4, MD5, SHA-1, SHA-2,
+SHA-3, SHA256, SHA512, etc.
+
 ** Simmetric encryption
 
+Basically, the key used to encrypt some message is the same key used to decrypt
+it.
+   
 ** Assimetric encryption
 
+In opposition to the simmetric encryption, the assimetric encryption the key
+used to encrypt is in fact different from the key used to decrypt. This idea is
+used for the TLS/SSL protocol (HTTPS) for example.
+
+The server will send you a *public key* that you must use to encrypt the data
+you want to send them. This communication is secure from eavesdropping and man
+in the middle attacks when only the server has the *private key* used to decrypt
+the message.
+
+As the name suggests, *public keys* are the keys created to be shared with the
+world, while the *private key* must be hidden and only you must have access to
+it.
+
+Pay attention that in this encryption style, if you want to inspect some message
+encrypted with some public key you *must* have the private key, otherwise it
+will not be possible.
+
 ** Signature verification
+
+Signature verification is an application of assimetric encryption. You can
+basically create some phrase signature and encrypt it using your *private key*
+and someone can use the *public key* counterpart to decrypt and make sure it is
+right.
+
+#+begin_quote
+  The basic idea is that a signature on a message can be created by only one
+  principal, but checked by anyone.
+
+  --- [1]
+#+end_quote
+
+** GPG story
+
+The GPG term stands for GnuPG, which is an open source implementation of the
+open source protocol OpenPGP. This protocol was created initially by a guy named
+Phil Zimmermann when he was working for the company Symantec.
+
+There was developed a tool named PGP, which is proprietary in contrast to the
+GPG tool we'll deal in this article.
 
 * [Linux] How to start using it?
 
@@ -82,8 +183,8 @@ To install and start using the GPG tool one can simply run those commands:
 After creating your keys, make sure to keep the private key hidden, otherwise
 all of this would be useless.
 
-Then, add your key to some key server. In the sequence we explain how to do this
-for the Ubuntu key server.
+Then, add your public key to some key server reachable by the people you want to
+share data.
 
 *** Key sharing
 
