@@ -59,11 +59,11 @@
 (require 'use-package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives
+	     '("elpagnu" . "https://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives
 	     '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives
-	     '("org"  . "https://orgmode.org/elpa/"))
 (package-initialize)
 
 ;; automatically download and load other packages from the emacs
@@ -196,6 +196,7 @@
   :preface
   (setq org-export-backends '(moderncv md beamer ascii html latex odt org))
   :config
+  (require 'ox-extra)
   ;; Required for PlantUML diagrams
   ;; From: https://plantuml.com/download
   (setq org-plantuml-jar-path
@@ -418,6 +419,10 @@
   (add-hook
    'org-mode-hook (lambda () (org-superstar-mode 1))))
 
+;; https://git.sr.ht/~bzg/org-contrib
+(use-package org-contrib
+  :ensure t)
+
 ;; https://github.com/PillFall/languagetool.el
 ;; https://dev.languagetool.org/java-api
 (use-package languagetool
@@ -466,8 +471,28 @@
 ;; Beamer is a LaTeX package for writing presentations.
 ;; https://orgmode.org/worg/exporters/beamer/tutorial.html
 ;; sudo apt-get install -f texlive-latex-extra
-(require 'ox-beamer)
-(require 'ox-latex)
+(use-package ox-beamer)
+;; https://www.aidanscannell.com/post/org-mode-resume/
+(use-package ox-latex
+  :init
+  ;; code here will run immediately
+  :config
+  ;; code here will run after the package is loaded
+  (setq org-latex-pdf-process
+        '("pdflatex -interaction nonstopmode -output-directory %o %f"
+          "bibtex %b"
+          "pdflatex -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -interaction nonstopmode -output-directory %o %f"))
+  (setq org-latex-with-hyperref nil) ;; stop org adding hypersetup{author...} to latex export
+  
+  ;; delete unwanted file extensions after latexMK
+  (setq org-latex-logfiles-extensions
+        (quote ("lof" "lot" "tex~" "aux" "idx" "log" "out" "toc" "nav" "snm" "vrb" "dvi" "fdb_latexmk" "blg" "brf" "fls" "entoc" "ps" "spl" "bbl" "xmpi" "run.xml" "bcf" "acn" "acr" "alg" "glg" "gls" "ist")))
+  
+  (unless (boundp 'org-latex-classes)
+    (setq org-latex-classes nil))
+  )
+(use-package oc-biblatex)
 
 ;; https://github.com/bdarcus/citar
 (use-package citar
@@ -710,21 +735,16 @@
   :ensure t
   :init
   (undo-tree-mode))
-
-;; ======================================================
-;; AUTOMATIC GENERATED
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-agenda-files 'nil)
  '(package-selected-packages
-   '(multiple-cursors counsel shell-pop languagetool highlight-indentation-mode company-quickhelp eshell-syntax-highlighting all-the-icons flymake-flycheck elsa ox-latex ox-beamer org-superstar terraform-mode rainbow-delimiters lsp-grammarly diff-hl diff-hl-mode ob-fsharp org-roam centaur-tabs ox-publish go-mode json-mode yaml-mode haskell-mode slime-company kubernetes dockerfile-mode flycheck org-super-agenda helm-lsp lsp-ui lsp-mode company magit org-drill org-plus-contrib dotnet eglot-fsharp org-pdfview pdf-tools highlight-indent-guides htmlize fsharp-mode neotree auto-complete dracula-theme helm try use-package)))
+   '(undo-tree haskell-mode slime-company slime terraform-mode go-mode yaml-mode kubernetes dockerfile-mode elpy json-mode eglot-fsharp eglot ob-fsharp eshell-syntax-highlighting fsharp-mode company-quickhelp lsp-ui flymake-flycheck flycheck magit pdf-tools org-super-agenda diff-hl languagetool org-contrib org-superstar org-drill org-roam counsel shell-pop company centaur-tabs htmlize neotree multiple-cursors rainbow-delimiters helm-lsp helm which-key dracula-theme use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-(put 'upcase-region 'disabled nil)
