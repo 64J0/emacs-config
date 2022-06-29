@@ -149,14 +149,18 @@ right.
   --- [1]
 #+end_quote
 
-** GPG story
+** PGP/GPG story
 
-The GPG term stands for GnuPG, which is an open source implementation of the
-open source protocol OpenPGP. This protocol was created initially by a guy named
-Phil Zimmermann when he was working for the company Symantec.
+PGP is an acronym that stands for "Pretty Good Privacy". It was originally
+written by the crypto activist Phil Zimmermann in order to bypass export control
+regulations from the US. It was made available within a tool suite sold by
+Simantec.
+   
+The GPG term stands for GnuPG, which is a free implementation of the open source
+protocol OpenPGP, developed initially by Wener Koch.
 
-There was developed a tool named PGP, which is proprietary in contrast to the
-GPG tool we'll deal in this article.
+As the name suggests, GnuPG is part of the [[https://en.wikipedia.org/wiki/GNU_Project][GNU Project]]. This tool received major
+funding from the German government in 1999. [3]
 
 * [Linux] How to start using it?
 

@@ -1,0 +1,204 @@
+:PROPERTIES:
+:ID:       99d15265-b718-4ec1-b986-427b41696cbb
+:END:
+#+title: [Udemy] Ethical Hacking Bootcamp
+#+date: [2022-06-22 qua 17:30]
+
+* Introduction
+
++ *Course:* Complete Ethical Hacking Bootcamp 2022: Zero to Mastery.
+
+Skills are valuable when they are hard to get. So, get your hands dirty and
+start exploring complex things.
+
+* Virtual Machine
+
+During the course, the instructor use VirtualBox to create Virtual Machines
+using the bare metal image from Kali Linux. *He does not use some already made
+VM image*.
+
+** VM configuration
+
+| Image     | Kali Linux Bare Metal (Debian based) |
+| RAM       | 2 GiB                                |
+| Hard disk | 30 GiB                               |
+
++ Graphical install
++ English language
++ Keyboard: brazilian
++ Hostname: kali
++ Domain name: (empty)
++ User: mrhacker
++ Password: mrhack3r
++ Package manager: (empty)
++ Software selection:
+  - Desktop environment
+  - ...Xfce
+  - Collection of tools
+  - ...top10
+  - ...default
+  - ...large
+
+GRUB boot loader is a software to load Linux system.
+
+* QEMU
+** Introduction
+
+From QEMU docs we find that QEMU is a generic and open source machine emulator
+and virtualizer, that is commonly used for "system emulation", where it provides
+a virtual model of an entire machine (CPU, memory and emulated devices) to run a
+guest OS.
+
+*** Glossary
+
++ *Device Front End*:
+
+  Is how a device is presented to the guest. The type of device presented should
+  match the hardware that the guest operating system is expecting to see.
+
+  A front end if often paired with a back end, which describes how the host's
+  resources are used in the emulation.
+
++ *Device Buses*:
+
+  Most devices will exist on a BUS of some sort. Depending on the machine model
+  you choose (-M foo) a number of buses will have been automatically created. In
+  most cases the BUS a device is attached to can be inferred, for example PCI
+  devices are generally automatically allocated to the next free address of
+  first PCI bus found. However in complicated configurations you can explicitly
+  specify what bus (bus=ID) a device is attached to along with its address
+  (addr=N).
+
++ *Device Back End*:
+
+  The back end describes how the data from the emulated device will be processed
+  by QEMU.
+
++ *Device Pass Through*:
+
+  Is where the device is actually given access to the underlying hardware.
+
+** Installation and Usage
+
+#+BEGIN_SRC bash
+  # Ubuntu installation:
+  # ----------------------------------------------------------------------
+  #
+  # qemu-kvm - software que fornece emulação de hardware para o KVM.
+  # libvirt-daemon-system - arquivos de configuração para executar o daemon
+  #   libvirt como um serviço do sistema.
+  # libvirt-clients - software para gerenciar plataformas de virtualização,
+  #   antigamente instalável pelo pacote libvirt-bin que teve seu nome
+  #   alterado.
+  # bridge-utils - um conjunto de ferramentas de linha de comando para
+  #   configurar Ethernet.
+  # virtinst - um conjunto de ferramentas de linha de comando para criação
+  #   de máquinas virtuais.
+  # virt-manager - uma interface GUI fácil de usar e utilitários de linha de
+  #   comando de suporte para gerenciar máquinas virtuais por meio de libvirt.
+  #
+  # install required packages
+  sudo apt install qemu-kvm \
+       libvirt-daemon-system \
+       libvirt-clients \
+       bridge-utils \
+       virtinst \
+       virt-manager
+  #
+  # check the daemon is running
+  sudo systemctl is-active libvirtd
+  # if not active:
+  # sudo systemctl enable libvirtd
+  #
+  # check the groups you're within
+  groups $USER
+  # you're added automatically to the libvirt group
+  # make sure to get inside the kvm group as well
+  sudo usermod -aG kvm $USER
+  #
+  # go for the applications search program
+  # search for `virtual machine manager`
+  # it will open a cool UI for you to configure further options
+  # ...
+  #
+  # list virtual OS running
+  virsh -c qemu:///system list
+#+END_SRC
+
+*** Create a VM using the Terminal
+
+#+BEGIN_SRC bash
+  cd ~/Desktop
+
+  # create the virtual machine
+  qemu-img create -f qcow2 <IMAGE_NAME> <STORAGE_SPACE>G
+  # qemu-img create -f qcow2 kali-linux.img 20G
+
+  qemu-system-x86_64 -m 2048 -boot d -enable-kvm -smp 2 \
+                     -net nic -net user -hda kali-linux.img \
+                     -cdrom kali-linux-2022.2-installer-amd64.iso
+  # -m 2048: RAM memory
+  # -boot -d: A opção de inicialização que nos permite especificar a ordem
+  #           de inicialização, qual dispositivo será iniciado primeiro.
+  # -enable-kvm: Permite usar a tecnologia KVM para emular a arquitetura que
+  #              que desejamos. Sem ele, o QEMU usuará a renderização por
+  #              software, que é muito lenta.
+  # -smp 2: Quantidade de núcleos que vamos usar.
+  # -net nic -net user: Permitir uma conexão Ethernet com a Internet na VM
+  #                     em execução por padrão.
+  # -hda kali-linux.img: Caminho para o disco rígido que será usado.
+  # -cdrom kali-linux-2022.2-installer-amd64.iso: Inicializar o nosso arquivo
+  #                                               ISO.
+
+  # After installing the ISO, you can run the VM with this command:
+  qemu-system-x86_64 -m 2048 -boot d -enable-kvm -smp 2 \
+                     -net nic -net user -hda kali-linux.img
+#+END_SRC
+
+*** Keyboard commands
+
++ /C-M-g/ -> free the mouse from inside the image.
++ /C-M-f/ -> toggle switch fullscreen.
+
+** References
+
++ [[https://www.youtube.com/watch?v=p09vXPhglF4&ab_channel=TerminalRoot][[Youtube] Como instalar o QEMU/KVM no Linux Mint, Ubuntu e outras Distros]]
++ [[https://www.qemu.org/docs/master/about/index.html][QEMU docs]]
++ [[https://www.kali.org/docs/virtualization/install-qemu-guest-vm/][Kali docs - Kali inside QEMU/LibVirt with virt-manager (Guest VM)]]
++ [[https://terminalroot.com.br/2021/02/como-instalar-o-qemu-kvm-no-linux-mint-ubuntu-e-outras-distros.html][[Blog] Terminal root: como instalar o QEMU, ...]]
+
+* Penetration Test Methodology
+
+** Information gathering/reconnaissance:
+
+Collect useful information about our target.
+
+Start the process getting the target IP addresses. Later we could try to get
+e-mails, phone numbers and the technologies they use internally.
+
+#+BEGIN_SRC bash
+  ping <DOMAIN>
+  # ping facebook.com
+
+  nslookup <DOMAIN>
+  # nslookup facebook.com
+
+  whois <DOMAIN>
+  # whois facebook.com
+#+END_SRC
+
+One can check the ~ipinfo.info~ URL to get more information related to some
+domain.
+   
+** Scanning
+** Gaining access/exploitation
+** Maintaining access (optional)
+** Covering tracks
+
+* Useful Linux Commands
+** Network commands
+
+#+BEGIN_SRC bash
+  # check internet configuration
+  ifconfig
+#+END_SRC
