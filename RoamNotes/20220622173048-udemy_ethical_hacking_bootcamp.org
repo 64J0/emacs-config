@@ -41,6 +41,10 @@ VM image*.
 
 GRUB boot loader is a software to load Linux system.
 
+** Post-Installation
+
++ https://www.ceos3c.com/security/top-things-after-installing-kali-linux/
+
 * QEMU
 ** Introduction
 
@@ -202,3 +206,6 @@ domain.
   # check internet configuration
   ifconfig
 #+END_SRC
+** Miscellaneous
+
++ https://linuxfoundation.org/blog/classic-sysadmin-the-linux-filesystem-explained/
