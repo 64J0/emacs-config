@@ -515,6 +515,15 @@
   (use-package flymake-flycheck
     :ensure t))
 
+;; https://docs.projectile.mx/projectile/installation.html
+(use-package projectile
+  :ensure t
+  :init
+  (projectile-mode +1)
+  :bind (:map projectile-mode-map
+              ("s-p" . projectile-command-map)
+              ("C-c p" . projectile-command-map)))
+
 ;; Language Server Protocol Support for Emacs
 ;; Aims to provide IDE-like experience by providing optional integration
 ;; with the most popular Emacs packages like comapny, flycheck and
@@ -529,10 +538,16 @@
    ;;  ("M-h"         . 'fsharp-mark-phrase))
 (use-package lsp-mode
   :ensure t
-  :hook (fsharp-mode . lsp-lens-mode)
+  :hook ((fsharp-mode . lsp-lens-mode)
+         (terraform-mode . lsp-deferred)) ;; sudo apt install terraform-ls
   :init
+  ;; F# ---------------------------------
   (add-hook 'before-save-hook #'(lambda () (when (eq major-mode 'fsharp-mode)
                                              (lsp-format-buffer))))
+  ;; Terraform --------------------------
+  (setq lsp-terraform-ls-enable-show-reference t)
+  (setq lsp-semantic-tokens-enable t)
+  (setq lsp-semantic-tokens-honor-refresh-requests t)
   :config
   (use-package lsp-treemacs
     :ensure t))
@@ -741,7 +756,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(undo-tree haskell-mode slime-company slime terraform-mode go-mode yaml-mode kubernetes dockerfile-mode elpy json-mode eglot-fsharp eglot ob-fsharp eshell-syntax-highlighting fsharp-mode company-quickhelp lsp-ui flymake-flycheck flycheck magit pdf-tools org-super-agenda diff-hl languagetool org-contrib org-superstar org-drill org-roam counsel shell-pop company centaur-tabs htmlize neotree multiple-cursors rainbow-delimiters helm-lsp helm which-key dracula-theme use-package)))
+   '(projectile lsp-treemacs undo-tree haskell-mode slime-company slime terraform-mode go-mode yaml-mode kubernetes dockerfile-mode elpy json-mode eglot-fsharp eglot ob-fsharp eshell-syntax-highlighting fsharp-mode company-quickhelp lsp-ui flymake-flycheck flycheck magit pdf-tools org-super-agenda diff-hl languagetool org-contrib org-superstar org-drill org-roam counsel shell-pop company centaur-tabs htmlize neotree multiple-cursors rainbow-delimiters helm-lsp helm which-key dracula-theme use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
