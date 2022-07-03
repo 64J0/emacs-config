@@ -247,3 +247,91 @@ We can use this site to scan for company websites.
 
 You must create an account to get results without blur. For the free plan we can
 make at most 50 requests.
+
+** Sherlock
+
+This tools is not built in with the common Kali Linux toolset. You need to
+download it from the Github repository: [[https://github.com/sherlock-project/sherlock][link]]. After download this tool it was
+required to install packages from pip3.
+
+Sherlock is used to find accounts from a single person using the same
+username. For example:
+
+#+begin_src bash
+  # install lacking python packages
+  # pip3 install torrequest
+
+  python3 sherlock.py <USERNAME>
+  # start scanning several sites to find this username
+#+end_src
+
+** email-scraper.py
+
+The instructor shared this script made by himself to scrape e-mails in some
+page. It scans for 100 pages by default.
+
+#+begin_src python :tangle no
+  from module import symbol
+  bs4 import BeautifulSoup
+  import requests
+  import requests.exceptions
+  import urllib.parse
+  from collections import deque
+  import re
+
+  user_url = str(input('[+] Enter Target URL To Scan: '))
+  urls = deque([user_url])
+
+  scraped_urls = set()
+  emails = set()
+
+  count = 0
+  try:
+      while len(urls):
+          count += 1
+          if count == 100:
+              break
+          url = urls.popleft()
+          scraped_urls.add(url)
+
+          parts = urllib.parse.urlsplit(url)
+          base_url = '{0.scheme}://{0.netloc}'.format(parts)
+
+          path = url[:url.rfind('/')+1] if '/' in parts.path else url
+
+          print('[%d] Processing %s' % (count, url))
+          try:
+              response = requests.get(url)
+          except (requests.exceptions.MissingSchema, requests.exceptions.ConnectionError):
+              continue
+
+          new_emails = set(re.findall(r"[a-z0-9\.\-+_]+@[a-z0-9\.\-+_]+\.[a-z]+", response.text, re.I))
+          emails.update(new_emails)
+
+          soup = BeautifulSoup(response.text, features="lxml")
+
+          for anchor in soup.find_all("a"):
+              link = anchor.attrs['href'] if 'href' in anchor.attrs else ''
+              if link.startswith('/'):
+                  link = base_url + link
+              elif not link.startswith('http'):
+                  link = path + link
+              if not link in urls and not link in scraped_urls:
+                  urls.append(link)
+  except KeyboardInterrupt:
+      print('[-] Closing!')
+
+  for mail in emails:
+      print(mail)
+#+end_src
+
+During the course there will be classes teaching how to build this kind of tool
+with Python 3.
+
+** More tools
+
+By the end of this section of *Reconnaissance & Information Gathering*, there is
+a cool article with a link to find more tools to run this task. This way we can
+experiment with those and add the best to our toolset.
+
++ [[https://securitytrails.com/blog/osint-tools][SecurityTrails - OSINT Tools]]
