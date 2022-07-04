@@ -534,18 +534,25 @@ Ross Anderson security group runs a blog: www.lightbluetouchpaper.org.
 In this chapter the author is going to discuss *four* classes of application at
 the bleeding edge of security research.
 
-** Autonomous cars
+** Autonomous Cars
 
 Why it's hard? People driving other cars on the same road. Other road users are
-unpredictable.
+*unpredictable*.
 
 Autonomous cars nowadays rely in the safety driver to get the control in case of
 problems, but we’ve known for decades that relying on humans to take over in an
-emergency takes time: a human has to react to an alarm, analyse the alarm
-display on the console, scan the environment, acquire situational awareness, get
-into the optical flow, and take effective control. Even in commercial aviation,
-it takes a flight crew about eight seconds to regain control properly after an
-autopilot failure. You cannot expect a safety driver in a car to do much better.
+emergency takes time:
+
+1. a human has to react to an alarm,
+2. analyse the alarm display on the console,
+3. scan the environment,
+4. acquire situational awareness,
+5. get into the optical flow,
+6. and take effective control.
+
+Even in commercial aviation, it takes a flight crew about *eight seconds* to
+regain control properly after an autopilot failure. You cannot expect a safety
+driver in a car to do much better.
 
 *** Levels and limits of automation
 
@@ -562,36 +569,42 @@ autopilot failure. You cannot expect a safety driver in a car to do much better.
    it gets confused it stops at the side of the road;
 5. Full automation - the software can do everything a human can.
 
-*** How to hack a self-driving car
+*** How to Hack a Self-Driving Car
 
 In 2010, Karl Koscher and colleagues got the attention of academics by showing
-how to hack a late-model Ford. Cars’ internal data communications use a CAN bus,
-which does not have strong authentication, so an attacker who gets control of
-(say) the radio can escalate this access to operate the door locks and the
-brakes. In 2015, Charlie Miller and Chris Valasek got the attention of the press
-when they hacked a Jeep Cherokee containing a volunteer journalist, over its
-mobile phone link, slowed the vehicle down and drove it off the road. This
-compelled Chrysler to recall 1.4m vehicles for a software patch, costing the
-company over $1bn. This finally got the industry’s attention.
+how to hack a late-model Ford.
+
+Cars’ internal data communications use a *CAN bus*, which does not have strong
+*authentication*, so an attacker who gets control of (say) the radio can
+escalate this access to operate the door locks and the brakes.
+
+In 2015, Charlie Miller and Chris Valasek got the attention of the press when
+they hacked a Jeep Cherokee containing a volunteer journalist, over its mobile
+phone link, slowed the vehicle down and drove it off the road. This compelled
+Chrysler to recall 1.4m vehicles for a software patch, costing the company over
+$1bn. This finally got the industry’s attention.
 
 [...]
 
 A reasonable worst-case scenario might see a state actor, or perhaps an
 environmental activist group, trying to scare the public by causing thousands of
-simultaneous road traffic accidents. A remote exploit such as that on the
-Chrysler Jeep might already do this. The CAN bus that most modern cars use for
-internal data communications trusts all its nodes. If one of them is subverted
-it might be reprogrammed to transmit continuously; such a ‘blethering idiot’, as
-it’s called, makes the whole bus unusable. If this is the powertrain bus, the
-car becomes almost undriveable; the driver will still have some steering control
-but without power assistance to either steering or brakes. If the car is
-travelling at speed, there’s a serious accident risk. The possibility that a
-malicious actor could hack millions of cars causing tens of thousands of road
-traffic accidents simultaneously is unacceptable, and such vulnerabilities
-therefore have to be patched. But patching is expensive. The average car might
-contain 50–100 electronic control units from 20 different vendors, and the
-integration testing needed to get them to all work together smoothly is
-expensive.
+simultaneous road traffic accidents.
+
+A remote exploit such as that on the Chrysler Jeep might already do this. The
+*CAN bus* that most modern cars use for internal data communications trusts all
+its nodes. If one of them is subverted it might be reprogrammed to transmit
+continuously; such a ‘blethering idiot’, as it’s called, makes the whole bus
+unusable. If this is the powertrain bus, the car becomes almost undriveable; the
+driver will still have some steering control but without power assistance to
+either steering or brakes. If the car is travelling at speed, there’s a serious
+accident risk.
+
+The possibility that a malicious actor could hack millions of cars causing tens
+of thousands of road traffic accidents simultaneously is unacceptable, and such
+vulnerabilities therefore have to be patched. But patching is expensive. The
+average car might contain 50–100 electronic control units from 20 different
+vendors, and the integration testing needed to get them to all work together
+smoothly is expensive.
 
 ** AI/ML
 
@@ -602,9 +615,11 @@ Bayes’ theorem remains the same, but the pedantically cautious stats profs of
 old are being replaced by AI evangelists. Some of the evangelists have exciting
 sales pitches: around artificial general intelligence making robots
 self-conscious, or a bright future in which we upload and become
-immortal. Others see a darker future in which the robots take over.  Old-school
-AI researchers explained carefully to students that it’s all just pattern
-matching and we have no idea at all about the nature of consciousness.
+immortal. Others see a darker future in which the robots take over.
+
+Old-school AI researchers explained carefully to students that it’s all just
+*pattern matching* and we have no idea at all about the nature of
+*consciousness*.
 
 The arrival of spam as the Internet opened up to the public in the mid-1990s
 created a market for spam filters. Hand-crafted rules didn’t scale well enough
@@ -613,17 +628,19 @@ became the majority of email, so spam filtering became a big application.
 
 *** Attacks on ML systems
 
-There are at least four types of attack on a machine-learning system.
+There are at least four types of attack on a *machine-learning system*.
 
 1. You can poison the training data.
 
    If the model continues to train itself in use, then it can sometimes be
-   simple to lead it astray. Tay was a chatbot released by Microsoft in March
-   2016 on Twitter; trolls immediately started teaching it to use racist and
-   offensive language, and it was shut down after only 16 hours.
+   simple to lead it astray.
 
-2. You can attack the model’s integrity in its inference phase, for example by
-   causing it to give the wrong answer.
+   Tay was a chatbot released by Microsoft in March 2016 on Twitter; trolls
+   immediately started teaching it to use racist and offensive language, and it
+   was shut down after only 16 hours.
+
+2. You can attack the *model’s integrity* in its *inference phase*, for example
+   by causing it to give the wrong answer.
 
    In 2013, Christian Szegedy and colleagues found that the deep neural networks
    which had been found to classify images so well in 2012 were vulnerable to
@@ -643,9 +660,9 @@ There are at least four types of attack on a machine-learning system.
    and deep neural networks were not actually harder to evade than linear
    classifiers provided you did it right.
 
-3. Florian Tramèr and colleagues showed that you can attack the model’s
-   confidentiality in the inference phase, by getting it to classify a number of
-   probe inputs and building a successively better approximation.
+3. Florian Tramèr and colleagues showed that you can attack the *model’s
+   confidentiality* in the *inference phase*, by getting it to classify a number
+   of probe inputs and building a successively better approximation.
 
    The result is often a good working imitation of the target model. As in the
    manufacture of real goods, a knock-off is often cheaper; big models can cost
@@ -653,7 +670,7 @@ There are at least four types of attack on a machine-learning system.
    neural networks but also with other classifiers such as logistic regression
    and decision trees.
 
-4. You can deny service, and one way is to choose samples that will cause the
+4. You can *deny service*, and one way is to choose samples that will cause the
    classifier to take as long as possible.
 
    Ilia Shumailov and colleagues found that one can often deny service by posing
@@ -662,10 +679,12 @@ There are at least four types of attack on a machine-learning system.
    in more complex tasks such as natural language processing you can invoke
    exception handling and slow things down hundreds of times.
 
+---
+
 One fundamental problem is that once we start letting machine learning blur the
 boundary between code and data, and systems become data-driven, people are going
-to game them. This brings us to the thorny problem of the interaction of machine
-learning and society.
+to *game* them. This brings us to the thorny problem of the interaction of
+machine learning and society.
 
 ** Privacy
 
@@ -685,22 +704,32 @@ way that preserves both privacy and auditability. Second, because of the huge
 variety of dirty tricks used by political players.
 
 Elections remain one of the tough security engineering problems. While the
-individual problems – such as voter registration, vote casting, vote counting,
-result aggregation and audit – all have reasonably robust solutions, putting
-them together into a robust system is nontrivial. Computer systems for
-registering electors, recording votes and tallying them have a number of
-properties which make them almost a pathological case for robust design,
-implementation, testing and deployment. First, the election date is immovable
-and, ready or not, the software must be deployed then. Second, different regions
-and countries have different requirements and they change over time. Third, in
-the long gap between elections, staff with experience move on and know-how is
-lost.  Fourth, operating systems and other software must be updated to fix known
+individual problems – such as *voter registration*, *vote casting*, *vote
+counting*, *result aggregation* and *audit* – all have reasonably robust
+solutions, putting them together into a robust system is nontrivial.
+
+Computer systems for registering electors, recording votes and tallying them
+have a number of properties which make them almost a pathological case for
+robust design, implementation, testing and deployment.
+
+First, the election date is immovable and, ready or not, the software must be
+deployed then.
+
+Second, different regions and countries have different requirements and they
+change over time.
+
+Third, in the long gap between elections, staff with experience move on and
+know-how is lost.
+
+Fourth, operating systems and other software must be updated to fix known
 vulnerabilities, and updates can also break security in unforeseen ways; a
 Windows update caused the EV2000 voting machine to highlight the last voter’s
 choice to the next voter. Yet most voting machines in use in the USA are no
 longer manufactured, so where are the updates to come from and how will they be
-tested? Finally, elections are high-stress events, which increases the
-likelihood of mistakes.
+tested?
+
+Finally, elections are high-stress events, which increases the likelihood of
+mistakes.
 
 ** Off-topic
 
