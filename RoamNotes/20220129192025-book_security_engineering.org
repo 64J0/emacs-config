@@ -733,4 +733,5 @@ mistakes.
 
 ** Off-topic
 
-Tempest IDS: [[https://www.sidechannel.blog/fortalecendo-sistemas-de-deteccao-de-intrusao-com-machine-learning-parte-1-de-5/][Fortalecendo Sistemas de Detecção de Intrusão com Machine Learning]].
+Tempest IDS - parte 1: [[https://www.sidechannel.blog/fortalecendo-sistemas-de-deteccao-de-intrusao-com-machine-learning-parte-1-de-5/][Fortalecendo Sistemas de Detecção de Intrusão com Machine
+Learning]].
