@@ -33,6 +33,7 @@
 (global-set-key (kbd "M-<left>") 'enlarge-window-horizontally)
 (global-set-key (kbd "M-<right>") 'shrink-window-horizontally)
 (global-set-key (kbd "C-/") 'comment-line)
+(global-set-key [f5] 'find-alternate-file) ;; reload a file
 
 ;; CUSTOM FUNCTIONS
 ;; Elisp functions I use to configure my Emacs.
@@ -196,7 +197,6 @@
   :preface
   (setq org-export-backends '(moderncv md beamer ascii html latex odt org))
   :config
-  (require 'ox-extra)
   ;; Required for PlantUML diagrams
   ;; From: https://plantuml.com/download
   (setq org-plantuml-jar-path
@@ -484,7 +484,6 @@
           "pdflatex -interaction nonstopmode -output-directory %o %f"
           "pdflatex -interaction nonstopmode -output-directory %o %f"))
   (setq org-latex-with-hyperref nil) ;; stop org adding hypersetup{author...} to latex export
-  
   ;; delete unwanted file extensions after latexMK
   (setq org-latex-logfiles-extensions
         (quote ("lof" "lot" "tex~" "aux" "idx" "log" "out" "toc" "nav" "snm" "vrb" "dvi" "fdb_latexmk" "blg" "brf" "fls" "entoc" "ps" "spl" "bbl" "xmpi" "run.xml" "bcf" "acn" "acr" "alg" "glg" "gls" "ist")))
@@ -492,6 +491,11 @@
   (unless (boundp 'org-latex-classes)
     (setq org-latex-classes nil))
   )
+
+(use-package ox-extra
+  :config
+  (ox-extras-activate '(latex-header-blocks ignore-headlines)))
+
 (use-package oc-biblatex)
 
 ;; https://github.com/bdarcus/citar
