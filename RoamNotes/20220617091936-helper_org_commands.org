@@ -203,3 +203,20 @@ tasks have been worked on or closed during a day.
 
 Important: note that both org-clock-out and org-clock-in-last can have a global
 keybinding and do not modify the window disposition.
+
+* Org Spreadsheet
+
+Also related to org-mode tables and calc.
+
+Those are the best references I found in this topic so far:
+
++ https://orgmode.org/manual/The-Spreadsheet.html
++ https://orgmode.org/worg/org-tutorials/org-spreadsheet-intro.html
++ https://orgmode.org/manual/References.html
+
+** Field reference
+
++ ~@ROW$COLUMN~
+
++ ~@>$2~ -> last row in column 2;
++ ~@<$2~ -> first row in column 2;

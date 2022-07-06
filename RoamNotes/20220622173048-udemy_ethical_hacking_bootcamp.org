@@ -173,7 +173,7 @@ guest OS.
 
 * Penetration Test Methodology
 
-** Information gathering/reconnaissance:
+** Information Gathering/Reconnaissance:
 
 Collect useful information about our target.
 
@@ -195,9 +195,82 @@ One can check the ~ipinfo.info~ URL to get more information related to some
 domain.
    
 ** Scanning
-** Gaining access/exploitation
-** Maintaining access (optional)
-** Covering tracks
+
+Scanning is basically the same process as reconnaissance, but searching for more
+details and information. This part of the methology is not available for all the
+targets, so we'll need to scan only pre-defined VMs in available sites where we
+have permission.
+
+In this phase we're interested in *open ports* mainly, so we can start exploring
+services listening in those ports.
+
+Common ports:
+
++ Port 80 & 443 -> HTTP and HTTPS;
++ Port 21 -> FTP;
++ Port 22 -> SSH;
++ Port 53 -> DNS;
++ Port 25 -> SMTP;
+
+*** Finding Vulnerable Machines
+
+The process presented in the course to find vulnerable machines is basically
+googling "top 10 vulnerable machines".
+
+You can use the following command to scan your local network:
+
+#+begin_src bash :tangle no
+  sudo netdiscover
+
+  # discover the router IP
+  netstat -nr
+#+end_src
+
+*** Tool: nmap
+
+*nmap* is the most used tool for network scanning and penetration tests. It is
+used to map the network configuration, discover hosts and devices in a computer
+network.
+
+#+begin_src bash :tangle no
+  # use this command to scan a network
+  nmap <IP/MASK>
+#+end_src
+
+**** TCP Syn scan
+
+In order to make the scanning operation fast, there is a mode of nmap that only
+sends the syn frame and wait for the syn-ack. It does not send the final paket.
+
+This scanning technique does less noise in the target machine, so it's harder to
+detect it.
+
+#+begin_src bash :tangle no
+  # require sudo since we are changing the network default operation
+  sudo nmap -sS <IP>
+#+end_src
+
+**** Manual
+
+#+begin_src bash :tangle no
+  man nmap
+#+end_src
+
+*** Describe Target OS
+
+#+begin_src bash :tangle no
+  sudo nmap -O <IP>
+#+end_src
+
+*** Detecting Version of Service Running on an Open Port
+
+#+begin_src bash :tangle no
+  sudo nmap -sV <IP>
+#+end_src
+
+** Gaining Access/Exploitation
+** Maintaining Access (Optional)
+** Covering Tracks
 
 * Useful Linux Commands
 ** Network commands
