@@ -735,3 +735,74 @@ mistakes.
 
 Tempest IDS - parte 1: [[https://www.sidechannel.blog/fortalecendo-sistemas-de-deteccao-de-intrusao-com-machine-learning-parte-1-de-5/][Fortalecendo Sistemas de Detecção de Intrusão com Machine
 Learning]].
+
+* Chapter 26 - Surveillance or Privacy?
+
+In this chapter we explore the nexus of surveillance, censorship, forensics and
+privacy.
+
+** Surveillance
+
+The 2010s saw a huge increase in technical surveillance, not just by government
+but also by commercial firms monitoring our clickstream and location history in
+order to target ads better.
+
++ In some countries, like the USA, law enforcement and intelligence agencies
+  don't just get information from their own collection systems but use warrants
+  to get it from firms like Google and Facebook too.
++ In others, like China, these firms are banned because they refused to give
+  complete access to the authorities.
++ In others, like Iran and Syria, the police agencies just beat people's
+  passwords out of them, or phish their friends, or hack their phones.
+
+*** ISPs and CSPs
+
++ ISP: Internet Service Provider
++ CSP: Communications Service Providers (firms like Google and Yahoo)
+
+Many countries now have laws requiring ISPs to help (the government), and the
+usual way to do it at a large ISP is to have equipment already installed that
+will send copies of packets of interest (or NetFlow records) to a separate
+classified network. The FBI's system, DCSNet, is very slick - allowing agents
+point-and-click access to traffic and content from participating phone
+companies.
+
++ Information about which companies have been brought onboard is closely held,
+  but smart bad guys use small ISPs.
+
+The smartphone revolution has changed the natural control point from the ISP to
+the CSP.
+
+A modern criminal might get up, check his messages on Gmail or WhatsApp using
+his home wifi, then get on a bus into town and do the same using his 3G or 4G
+data connection, then perhaps use wifi at a Starbucks or a public library …  and
+in none of these cases does a wiretap at the ISP tell anything much beyond the
+fact that a particular service has been used. As the traffic to that
+communications service is encrypted, the police have to serve paperwork on the
+service to get anywhere. This is what led the FBI to set up the Prism system,
+whereby intelligence agencies can get customer data from Google, Yahoo, Apple,
+Microsoft, Facebook and others at the press of a button.  It is also what led
+the UK, in its 2016 Investigatory Powers Act, to grant itself the power to order
+any company to do anything it physically can in order to assist law-enforcement
+of intelligence investigations. More and more countries are passing such laws,
+which put the service providers in conflict with other countries’ laws.
+
+*** The crypto wars
+
+Many countries made lwas in the mid-19th century banning the use of cryptography
+in telegraph messages, and some even forbade the use of languages other than
+those on an approved list. Prussia went as far as to require telegraph orpeators
+to keep copies of the plaintext of all messages.
+
+Sometimes the excuse was law enforcement - preventing people obtaining horse
+race results or stock prices in advance of the 'official' transmissions - but
+the real concern was national security.
+
+[...] the authorities would try to steer applicants towards using weak
+cryptography where possible, and where confronted with a more sophisticated user
+would try to see to it that systems had a 'back door' (known in the trade as a
+red thread) which would give access to traffic. Anyone who tried to seel decent
+crypto domestically could be dissuaded by various means. If they were a large
+company, they would be threatened with loss of government contracts; if a small
+one, they could be strangled with red tape as they tried to get licenses and
+product approvals.
