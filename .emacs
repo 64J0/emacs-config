@@ -410,6 +410,7 @@
   :init
   (setq org-drill-add-random-noise-to-intervals-p t)
   (setq org-drill-scope 'directory) ;; file
+  ; (setq org-drill-save-buffers-after-drill-sessions-p nil)
   )
 
 ;; https://github.com/integral-dw/org-superstar-mode
