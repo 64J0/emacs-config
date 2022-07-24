@@ -806,3 +806,133 @@ crypto domestically could be dissuaded by various means. If they were a large
 company, they would be threatened with loss of government contracts; if a small
 one, they could be strangled with red tape as they tried to get licenses and
 product approvals.
+
+* Chapter 27 - Secure Systems Development
+
+If you're a working engineer, manager or consultant, paid to build or maintain a
+system with some security assurance requirements, you will by now be looking for
+a systematic way to go about it. This brings us to such topics as risk analysis,
+system engineering methodology, and finally, how to manage a team to write
+secure code.
+
+[...] In his classic book "The Mythical Man-Month" he (Fred Brooks) describes
+all the problems they struggled with, and his conclusion is that "thre is no
+silver bullet". There's no magic formula that makes an intrinsically hard job
+easy.
+
+** Risk Management
+
+At the heart of both safety engineering and security engineering lie decisions
+about priorities: how much to *spend* on protection against *what*. Risk
+management must be done within a broader framework of managing all the risks to
+an enterprise or indeed to a nation.
+
+So what actually is a ~risk register~?
+
+1. A common methodology, as used by the governing body of my university, is to
+   draw up a list of things that could go wrong, giving them scores of 1 to 5
+   for *seriousness* and for *probability of occurrence*, and multiplying these
+   together to get a number between 1 and 25.
+2. You then write down the measures you take to mitigate each of these risks,
+   and have an argument in a risk committee about how well each risk is
+   mitigated.
+3. You then rank all the risks in order and assign one senior officer to be the
+   owner of each of them.
+
+*** National Risk Assessments
+
+National Risk Assessments are somewhat similar: you rate each possible bad event
+(pandemic, earthquake, forest fire, terrorist attack, ...) by how many people it
+might kill (millions? thousands? dozens?) and then rate it for probability by
+how many you expect each century.
+
+You do the cost-benefit analysis and turn priorities into policy.
+
+** Lessons from safety-critical systems
+
+~Critical computer systems~ are those in which a certain class of failure is to
+be avoided if at all possible. Depending on the class of failure, they may be:
+
++ safety-critical: flight controls and automatic braking systems;
++ business-critical;
++ security-critical;
++ critical to the environment.
+
+*** Safety engineering methodologies
+
+Safety engineering methodologies, like classical security engineering, tend to
+work systematically from a safety analysis to a specification through to a
+product, and assume you're building safety in from the start rather than trying
+to retrofit it.
+
+The usual procedure is to:
+
+1. Identify hazards and assess risks;
+2. Decide on a strategy to cope with them (avoidance, constraint, redundancy,
+   ...).
+3. Traces the hazards to hardware and software components which are thereby
+   identified as critical;
+4. Identify the operator procedures which are also critical and study the
+   various applied psychology and operations research issues;
+5. Set out the safety funcional requirements which specify what the safety
+   mechanisms must do, and safety integrity requirements that specify the
+   likelihood of a safety function being performed satisfactorily;
+6. Finally, decide on a test plan.
+
+The basic framework is set out in standards such as ISO 61508, a basic safety
+framework for relatively simple programmable electronics such as the control
+systems for chemical plants. This has been extended with more specialised
+standards for particular industries, such as ISO 26262 for road vehicles.
+
+This safety case will provide the evidence, if something does go wrong, that you
+exercised due care.
+
+*** Quantifying risks
+
+The safety-critical systems community has a number of techniques for dealing
+with failure and error rates.
+
++ Component failure rates can be measured statistically;
++ The number of bugs in software can be tracked by techniques described later;
++ There is lot of experience with the probability of operator error at different
+  types of activity. The bible for human-factors engineering in safety-critical
+  systems is James Reason's book "Human Error". Errors are rare in
+  frequently-performed tasks at which the operator has developed some skill, and
+  are more likely when operators are stressed and surprised.
+
+Safety is like security in that it really has to be built in as a system is
+developed, rather than retrofitted. The main difference between the two is in
+the *failure model*. Safety deals with the effects of random failure, while in
+security we assume a hostile opponent who can cause some of the components of
+our system to fail at the least convenient time and in the most damaging way
+possible. People are naturally more risk-averse in the presence of an
+adversary. A safety engineer will certify a critical flight-control system with
+an MTBF of 1 billion hours; a security engineer has to worry whether an
+adversary can force the preconditions for that one-in-a-billion failure and
+crash the plane on demand.
+
+** Security incident and event management
+
+You need an incident response plan for what you'll do when you learn of a
+vulnerability or an attack. In the old days, vendors could take months to
+respond with a new version of the product, and would often do nothing at all but
+issue a warning (or even a denial). Nowadays, breach-notification laws in both
+the USA and Europe oblige firms to disclose attacks where individuals' privacy
+could have been compromised, and people expect that problems will be fixed
+quickly.
+
+Your plan needs four components:
+
++ Monitoring: Make sure you learn of vulnerabilities as soon as you can - and
+  preferably no later than the bad guys (or the press) do. This means building a
+  threat intelligence team.
++ Repair: Preparing an orchestrated response to anything from a vulnerability
+  report to a major breach.
++ Distribution: You need to be able to deploy the patch rapidly. If all the
+  software runs on your own servers, then it may be easy, but if it involves
+  patching code in millions of consumer devices, then advance planning is
+  needed.
++ Reassurance: Educate your CEO and main board directors in advance about the
+  need to deal quickly and honestly with a security breach in order to keep
+  confidence and limit damage, by giving them compelling examples of firms that
+  did well and others that did badly.
