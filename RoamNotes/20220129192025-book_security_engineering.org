@@ -789,7 +789,7 @@ which put the service providers in conflict with other countries’ laws.
 
 *** The crypto wars
 
-Many countries made lwas in the mid-19th century banning the use of cryptography
+Many countries made laws in the mid-19th century banning the use of cryptography
 in telegraph messages, and some even forbade the use of languages other than
 those on an approved list. Prussia went as far as to require telegraph orpeators
 to keep copies of the plaintext of all messages.
@@ -801,7 +801,7 @@ the real concern was national security.
 [...] the authorities would try to steer applicants towards using weak
 cryptography where possible, and where confronted with a more sophisticated user
 would try to see to it that systems had a 'back door' (known in the trade as a
-red thread) which would give access to traffic. Anyone who tried to seel decent
+red thread) which would give access to traffic. Anyone who tried to sell decent
 crypto domestically could be dissuaded by various means. If they were a large
 company, they would be threatened with loss of government contracts; if a small
 one, they could be strangled with red tape as they tried to get licenses and
@@ -816,7 +816,7 @@ system engineering methodology, and finally, how to manage a team to write
 secure code.
 
 [...] In his classic book "The Mythical Man-Month" he (Fred Brooks) describes
-all the problems they struggled with, and his conclusion is that "thre is no
+all the problems they struggled with, and his conclusion is that "there is no
 silver bullet". There's no magic formula that makes an intrinsically hard job
 easy.
 
@@ -854,7 +854,7 @@ You do the cost-benefit analysis and turn priorities into policy.
 be avoided if at all possible. Depending on the class of failure, they may be:
 
 + safety-critical: flight controls and automatic braking systems;
-+ business-critical;
++ business-critical: banking transactions;
 + security-critical;
 + critical to the environment.
 
@@ -896,7 +896,7 @@ with failure and error rates.
 + The number of bugs in software can be tracked by techniques described later;
 + There is lot of experience with the probability of operator error at different
   types of activity. The bible for human-factors engineering in safety-critical
-  systems is James Reason's book "Human Error". Errors are rare in
+  systems is ~James Reason's book "Human Error"~. Errors are rare in
   frequently-performed tasks at which the operator has developed some skill, and
   are more likely when operators are stressed and surprised.
 
@@ -906,10 +906,12 @@ the *failure model*. Safety deals with the effects of random failure, while in
 security we assume a hostile opponent who can cause some of the components of
 our system to fail at the least convenient time and in the most damaging way
 possible. People are naturally more risk-averse in the presence of an
-adversary. A safety engineer will certify a critical flight-control system with
-an MTBF of 1 billion hours; a security engineer has to worry whether an
-adversary can force the preconditions for that one-in-a-billion failure and
-crash the plane on demand.
+adversary.
+
+A safety engineer will certify a critical flight-control system with an MTBF of
+1 billion hours; a security engineer has to worry whether an adversary can force
+the preconditions for that one-in-a-billion failure and crash the plane on
+demand.
 
 ** Security incident and event management
 
@@ -936,3 +938,170 @@ Your plan needs four components:
   need to deal quickly and honestly with a security breach in order to keep
   confidence and limit damage, by giving them compelling examples of firms that
   did well and others that did badly.
+
+* Chapter 28 - Assurance and Sustainability
+
+This chapter focuses in some of the hardest parts of the security engineering
+job.
+
+First, there's the question of ~assurance~ - whether the system will work, and
+how you're sure of this.
+
+Second, there's its cousing ~compliance~ - how you satisfy other people about
+this.
+
+Third, there's ~sustainability~ - how long it will keep on working.
+
+Many practical questions are linked to these.
+
++ How do you decide to ship the product?
++ How do you sell the security and safety case to your insurers?
++ How long are you going to have to maintain it, and at what cost?
+
+** Free and Open-Source Software
+
+Eric Raymond's influential analysis of the economics of open source software
+(author of "The Cathedral and the Bazaar") suggests five criteria for whether a
+product would be likely to benefit from an open source approach:
+
+1. Where it is based on common engineering knowledge rather than trade secrets;
+2. Where is is sensitive to failure;
+3. Where it needs peer review for verification;
+4. Where it is sufficiently business-critical that different users will
+   cooperate in finding and removing bugs;
+5. Where its economics include strong network effects.
+
+** Process Assurance
+
+In recent years less emphasis has come to be placed on assurance measures
+focused on the product, such as testing, and more on process measures such as
+who developed it and how. As anyone who’s done system development knows, some
+programmers produce code with an order of magnitude fewer bugs than
+others. There are also some organizations that produce much better code than
+others. Capable firms try to hire good people, while good people prefer to work
+for firms that value them and that hire kindred spirits.
+
+** The Entanglement of Safety and Security
+
+Governments regulate safety for many types of device from cars to railway
+signals and from medical devices to toys.
+
+As software finds its way into everything and everything gets connected to cloud
+services, the nature of safety regulation is changing, from simple pre-market
+safety testing to maintaining security and safety over a service lifetime of
+years during which software will be patched regularly.
+
+The EU is the leading safety regulator worldwide for dozens of industries, as
+it's the largest market and cares more about safety than the US government
+does. Officials wanted to know how this ecosystem would have to adapt to the
+"Internet of Things" where vulnerabilities (whether old or new) may be remotely
+exploited, and at scale. Many regulators who previously thought only in terms of
+safety will have to start thinking of security as well.
+
+For deaths, at least, you'd think we have decent statistics, but priorities are
+modulated by public concern about different types of harm. [...] the public are
+much more alarmed at a hundred people dying all at once in a plane crash than a
+thousand people dying one at a time in medical device accidents. However, when
+hackers showed they could go in over wifi and change the dose delivered by
+several models of Hospira Symbiq infusion pump to a potentially fatal level, the
+FDA issued a safety advisory telling hospitals to stop using it.
+
+*** The Electronic Safety and Security of Cars
+
+Autonomous cars:
+
++ Could terrorists hack cars and drive them into crowds?
++ Could they get the same result by projecting deceptive images on a building?
++ And if kids could use their phone to hail a car home from school, could
+  someone hack it to abduct them?
++ And what about the ethics - if a self-driving car was about to crash and could
+  choose between killing its one occupant or two pedestrians, what would it do?
+
+*** Modernizing Safety and Security Regulation
+
+The security engineer's task is to enable even vulnerable users to enjoy
+reasonable protection agains a capable motivated opponent.
+
+How to improve our current regulations to cope with the software environment
+that is taking shape in our times?
+
++ Extending product liability law to services, and requiring the reporting of
+  breaches and vulnerabilities not just to security agencies and privacy
+  regulators but to other stakeholders too.
+
+  Eventually we'll need laws regulating the use of car data in investigating
+  accidents, particularly if there are disputes over liability when car
+  autopilots cause fatal crashes.
+
+  At present, the vendors hold the data close and it takes vigorous litigation
+  to get hold of it. Without data we won't be able to build a learning system
+  and improve overall.
++ Vendors should have to self-certify that products can be patched if need be.
+
+** Sustainability
+
+The problem our report identified as the most serious in the long term was that
+products are becoming much less static. As security and safety vulnerabilities
+are patches, regulators will have to deal with a moving target. Automobile
+mechanisms will need security testing as well as safety testing, and also means
+of dealing with updates.
+
++ Should we allow an old car that does not support updates to run in the same
+  road that other cars are running?
+
+In this topic we have another aspect to take into consideration. Planned
+obsolescence was already a hot political topic as green parties increased their
+vote share across Europe. Lightbulbs used to last longer; the bicentennial light
+has been burning at Livermore since 1901. In 1924 a cartel of GE, Osram and
+Philips agreed to reduce average bulb lifetimes from 2500h to 1000h, and this
+behaviour has been followed by many industries since.
+
+*** The Sales of Goods Directive
+
+From 2021 on, firms selling goods "with digital elements" must maintain those
+elements for a reasonable service life. The wording is designed to cover
+software in the goods themselves, online services to which the goods are
+connected, and apps that may communicate with the goods either via the services
+or directly. They must be maintained for a minimum of *two* years after sale,
+and for a longer period if that is a reasonable expectation of the customer.
+
+Existing regulations require vendors of durables such as cars and washing
+machines to keep supplying spares for at least ten years.
+
+** Summary
+
+In the old days, the big question in a security engineering project was how you
+know when you’re done. All sorts of evaluation and assurance methodologies were
+devised to help. Now the world is different. We’re never done, and nobody who
+says they are done should be trusted.
+
+* Chapter 29 - Beyond "Computer Says No"
+
+So, what next? By way of a conclusion to this book, I'd like to highlight three
+things.
+
+1. First, complexity. Computer science has spent seventy years devising an
+   impressive array of tools to manage technical complexity, but we're now
+   coming up hard against social complexity. We can program cars to drive
+   themselves fairly well on the freeway or in the desert, but we can't cope
+   with cluttered city streets with all those unpredictable people. We can
+   encrypt messages or strip people's names from databases but we can't stop
+   social structure showing through. And bullying people has its limits;
+   "computer says no" is a fast way to lose customers. It's not enough to study
+   how a computer system cam interact with a human; we need to figure out how it
+   can work with many interacting humans.
+2. Second, sustainability. As we put software in everything and connect
+   everything online, we have to patch the software and maintain the
+   servers. With durable goods like cars, pacemakers and electricity
+   substations, we may have to maintain software for twenty or even forty
+   years. We have no real idea how to do that, and if we don't crack it then our
+   automation will be bad news for out planet's future. So-called "smart"
+   devices are often just things that have to be thrown away sooner, when
+   "computer says no".
+3. Third, politics. Security is not a scalar, but a relationship. It's not some
+   kind of magic fairy dust you sprinkle on systems, but about how these systems
+   exercise power. Who loses and who gains when "computer says no"? Does the
+   social-network user get privacy, or does the advertiser get access? How is it
+   used to turn money into political power? And if people want public goods such
+   as a dependable Internet or a low rate of cybercrime, how can these be
+   provided in a global world?
