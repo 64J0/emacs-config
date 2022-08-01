@@ -1,0 +1,60 @@
+#+TITLE: My Personal .emacs Config
+#+AUTHOR: Vinícius Gajo Marques Oliveira
+#+DATE: [2022-08-01 seg]
+
+According to the official docs, ~Emacs~ is an extensible, customizable,
+free/libre text editor - and more. *Much more!*
+
+At its core is an interpreter for *Emacs Lisp*, a dialect of the Lisp
+programming language with extensions to support text editing.
+
+Reference: [[https://www.gnu.org/software/emacs/][Emacs website]].
+
+** Install Using ~apt~
+
+~apt~ is the package manager available for Ubuntu Linux (Debian based OS). To
+install Emacs using this package manager is pretty straigh forward:
+
+#+BEGIN_SRC bash :tangle no
+  sudo apt install emacs
+#+END_SRC
+
+** Install Using Terminal
+
+#+BEGIN_SRC bash :tangle no
+  # download emacs version 27.2
+  export EMACS_VERSION="27.2"
+  wget https://ftp.gnu.org/pub/gnu/emacs/emacs-${EMACS_VERSION}.tar.gz
+
+  # extract the content
+  tar xvzf emacs-${EMACS_VERSION}.tar.gz
+  cd emacs-${EMACS_VERSION}/
+  ./configure
+  make
+  sudo make install
+#+END_SRC
+
+** Learning Elisp - Emacs Lisp
+
+Since Emacs could be configured using Elisp it is totally useful to learn this
+programming language in order to create new functionalities or even get more
+familiar with this tool.
+
+In order to learn this I'm currently using this reference: [[https://www.gnu.org/software/emacs/manual/eintr.html][(Book) Introduction
+to programming in Emacs Lisp]].
+
+After finishing this first book, I plan to read [[https://github.com/norvig/paip-lisp][Paradigms of Artificial
+Intelligence Programming: Case Studies in Common Lisp]].
+
+** Cool Emacs Links
+
++ [[https://orgmode.org/worg/org-contrib/org-drill.html#:~:text=Running%20the%20drill%20session][org-drill]] reference for running the drill session. This part of the docs is
+  very good since it explains what each number means and how to run the session
+  passing the scope to read our drills.
+  - Before publishing an org-drill deck we should use ~org-drill-strip-all-data~
+    to remove personal scheduling data.
+  - This is currently my favorite tool along with ~org-mode~.
++ [[https://lucidmanager.org/productivity/emacs-bibtex-mode/][Emacs and BibTeX]]
++ [[https://leanpub.com/lisphackers/read][Lisp Hackers (book)]]
++ [[https://www.aidanscannell.com/post/org-mode-resume/][Creating a CV/Resume in Org-Mode using LaTeX Templates]]
++ [[https://github.com/MatthewZMD/.emacs.d][MatthewZMD/.emacs.d]]
