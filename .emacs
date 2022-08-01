@@ -19,7 +19,7 @@
 (setq system-time-locale "pt_BR.UTF-8") ;; set encode
 (setq initial-buffer-choice "~/org/activities.org") ;; initial file
 ;; https://stackoverflow.com/questions/12031830/what-are-file-and-file-and-how-can-i-get-rid-of-them
-(setq make-backup-files nil) ;; avoid ~ files
+(setq make-backup-files nil) ;; avoid "~" files
 (set-face-attribute 'default nil
 		    :height 140
 		    :family "DejaVu Sans Mono") ;; font size and family
@@ -40,7 +40,7 @@
 (defun concat-deps-path (filename)
   "This function helps to avoid repeating the full path for the
    deps folder."
-  (concat "~/Desktop/codes/emacs-config/deps/" filename))
+  (concat "~/org/deps/" filename))
 
 ;; CUSTOM VARIABLES
 (setq gajo-org-srs-path "~/org/srs/deck-refile.org")
@@ -375,7 +375,7 @@
   :init
   (setq org-roam-v2-ack t)
   :custom
-  (org-roam-directory "~/Desktop/codes/emacs-config/RoamNotes")
+  (org-roam-directory "~/org/RoamNotes")
   (org-roam-complete-everywhere t)
   (org-roam-capture-templates
    '(("d" "default" plain
@@ -505,7 +505,7 @@
          :map minibuffer-local-map
          ("M-b" . citar-insert-preset))
   :custom
-  (citar-bibliography '("~/Desktop/codes/emacs-config/bib/references.bib")))
+  (citar-bibliography '("~/org/bib/references.bib")))
 
 ;; ======================================================
 ;; F# CONFIG
