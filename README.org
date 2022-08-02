@@ -56,5 +56,12 @@ Intelligence Programming: Case Studies in Common Lisp]].
   - This is currently my favorite tool along with ~org-mode~.
 + [[https://lucidmanager.org/productivity/emacs-bibtex-mode/][Emacs and BibTeX]]
 + [[https://leanpub.com/lisphackers/read][Lisp Hackers (book)]]
-+ [[https://www.aidanscannell.com/post/org-mode-resume/][Creating a CV/Resume in Org-Mode using LaTeX Templates]]
 + [[https://github.com/MatthewZMD/.emacs.d][MatthewZMD/.emacs.d]]
+
+*** Articles
+
++ [[https://www.aidanscannell.com/post/org-mode-resume/][Creating a CV/Resume in Org-Mode using LaTeX Templates]]
++ [[https://www.fugue.co/blog/2015-11-11-guide-to-emacs.html][Fugue - A CEO's guite to Emacs]]
++ [[https://www.fugue.co/blog/2018-08-09-two-years-with-emacs-as-a-cto.html][Fugue - Two Years With Emacs as a CEO (and now CTO)]]
++ [[https://a-nickels-worth.blogspot.com/2007/11/effective-emacs.html][A Nickel's Worth - Effective .emacs]]
++ [[https://coredumped.dev/2022/05/19/a-vision-of-a-multi-threaded-emacs/][Core Dumped - A vision of multi-threaded Emacs]]

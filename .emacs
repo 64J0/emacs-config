@@ -1,13 +1,18 @@
-;; https://a-nickels-worth.blogspot.com/2007/11/effective-emacs.html
-;; http://sites.google.com/site/steveyegge2/effective-emacs
-;; https://github.com/ebellani/Emacs.d/blob/master/init.el
+;; -*- lexical-binding: t; -*-
+
+;; Until Emacs 24.1 (June 2012), Elisp only had dynamically scoped variables, a
+;; feature, mostly by accident, common to old lisp dialects. While dynamic scope
+;; has some selective uses, it’s widely regarded as a mistake for local
+;; variables, and virtually no other languages have adopted it.
+
 (require 'cl)
 (require 'cl-lib) ;; cl -> common lisp
 
+;; =======================================================================
 ;; INITIAL CONFIG
 ;; Just used to set some default values to make Emacs look and behave the
 ;; way I want.
-(setq user-full-name "Vinícius Gajo Marques Oliveira")
+(setq user-full-name "Vinícius Gajo")
 (global-linum-mode) ;; show the line number
 (tool-bar-mode -1) ;; remove tool bar
 (menu-bar-mode -1) ;; remove menu bar
@@ -17,7 +22,7 @@
 (setq column-number-mode t) ;; show coordinates (y, x)
 (setq delete-selection-mode t) ;; delete text when selected and start typing
 (setq system-time-locale "pt_BR.UTF-8") ;; set encode
-(setq initial-buffer-choice "~/org/activities.org") ;; initial file
+(setq initial-buffer-choice "~/org/activities.org") ;; initial file 
 ;; https://stackoverflow.com/questions/12031830/what-are-file-and-file-and-how-can-i-get-rid-of-them
 (setq make-backup-files nil) ;; avoid "~" files
 (set-face-attribute 'default nil
@@ -26,6 +31,7 @@
 (setq-default indent-tabs-mode nil)
 (setq-default fill-column 80)
 
+;; =======================================================================
 ;; GLOBAL KEY BINDINGS
 (global-set-key (kbd "C-<tab>") 'other-window)
 (global-set-key (kbd "M-<down>") 'enlarge-window)
@@ -35,6 +41,7 @@
 (global-set-key (kbd "C-/") 'comment-line)
 (global-set-key [f5] 'find-alternate-file) ;; reload a file
 
+;; =======================================================================
 ;; CUSTOM FUNCTIONS
 ;; Elisp functions I use to configure my Emacs.
 (defun concat-deps-path (filename)
@@ -42,6 +49,7 @@
    deps folder."
   (concat "~/org/deps/" filename))
 
+;; =======================================================================
 ;; CUSTOM VARIABLES
 (setq gajo-org-srs-path "~/org/srs/deck-refile.org")
 (setq gajo-org-notes-path "~/org/notes.org")
@@ -53,11 +61,14 @@
 (setq gajo-org-habit-path "~/org/habit.org")
 (setq gajo-org-meetings-path "~/org/meetings.org")
 
+;; =======================================================================
 ;; PACKAGE REPOSITORIES
 ;; when error: M-x package-refresh-contents
 (unless (package-installed-p 'use-package)
+  (package-refresh-contents)
   (package-install 'use-package))
-(require 'use-package)
+(eval-when-compile
+  (require 'use-package))
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives
 	     '("elpagnu" . "https://elpa.gnu.org/packages/"))
@@ -66,15 +77,6 @@
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
-
-;; automatically download and load other packages from the emacs
-;; package databases when it detects they're missing.
-;; https://github.com/jwiegley/use-package
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(eval-when-compile
-  (require 'use-package))
 
 (use-package dracula-theme
   :ensure t
@@ -86,7 +88,8 @@
 ;; https://github.com/justbur/emacs-which-key
 (use-package which-key
   :ensure t
-  :config (which-key-mode))
+  :config
+  (which-key-mode))
 
 ;; Framework for incremental completions and narrowing selections.
 ;; https://emacs-helm.github.io/helm/
@@ -500,12 +503,12 @@
 (use-package oc-biblatex)
 
 ;; https://github.com/bdarcus/citar
-(use-package citar
-  :bind (("C-c b" . citar-insert-citation)
-         :map minibuffer-local-map
-         ("M-b" . citar-insert-preset))
-  :custom
-  (citar-bibliography '("~/org/bib/references.bib")))
+;; (use-package citar
+;;   :bind (("C-c b" . citar-insert-citation)
+;;          :map minibuffer-local-map
+;;          ("M-b" . citar-insert-preset))
+;;   :custom
+;;   (citar-bibliography '("~/org/bib/references.bib")))
 
 ;; ======================================================
 ;; F# CONFIG
@@ -754,7 +757,12 @@
 (use-package undo-tree
   :ensure t
   :init
-  (undo-tree-mode))
+  (global-undo-tree-mode)
+  :custom
+  (undo-tree-virtualizer-diff t)
+  (undo-tree-history-directory-alist `(("." . ,(expand-file-name ".backup" user-emacs-directory))))
+  (undo-tree-visualizer-timestamps t))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
