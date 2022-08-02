@@ -61,7 +61,9 @@ just store the non-exhaustive links mentioned by Ramin in his article.
 + ~C-h r~ - *read manual*, jumps straight to the Emacs manual table of contents.
 + ~q~ - *quit*, hides the manual and goes back to where you were before reading
   the manual.
-
++ ~C-h v~ - display documentation of variable.
++ ~C-h f~ - display documentation of function.
+  
 Those are the points I think are worth knowing, at least in the beginning.
 
 ** Learning Elisp - Emacs Lisp
@@ -88,7 +90,9 @@ Intelligence Programming: Case Studies in Common Lisp]].
 + [[https://leanpub.com/lisphackers/read][Lisp Hackers (book)]]
 + [[https://github.com/MatthewZMD/.emacs.d][MatthewZMD/.emacs.d]]
 + [[https://github.com/redguardtoo/mastering-emacs-in-one-year-guide/blob/master/guide-en.org][redguardtoo/mastering-emacs-in-one-year-guide]]
-
++ [[https://planet.emacslife.com/][Planet Emacslife]]
++ [[https://emacs-lsp.github.io/lsp-mode/][LSP Mode - Language Server Protocol support for Emacs]]
+  
 *** Articles
 
 + [[https://www.aidanscannell.com/post/org-mode-resume/][Creating a CV/Resume in Org-Mode using LaTeX Templates]]
@@ -97,3 +101,4 @@ Intelligence Programming: Case Studies in Common Lisp]].
 + [[https://a-nickels-worth.blogspot.com/2007/11/effective-emacs.html][A Nickel's Worth - Effective .emacs]]
 + [[https://coredumped.dev/2022/05/19/a-vision-of-a-multi-threaded-emacs/][Core Dumped - A vision of multi-threaded Emacs]]
 + [[http://tilde.town/~ramin_hal9001/emacs-for-professionals/index.html][Emacs for Professionals]]
++ [[http://steve-yegge.blogspot.com/2008/01/emergency-elisp.html][Stevey's Blog Rants - Emergency Elisp]]
