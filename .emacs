@@ -78,11 +78,15 @@
 	     '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
+;; =======================================================================
+;; EMACS THEME
 (use-package dracula-theme
   :ensure t
   :init
   (load-theme 'dracula t))
 
+;; =======================================================================
+;; GENERAL USAGE
 ;; Displays the key bindings following your currently entered incomplete
 ;; command (a prefix) in a popup.
 ;; https://github.com/justbur/emacs-which-key
@@ -113,11 +117,11 @@
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 ;; https://github.com/magnars/multiple-cursors.el
-(use-package multiple-cursors
-   :ensure t
-   :config
-   (global-set-key (kbd "C-d") 'mc/mark-next-like-this-word)
-   (global-set-key (kbd "C-c m c") 'mc/edit-lines))
+;; (use-package multiple-cursors
+;;    :ensure t
+;;    :config
+;;    (global-set-key (kbd "C-d") 'mc/mark-next-like-this-word)
+;;    (global-set-key (kbd "C-c m c") 'mc/edit-lines))
 
 ;; Show directory tree on the lateral
 ;; https://github.com/jaypei/emacs-neotree
@@ -148,24 +152,26 @@
 ;; http://company-mode.github.io/
 (use-package company
   :ensure t
-  :commands (company-mode company-indent-or-complete-common)
+  :commands
+  (company-mode company-indent-or-complete-common)
   :config
   (setf company-idle-delay 1
         company-selection-wrap-around t)
-  :hook (after-init . global-company-mode))
+  :hook
+  (after-init . global-company-mode))
 
 ;; https://github.com/alhassy/emacs.d#quickly-pop-up-a-terminal-run-a-command-close-it-and-zsh
-(use-package shell-pop
-  :ensure t
-  :custom
-    ;; This binding toggles popping up a shell, or moving cursour to the shell pop-up.
-    (shell-pop-universal-key "C-t")
-    ;; Percentage for shell-buffer window size.
-    (shell-pop-window-size 30)
-    ;; Position of the popped buffer: top, bottom, left, right, full.
-    (shell-pop-window-position "bottom")
-    ;; Please use an awesome shell.
-    (shell-pop-term-shell "/bin/bash"))
+;; (use-package shell-pop
+;;   :ensure t
+;;   :custom
+;;     ;; This binding toggles popping up a shell, or moving cursour to the shell pop-up.
+;;     (shell-pop-universal-key "C-t")
+;;     ;; Percentage for shell-buffer window size.
+;;     (shell-pop-window-size 30)
+;;     ;; Position of the popped buffer: top, bottom, left, right, full.
+;;     (shell-pop-window-position "bottom")
+;;     ;; Please use an awesome shell.
+;;     (shell-pop-term-shell "/bin/bash"))
 
 ;; Displays help text (e.g. for buttons and menu items that you put the mouse on)
 ;; in a pop-up window.
@@ -413,9 +419,9 @@
   :init
   (setq org-drill-add-random-noise-to-intervals-p t)
   (setq org-drill-scope 'directory) ;; file
-  ; (setq org-drill-save-buffers-after-drill-sessions-p nil)
   )
 
+;; Prettify headings and plain lists in Org mode.
 ;; https://github.com/integral-dw/org-superstar-mode
 (use-package org-superstar
   :ensure t
@@ -423,9 +429,42 @@
   (add-hook
    'org-mode-hook (lambda () (org-superstar-mode 1))))
 
+;; This repository contains add-ons to Org.
 ;; https://git.sr.ht/~bzg/org-contrib
 (use-package org-contrib
   :ensure t)
+
+;; ======================================================
+;; Latex + Beamer config
+;; Beamer is a LaTeX package for writing presentations.
+;; https://orgmode.org/worg/exporters/beamer/tutorial.html
+;; sudo apt-get install -f texlive-latex-extra
+(use-package ox-beamer)
+;; https://www.aidanscannell.com/post/org-mode-resume/
+(use-package ox-latex
+  :init
+  ;; code here will run immediately
+  :config
+  ;; code here will run after the package is loaded
+  (setq org-latex-pdf-process
+        '("pdflatex -interaction nonstopmode -output-directory %o %f"
+          "bibtex %b"
+          "pdflatex -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -interaction nonstopmode -output-directory %o %f"))
+  (setq org-latex-with-hyperref nil) ;; stop org adding hypersetup{author...} to latex export
+  ;; delete unwanted file extensions after latexMK
+  (setq org-latex-logfiles-extensions
+        (quote ("lof" "lot" "tex~" "aux" "idx" "log" "out" "toc" "nav" "snm" "vrb" "dvi" "fdb_latexmk" "blg" "brf" "fls" "entoc" "ps" "spl" "bbl" "xmpi" "run.xml" "bcf" "acn" "acr" "alg" "glg" "gls" "ist")))
+  
+  (unless (boundp 'org-latex-classes)
+    (setq org-latex-classes nil))
+  )
+
+(use-package ox-extra
+  :config
+  (ox-extras-activate '(latex-header-blocks ignore-headlines)))
+
+(use-package oc-biblatex)
 
 ;; https://github.com/PillFall/languagetool.el
 ;; https://dev.languagetool.org/java-api
@@ -461,59 +500,38 @@
 
 ;; Replacement of DocView for PDF files.
 ;; https://github.com/politza/pdf-tools
-(use-package pdf-tools
+;; (use-package pdf-tools
+;;   :ensure t
+;;   :config (pdf-tools-install))
+
+;; ======================================================
+;; GENERAL PROGRAMMING
+;; Language Server Protocol Support for Emacs
+;; Aims to provide IDE-like experience by providing optional integration
+;; with the most popular Emacs packages like comapny, flycheck and
+;; projectile.
+;; https://github.com/emacs-lsp/lsp-mode
+;; https://emacs-lsp.github.io/lsp-mode/
+;;
+;; You need first, `lsp-mode', that is Emacs client for an LSP server. Then
+;; you need to install the specific LSP server for your language. Finally,
+;; call `M-x lsp' or use the corresponding major mode hook to autostart
+;; the server.
+(use-package lsp-mode
   :ensure t
-  :config (pdf-tools-install))
-
-;; Is a complete text-based user interface to Git.
-;; https://magit.vc/
-(use-package magit
-  :ensure t)
-
-;; ======================================================
-;; Latex + Beamer config
-;; Beamer is a LaTeX package for writing presentations.
-;; https://orgmode.org/worg/exporters/beamer/tutorial.html
-;; sudo apt-get install -f texlive-latex-extra
-(use-package ox-beamer)
-;; https://www.aidanscannell.com/post/org-mode-resume/
-(use-package ox-latex
+  :hook ((fsharp-mode . lsp-lens-mode)
+         (terraform-mode . lsp-deferred)) ;; sudo apt install terraform-ls
   :init
-  ;; code here will run immediately
+  ;; F# ---------------------------------
+  (add-hook 'before-save-hook #'(lambda () (when (eq major-mode 'fsharp-mode)
+                                             (lsp-format-buffer))))
+  ;; Terraform --------------------------
+  (setq lsp-terraform-ls-enable-show-reference t)
+  (setq lsp-semantic-tokens-enable t)
+  (setq lsp-semantic-tokens-honor-refresh-requests t)
   :config
-  ;; code here will run after the package is loaded
-  (setq org-latex-pdf-process
-        '("pdflatex -interaction nonstopmode -output-directory %o %f"
-          "bibtex %b"
-          "pdflatex -interaction nonstopmode -output-directory %o %f"
-          "pdflatex -interaction nonstopmode -output-directory %o %f"))
-  (setq org-latex-with-hyperref nil) ;; stop org adding hypersetup{author...} to latex export
-  ;; delete unwanted file extensions after latexMK
-  (setq org-latex-logfiles-extensions
-        (quote ("lof" "lot" "tex~" "aux" "idx" "log" "out" "toc" "nav" "snm" "vrb" "dvi" "fdb_latexmk" "blg" "brf" "fls" "entoc" "ps" "spl" "bbl" "xmpi" "run.xml" "bcf" "acn" "acr" "alg" "glg" "gls" "ist")))
-  
-  (unless (boundp 'org-latex-classes)
-    (setq org-latex-classes nil))
-  )
-
-(use-package ox-extra
-  :config
-  (ox-extras-activate '(latex-header-blocks ignore-headlines)))
-
-(use-package oc-biblatex)
-
-;; https://github.com/bdarcus/citar
-;; (use-package citar
-;;   :bind (("C-c b" . citar-insert-citation)
-;;          :map minibuffer-local-map
-;;          ("M-b" . citar-insert-preset))
-;;   :custom
-;;   (citar-bibliography '("~/org/bib/references.bib")))
-
-;; ======================================================
-;; F# CONFIG
-;; Got this configuration from Magueta's config
-;; https://github.com/MMagueta/MageMacs/blob/macintosh/init.el
+  (use-package lsp-treemacs
+    :ensure t))
 
 ;; Puts angry red squiggles on the screen when I do something stupid.
 ;; https://www.flycheck.org/en/latest/
@@ -531,68 +549,6 @@
   :bind (:map projectile-mode-map
               ("s-p" . projectile-command-map)
               ("C-c p" . projectile-command-map)))
-
-;; Language Server Protocol Support for Emacs
-;; Aims to provide IDE-like experience by providing optional integration
-;; with the most popular Emacs packages like comapny, flycheck and
-;; projectile.
-;; https://github.com/emacs-lsp/lsp-mode
-   ;; :bind
-   ;; (("C-c C-,"     . 'fsharp-shift-region-left)
-   ;;  ("C-c C-."     . 'fsharp-shift-region-right)
-   ;;  ("C-o"         . 'fsharp-newline-and-indent)
-   ;;  ("C-c C-i"     . 'run-fsharp)
-   ;;  ("C-c C-a"     . 'fsharp-find-alternate-file)
-   ;;  ("M-h"         . 'fsharp-mark-phrase))
-(use-package lsp-mode
-  :ensure t
-  :hook ((fsharp-mode . lsp-lens-mode)
-         (terraform-mode . lsp-deferred)) ;; sudo apt install terraform-ls
-  :init
-  ;; F# ---------------------------------
-  (add-hook 'before-save-hook #'(lambda () (when (eq major-mode 'fsharp-mode)
-                                             (lsp-format-buffer))))
-  ;; Terraform --------------------------
-  (setq lsp-terraform-ls-enable-show-reference t)
-  (setq lsp-semantic-tokens-enable t)
-  (setq lsp-semantic-tokens-honor-refresh-requests t)
-  :config
-  (use-package lsp-treemacs
-    :ensure t))
-
-;; Emacs client/library for Debug Adapter Protocol is a wire protocol for
-;; communication between client and Debug Server. It's similar to the LSP
-;; but provides integration with debug server.
-;; https://github.com/emacs-lsp/dap-mode
-;; (use-package dap-mode
-;;   :ensure t
-;;   :after lsp-mode
-;;   :config
-;;   ;; Enabling only some features
-;;   (setq dap-auto-configure-features '(sessions locals controls tooltip))
-;;   (dap-mode 1)
-;;   ;; The modes below are optional
-;;   (dap-ui-mode 1)
-;;   ;; enables mouse hover support
-;;   (dap-tooltip-mode 1)
-;;   ;; use tooltips for mouse hover
-;;   ;; if it is not enabled `dap-mode' will use the minibuffer.
-;;   (tooltip-mode 1)
-;;   ;; displays floating panel with debug buttons
-;;   ;; requies emacs 26+
-;;   (dap-ui-controls-mode 1)
-;;   (add-hook 'dap-stopped-hook
-;;             (lambda (arg) (call-interactively #'dap-hydra)))
-;;   :hook
-;;   (lsp-mode . dap-mode)
-;;   (lsp-mode . dap-ui-mode))
-
-;; (defun magueta/lsp-ui-doc-toggle ()
-;;   "For some reason it is required to do at least once a call to lsp-ui-doc-show in order for this to work."
-;;   (interactive)
-;;   (let ((frame (lsp-ui-doc--get-frame)))
-;;     (cond ((frame-visible-p frame) (lsp-ui-doc-hide))
-;; 	  (t (lsp-ui-doc-show)))))
 
 ;; This package contains all the higher level UI modules of lsp-mode,
 ;; like flycheck support and code lenses.
@@ -616,6 +572,16 @@
    (company-quickhelp-mode nil)
    :hook
    ((emacs-lisp-mode . (lambda () (company-mode)))))
+
+;; Is a complete text-based user interface to Git.
+;; https://magit.vc/
+(use-package magit
+  :ensure t)
+
+;; ======================================================
+;; F# CONFIG
+;; Got this configuration from Magueta's config
+;; https://github.com/MMagueta/MageMacs/blob/macintosh/init.el
 
 ;; Provides support for the F# language in Emacs
 ;; https://github.com/fsharp/emacs-fsharp-mode
@@ -642,13 +608,6 @@
   :config
   (eshell-syntax-highlighting-global-mode +1))
 
-;; This package gives you a set of key combinations to perform dotnet
-;; CLI tasks within your .NET Core projects
-;; https://github.com/julienXX/dotnet.el
-;; (use-package dotnet
-;;   :ensure t
-;;   :hook (fsharp-mode . dotnet-mode))
-
 ;; Code evaluation in org-mode
 (use-package ob-fsharp
   :ensure t)
@@ -668,7 +627,7 @@
 
 ;; ======================================================
 ;; DEVSECOPS
-
+;; Used for json files.
 (use-package json-mode
   :ensure t
   :mode "\\.json\\'")
@@ -774,12 +733,6 @@
   :config (setq slime-company-completion 'fuzzy
                 slime-company-after-completion 'slime-company-just-one-space))
 
-;; HASKELL
-(use-package haskell-mode
-  :ensure t
-  :defer t
-  :mode "\\.hs\\'")
-
 ;; Keybindings to comment line region and single line
 (use-package undo-tree
   :ensure t
@@ -792,7 +745,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(python-mode rust-mode projectile lsp-treemacs undo-tree haskell-mode slime-company slime terraform-mode go-mode yaml-mode kubernetes dockerfile-mode elpy json-mode eglot-fsharp eglot ob-fsharp eshell-syntax-highlighting fsharp-mode company-quickhelp lsp-ui flymake-flycheck flycheck magit pdf-tools org-super-agenda diff-hl languagetool org-contrib org-superstar org-drill org-roam counsel shell-pop company centaur-tabs htmlize neotree multiple-cursors rainbow-delimiters helm-lsp helm which-key dracula-theme use-package)))
+   '(dired python-mode rust-mode projectile lsp-treemacs undo-tree haskell-mode slime-company slime terraform-mode go-mode yaml-mode kubernetes dockerfile-mode elpy json-mode eglot-fsharp eglot ob-fsharp eshell-syntax-highlighting fsharp-mode company-quickhelp lsp-ui flymake-flycheck flycheck magit pdf-tools org-super-agenda diff-hl languagetool org-contrib org-superstar org-drill org-roam counsel shell-pop company centaur-tabs htmlize neotree multiple-cursors rainbow-delimiters helm-lsp helm which-key dracula-theme use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
