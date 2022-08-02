@@ -682,6 +682,7 @@
   (elpy-enable))
 
 ;; Pretty syntax highlight for editing Dockerfiles.
+;; https://github.com/spotify/dockerfile-mode
 (use-package dockerfile-mode
   :ensure t
   :defer t
@@ -698,8 +699,10 @@
 
 (use-package go-mode
   :ensure t
+  :mode "\\.go\\'"
   :init
-  (add-hook 'before-save-hook 'gofmt-before-save))
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  :custom (gofmt-command "goimports"))
 
 ;; https://github.com/emacsorphanage/terraform-mode
 (use-package terraform-mode
@@ -708,6 +711,30 @@
   (add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode))
   (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
   (setq terraform-indent-level 2))
+
+;; https://github.com/rust-lang/rust-mode
+(use-package rust-mode
+  :ensure t
+  :mode "\\.rs\\'"
+  :custom
+  (rust-format-on-save t)
+  :bind (:map rust-mode-map ("C-c C-c" . rust-run))
+  :config
+  (use-package flycheck-rust
+    :after flycheck
+    :config
+    (with-eval-after-load 'rust-mode
+      (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))))
+
+;; https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
+(use-package python-mode
+  :ensure t
+  :after flycheck
+  :mode "\\.py\\'"
+  :custom
+  (python-indent-offset 4)
+  (flycheck-python-pycompile-executable "python3")
+  (python-shell-interpreter "python3"))
 
 ;; ======================================================
 ;; OTHER LANGS
@@ -757,11 +784,7 @@
 (use-package undo-tree
   :ensure t
   :init
-  (global-undo-tree-mode)
-  :custom
-  (undo-tree-virtualizer-diff t)
-  (undo-tree-history-directory-alist `(("." . ,(expand-file-name ".backup" user-emacs-directory))))
-  (undo-tree-visualizer-timestamps t))
+  (undo-tree-mode))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -769,7 +792,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(projectile lsp-treemacs undo-tree haskell-mode slime-company slime terraform-mode go-mode yaml-mode kubernetes dockerfile-mode elpy json-mode eglot-fsharp eglot ob-fsharp eshell-syntax-highlighting fsharp-mode company-quickhelp lsp-ui flymake-flycheck flycheck magit pdf-tools org-super-agenda diff-hl languagetool org-contrib org-superstar org-drill org-roam counsel shell-pop company centaur-tabs htmlize neotree multiple-cursors rainbow-delimiters helm-lsp helm which-key dracula-theme use-package)))
+   '(python-mode rust-mode projectile lsp-treemacs undo-tree haskell-mode slime-company slime terraform-mode go-mode yaml-mode kubernetes dockerfile-mode elpy json-mode eglot-fsharp eglot ob-fsharp eshell-syntax-highlighting fsharp-mode company-quickhelp lsp-ui flymake-flycheck flycheck magit pdf-tools org-super-agenda diff-hl languagetool org-contrib org-superstar org-drill org-roam counsel shell-pop company centaur-tabs htmlize neotree multiple-cursors rainbow-delimiters helm-lsp helm which-key dracula-theme use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
