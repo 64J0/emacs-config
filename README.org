@@ -34,6 +34,27 @@ install Emacs using this package manager is pretty straigh forward:
   sudo make install
 #+END_SRC
 
+** Launching Emacs
+
+In my experience I noticed that the Emacs $PATH is different based on how you
+launch it. ~This is something I still want to research more to understand.~
+
+But, as a rule of thumb, to avoid major problems, always launch your Emacs
+program from a terminal:
+
+#+BEGIN_SRC bash
+  emacs &
+#+END_SRC
+
+How I noticed this?
+
+My LSP in general was very bad. Most of things did not work properly, although I
+had the necessary stuff installed. Then, I went to the [[https://emacs-lsp.github.io/lsp-mode/page/troubleshooting/][troubleshooting page in
+LSP docs]] and tested my $PATH using ~M-: (getenv "PATH")~.
+
+Later I compared with the value of ~echo $PATH~ from a terminal window, and for
+my surprise they were different. Emacs $PATH was lacking several configurations.
+
 ** Learning Emacs
 
 According to [[http://tilde.town/~ramin_hal9001/articles/2022-04-27_best-way-to-learn-emacs.html][this post]], the best way to learn Emacs consists in two things:
