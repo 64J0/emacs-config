@@ -102,12 +102,6 @@
   :bind (("M-x" . helm-M-x)
 	 ("C-x b" . helm-buffers-list)))
 
-;; lsp -> language server protocol
-;; https://github.com/emacs-lsp/helm-lsp
-(use-package helm-lsp
-  :ensure t
-  :commands helm-lsp-workspace-symbol)
-
 ;; Highlight delimiters such as parentheses, brackets or braces
 ;; according to their depth
 ;; https://github.com/Fanael/rainbow-delimiters
@@ -146,19 +140,6 @@
   :bind
   ("C-<prior>" . centaur-tabs-backward)
   ("C-<next>" . centaur-tabs-forward))
-
-;; COMplete ANYthing
-;; Could give wrong completions (orgmode)
-;; http://company-mode.github.io/
-(use-package company
-  :ensure t
-  :commands
-  (company-mode company-indent-or-complete-common)
-  :config
-  (setf company-idle-delay 1
-        company-selection-wrap-around t)
-  :hook
-  (after-init . global-company-mode))
 
 ;; https://github.com/alhassy/emacs.d#quickly-pop-up-a-terminal-run-a-command-close-it-and-zsh
 ;; (use-package shell-pop
@@ -517,38 +498,45 @@
 ;; you need to install the specific LSP server for your language. Finally,
 ;; call `M-x lsp' or use the corresponding major mode hook to autostart
 ;; the server.
+;;
+;; Use `M-x lsp-doctor' to validate if your `lsp-mode' is properly
+;; configured.
 (use-package lsp-mode
   :ensure t
-  :hook ((fsharp-mode . lsp-lens-mode)
+  :hook ((lsp-mode . lsp-headerline-breadcrumb-mode)
+         (fsharp-mode . lsp-deferred)
          (terraform-mode . lsp-deferred)) ;; sudo apt install terraform-ls
   :init
+  ;; set prefix for lsp-command-keymap
+  (setq lsp-keymap-prefix "C-c l")
+  ;; performance tuning
+  (setq gc-cons-threshold 100000000)
+  (setq read-process-output-max (* 1024 1024)) ;; 1mb
+  (setq lsp-idle-delay 0.500)
+  (setq lsp-log-io nil) ; if set to true can cause a performance hit
+  ;; UI
+  (setq lsp-headerline-breadcrumb-enable t)
   ;; F# ---------------------------------
   (add-hook 'before-save-hook #'(lambda () (when (eq major-mode 'fsharp-mode)
                                              (lsp-format-buffer))))
+  (setq lsp-fsharp-auto-workspace-init nil)
+  (setq lsp-fsharp-enable-reference-code-lens t)
+  (setq lsp-fsharp-external-autocomplete t)
+  (setq lsp-fsharp-generate-binlog nil)
+  (setq lsp-fsharp-interface-stub-generation t)
+  (setq lsp-fsharp-keywords-autocomplete t)
+  (setq lsp-fsharp-linter t)
+  (setq lsp-fsharp-record-stub-generation t)
+  (setq lsp-fsharp-resolve-namespaces t)
+  (setq lsp-fsharp-server-args nil)
   ;; Terraform --------------------------
   (setq lsp-terraform-ls-enable-show-reference t)
   (setq lsp-semantic-tokens-enable t)
   (setq lsp-semantic-tokens-honor-refresh-requests t)
+  (setq lsp-enable-links t)
   :config
-  (use-package lsp-treemacs
-    :ensure t))
-
-;; Puts angry red squiggles on the screen when I do something stupid.
-;; https://www.flycheck.org/en/latest/
-(use-package flycheck
-  :ensure t
-  :config
-  (use-package flymake-flycheck
-    :ensure t))
-
-;; https://docs.projectile.mx/projectile/installation.html
-(use-package projectile
-  :ensure t
-  :init
-  (projectile-mode +1)
-  :bind (:map projectile-mode-map
-              ("s-p" . projectile-command-map)
-              ("C-c p" . projectile-command-map)))
+  (with-eval-after-load 'lsp-mode
+    (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)))
 
 ;; This package contains all the higher level UI modules of lsp-mode,
 ;; like flycheck support and code lenses.
@@ -559,6 +547,50 @@
   :init
   (setq lsp-ui-doc-enable t)
   (setq lsp-ui-sideline-diagnostic-max-lines 7))
+
+;; Puts angry red squiggles on the screen when I do something stupid.
+;; https://www.flycheck.org/en/latest/
+(use-package flycheck
+  :ensure t
+  :config
+  (use-package flymake-flycheck
+    :ensure t))
+
+;; COMplete ANYthing
+;; Could give wrong completions (orgmode)
+;; http://company-mode.github.io/
+(use-package company
+  :ensure t
+  :commands
+  (company-mode company-indent-or-complete-common)
+  :config
+  (setq company-idle-delay 0.0
+        company-minimum-prefix-length 1
+        company-selection-wrap-around t)
+  :hook
+  (after-init . global-company-mode))
+
+;; Integration between lsp-mode and treemacs and implementation of treeview
+;; controls using treemacs as a tree renderer.
+;; https://github.com/emacs-lsp/lsp-treemacs
+(use-package lsp-treemacs
+  :ensure t
+  :commands lsp-treemacs-errors-list)
+
+;; lsp -> language server protocol
+;; https://github.com/emacs-lsp/helm-lsp
+(use-package helm-lsp
+  :ensure t
+  :commands helm-lsp-workspace-symbol)
+
+;; https://docs.projectile.mx/projectile/installation.html
+(use-package projectile
+  :ensure t
+  :init
+  (projectile-mode +1)
+  :bind (:map projectile-mode-map
+              ("s-p" . projectile-command-map)
+              ("C-c p" . projectile-command-map)))
 
 ;; https://github.com/company-mode/company-quickhelp
 (use-package company-quickhelp
