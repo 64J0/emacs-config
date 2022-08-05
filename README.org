@@ -87,6 +87,19 @@ just store the non-exhaustive links mentioned by Ramin in his article.
   
 Those are the points I think are worth knowing, at least in the beginning.
 
+** Update packages
+
+First, you need to run ~M-x list-packages~, then hit capital "u" (~U~), and
+finally "x" to execute the update.
+
+There are packages created automatically to do this update for us automatically
+(~auto-package-update~, for example), but in my case I don't want to use it,
+since I want to have more control over this process.
+
+I found this trick watching this video from System Crafters:
+
++ [[https://www.youtube.com/watch?v=dtjq68F2dXw&ab_channel=SystemCrafters][Keeping Your Emacs Packages Up To Date - Emacs From Scratch #11]]
+
 ** Learning Elisp - Emacs Lisp
 
 Since Emacs could be configured using Elisp it is totally useful to learn this
@@ -113,6 +126,7 @@ Intelligence Programming: Case Studies in Common Lisp]].
 + [[https://github.com/redguardtoo/mastering-emacs-in-one-year-guide/blob/master/guide-en.org][redguardtoo/mastering-emacs-in-one-year-guide]]
 + [[https://planet.emacslife.com/][Planet Emacslife]]
 + [[https://emacs-lsp.github.io/lsp-mode/][LSP Mode - Language Server Protocol support for Emacs]]
++ [[https://github.com/daviwil/emacs-from-scratch][daviwil - Emacs From Scratch]]
   
 *** Articles
 
