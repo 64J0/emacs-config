@@ -479,12 +479,6 @@
 (use-package org-super-agenda
   :ensure t)
 
-;; Replacement of DocView for PDF files.
-;; https://github.com/politza/pdf-tools
-;; (use-package pdf-tools
-;;   :ensure t
-;;   :config (pdf-tools-install))
-
 ;; ======================================================
 ;; GENERAL PROGRAMMING
 ;; Language Server Protocol Support for Emacs
@@ -503,37 +497,46 @@
 ;; configured.
 (use-package lsp-mode
   :ensure t
-  :hook ((lsp-mode . lsp-headerline-breadcrumb-mode)
-         (fsharp-mode . lsp-deferred)
-         (terraform-mode . lsp-deferred)) ;; sudo apt install terraform-ls
+  :hook ((lsp-mode        . lsp-headerline-breadcrumb-mode)
+         (fsharp-mode     . lsp-deferred)
+         (terraform-mode  . lsp-deferred) ;; sudo apt install terraform-ls
+         (yaml-mode       . lsp-deferred)
+         (dockerfile-mode . lsp-deferred))
   :init
   ;; set prefix for lsp-command-keymap
   (setq lsp-keymap-prefix "C-c l")
   ;; performance tuning
-  (setq gc-cons-threshold 100000000)
-  (setq read-process-output-max (* 1024 1024)) ;; 1mb
-  (setq lsp-idle-delay 0.500)
-  (setq lsp-log-io nil) ; if set to true can cause a performance hit
+  (setq gc-cons-threshold 100000000
+        read-process-output-max (* 1024 1024) ;; 1mb
+        lsp-idle-delay 0.500
+        lsp-log-io nil) ; if set to true can cause a performance hit
   ;; UI
   (setq lsp-headerline-breadcrumb-enable t)
   ;; F# ---------------------------------
   (add-hook 'before-save-hook #'(lambda () (when (eq major-mode 'fsharp-mode)
                                              (lsp-format-buffer))))
-  (setq lsp-fsharp-auto-workspace-init nil)
-  (setq lsp-fsharp-enable-reference-code-lens t)
-  (setq lsp-fsharp-external-autocomplete t)
-  (setq lsp-fsharp-generate-binlog nil)
-  (setq lsp-fsharp-interface-stub-generation t)
-  (setq lsp-fsharp-keywords-autocomplete t)
-  (setq lsp-fsharp-linter t)
-  (setq lsp-fsharp-record-stub-generation t)
-  (setq lsp-fsharp-resolve-namespaces t)
-  (setq lsp-fsharp-server-args nil)
+  (setq lsp-fsharp-auto-workspace-init nil
+        lsp-fsharp-enable-reference-code-lens t
+        lsp-fsharp-external-autocomplete t
+        lsp-fsharp-generate-binlog nil
+        lsp-fsharp-interface-stub-generation t
+        lsp-fsharp-keywords-autocomplete t
+        lsp-fsharp-linter t
+        lsp-fsharp-record-stub-generation t
+        lsp-fsharp-resolve-namespaces t
+        lsp-fsharp-server-args nil)
   ;; Terraform --------------------------
-  (setq lsp-terraform-ls-enable-show-reference t)
-  (setq lsp-semantic-tokens-enable t)
-  (setq lsp-semantic-tokens-honor-refresh-requests t)
-  (setq lsp-enable-links t)
+  (setq lsp-terraform-ls-enable-show-reference t
+        lsp-semantic-tokens-enable t
+        lsp-semantic-tokens-honor-refresh-requests t
+        lsp-enable-links t)
+  ;; YAML -------------------------------
+  (setq lsp-yaml-bracket-spacing t
+        lsp-yaml-completion t
+        lsp-yaml-format-enable t
+        lsp-yaml-hover t
+        lsp-yaml-single-quote nil
+        lsp-yaml-validate t)
   :config
   (with-eval-after-load 'lsp-mode
     (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)))
@@ -543,10 +546,24 @@
 ;; https://emacs-lsp.github.io/lsp-ui/#intro
 (use-package lsp-ui
   :ensure t
-  :commands lsp-ui-mode
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-position 'bottom)
   :init
-  (setq lsp-ui-doc-enable t)
-  (setq lsp-ui-sideline-diagnostic-max-lines 7))
+  (setq lsp-ui-doc-enable t
+        lsp-ui-sideline-diagnostic-max-lines 7))
+
+;; Integration between lsp-mode and treemacs and implementation of treeview
+;; controls using treemacs as a tree renderer.
+;; https://github.com/emacs-lsp/lsp-treemacs
+(use-package lsp-treemacs
+  :ensure t
+  :after lsp
+  :commands lsp-treemacs-errors-list)
+
+;; Search for some string pattern in the project.
+(use-package lsp-ivy
+  :ensure t)
 
 ;; Puts angry red squiggles on the screen when I do something stupid.
 ;; https://www.flycheck.org/en/latest/
@@ -561,21 +578,24 @@
 ;; http://company-mode.github.io/
 (use-package company
   :ensure t
+  :hook
+  (after-init . global-company-mode)
+  :bind
+  (:map company-active-map
+        ("<tab>" . company-complete-selection))
+  (:map lsp-mode-map
+        ("<tab>" . company-indent-or-complete-common))
   :commands
   (company-mode company-indent-or-complete-common)
   :config
   (setq company-idle-delay 0.0
         company-minimum-prefix-length 1
-        company-selection-wrap-around t)
-  :hook
-  (after-init . global-company-mode))
+        company-selection-wrap-around t))
 
-;; Integration between lsp-mode and treemacs and implementation of treeview
-;; controls using treemacs as a tree renderer.
-;; https://github.com/emacs-lsp/lsp-treemacs
-(use-package lsp-treemacs
+;; Make company box look better
+(use-package company-box
   :ensure t
-  :commands lsp-treemacs-errors-list)
+  :hook (company-mode . company-box-mode))
 
 ;; lsp -> language server protocol
 ;; https://github.com/emacs-lsp/helm-lsp
@@ -611,6 +631,15 @@
   :ensure t)
 
 ;; ======================================================
+;; TYPESCRIPT CONFIG
+(use-package typescript-mode
+  :mode (("\\.ts$"  . typescript-mode)
+         ("\\.tsx$" . typescript-mode))
+  :hook (typescript-mode . lsp-deferred)
+  :config
+  (setq typescript-indent-level 2))
+
+;; ======================================================
 ;; F# CONFIG
 ;; Got this configuration from Magueta's config
 ;; https://github.com/MMagueta/MageMacs/blob/macintosh/init.el
@@ -619,9 +648,9 @@
 ;; https://github.com/fsharp/emacs-fsharp-mode
 (use-package fsharp-mode
    :ensure t
-   :mode (("\\.fs$"  .  fsharp-mode)
-	  ("\\.fsx$" .  fsharp-mode)
-	  ("\\.fsi$" .  fsharp-mode))
+   :mode (("\\.fs$"  . fsharp-mode)
+	  ("\\.fsx$" . fsharp-mode)
+	  ("\\.fsi$" . fsharp-mode))
    :hook ((fsharp-mode      . (lambda () (lsp))))
    :bind
    (("C-c C-,"     . 'fsharp-shift-region-left)
@@ -777,7 +806,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(dired python-mode rust-mode projectile lsp-treemacs undo-tree haskell-mode slime-company slime terraform-mode go-mode yaml-mode kubernetes dockerfile-mode elpy json-mode eglot-fsharp eglot ob-fsharp eshell-syntax-highlighting fsharp-mode company-quickhelp lsp-ui flymake-flycheck flycheck magit pdf-tools org-super-agenda diff-hl languagetool org-contrib org-superstar org-drill org-roam counsel shell-pop company centaur-tabs htmlize neotree multiple-cursors rainbow-delimiters helm-lsp helm which-key dracula-theme use-package)))
+   '(lsp-ivy company-box dired python-mode rust-mode projectile lsp-treemacs undo-tree haskell-mode slime-company slime terraform-mode go-mode yaml-mode kubernetes dockerfile-mode elpy json-mode eglot-fsharp eglot ob-fsharp eshell-syntax-highlighting fsharp-mode company-quickhelp lsp-ui flymake-flycheck flycheck magit pdf-tools org-super-agenda diff-hl languagetool org-contrib org-superstar org-drill org-roam counsel shell-pop company centaur-tabs htmlize neotree multiple-cursors rainbow-delimiters helm-lsp helm which-key dracula-theme use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
