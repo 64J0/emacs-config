@@ -127,6 +127,7 @@ Intelligence Programming: Case Studies in Common Lisp]].
 + [[https://planet.emacslife.com/][Planet Emacslife]]
 + [[https://emacs-lsp.github.io/lsp-mode/][LSP Mode - Language Server Protocol support for Emacs]]
 + [[https://github.com/daviwil/emacs-from-scratch][daviwil - Emacs From Scratch]]
++ [[https://www.oreilly.com/library/view/writing-gnu-emacs/9781449395056/][[Book] Writing GNU Emacs Extensions]]
   
 *** Articles
 
