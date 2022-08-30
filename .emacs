@@ -102,6 +102,12 @@
   :bind (("M-x" . helm-M-x)
 	 ("C-x b" . helm-buffers-list)))
 
+;; https://jblevins.org/projects/markdown-mode/
+(use-package markdown-mode
+  :ensure t
+  :mode ("\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown"))
+
 ;; Highlight delimiters such as parentheses, brackets or braces
 ;; according to their depth
 ;; https://github.com/Fanael/rainbow-delimiters
@@ -501,7 +507,8 @@
          (fsharp-mode     . lsp-deferred)
          (terraform-mode  . lsp-deferred) ;; sudo apt install terraform-ls
          (yaml-mode       . lsp-deferred)
-         (dockerfile-mode . lsp-deferred))
+         (dockerfile-mode . lsp-deferred)
+         (sh-mode         . lsp-deferred))
   :init
   ;; set prefix for lsp-command-keymap
   (setq lsp-keymap-prefix "C-c l")
@@ -513,8 +520,8 @@
   ;; UI
   (setq lsp-headerline-breadcrumb-enable t)
   ;; F# ---------------------------------
-  (add-hook 'before-save-hook #'(lambda () (when (eq major-mode 'fsharp-mode)
-                                             (lsp-format-buffer))))
+  ;; (add-hook 'before-save-hook #'(lambda () (when (eq major-mode 'fsharp-mode)
+  ;;                                            (lsp-format-buffer))))
   (setq lsp-fsharp-auto-workspace-init nil
         lsp-fsharp-enable-reference-code-lens t
         lsp-fsharp-external-autocomplete t
@@ -632,12 +639,25 @@
 
 ;; ======================================================
 ;; TYPESCRIPT CONFIG
+;; https://github.com/emacs-typescript/typescript.el
+;; https://emacs-lsp.github.io/lsp-mode/page/lsp-typescript/
 (use-package typescript-mode
-  :mode (("\\.ts$"  . typescript-mode)
-         ("\\.tsx$" . typescript-mode))
+  :ensure t
+  :mode ("\\.ts[x]?\\'")
   :hook (typescript-mode . lsp-deferred)
   :config
   (setq typescript-indent-level 2))
+
+;; Nix configuration
+;; https://github.com/nix-community/rnix-lsp
+(add-to-list
+ 'lsp-language-id-configuration
+ '(nix-mode . "nix"))
+(lsp-register-client
+ (make-lsp-client
+  :new-connection (lsp-stdio-connection '("rnix-lsp"))
+  :major-modes '(nix-mode)
+  :server-id 'nix))
 
 ;; ======================================================
 ;; F# CONFIG
@@ -648,9 +668,7 @@
 ;; https://github.com/fsharp/emacs-fsharp-mode
 (use-package fsharp-mode
    :ensure t
-   :mode (("\\.fs$"  . fsharp-mode)
-	  ("\\.fsx$" . fsharp-mode)
-	  ("\\.fsi$" . fsharp-mode))
+   :mode ("\\.fs[x]?[i]?[proj]?\\'")
    :hook ((fsharp-mode      . (lambda () (lsp))))
    :bind
    (("C-c C-,"     . 'fsharp-shift-region-left)
@@ -662,7 +680,8 @@
    :config
    (setq compile-command "dotnet watch run")
    (setq inferior-fsharp-program "dotnet fsi")
-   (add-hook 'inferior-fsharp-mode-hook 'turn-on-comint-history))
+   (add-hook 'inferior-fsharp-mode-hook 'turn-on-comint-history)
+   (add-hook 'fsharp-mode-hook 'highlight-indentation-mode))
 
 (use-package eshell-syntax-highlighting
   :ensure t
@@ -806,7 +825,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(lsp-ivy company-box dired python-mode rust-mode projectile lsp-treemacs undo-tree haskell-mode slime-company slime terraform-mode go-mode yaml-mode kubernetes dockerfile-mode elpy json-mode eglot-fsharp eglot ob-fsharp eshell-syntax-highlighting fsharp-mode company-quickhelp lsp-ui flymake-flycheck flycheck magit pdf-tools org-super-agenda diff-hl languagetool org-contrib org-superstar org-drill org-roam counsel shell-pop company centaur-tabs htmlize neotree multiple-cursors rainbow-delimiters helm-lsp helm which-key dracula-theme use-package)))
+   '(typescript-mode lsp-ivy company-box dired python-mode rust-mode projectile lsp-treemacs undo-tree haskell-mode slime-company slime terraform-mode go-mode yaml-mode kubernetes dockerfile-mode elpy json-mode eglot-fsharp eglot ob-fsharp eshell-syntax-highlighting fsharp-mode company-quickhelp lsp-ui flymake-flycheck flycheck magit pdf-tools org-super-agenda diff-hl languagetool org-contrib org-superstar org-drill org-roam counsel shell-pop company centaur-tabs htmlize neotree multiple-cursors rainbow-delimiters helm-lsp helm which-key dracula-theme use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
