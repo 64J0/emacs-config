@@ -116,13 +116,6 @@
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
-;; https://github.com/magnars/multiple-cursors.el
-;; (use-package multiple-cursors
-;;    :ensure t
-;;    :config
-;;    (global-set-key (kbd "C-d") 'mc/mark-next-like-this-word)
-;;    (global-set-key (kbd "C-c m c") 'mc/edit-lines))
-
 ;; Show directory tree on the lateral
 ;; https://github.com/jaypei/emacs-neotree
 (use-package neotree
@@ -147,18 +140,11 @@
   ("C-<prior>" . centaur-tabs-backward)
   ("C-<next>" . centaur-tabs-forward))
 
-;; https://github.com/alhassy/emacs.d#quickly-pop-up-a-terminal-run-a-command-close-it-and-zsh
-;; (use-package shell-pop
-;;   :ensure t
-;;   :custom
-;;     ;; This binding toggles popping up a shell, or moving cursour to the shell pop-up.
-;;     (shell-pop-universal-key "C-t")
-;;     ;; Percentage for shell-buffer window size.
-;;     (shell-pop-window-size 30)
-;;     ;; Position of the popped buffer: top, bottom, left, right, full.
-;;     (shell-pop-window-position "bottom")
-;;     ;; Please use an awesome shell.
-;;     (shell-pop-term-shell "/bin/bash"))
+;; Keybindings to comment line region and single line
+(use-package undo-tree
+  :ensure t
+  :init
+  (undo-tree-mode))
 
 ;; Displays help text (e.g. for buttons and menu items that you put the mouse on)
 ;; in a pop-up window.
@@ -444,32 +430,13 @@
         (quote ("lof" "lot" "tex~" "aux" "idx" "log" "out" "toc" "nav" "snm" "vrb" "dvi" "fdb_latexmk" "blg" "brf" "fls" "entoc" "ps" "spl" "bbl" "xmpi" "run.xml" "bcf" "acn" "acr" "alg" "glg" "gls" "ist")))
   
   (unless (boundp 'org-latex-classes)
-    (setq org-latex-classes nil))
-  )
+    (setq org-latex-classes nil)))
 
 (use-package ox-extra
   :config
   (ox-extras-activate '(latex-header-blocks ignore-headlines)))
 
 (use-package oc-biblatex)
-
-;; https://github.com/PillFall/languagetool.el
-;; https://dev.languagetool.org/java-api
-(use-package languagetool
-  :ensure t
-  :defer t
-  :commands (languagetool-check
-             languagetool-clear-suggestions
-             languagetool-correct-at-point
-             languagetool-correct-buffer
-             languagetool-set-language
-             languagetool-server-mode
-             languagetool-server-start
-             languagetool-server-stop)
-  :config
-  (setq languagetool-java-arguments '("-Dfile.encoding=UTF-8")
-        languagetool-console-command "~/LanguageTool-5.6/languagetool-commandline.jar"
-        languagetool-server-command "~/LanguageTool-5.6/languagetool-server.jar"))
 
 ;; Highlight uncommited changes on the left side of the window
 ;; area known as the "gutter"
@@ -515,7 +482,7 @@
   ;; performance tuning
   (setq gc-cons-threshold 100000000
         read-process-output-max (* 1024 1024) ;; 1mb
-        lsp-idle-delay 0.500
+        lsp-idle-delay 1.000
         lsp-log-io nil) ; if set to true can cause a performance hit
   ;; UI
   (setq lsp-headerline-breadcrumb-enable t)
@@ -528,7 +495,7 @@
         lsp-fsharp-generate-binlog nil
         lsp-fsharp-interface-stub-generation t
         lsp-fsharp-keywords-autocomplete t
-        lsp-fsharp-linter t
+        lsp-fsharp-linter nil
         lsp-fsharp-record-stub-generation t
         lsp-fsharp-resolve-namespaces t
         lsp-fsharp-server-args nil)
@@ -648,17 +615,6 @@
   :config
   (setq typescript-indent-level 2))
 
-;; Nix configuration
-;; https://github.com/nix-community/rnix-lsp
-(add-to-list
- 'lsp-language-id-configuration
- '(nix-mode . "nix"))
-(lsp-register-client
- (make-lsp-client
-  :new-connection (lsp-stdio-connection '("rnix-lsp"))
-  :major-modes '(nix-mode)
-  :server-id 'nix))
-
 ;; ======================================================
 ;; F# CONFIG
 ;; Got this configuration from Magueta's config
@@ -692,19 +648,6 @@
 (use-package ob-fsharp
   :ensure t)
 
-;; An Emacs LSP client that stays out of your way
-;; https://github.com/joaotavora/eglot
-(use-package eglot
-  :ensure t
-  :after company
-  :config
-  (use-package eglot-fsharp
-    :ensure t
-    :after fsharp-mode
-    :config
-    (setq toggle-debug-on-error t)
-    (setq lsp-print-io t)))
-
 ;; ======================================================
 ;; DEVSECOPS
 ;; Used for json files.
@@ -727,21 +670,9 @@
   :defer t
   :mode ("\\Dockerfile\\'" "\\.dockerfile\\'"))
 
-(use-package kubernetes
-  :ensure t
-  :commands (kubernetes-overview))
-(global-set-key (kbd "C-c K") 'kubernetes-overview)
-
 (use-package yaml-mode
   :ensure t
   :mode ("\\.ya?ml\\'"))
-
-(use-package go-mode
-  :ensure t
-  :mode "\\.go\\'"
-  :init
-  (add-hook 'before-save-hook 'gofmt-before-save)
-  :custom (gofmt-command "goimports"))
 
 ;; https://github.com/emacsorphanage/terraform-mode
 (use-package terraform-mode
@@ -750,20 +681,6 @@
   (add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode))
   (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
   (setq terraform-indent-level 2))
-
-;; https://github.com/rust-lang/rust-mode
-(use-package rust-mode
-  :ensure t
-  :mode "\\.rs\\'"
-  :custom
-  (rust-format-on-save t)
-  :bind (:map rust-mode-map ("C-c C-c" . rust-run))
-  :config
-  (use-package flycheck-rust
-    :after flycheck
-    :config
-    (with-eval-after-load 'rust-mode
-      (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))))
 
 ;; https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
 (use-package python-mode
@@ -775,57 +692,13 @@
   (flycheck-python-pycompile-executable "python3")
   (python-shell-interpreter "python3"))
 
-;; ======================================================
-;; OTHER LANGS
-;; C
-(defun c-lineup-arglist-tabs-only (ignored)
-  "Line up argument lists by tabs, not spaces"
-  (let* ((anchor (c-langelem-pos c-syntactic-element))
-         (column (c-langelem-2nd-pos c-syntactic-element))
-         (offset (- (1+ column) anchor))
-         (steps (floor offset c-basic-offset)))
-    (* (max steps 1)
-       c-basic-offset)))
-
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            (c-add-style
-             "linux-tabs-only"
-             '("linux" (c-offsets-alist
-                        (arglist-cont-nonempty
-                         c-lineup-gcc-asm-reg
-                         c-lineup-arglist-tabs-only))))))
-
-(add-hook 'c-mode-hook (lambda ()
-                         (setq indent-tabs-mode t)
-                         (setq show-trailing-whitespace t)
-                         (c-set-style "linux-tabs-only")))
-
-;; COMMON LISP
-(use-package slime
-  :ensure t
-  :defer t
-  :config (setq inferior-lisp-program (executable-find "sbcl")))
-
-(use-package slime-company
-  :ensure t
-  :after (slime company)
-  :config (setq slime-company-completion 'fuzzy
-                slime-company-after-completion 'slime-company-just-one-space))
-
-;; Keybindings to comment line region and single line
-(use-package undo-tree
-  :ensure t
-  :init
-  (undo-tree-mode))
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(typescript-mode lsp-ivy company-box dired python-mode rust-mode projectile lsp-treemacs undo-tree haskell-mode slime-company slime terraform-mode go-mode yaml-mode kubernetes dockerfile-mode elpy json-mode eglot-fsharp eglot ob-fsharp eshell-syntax-highlighting fsharp-mode company-quickhelp lsp-ui flymake-flycheck flycheck magit pdf-tools org-super-agenda diff-hl languagetool org-contrib org-superstar org-drill org-roam counsel shell-pop company centaur-tabs htmlize neotree multiple-cursors rainbow-delimiters helm-lsp helm which-key dracula-theme use-package)))
+   '(typescript-mode lsp-ivy company-box dired python-mode projectile lsp-treemacs undo-tree terraform-mode yaml-mode dockerfile-mode elpy json-mode ob-fsharp eshell-syntax-highlighting fsharp-mode company-quickhelp lsp-ui flymake-flycheck flycheck magit org-super-agenda diff-hl org-contrib org-superstar org-drill org-roam counsel company centaur-tabs htmlize neotree rainbow-delimiters helm-lsp helm which-key dracula-theme use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
