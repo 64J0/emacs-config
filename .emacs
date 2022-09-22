@@ -49,6 +49,16 @@
    deps folder."
   (concat "~/org/deps/" filename))
 
+;; https://www.emacswiki.org/emacs/UnfillParagraph
+;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph    
+(defun unfill-paragraph (&optional region)
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive (progn (barf-if-buffer-read-only) '(t)))
+  (let ((fill-column (point-max))
+        ;; This would override `fill-column' if it's an integer.
+        (emacs-lisp-docstring-fill-column t))
+    (fill-paragraph nil region)))
+
 ;; =======================================================================
 ;; CUSTOM VARIABLES
 (setq gajo-org-srs-path "~/org/srs/deck-refile.org")
@@ -639,11 +649,6 @@
    (add-hook 'inferior-fsharp-mode-hook 'turn-on-comint-history)
    (add-hook 'fsharp-mode-hook 'highlight-indentation-mode))
 
-(use-package eshell-syntax-highlighting
-  :ensure t
-  :config
-  (eshell-syntax-highlighting-global-mode +1))
-
 ;; Code evaluation in org-mode
 (use-package ob-fsharp
   :ensure t)
@@ -654,14 +659,6 @@
 (use-package json-mode
   :ensure t
   :mode "\\.json\\'")
-
-;; Python code
-;; to fix problems: https://www.higithub.com/jorgenschaefer/issue/elpy/1936
-;; M-x elpy-rpc-reinstall-virtualenv
-(use-package elpy
-  :ensure t
-  :init
-  (elpy-enable))
 
 ;; Pretty syntax highlight for editing Dockerfiles.
 ;; https://github.com/spotify/dockerfile-mode
@@ -692,13 +689,21 @@
   (flycheck-python-pycompile-executable "python3")
   (python-shell-interpreter "python3"))
 
+;; Python code
+;; to fix problems: https://www.higithub.com/jorgenschaefer/issue/elpy/1936
+;; M-x elpy-rpc-reinstall-virtualenv
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(typescript-mode lsp-ivy company-box dired python-mode projectile lsp-treemacs undo-tree terraform-mode yaml-mode dockerfile-mode elpy json-mode ob-fsharp eshell-syntax-highlighting fsharp-mode company-quickhelp lsp-ui flymake-flycheck flycheck magit org-super-agenda diff-hl org-contrib org-superstar org-drill org-roam counsel company centaur-tabs htmlize neotree rainbow-delimiters helm-lsp helm which-key dracula-theme use-package)))
+   '(typescript-mode lsp-ivy company-box dired python-mode projectile lsp-treemacs undo-tree terraform-mode yaml-mode dockerfile-mode elpy json-mode ob-fsharp fsharp-mode company-quickhelp lsp-ui flymake-flycheck flycheck magit org-super-agenda diff-hl org-contrib org-superstar org-drill org-roam counsel company centaur-tabs htmlize neotree rainbow-delimiters helm-lsp helm which-key dracula-theme use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
