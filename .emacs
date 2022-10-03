@@ -216,11 +216,12 @@
   (add-to-list
    'auto-mode-alist
    '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
+  (setq org-directory "~/org")
+  (setq org-agenda-files (list gajo-org-agenda-path))
   (setq org-log-done t)
   (setq org-export-backends
 	'(md gfm beamer ascii taskjuggler html latex odt org))
   (setq org-support-shift-select 'always)
-  (setq org-directory "~/org")
   (setq org-default-notes-file gajo-org-notes-path)
   (setq org-refile-file-path gajo-org-refile-path)
   (setq org-refile-allow-creating-parent-nodes t)
@@ -246,7 +247,6 @@
   (setq org-agenda-start-with-log-mode t)
   (setq org-agenda-sticky nil)
   (setq org-agenda-span 21)
-  (setq org-agenda-files '(gajo-org-agenda-path))
   (setq org-latex-pdf-process (list "latexmk -silent -f -pdf %f"))
   (setq org-cite-export-processors '((latex biblatex)
                                      (moderncv basic)
