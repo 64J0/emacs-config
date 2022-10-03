@@ -282,15 +282,7 @@
           (,gajo-org-srs-path      :maxlevel . 2)
           (,gajo-org-agenda-path   :maxlevel . 2)))
   (setq org-capture-templates
-        `(("e" "Email [m4ue]" entry (file gajo-org-email-path)
-           ,(concat "* TODO Process \"%a\"\n"
-                    "SCHEDULED: %t\n"
-                    ":LOGBOOK:\n"
-                    "- State \"TODO\"     from\"\" %U   \\\\\n"
-                    "  %^{Initial log} %?\n"
-                    "  from %:from\n"
-                    ":END:"))
-          ("t" "todo" entry (file gajo-org-todo-path)
+        `(("t" "To-Do" entry (file gajo-org-todo-path)
            ,(concat "* TODO %^{Title}\n"
                     "SCHEDULED: %t\n"
                     ":PROPERTIES:\n"
@@ -304,7 +296,7 @@
                     "  %^{Initial log} %?\n"
                     ":END:")
            :jump-to-captured t)
-          ("w" "work reminder" entry (file gajo-org-work-path)
+          ("w" "Work reminder" entry (file gajo-org-work-path)
            ,(concat "* TODO %^{Title}\n"
                     "SCHEDULED: <%%(memq (calendar-day-of-week date) '(1 2 3 4 5))>%?\n"
                     ":PROPERTIES:\n"
@@ -318,7 +310,7 @@
                     "- Initial note taken on %U \\\n"
                     "%^{Initial note}\n"
                     ":END:\n"))
-          ("h" "habit" entry (file gajo-org-habit-path)
+          ("h" "Habit" entry (file gajo-org-habit-path)
            ,(concat "* TODO %^{Title}\n"
                     "SCHEDULED: %(org-insert-time-stamp nil nil nil nil nil \" +1w\")%?\n"
                     ":PROPERTIES:\n"
@@ -332,7 +324,7 @@
                     "- State \"TODO\"       from \"\"  %U  \\\\\n"
                     "%^{Initial log}\n"
                     ":END:\n"))
-          ("m" "meeting log" entry (file ,gajo-org-meetings-path)
+          ("m" "Meeting log" entry (file ,gajo-org-meetings-path)
            ,(concat "* %^{Title}\n"
                     "** Context\n"
                     "%^{Context}\n"
