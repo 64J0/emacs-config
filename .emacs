@@ -65,10 +65,8 @@
 (setq gajo-org-notes-path "~/org/notes.org")
 (setq gajo-org-refile-path "~/org/refile.org")
 (setq gajo-org-agenda-path "~/org/agenda.org")
-(setq gajo-org-email-path "~/org/email.org")
 (setq gajo-org-todo-path "~/org/todo.org")
 (setq gajo-org-work-path "~/org/work.org")
-(setq gajo-org-habit-path "~/org/habit.org")
 (setq gajo-org-meetings-path "~/org/meetings.org")
 
 ;; =======================================================================
@@ -137,19 +135,6 @@
 (use-package htmlize
   :ensure t)
 
-;; Aesthetic tabs
-;; https://github.com/ema2159/centaur-tabs
-(use-package centaur-tabs
-  :ensure t
-  :demand
-  :config
-  (centaur-tabs-mode t)
-  (setq centaur-tabs-set-icons t)
-  (setq centaur-tabs-set-bar 'over)
-  :bind
-  ("C-<prior>" . centaur-tabs-backward)
-  ("C-<next>" . centaur-tabs-forward))
-
 ;; Keybindings to comment line region and single line
 (use-package undo-tree
   :ensure t
@@ -217,65 +202,44 @@
    'auto-mode-alist
    '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
   (setq org-directory "~/org")
-  (setq org-agenda-files (list gajo-org-agenda-path))
-  (setq org-log-done t)
+  (setq org-agenda-files (list
+                          gajo-org-agenda-path
+                          gajo-org-work-path
+                          gajo-org-todo-path))
+  (setq org-log-done 'time)
   (setq org-export-backends
 	'(md gfm beamer ascii taskjuggler html latex odt org))
   (setq org-support-shift-select 'always)
-  (setq org-default-notes-file gajo-org-notes-path)
-  (setq org-refile-file-path gajo-org-refile-path)
-  (setq org-refile-allow-creating-parent-nodes t)
+  (setq org-refile-allow-creating-parent-nodes 'confirm)
   (setq org-refile-use-outline-path 'file)
   (setq org-babel-inline-result-wrap "%s")
-  (setq org-habit-graph-column 60)
-  (setq org-habit-following-days 0)
-  (setq org-habit-preceding-days 14)
-  (setq org-outline-path-complete-in-steps nil)
-  (setq org-use-fast-todo-selection t) ;; C-c C-t KEY
-  (setq org-imenu-depth 6)
   (setq org-src-fontify-natively t)
   (setq org-use-sub-superscripts '{})
   (setq org-export-with-sub-superscripts '{})
   (setq org-duration-format '((special . h:mm)))
   (setq org-goto-interface 'outline-path-completion)
   ;; AGENDA
-  (setq org-agenda-skip-scheduled-if-done t)
-  (setq org-agenda-skip-deadline-if-done t)
-  (setq org-agenda-block-separator nil)
   (setq org-agenda-include-diary nil)
   (setq org-agenda-compact-blocks t)
   (setq org-agenda-start-with-log-mode t)
   (setq org-agenda-sticky nil)
   (setq org-agenda-span 21)
+  ;; LaTeX
   (setq org-latex-pdf-process (list "latexmk -silent -f -pdf %f"))
+  (setq org-latex-create-formula-image-program 'dvipng) ; apt install dvipng
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+  (setq org-highlight-latex-and-related '(native))
   (setq org-cite-export-processors '((latex biblatex)
                                      (moderncv basic)
                                      (t basic)))
   (setq org-todo-keywords
-	(quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-		(sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
+	(quote ((sequence "TODO(t)" "NEXT(n)" "HOLD(h)" "|" "DONE(d)" "CANCELLED(c)"))))
   (setq org-todo-keyword-faces
-	(quote (("TODO" :foreground "red" :weight bold)
+	(quote (("TODO" :foreground "orange" :weight bold)
 		("NEXT" :foreground "blue" :weight bold)
-		("DONE" :foreground "forest green" :weight bold)
-		("WAITING" :foreground "orange" :weight bold)
-		("HOLD" :foreground "magenta" :weight bold)
-		("CANCELLED" :foreground "forest green" :weight bold)
-		("PHONE" :foreground "forest green" :weight bold)
-		("MEETING" :foreground "forest green" :weight bold))))
-  (setq org-todo-state-tags-triggers
-	(quote (("CANCELLED" ("CANCELLED" . t))
-		("WAITING" ("WAITING" . t))
-		("HOLD" ("WAITING") ("HOLD" . t))
-		(done ("WAITING") ("HOLD"))
-		("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
-		("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
-		("DONE" ("WAITING") ("CANCELLED") ("HOLD"))
-		)))
-  (setq org-tag-alist '((:startgroup)
-                        ("noexport" . ?n)
-                        ("export"   . ?e)
-                        (:endgroup)))
+                ("HOLD" :foreground "magenta" :weight bold)
+                ("DONE" :foreground "forest green" :weight bold)
+		("CANCELLED" :foreground "red" :weight bold))))
   (setq org-refile-targets
         `((nil                     :maxlevel . 9)
           (org-agenda-files        :maxlevel . 2)
@@ -286,45 +250,23 @@
            ,(concat "* TODO %^{Title}\n"
                     "SCHEDULED: %t\n"
                     ":PROPERTIES:\n"
-                    ":BV:\n"
-                    ":TC:\n"
-                    ":RR-OE:\n"
-                    ":EFF:\n"
                     ":END:\n"
                     ":LOGBOOK:\n"
                     " - State \"TODO\"       from \"\"  %U  \\\\\n"
                     "  %^{Initial log} %?\n"
                     ":END:")
            :jump-to-captured t)
-          ("w" "Work reminder" entry (file gajo-org-work-path)
+          ("w" "Work reminder" entry (file+headline gajo-org-work-path "DevSecOps")
            ,(concat "* TODO %^{Title}\n"
-                    "SCHEDULED: <%%(memq (calendar-day-of-week date) '(1 2 3 4 5))>%?\n"
+                    "SCHEDULED: %t\n"
                     ":PROPERTIES:\n"
                     ":work_reminder: t\n"
-                    ":BV:\n"
-                    ":TC:\n"
-                    ":RR-OE:\n"
-                    ":EFF:\n"
                     ":END:\n"
                     ":LOGBOOK:\n"
                     "- Initial note taken on %U \\\n"
                     "%^{Initial note}\n"
                     ":END:\n"))
-          ("h" "Habit" entry (file gajo-org-habit-path)
-           ,(concat "* TODO %^{Title}\n"
-                    "SCHEDULED: %(org-insert-time-stamp nil nil nil nil nil \" +1w\")%?\n"
-                    ":PROPERTIES:\n"
-                    ":style: habit\n"
-                    ":BV:\n"
-                    ":TC:\n"
-                    ":RR-OE:\n"
-                    ":EFF:\n"
-                    ":END:\n"
-                    ":LOGBOOK:\n"
-                    "- State \"TODO\"       from \"\"  %U  \\\\\n"
-                    "%^{Initial log}\n"
-                    ":END:\n"))
-          ("m" "Meeting log" entry (file ,gajo-org-meetings-path)
+          ("m" "Meeting log" entry (file gajo-org-meetings-path)
            ,(concat "* %^{Title}\n"
                     "** Context\n"
                     "%^{Context}\n"
@@ -688,17 +630,3 @@
   :ensure t
   :init
   (elpy-enable))
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(typescript-mode lsp-ivy company-box dired python-mode projectile lsp-treemacs undo-tree terraform-mode yaml-mode dockerfile-mode elpy json-mode ob-fsharp fsharp-mode company-quickhelp lsp-ui flymake-flycheck flycheck magit org-super-agenda diff-hl org-contrib org-superstar org-drill org-roam counsel company centaur-tabs htmlize neotree rainbow-delimiters helm-lsp helm which-key dracula-theme use-package)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
