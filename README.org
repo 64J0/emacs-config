@@ -19,13 +19,17 @@ install Emacs using this package manager is pretty straigh forward:
 
 #+BEGIN_SRC bash :tangle no
   sudo apt install emacs
+  # uninstall with
+  # sudo apt remove emacs
 #+END_SRC
 
 *** Install Using Terminal
 
+You can find the Emacs versions in this [[https://www.gnu.org/software/emacs/][link]].
+
 #+BEGIN_SRC bash :tangle no
-  # download emacs version 27.2
-  export EMACS_VERSION="27.2"
+  # download emacs version 28.2
+  export EMACS_VERSION="28.2"
   wget https://ftp.gnu.org/pub/gnu/emacs/emacs-${EMACS_VERSION}.tar.gz
 
   # extract the content
@@ -45,7 +49,7 @@ But, as a rule of thumb, to avoid major problems, always launch your Emacs
 program from a terminal:
 
 #+BEGIN_SRC bash
-  emacs &
+  emacs&
 #+END_SRC
 
 How I noticed this?
@@ -56,6 +60,16 @@ LSP docs]] and tested my $PATH using ~M-: (getenv "PATH")~.
 
 Later I compared with the value of ~echo $PATH~ from a terminal window, and for
 my surprise they were different. Emacs $PATH was lacking several configurations.
+
+*** Load Custom Scripts
+
+One can leverage the composibility powers of Emacs to create their own custom
+ELisp configuration and decide to load it in the start up process of Emacs. In
+order to do it, you can use this function:
+
+#+BEGIN_SRC elisp
+  (load-file "~/Desktop/codes/custom-emacs/my-cool-script.el")
+#+END_SRC
 
 ** Learning Emacs
 
