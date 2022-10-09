@@ -40,6 +40,22 @@ You can find the Emacs versions in this [[https://www.gnu.org/software/emacs/][l
   sudo make install
 #+END_SRC
 
+**** Uninstall
+
++ Reference: [[https://askubuntu.com/questions/377245/how-to-completely-remove-my-emacs][link]].
+
+#+BEGIN_SRC bash :tangle no
+  # download emacs version 28.2
+  export EMACS_VERSION="28.2"
+  wget https://ftp.gnu.org/pub/gnu/emacs/emacs-${EMACS_VERSION}.tar.gz
+
+  # extract the content
+  tar xvzf emacs-${EMACS_VERSION}.tar.gz
+  cd emacs-${EMACS_VERSION}/
+  ./configure
+  sudo make uninstall
+#+END_SRC
+
 ** Launching Emacs
 
 In my experience I noticed that the Emacs $PATH is different based on how you
