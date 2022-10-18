@@ -98,18 +98,19 @@
   :config
   (which-key-mode))
 
+(use-package super-save
+  :ensure t
+  :config
+  (super-save-mode +1)
+  :init
+  (setq super-save-auto-save-when-idle t))
+
 ;; Framework for incremental completions and narrowing selections.
 ;; https://emacs-helm.github.io/helm/
 (use-package helm
   :ensure t
   :bind (("M-x" . helm-M-x)
 	 ("C-x b" . helm-buffers-list)))
-
-;; https://jblevins.org/projects/markdown-mode/
-(use-package markdown-mode
-  :ensure t
-  :mode ("\\.md\\'" . gfm-mode)
-  :init (setq markdown-command "multimarkdown"))
 
 ;; Highlight delimiters such as parentheses, brackets or braces
 ;; according to their depth
@@ -125,23 +126,11 @@
   :ensure t
   :bind (("C-b" . 'neotree-toggle)))
 
-;; Convert buffer text and decorations to HTML
-;; https://github.com/hniksic/emacs-htmlize
-(use-package htmlize
-  :ensure t)
-
 ;; Keybindings to comment line region and single line
 (use-package undo-tree
   :ensure t
   :init
   (undo-tree-mode))
-
-;; Displays help text (e.g. for buttons and menu items that you put the mouse on)
-;; in a pop-up window.
-;; https://github.com/emacs-mirror/emacs/blob/master/lisp/tooltip.el
-(use-package tooltip
-  :config
-  (tooltip-mode 0))
 
 ;; https://oremacs.com/swiper/#copying
 ;; https://github.com/abo-abo/swiper
@@ -155,6 +144,278 @@
   (global-set-key (kbd "C-s") 'swiper-isearch)
   (global-set-key (kbd "C-x C-f") 'counsel-find-file))
 
+;; ======================================================
+;; GENERAL PROGRAMMING
+;; Language Server Protocol Support for Emacs
+;; Aims to provide IDE-like experience by providing optional integration
+;; with the most popular Emacs packages like comapny, flycheck and
+;; projectile.
+;; https://github.com/emacs-lsp/lsp-mode
+;; https://emacs-lsp.github.io/lsp-mode/
+;;
+;; You need first, `lsp-mode', that is Emacs client for an LSP server. Then
+;; you need to install the specific LSP server for your language. Finally,
+;; call `M-x lsp' or use the corresponding major mode hook to autostart
+;; the server.
+;;
+;; Use `M-x lsp-doctor' to validate if your `lsp-mode' is properly
+;; configured.
+(use-package lsp-mode
+  :ensure t
+  :hook ((lsp-mode        . lsp-headerline-breadcrumb-mode)
+         (fsharp-mode     . lsp-deferred)
+         (terraform-mode  . lsp-deferred) ;; sudo apt install terraform-ls
+         (yaml-mode       . lsp-deferred)
+         (dockerfile-mode . lsp-deferred)
+         (sh-mode         . lsp-deferred))
+  :init
+  ;; set prefix for lsp-command-keymap
+  (setq lsp-keymap-prefix "C-c l")
+  ;; performance tuning
+  (setq gc-cons-threshold 100000000
+        read-process-output-max (* 1024 1024) ;; 1mb
+        lsp-idle-delay 1.000
+        lsp-log-io nil) ; if set to true can cause a performance hit
+  ;; UI
+  (setq lsp-headerline-breadcrumb-enable t)
+  ;; F# ---------------------------------
+  (setq lsp-fsharp-auto-workspace-init nil
+        lsp-fsharp-enable-reference-code-lens t
+        lsp-fsharp-external-autocomplete t
+        lsp-fsharp-generate-binlog nil
+        lsp-fsharp-interface-stub-generation t
+        lsp-fsharp-keywords-autocomplete t
+        lsp-fsharp-linter nil
+        lsp-fsharp-record-stub-generation t
+        lsp-fsharp-resolve-namespaces t
+        lsp-fsharp-server-args nil)
+  ;; Terraform --------------------------
+  (setq lsp-terraform-ls-enable-show-reference t
+        lsp-semantic-tokens-enable t
+        lsp-semantic-tokens-honor-refresh-requests t
+        lsp-enable-links t)
+  ;; YAML -------------------------------
+  (setq lsp-yaml-bracket-spacing t
+        lsp-yaml-completion t
+        lsp-yaml-format-enable t
+        lsp-yaml-hover t
+        lsp-yaml-single-quote nil
+        lsp-yaml-validate t)
+  :config
+  (with-eval-after-load 'lsp-mode
+    (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)))
+
+;; This package contains all the higher level UI modules of lsp-mode, like
+;; flycheck support and code lenses.
+;; https://emacs-lsp.github.io/lsp-ui/#intro
+(use-package lsp-ui
+  :ensure t
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-position 'bottom)
+  :init
+  (setq lsp-ui-doc-enable t
+        lsp-ui-sideline-diagnostic-max-lines 7))
+
+;; Integration between lsp-mode and treemacs and implementation of treeview
+;; controls using treemacs as a tree renderer.
+;; https://github.com/emacs-lsp/lsp-treemacs
+(use-package lsp-treemacs
+  :ensure t
+  :after lsp
+  :commands lsp-treemacs-errors-list)
+
+;; Search for some string pattern in the project.
+(use-package lsp-ivy
+  :ensure t)
+
+;; Puts angry red squiggles on the screen when I do something stupid.
+;; https://www.flycheck.org/en/latest/
+(use-package flycheck
+  :ensure t
+  :config
+  (use-package flymake-flycheck
+    :ensure t))
+
+;; COMplete ANYthing
+;; Could give wrong completions (orgmode)
+;; http://company-mode.github.io/
+(use-package company
+  :ensure t
+  :hook
+  (after-init . global-company-mode)
+  :bind
+  (:map company-active-map
+        ("<tab>" . company-complete-selection))
+  (:map lsp-mode-map
+        ("<tab>" . company-indent-or-complete-common))
+  :commands
+  (company-mode company-indent-or-complete-common)
+  :config
+  (setq company-idle-delay 0.0
+        company-minimum-prefix-length 1
+        company-selection-wrap-around t))
+
+;; Make company box look better
+(use-package company-box
+  :ensure t
+  :hook (company-mode . company-box-mode))
+
+;; lsp -> language server protocol
+;; https://github.com/emacs-lsp/helm-lsp
+(use-package helm-lsp
+  :ensure t
+  :commands helm-lsp-workspace-symbol)
+
+;; https://github.com/company-mode/company-quickhelp
+(use-package company-quickhelp
+   :ensure t
+   :init
+   (setq company-tooltip-limit 10 ; bigger popup window
+	 company-tooltip-minimum-width 15
+	 company-tooltip-align-annotations t ; align annotations to the right tooltip border
+	 company-quickhelp-delay '1.0)
+   :config
+   (company-quickhelp-mode nil)
+   :hook
+   ((emacs-lisp-mode . (lambda () (company-mode)))))
+
+;; Is a complete text-based user interface to Git.
+;; https://magit.vc/
+(use-package magit
+  :ensure t)
+
+;; Highlight uncommited changes on the left side of the window
+;; area known as the "gutter"
+;; https://github.com/dgutov/diff-hl
+(use-package diff-hl
+  :ensure t
+  :init
+  (global-diff-hl-mode)
+  (diff-hl-flydiff-mode))
+
+;; https://jblevins.org/projects/markdown-mode/
+(use-package markdown-mode
+  :ensure t
+  :mode ("\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown"))
+
+;; Projectile is a project interaction library for Emacs. Its goal is to provide
+;; a nice set of features operating on a project level without introducing
+;; external dependencies (when feasible).
+;; https://github.com/bbatsov/projectile
+;; https://docs.projectile.mx/projectile/installation.html
+(use-package projectile
+  :ensure t
+  :init
+  (projectile-mode +1)
+  :bind (:map projectile-mode-map
+              ("s-p" . projectile-command-map)
+              ("C-c p" . projectile-command-map)))
+
+;; This mode sets up hooks so that EditorConfig properties will be loaded and
+;; applied to the new buffers automatically when visiting files.
+;; https://github.com/editorconfig/editorconfig-emacs
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
+
+;; Minor mode for Emacs that deals with parens pairs and tries to be smart about
+;; it.
+;; https://github.com/Fuco1/smartparens
+(use-package smartparens
+  :ensure t
+  :init
+  (require 'smartparens-config)
+  :config
+  (smartparens-global-mode t) ;; These options can be t or nil.
+  (show-smartparens-global-mode t)
+  (setq sp-show-pair-from-inside t)
+  :custom-face
+  (sp-show-pair-match-face ((t (:foreground "White")))) ;; Could also have :background "Grey" for example.
+  )
+
+;; ======================================================
+;; TYPESCRIPT CONFIG
+;; https://github.com/emacs-typescript/typescript.el
+;; https://emacs-lsp.github.io/lsp-mode/page/lsp-typescript/
+(use-package typescript-mode
+  :ensure t
+  :mode ("\\.ts[x]?\\'")
+  :hook (typescript-mode . lsp-deferred)
+  :config
+  (setq typescript-indent-level 2))
+
+;; ======================================================
+;; F# CONFIG
+;; Got this configuration from Magueta's config
+;; https://github.com/MMagueta/MageMacs/blob/macintosh/init.el
+
+;; Provides support for the F# language in Emacs
+;; https://github.com/fsharp/emacs-fsharp-mode
+(use-package fsharp-mode
+   :ensure t
+   :mode ("\\.fs[x]?[i]?[proj]?\\'")
+   :hook ((fsharp-mode      . (lambda () (lsp))))
+   :bind
+   (("C-c C-,"     . 'fsharp-shift-region-left)
+    ("C-c C-."     . 'fsharp-shift-region-right)
+    ("C-o"         . 'fsharp-newline-and-indent)
+    ("C-c C-i"     . 'run-fsharp)
+    ("C-c C-a"     . 'fsharp-find-alternate-file)
+    ("M-h"         . 'fsharp-mark-phrase))
+   :config
+   (setq compile-command "dotnet watch run")
+   (setq inferior-fsharp-program "dotnet fsi")
+   (add-hook 'inferior-fsharp-mode-hook 'turn-on-comint-history)
+   (add-hook 'fsharp-mode-hook 'highlight-indentation-mode))
+
+;; ======================================================
+;; DEVSECOPS
+;; Used for json files.
+(use-package json-mode
+  :ensure t
+  :mode "\\.json\\'")
+
+;; Pretty syntax highlight for editing Dockerfiles.
+;; https://github.com/spotify/dockerfile-mode
+(use-package dockerfile-mode
+  :ensure t
+  :defer t
+  :mode ("\\Dockerfile\\'" "\\.dockerfile\\'"))
+
+(use-package yaml-mode
+  :ensure t
+  :mode ("\\.ya?ml\\'"))
+
+;; https://github.com/emacsorphanage/terraform-mode
+(use-package terraform-mode
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode))
+  (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
+  (setq terraform-indent-level 2))
+
+;; https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
+(use-package python-mode
+  :ensure t
+  :after flycheck
+  :mode "\\.py\\'"
+  :custom
+  (python-indent-offset 4)
+  (flycheck-python-pycompile-executable "python3")
+  (python-shell-interpreter "python3"))
+
+;; Python code
+;; to fix problems: https://www.higithub.com/jorgenschaefer/issue/elpy/1936
+;; M-x elpy-rpc-reinstall-virtualenv
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable))
+
+;; ORG MODE
 ;; A GNU Emacs major mode for keeping notes, authoring documents,
 ;; computational notebooks, literate programming, maintaining to-do
 ;; lists, planning projects, and more.
@@ -347,6 +608,11 @@
 (use-package org-contrib
   :ensure t)
 
+;; Supercharge your org daily/weekly/agenda
+;; https://github.com/alphapapa/org-super-agenda
+(use-package org-super-agenda
+  :ensure t)
+
 ;; ======================================================
 ;; Latex + Beamer config
 ;; Beamer is a LaTeX package for writing presentations.
@@ -378,251 +644,6 @@
 
 (use-package oc-biblatex)
 
-;; Highlight uncommited changes on the left side of the window
-;; area known as the "gutter"
-;; https://github.com/dgutov/diff-hl
-(use-package diff-hl
-  :ensure t
-  :init
-  (global-diff-hl-mode)
-  (diff-hl-flydiff-mode))
-
-;; Supercharge your org daily/weekly/agenda
-;; https://github.com/alphapapa/org-super-agenda
-(use-package org-super-agenda
-  :ensure t)
-
-;; ======================================================
-;; GENERAL PROGRAMMING
-;; Language Server Protocol Support for Emacs
-;; Aims to provide IDE-like experience by providing optional integration
-;; with the most popular Emacs packages like comapny, flycheck and
-;; projectile.
-;; https://github.com/emacs-lsp/lsp-mode
-;; https://emacs-lsp.github.io/lsp-mode/
-;;
-;; You need first, `lsp-mode', that is Emacs client for an LSP server. Then
-;; you need to install the specific LSP server for your language. Finally,
-;; call `M-x lsp' or use the corresponding major mode hook to autostart
-;; the server.
-;;
-;; Use `M-x lsp-doctor' to validate if your `lsp-mode' is properly
-;; configured.
-(use-package lsp-mode
-  :ensure t
-  :hook ((lsp-mode        . lsp-headerline-breadcrumb-mode)
-         (fsharp-mode     . lsp-deferred)
-         (terraform-mode  . lsp-deferred) ;; sudo apt install terraform-ls
-         (yaml-mode       . lsp-deferred)
-         (dockerfile-mode . lsp-deferred)
-         (sh-mode         . lsp-deferred))
-  :init
-  ;; set prefix for lsp-command-keymap
-  (setq lsp-keymap-prefix "C-c l")
-  ;; performance tuning
-  (setq gc-cons-threshold 100000000
-        read-process-output-max (* 1024 1024) ;; 1mb
-        lsp-idle-delay 1.000
-        lsp-log-io nil) ; if set to true can cause a performance hit
-  ;; UI
-  (setq lsp-headerline-breadcrumb-enable t)
-  ;; F# ---------------------------------
-  ;; (add-hook 'before-save-hook #'(lambda () (when (eq major-mode 'fsharp-mode)
-  ;;                                            (lsp-format-buffer))))
-  (setq lsp-fsharp-auto-workspace-init nil
-        lsp-fsharp-enable-reference-code-lens t
-        lsp-fsharp-external-autocomplete t
-        lsp-fsharp-generate-binlog nil
-        lsp-fsharp-interface-stub-generation t
-        lsp-fsharp-keywords-autocomplete t
-        lsp-fsharp-linter nil
-        lsp-fsharp-record-stub-generation t
-        lsp-fsharp-resolve-namespaces t
-        lsp-fsharp-server-args nil)
-  ;; Terraform --------------------------
-  (setq lsp-terraform-ls-enable-show-reference t
-        lsp-semantic-tokens-enable t
-        lsp-semantic-tokens-honor-refresh-requests t
-        lsp-enable-links t)
-  ;; YAML -------------------------------
-  (setq lsp-yaml-bracket-spacing t
-        lsp-yaml-completion t
-        lsp-yaml-format-enable t
-        lsp-yaml-hover t
-        lsp-yaml-single-quote nil
-        lsp-yaml-validate t)
-  :config
-  (with-eval-after-load 'lsp-mode
-    (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)))
-
-;; This package contains all the higher level UI modules of lsp-mode,
-;; like flycheck support and code lenses.
-;; https://emacs-lsp.github.io/lsp-ui/#intro
-(use-package lsp-ui
-  :ensure t
-  :hook (lsp-mode . lsp-ui-mode)
-  :custom
-  (lsp-ui-doc-position 'bottom)
-  :init
-  (setq lsp-ui-doc-enable t
-        lsp-ui-sideline-diagnostic-max-lines 7))
-
-;; Integration between lsp-mode and treemacs and implementation of treeview
-;; controls using treemacs as a tree renderer.
-;; https://github.com/emacs-lsp/lsp-treemacs
-(use-package lsp-treemacs
-  :ensure t
-  :after lsp
-  :commands lsp-treemacs-errors-list)
-
-;; Search for some string pattern in the project.
-(use-package lsp-ivy
-  :ensure t)
-
-;; Puts angry red squiggles on the screen when I do something stupid.
-;; https://www.flycheck.org/en/latest/
-(use-package flycheck
-  :ensure t
-  :config
-  (use-package flymake-flycheck
-    :ensure t))
-
-;; COMplete ANYthing
-;; Could give wrong completions (orgmode)
-;; http://company-mode.github.io/
-(use-package company
-  :ensure t
-  :hook
-  (after-init . global-company-mode)
-  :bind
-  (:map company-active-map
-        ("<tab>" . company-complete-selection))
-  (:map lsp-mode-map
-        ("<tab>" . company-indent-or-complete-common))
-  :commands
-  (company-mode company-indent-or-complete-common)
-  :config
-  (setq company-idle-delay 0.0
-        company-minimum-prefix-length 1
-        company-selection-wrap-around t))
-
-;; Make company box look better
-(use-package company-box
-  :ensure t
-  :hook (company-mode . company-box-mode))
-
-;; lsp -> language server protocol
-;; https://github.com/emacs-lsp/helm-lsp
-(use-package helm-lsp
-  :ensure t
-  :commands helm-lsp-workspace-symbol)
-
-;; https://docs.projectile.mx/projectile/installation.html
-(use-package projectile
-  :ensure t
-  :init
-  (projectile-mode +1)
-  :bind (:map projectile-mode-map
-              ("s-p" . projectile-command-map)
-              ("C-c p" . projectile-command-map)))
-
-;; https://github.com/company-mode/company-quickhelp
-(use-package company-quickhelp
-   :ensure t
-   :init
-   (setq company-tooltip-limit 10 ; bigger popup window
-	 company-tooltip-minimum-width 15
-	 company-tooltip-align-annotations t ; align annotations to the right tooltip border
-	 company-quickhelp-delay '1.0)
-   :config
-   (company-quickhelp-mode nil)
-   :hook
-   ((emacs-lisp-mode . (lambda () (company-mode)))))
-
-;; Is a complete text-based user interface to Git.
-;; https://magit.vc/
-(use-package magit
-  :ensure t)
-
-;; ======================================================
-;; TYPESCRIPT CONFIG
-;; https://github.com/emacs-typescript/typescript.el
-;; https://emacs-lsp.github.io/lsp-mode/page/lsp-typescript/
-(use-package typescript-mode
-  :ensure t
-  :mode ("\\.ts[x]?\\'")
-  :hook (typescript-mode . lsp-deferred)
-  :config
-  (setq typescript-indent-level 2))
-
-;; ======================================================
-;; F# CONFIG
-;; Got this configuration from Magueta's config
-;; https://github.com/MMagueta/MageMacs/blob/macintosh/init.el
-
-;; Provides support for the F# language in Emacs
-;; https://github.com/fsharp/emacs-fsharp-mode
-(use-package fsharp-mode
-   :ensure t
-   :mode ("\\.fs[x]?[i]?[proj]?\\'")
-   :hook ((fsharp-mode      . (lambda () (lsp))))
-   :bind
-   (("C-c C-,"     . 'fsharp-shift-region-left)
-    ("C-c C-."     . 'fsharp-shift-region-right)
-    ("C-o"         . 'fsharp-newline-and-indent)
-    ("C-c C-i"     . 'run-fsharp)
-    ("C-c C-a"     . 'fsharp-find-alternate-file)
-    ("M-h"         . 'fsharp-mark-phrase))
-   :config
-   (setq compile-command "dotnet watch run")
-   (setq inferior-fsharp-program "dotnet fsi")
-   (add-hook 'inferior-fsharp-mode-hook 'turn-on-comint-history)
-   (add-hook 'fsharp-mode-hook 'highlight-indentation-mode))
-
 ;; Code evaluation in org-mode
 (use-package ob-fsharp
   :ensure t)
-
-;; ======================================================
-;; DEVSECOPS
-;; Used for json files.
-(use-package json-mode
-  :ensure t
-  :mode "\\.json\\'")
-
-;; Pretty syntax highlight for editing Dockerfiles.
-;; https://github.com/spotify/dockerfile-mode
-(use-package dockerfile-mode
-  :ensure t
-  :defer t
-  :mode ("\\Dockerfile\\'" "\\.dockerfile\\'"))
-
-(use-package yaml-mode
-  :ensure t
-  :mode ("\\.ya?ml\\'"))
-
-;; https://github.com/emacsorphanage/terraform-mode
-(use-package terraform-mode
-  :ensure t
-  :init
-  (add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode))
-  (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
-  (setq terraform-indent-level 2))
-
-;; https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
-(use-package python-mode
-  :ensure t
-  :after flycheck
-  :mode "\\.py\\'"
-  :custom
-  (python-indent-offset 4)
-  (flycheck-python-pycompile-executable "python3")
-  (python-shell-interpreter "python3"))
-
-;; Python code
-;; to fix problems: https://www.higithub.com/jorgenschaefer/issue/elpy/1936
-;; M-x elpy-rpc-reinstall-virtualenv
-(use-package elpy
-  :ensure t
-  :init
-  (elpy-enable))
