@@ -33,11 +33,6 @@
 
 ;; =======================================================================
 ;; GLOBAL KEY BINDINGS
-(global-set-key (kbd "C-<tab>") 'other-window)
-(global-set-key (kbd "M-<down>") 'enlarge-window)
-(global-set-key (kbd "M-<up>") 'shrink-window)
-(global-set-key (kbd "M-<left>") 'enlarge-window-horizontally)
-(global-set-key (kbd "M-<right>") 'shrink-window-horizontally)
 (global-set-key (kbd "C-/") 'comment-line)
 (global-set-key [f5] 'find-alternate-file) ;; reload a file
 
