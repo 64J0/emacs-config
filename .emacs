@@ -336,7 +336,8 @@
   :init
   (setq org-drill-add-random-noise-to-intervals-p t)
   (setq org-drill-scope 'directory) ;; file
-  )
+  (setq org-drill-maximum-items-per-session nil)
+  (setq org-drill-maximum-duration 30))
 
 ;; Prettify headings and plain lists in Org mode.
 ;; https://github.com/integral-dw/org-superstar-mode
