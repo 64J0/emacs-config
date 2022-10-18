@@ -12,7 +12,7 @@ Reference: [[https://www.gnu.org/software/emacs/][Emacs website]].
 
 ** Installation
 
-*** Install Using ~apt~
+*** Debian: Install using ~apt~
 
 ~apt~ is the package manager available for Ubuntu Linux (Debian based OS). To
 install Emacs using this package manager is pretty straigh forward:
@@ -91,10 +91,22 @@ order to do it, you can use this function:
 
 According to [[http://tilde.town/~ramin_hal9001/articles/2022-04-27_best-way-to-learn-emacs.html][this post]], the best way to learn Emacs consists in two things:
 
-1. Read blog posts about how other people use Emacs;
+1. Read blog posts about how other people use Emacs.
 2. Learning how to read the manual.
 
-*** 1. Some Blogs
+*** Emacs distributions
+
+For newcomers, it is usually easier to start using a pre-built configuration
+instead of creating one by yourself.
+
+Consider taking a look at those distributions to start your Emacs journey:
+
++ https://prelude.emacsredux.com/en/latest/
++ https://www.spacemacs.org/
++ https://github.com/rdallasgray/graphene
++ https://github.com/doomemacs/doomemacs
+
+*** Some Blogs
 
 Later in this ~README.org~ I cite other cool articles and references. Here I'll
 just store the non-exhaustive links mentioned by Ramin in his article.
@@ -107,7 +119,7 @@ just store the non-exhaustive links mentioned by Ramin in his article.
 + [[https://protesilaos.com/][Protesilaos Stavrou - Blog]]
 + [[https://karthinks.com/tags/emacs/][Karthik Chikmagalur - Blog]]
 
-*** 2. Emacs Manual - Cheatsheet
+*** Emacs Manual - Cheatsheet
 
 + ~C-h i~ - *open the Info-mode* app, which lists a "menu" of all installed
   manuals.
@@ -119,7 +131,7 @@ just store the non-exhaustive links mentioned by Ramin in his article.
   
 Those are the points I think are worth knowing, at least in the beginning.
 
-*** Cool Emacs Links
+*** Other Cool Emacs Links
 
 + [[https://orgmode.org/worg/org-contrib/org-drill.html#:~:text=Running%20the%20drill%20session][org-drill]] reference for running the drill session. This part of the docs is
   very good since it explains what each number means and how to run the session
@@ -163,26 +175,25 @@ I found this trick watching this video from System Crafters:
 *** Emacs Modes
 
 #+BEGIN_QUOTE
-  Each kind of editor is an Emacs mode, a chunk of Lisp code that combines
-  Emacs's primitive types and operations in some new way. Each mode is therefore
-  an extension of Emacs, which means that when you strip away all those
-  modes — when you remove the extensions and you're left with just the core of
-  Emacs — you don't have any editors at all; you have the raw materials for making
-  editors. You have an editor-builder.
+Each kind of editor is an Emacs mode, a chunk of Lisp code that combines Emacs's
+primitive types and operations in some new way. Each mode is therefore an
+extension of Emacs, which means that when you strip away all those modes — when
+you remove the extensions and you're left with just the core of Emacs — you
+don't have any editors at all; you have the raw materials for making
+editors. You have an editor-builder.
 
-  What can you build with an editor-builder? Editors, of course, but what's an
-  editor? An editor is a program for viewing and altering a representation of
-  data of some kind. By "representation" I mean a set of rules for showing the
-  data's structure and content, and for indicating naturally how interactions
-  with the data are supposed to proceed. When editing a text file, the rules are
-  pretty simple: each printable byte gets displayed in sequence, with newline
-  characters causing line breaks; and a cursor indicates where in the byte
-  sequence the next user-invoked operation will occur. When editing a directory,
-  the metaphor is a little less straightforward—data in the directory file must
-  first be translated into a human-readable form—but the resulting interactions
-  still seem natural.
+What can you build with an editor-builder? Editors, of course, but what's an
+editor? An editor is a program for viewing and altering a representation of data
+of some kind. By "representation" I mean a set of rules for showing the data's
+structure and content, and for indicating naturally how interactions with the
+data are supposed to proceed. When editing a text file, the rules are pretty
+simple: each printable byte gets displayed in sequence, with newline characters
+causing line breaks; and a cursor indicates where in the byte sequence the next
+user-invoked operation will occur. When editing a directory, the metaphor is a
+little less straightforward—data in the directory file must first be translated
+into a human-readable form—but the resulting interactions still seem natural.
 
-  --- (Book) Writing GNU Emacs Extensions
+--- (Book) Writing GNU Emacs Extensions
 #+END_QUOTE
 
 ** Learning Elisp - Emacs Lisp
@@ -196,3 +207,6 @@ to programming in Emacs Lisp]].
 
 After finishing this first book, I plan to read [[https://github.com/norvig/paip-lisp][Paradigms of Artificial
 Intelligence Programming: Case Studies in Common Lisp]].
+
+There is also this reference for GNU Emacs extensions (written in 1997 btw):
+[[https://www.amazon.com/Writing-GNU-Emacs-Extensions-Glickstein/dp/1565922611][Writing GNU Emacs Extensions]].
