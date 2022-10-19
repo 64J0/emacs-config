@@ -1,35 +1,37 @@
 ;; -*- lexical-binding: t; -*-
 
+;; Based on: https://github.com/bbatsov/prelude
+
 ;; Until Emacs 24.1 (June 2012), Elisp only had dynamically scoped variables, a
 ;; feature, mostly by accident, common to old lisp dialects. While dynamic scope
 ;; has some selective uses, it’s widely regarded as a mistake for local
 ;; variables, and virtually no other languages have adopted it.
 
-(require 'cl)
 (require 'cl-lib) ;; cl -> common lisp
 
 ;; =======================================================================
 ;; INITIAL CONFIG
 ;; Just used to set some default values to make Emacs look and behave the
 ;; way I want.
-(setq user-full-name "Vinícius Gajo")
 (global-linum-mode) ;; show the line number
 (tool-bar-mode -1) ;; remove tool bar
 (menu-bar-mode -1) ;; remove menu bar
-(setq inhibit-startup-message t)  ;; remove startup message
-(setq standard-indent 4) ;; default indent spaces
-(setq auto-save-no-message t)
-(setq column-number-mode t) ;; show coordinates (y, x)
-(setq delete-selection-mode t) ;; delete text when selected and start typing
-(setq system-time-locale "pt_BR.UTF-8") ;; set encode
-(setq initial-buffer-choice "~/org/activities.org") ;; initial file 
-;; https://stackoverflow.com/questions/12031830/what-are-file-and-file-and-how-can-i-get-rid-of-them
-(setq make-backup-files nil) ;; avoid "~" files
 (set-face-attribute 'default nil
 		    :height 140
 		    :family "DejaVu Sans Mono") ;; font size and family
-(setq-default indent-tabs-mode nil)
-(setq-default fill-column 80)
+(setq user-full-name "Vinícius Gajo"
+      inhibit-startup-message t
+      standard-indent 4
+      auto-save-no-message t
+      column-number-mode t ;; show coordinates (y, x)
+      delete-selection-mode t ;; delete text when selected and start typing
+      system-time-locale "pt_BR.UTF-8" ;; set encode
+      make-backup-files nil ;; avoid "~" files
+      initial-buffer-choice "~/org/activities.org")
+(setq-default indent-tabs-mode nil
+              fill-column 80)
+(defvar emacs-user (getenv "USER") "Computer user from env.")
+(message "[+] Hello %s. Starting Emacs version %s" emacs-user emacs-version)
 
 ;; =======================================================================
 ;; GLOBAL KEY BINDINGS
@@ -39,10 +41,6 @@
 ;; =======================================================================
 ;; CUSTOM FUNCTIONS
 ;; Elisp functions I use to configure my Emacs.
-(defun concat-deps-path (filename)
-  "This function helps to avoid repeating the full path for the
-   deps folder."
-  (concat "~/org/deps/" filename))
 
 ;; https://www.emacswiki.org/emacs/UnfillParagraph
 ;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph    
@@ -53,16 +51,6 @@
         ;; This would override `fill-column' if it's an integer.
         (emacs-lisp-docstring-fill-column t))
     (fill-paragraph nil region)))
-
-;; =======================================================================
-;; CUSTOM VARIABLES
-(setq gajo-org-srs-path "~/org/srs/deck-refile.org")
-(setq gajo-org-notes-path "~/org/notes.org")
-(setq gajo-org-refile-path "~/org/refile.org")
-(setq gajo-org-agenda-path "~/org/agenda.org")
-(setq gajo-org-todo-path "~/org/todo.org")
-(setq gajo-org-work-path "~/org/work.org")
-(setq gajo-org-meetings-path "~/org/meetings.org")
 
 ;; =======================================================================
 ;; PACKAGE REPOSITORIES
@@ -173,6 +161,8 @@
   (setq lsp-keymap-prefix "C-c l")
   ;; performance tuning
   (setq gc-cons-threshold 100000000
+        ;; warn when opening files bigger than 100MB
+        large-file-warning-threshold 100000000
         read-process-output-max (* 1024 1024) ;; 1mb
         lsp-idle-delay 1.000
         lsp-log-io nil) ; if set to true can cause a performance hit
@@ -416,12 +406,22 @@
   (elpy-enable))
 
 ;; ORG MODE
-;; A GNU Emacs major mode for keeping notes, authoring documents,
-;; computational notebooks, literate programming, maintaining to-do
-;; lists, planning projects, and more.
+;;
+;; A GNU Emacs major mode for keeping notes, authoring documents, computational
+;; notebooks, literate programming, maintaining to-do lists, planning projects,
+;; and more.
+;;
 ;; https://orgmode.org/
 ;; https://github.com/alphapapa/org-super-agenda/blob/master/examples.org
 ;; https://github.com/ebellani/Emacs.d/blob/master/init.el
+
+(defun concat-deps-path (filename)
+  "This function helps to avoid repeating the full path for the
+   `deps' folder (dependencies)."
+  (if (string-empty-p filename)
+      (error "[-] File name is empty!")
+    (concat "~/org/deps/" filename)))
+
 (use-package org
   :ensure t
   :bind (("C-c l" . org-store-link)
@@ -430,6 +430,13 @@
   :preface
   (setq org-export-backends '(moderncv md beamer ascii html latex odt org))
   :config
+  (setq gajo-org-srs-path "~/org/srs/deck-refile.org"
+        gajo-org-notes-path "~/org/notes.org"
+        gajo-org-refile-path "~/org/refile.org"
+        gajo-org-agenda-path "~/org/agenda.org"
+        gajo-org-todo-path "~/org/todo.org"
+        gajo-org-work-path "~/org/work.org"
+        gajo-org-meetings-path "~/org/meetings.org")
   ;; Required for PlantUML diagrams
   ;; From: https://plantuml.com/download
   (setq org-plantuml-jar-path
@@ -454,15 +461,13 @@
      (C        . t)
      (ledger   . t)
      (org      . t)))
-  (add-to-list
-   'auto-mode-alist
-   '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
+  (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
   (setq org-directory "~/org")
   (setq org-agenda-files (list
                           gajo-org-agenda-path
                           gajo-org-work-path
                           gajo-org-todo-path))
-  (setq org-log-done 'time)
+  (setq org-log-done t)
   (setq org-export-backends
 	'(md gfm beamer ascii taskjuggler html latex odt org))
   (setq org-support-shift-select 'always)
@@ -545,8 +550,7 @@
                     ":PROPERTIES:\n"
                     ":drill_card_type: hide2cloze\n"
                     ":END:\n"
-                    "%?\n"))))
-  )
+                    "%?\n")))))
 
 ;; Second brain
 ;; https://www.youtube.com/watch?v=AyhPmypHDEw
@@ -613,6 +617,10 @@
 (use-package org-super-agenda
   :ensure t)
 
+;; Code evaluation in org-mode
+(use-package ob-fsharp
+  :ensure t)
+
 ;; ======================================================
 ;; Latex + Beamer config
 ;; Beamer is a LaTeX package for writing presentations.
@@ -643,7 +651,3 @@
   (ox-extras-activate '(latex-header-blocks ignore-headlines)))
 
 (use-package oc-biblatex)
-
-;; Code evaluation in org-mode
-(use-package ob-fsharp
-  :ensure t)
