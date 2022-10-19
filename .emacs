@@ -272,8 +272,8 @@
 
 ;; Is a complete text-based user interface to Git.
 ;; https://magit.vc/
-(use-package magit
-  :ensure t)
+;; (use-package magit
+;;   :ensure t)
 
 ;; Highlight uncommited changes on the left side of the window
 ;; area known as the "gutter"
