@@ -430,6 +430,7 @@
   :preface
   (setq org-export-backends '(moderncv md beamer ascii html latex odt org))
   :config
+  (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
   (setq gajo-org-srs-path "~/org/srs/deck-refile.org"
         gajo-org-notes-path "~/org/notes.org"
         gajo-org-refile-path "~/org/refile.org"
@@ -446,22 +447,17 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((sql      . t)
-     (dot      . t)
      (latex    . t)
      (shell    . t)
      (python   . t)
      (js       . t)
-     (ocaml    . t)
-     (java     . t)
      (scheme   . t)
      (plantuml . t)
-     (sqlite   . t)
-     (gnuplot  . t)
      (ditaa    . t)
      (C        . t)
-     (ledger   . t)
-     (org      . t)))
-  (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+     (org      . t)
+     (fsharp   . t)))
+  (setq org-src-fontify-natively t)
   (setq org-directory "~/org")
   (setq org-agenda-files (list
                           gajo-org-agenda-path
@@ -474,7 +470,6 @@
   (setq org-refile-allow-creating-parent-nodes 'confirm)
   (setq org-refile-use-outline-path 'file)
   (setq org-babel-inline-result-wrap "%s")
-  (setq org-src-fontify-natively t)
   (setq org-use-sub-superscripts '{})
   (setq org-export-with-sub-superscripts '{})
   (setq org-duration-format '((special . h:mm)))
