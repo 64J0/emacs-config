@@ -422,6 +422,16 @@
       (error "[-] File name is empty!")
     (concat "~/org/deps/" filename)))
 
+;; FlySpell for spell checking
+;; https://www.emacswiki.org/emacs/FlySpell
+(dolist (hook '(text-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode 1))))
+(dolist (hook '(change-log-mode-hook log-edit-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode -1))))
+(dolist (hook '(org-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode 1))))
+(setq flyspell-issue-message-flag nil) ;; performance improvement
+
 (use-package org
   :ensure t
   :bind (("C-c l" . org-store-link)
