@@ -356,9 +356,8 @@
     ("C-c C-a"     . 'fsharp-find-alternate-file)
     ("M-h"         . 'fsharp-mark-phrase))
    :config
-   (setq compile-command "dotnet watch run")
-   (setq inferior-fsharp-program "dotnet fsi")
-   (add-hook 'inferior-fsharp-mode-hook 'turn-on-comint-history)
+   ;; (setq compile-command "dotnet watch run")
+   ;; (setq inferior-fsharp-program "dotnet fsi")
    (add-hook 'fsharp-mode-hook 'highlight-indentation-mode))
 
 ;; ======================================================
