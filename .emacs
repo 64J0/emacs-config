@@ -223,9 +223,7 @@
 ;; https://www.flycheck.org/en/latest/
 (use-package flycheck
   :ensure t
-  :config
-  (use-package flymake-flycheck
-    :ensure t))
+  :init (global-flycheck-mode))
 
 ;; COMplete ANYthing
 ;; Could give wrong completions (orgmode)
@@ -460,7 +458,6 @@
      (shell    . t)
      (python   . t)
      (js       . t)
-     (scheme   . t)
      (plantuml . t)
      (ditaa    . t)
      (C        . t)
@@ -478,7 +475,7 @@
   (setq org-support-shift-select 'always)
   (setq org-refile-allow-creating-parent-nodes 'confirm)
   (setq org-refile-use-outline-path 'file)
-  (setq org-babel-inline-result-wrap "%s")
+  (setq org-babel-inline-result-wrap "=%s=")
   (setq org-use-sub-superscripts '{})
   (setq org-export-with-sub-superscripts '{})
   (setq org-duration-format '((special . h:mm)))
@@ -655,3 +652,9 @@
   (ox-extras-activate '(latex-header-blocks ignore-headlines)))
 
 (use-package oc-biblatex)
+
+;; GitHub Flavored Markdown
+;; This package changes the default MD exporter to use the GitHub syntax.
+;; https://github.com/larstvei/ox-gfm
+(use-package ox-gfm
+  :ensure t)
