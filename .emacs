@@ -10,50 +10,17 @@
 (require 'cl-lib) ;; cl -> common lisp
 
 ;; =======================================================================
-;; INITIAL CONFIG
-;; Just used to set some default values to make Emacs look and behave the
-;; way I want.
-(global-linum-mode) ;; show the line number
-(tool-bar-mode -1) ;; remove tool bar
-(menu-bar-mode -1) ;; remove menu bar
-(set-face-attribute 'default nil
-		    :height 140
-		    :family "DejaVu Sans Mono") ;; font size and family
-(setq user-full-name "Vinícius Gajo"
-      inhibit-startup-message t
-      standard-indent 4
-      auto-save-no-message t
-      column-number-mode t ;; show coordinates (y, x)
-      delete-selection-mode t ;; delete text when selected and start typing
-      system-time-locale "pt_BR.UTF-8" ;; set encode
-      make-backup-files nil ;; avoid "~" files
-      initial-buffer-choice "~/org/activities.org")
-(setq-default indent-tabs-mode nil
-              fill-column 80)
-(defvar emacs-user (getenv "USER") "Computer user from env.")
-(message "[+] Hello %s. Starting Emacs version %s" emacs-user emacs-version)
-
-;; =======================================================================
-;; GLOBAL KEY BINDINGS
-(global-set-key (kbd "C-/") 'comment-line)
-(global-set-key [f5] 'find-alternate-file) ;; reload a file
+;; GLOBAL CONFIGURATION
+(setq gajo-dir "~/Desktop/codes/emacs-config/")
+(load-file (concat gajo-dir "src/global.el"))
 
 ;; =======================================================================
 ;; CUSTOM FUNCTIONS
 ;; Elisp functions I use to configure my Emacs.
-
-;; https://www.emacswiki.org/emacs/UnfillParagraph
-;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph    
-(defun unfill-paragraph (&optional region)
-  "Takes a multi-line paragraph and makes it into a single line of text."
-  (interactive (progn (barf-if-buffer-read-only) '(t)))
-  (let ((fill-column (point-max))
-        ;; This would override `fill-column' if it's an integer.
-        (emacs-lisp-docstring-fill-column t))
-    (fill-paragraph nil region)))
+(load-file (concat gajo-dir "src/unfill-paragraph.el"))
 
 ;; =======================================================================
-;; PACKAGE REPOSITORIES
+;; PACKAGE MANAGEMENT
 ;; when error: M-x package-refresh-contents
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -65,10 +32,6 @@
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
-
-;; Initialize use-package on non-Linux platforms
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
 
 (require 'use-package)
 
