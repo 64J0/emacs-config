@@ -56,10 +56,10 @@
 ;; PACKAGE REPOSITORIES
 ;; when error: M-x package-refresh-contents
 (require 'package)
-(setq package-archives '(("melpa", "https://melpa.org/packages/")
-                         ("melpa-stable", "https://stable.melpa.org/packages/")
-                         ("org", "https://orgmode.org/elpa/")
-                         ("elpa", "https://elpa.gnu.org/packages/")
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
 
 (package-initialize)
