@@ -8,10 +8,10 @@
 ;; variables, and virtually no other languages have adopted it.
 
 (require 'cl-lib) ;; cl -> common lisp
+(setq gajo-dir "~/Desktop/codes/emacs-config/")
 
 ;; =======================================================================
 ;; GLOBAL CONFIGURATION
-(setq gajo-dir "~/Desktop/codes/emacs-config/")
 (load-file (concat gajo-dir "src/global.el"))
 
 ;; =======================================================================
