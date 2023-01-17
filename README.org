@@ -10,9 +10,9 @@ programming language with extensions to support text editing.
 
 Reference: [[https://www.gnu.org/software/emacs/][Emacs website]].
 
-** Installation
+* Installation
 
-*** Debian: Install using ~apt~
+** Debian: Install using ~apt~
 
 ~apt~ is the package manager available for Ubuntu Linux (Debian based OS). To
 install Emacs using this package manager is pretty straigh forward:
@@ -23,7 +23,7 @@ install Emacs using this package manager is pretty straigh forward:
   # sudo apt remove emacs
 #+END_SRC
 
-*** Install Using Terminal
+** Install Using Terminal
 
 You can find the Emacs versions in this [[https://www.gnu.org/software/emacs/][link]].
 
@@ -40,7 +40,7 @@ You can find the Emacs versions in this [[https://www.gnu.org/software/emacs/][l
   sudo make install
 #+END_SRC
 
-**** Uninstall
+*** Uninstall
 
 + Reference: [[https://askubuntu.com/questions/377245/how-to-completely-remove-my-emacs][link]].
 
@@ -56,7 +56,18 @@ You can find the Emacs versions in this [[https://www.gnu.org/software/emacs/][l
   sudo make uninstall
 #+END_SRC
 
-** Launching Emacs
+* Package Management
+
+In order to have a more reliable packages configuration, instead of using
+~package.el~, I decided to use ~straight.el~: "next-generation, purely
+functional package manager for the Emacs hacker".
+
+One can find the project repository in this [[https://github.com/radian-software/straight.el][link]].
+
+Also, there is this cool video from System Crafter regarding this package
+manager: YouTube [[https://www.youtube.com/watch?v=UmbVeqphGlc&ab_channel=SystemCrafters][link]].
+
+* Launching Emacs
 
 In my experience I noticed that the Emacs $PATH is different based on how you
 launch it. ~This is something I still want to research more to understand.~
@@ -77,7 +88,7 @@ LSP docs]] and tested my $PATH using ~M-: (getenv "PATH")~.
 Later I compared with the value of ~echo $PATH~ from a terminal window, and for
 my surprise they were different. Emacs $PATH was lacking several configurations.
 
-*** Load Custom Scripts
+** Load Custom Scripts
 
 One can leverage the composibility powers of Emacs to create their own custom
 ELisp configuration and decide to load it in the start up process of Emacs. In
@@ -87,14 +98,16 @@ order to do it, you can use this function:
   (load-file "~/Desktop/codes/custom-emacs/my-cool-script.el")
 #+END_SRC
 
-** Learning Emacs
+* Learning Emacs
 
 According to [[http://tilde.town/~ramin_hal9001/articles/2022-04-27_best-way-to-learn-emacs.html][this post]], the best way to learn Emacs consists in two things:
 
 1. Read blog posts about how other people use Emacs.
 2. Learning how to read the manual.
 
-*** Emacs distributions
+Notice that this order is actually controversial.
+
+** Emacs distributions
 
 For newcomers, it is usually easier to start using a pre-built configuration
 instead of creating one by yourself.
@@ -106,7 +119,7 @@ Consider taking a look at those distributions to start your Emacs journey:
 + https://github.com/rdallasgray/graphene
 + https://github.com/doomemacs/doomemacs
 
-*** Some Blogs
+** Some Blogs
 
 Later in this ~README.org~ I cite other cool articles and references. Here I'll
 just store the non-exhaustive links mentioned by Ramin in his article.
@@ -119,7 +132,7 @@ just store the non-exhaustive links mentioned by Ramin in his article.
 + [[https://protesilaos.com/][Protesilaos Stavrou - Blog]]
 + [[https://karthinks.com/tags/emacs/][Karthik Chikmagalur - Blog]]
 
-*** Emacs Manual - Cheatsheet
+** Emacs Manual - Cheatsheet
 
 + ~C-h i~ - *open the Info-mode* app, which lists a "menu" of all installed
   manuals.
@@ -131,7 +144,7 @@ just store the non-exhaustive links mentioned by Ramin in his article.
   
 Those are the points I think are worth knowing, at least in the beginning.
 
-*** Other Cool Emacs Links
+** Other Cool Emacs Links
 
 + [[https://orgmode.org/worg/org-contrib/org-drill.html#:~:text=Running%20the%20drill%20session][org-drill]] reference for running the drill session. This part of the docs is
   very good since it explains what each number means and how to run the session
@@ -159,7 +172,7 @@ Those are the points I think are worth knowing, at least in the beginning.
 + [[http://tilde.town/~ramin_hal9001/emacs-for-professionals/index.html][Emacs for Professionals]]
 + [[http://steve-yegge.blogspot.com/2008/01/emergency-elisp.html][Stevey's Blog Rants - Emergency Elisp]]
 
-*** Update packages
+** Update packages
 
 First, you need to run ~M-x list-packages~, then hit capital "u" (~U~), and
 finally "x" to execute the update.
@@ -172,7 +185,7 @@ I found this trick watching this video from System Crafters:
 
 + [[https://www.youtube.com/watch?v=dtjq68F2dXw&ab_channel=SystemCrafters][Keeping Your Emacs Packages Up To Date - Emacs From Scratch #11]]
 
-*** Emacs Modes
+** Emacs Modes
 
 #+BEGIN_QUOTE
 Each kind of editor is an Emacs mode, a chunk of Lisp code that combines Emacs's
@@ -196,7 +209,7 @@ into a human-readable form—but the resulting interactions still seem natural.
 --- (Book) Writing GNU Emacs Extensions
 #+END_QUOTE
 
-** Learning Elisp - Emacs Lisp
+* Learning Elisp - Emacs Lisp
 
 Since Emacs could be configured using Elisp it is totally useful to learn this
 programming language in order to create new functionalities or even get more
@@ -210,3 +223,5 @@ Intelligence Programming: Case Studies in Common Lisp]].
 
 There is also this reference for GNU Emacs extensions (written in 1997 btw):
 [[https://www.amazon.com/Writing-GNU-Emacs-Extensions-Glickstein/dp/1565922611][Writing GNU Emacs Extensions]].
+
+If you'd like to jump into exercises, check this [[https://exercism.org/tracks/emacs-lisp][Exercism track]].

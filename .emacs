@@ -6,23 +6,34 @@
 
 ;; =======================================================================
 ;; PACKAGE MANAGEMENT
-;; when error: M-x package-refresh-contents
-(require 'package)
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")
-                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+(setq package-enable-at-startup nil)
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+(straight-use-package 'use-package)
+;; (setq straight-use-package-by-default t)
 
-(package-initialize)
-(unless package-archive-contents
-  (package-refresh-contents))
-
-(require 'use-package)
+;; ============================================
+;; Load external configuration
+(setq gajo-dir "~/Desktop/codes/emacs-config/")
+(load-file (concat gajo-dir "src/global.el"))
+(load-file (concat gajo-dir "src/unfill-paragraph.el"))
+(load-file (concat gajo-dir "src/my-org.el"))
+(load-file (concat gajo-dir "src/programming.el"))
 
 ;; =======================================================================
 ;; EMACS THEME
 (use-package dracula-theme
-  :ensure t
+  :straight t
   :init
   (load-theme 'dracula t))
 
@@ -32,12 +43,12 @@
 ;; command (a prefix) in a popup.
 ;; https://github.com/justbur/emacs-which-key
 (use-package which-key
-  :ensure t
+  :straight t
   :config
   (which-key-mode))
 
 (use-package super-save
-  :ensure t
+  :straight t
   :config
   (super-save-mode +1)
   :init
@@ -46,7 +57,7 @@
 ;; Framework for incremental completions and narrowing selections.
 ;; https://emacs-helm.github.io/helm/
 (use-package helm
-  :ensure t
+  :straight t
   :bind (("M-x" . helm-M-x)
 	 ("C-x b" . helm-buffers-list)))
 
@@ -54,19 +65,19 @@
 ;; according to their depth
 ;; https://github.com/Fanael/rainbow-delimiters
 (use-package rainbow-delimiters
-  :ensure t
+  :straight t
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 ;; Show directory tree on the lateral
 ;; https://github.com/jaypei/emacs-neotree
 (use-package neotree
-  :ensure t
+  :straight t
   :bind (("C-b" . 'neotree-toggle)))
 
 ;; Keybindings to comment line region and single line
 (use-package undo-tree
-  :ensure t
+  :straight t
   :init
   (undo-tree-mode))
 
@@ -76,7 +87,7 @@
 ;; Counsel: collection of Ivy-enhanced versions of common Emacs commands
 ;; Swiper: Ivy-enhanced alternative to Isearch
 (use-package counsel
-  :ensure t
+  :straight t
   :config
   (ivy-mode 1)
   (global-set-key (kbd "C-s") 'swiper-isearch)
@@ -85,14 +96,14 @@
 ;; Puts angry red squiggles on the screen when I do something stupid.
 ;; https://www.flycheck.org/en/latest/
 (use-package flycheck
-  :ensure t
+  :straight t
   :init (global-flycheck-mode))
 
 ;; COMplete ANYthing
 ;; Could give wrong completions (orgmode)
 ;; http://company-mode.github.io/
 (use-package company
-  :ensure t
+  :straight t
   :hook
   (after-init . global-company-mode)
   :bind
@@ -109,18 +120,18 @@
 
 ;; Make company box look better
 (use-package company-box
-  :ensure t
+  :straight t
   :hook (company-mode . company-box-mode))
 
 ;; lsp -> language server protocol
 ;; https://github.com/emacs-lsp/helm-lsp
 (use-package helm-lsp
-  :ensure t
+  :straight t
   :commands helm-lsp-workspace-symbol)
 
 ;; https://github.com/company-mode/company-quickhelp
 (use-package company-quickhelp
-   :ensure t
+   :straight t
    :init
    (setq company-tooltip-limit 10 ; bigger popup window
 	 company-tooltip-minimum-width 15
@@ -133,7 +144,7 @@
 
 ;; https://jblevins.org/projects/markdown-mode/
 (use-package markdown-mode
-  :ensure t
+  :straight t
   :mode ("\\.md\\'" . gfm-mode)
   :init (setq markdown-command "multimarkdown"))
 
@@ -141,7 +152,7 @@
 ;; it.
 ;; https://github.com/Fuco1/smartparens
 (use-package smartparens
-  :ensure t
+  :straight t
   :init
   (require 'smartparens-config)
   :config
@@ -151,11 +162,3 @@
   :custom-face
   (sp-show-pair-match-face ((t (:foreground "White")))) ;; Could also have :background "Grey" for example.
   )
-
-;; ============================================
-;; Load external configuration
-(setq gajo-dir "~/Desktop/codes/emacs-config/")
-(load-file (concat gajo-dir "src/global.el"))
-(load-file (concat gajo-dir "src/unfill-paragraph.el"))
-(load-file (concat gajo-dir "src/my-org.el"))
-(load-file (concat gajo-dir "src/programming.el"))

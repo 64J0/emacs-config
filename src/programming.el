@@ -17,7 +17,7 @@
 ;; configured.
 ;;
 (use-package lsp-mode
-  :ensure t
+  :straight t
   :hook ((lsp-mode        . lsp-headerline-breadcrumb-mode)
          (fsharp-mode     . lsp-deferred)
          (terraform-mode  . lsp-deferred) ;; sudo apt install terraform-ls
@@ -67,7 +67,7 @@
 ;; flycheck support and code lenses.
 ;; https://emacs-lsp.github.io/lsp-ui/#intro
 (use-package lsp-ui
-  :ensure t
+  :straight t
   :hook (lsp-mode . lsp-ui-mode)
   :custom
   (lsp-ui-doc-position 'bottom)
@@ -79,13 +79,13 @@
 ;; controls using treemacs as a tree renderer.
 ;; https://github.com/emacs-lsp/lsp-treemacs
 (use-package lsp-treemacs
-  :ensure t
+  :straight t
   :after lsp
   :commands lsp-treemacs-errors-list)
 
 ;; Search for some string pattern in the project.
 (use-package lsp-ivy
-  :ensure t)
+  :straight t)
 
 ;; Projectile is a project interaction library for Emacs. Its goal is to provide
 ;; a nice set of features operating on a project level without introducing
@@ -95,7 +95,7 @@
 ;; `https://docs.projectile.mx/projectile/installation.html'
 ;;
 (use-package projectile
-  :ensure t
+  :straight t
   :init
   (projectile-mode +1)
   :bind (:map projectile-mode-map
@@ -108,7 +108,7 @@
 ;; `https://github.com/editorconfig/editorconfig-emacs'
 ;;
 (use-package editorconfig
-  :ensure t
+  :straight t
   :config
   (editorconfig-mode 1))
 
@@ -116,7 +116,7 @@
 ;; area known as the "gutter"
 ;; https://github.com/dgutov/diff-hl
 (use-package diff-hl
-  :ensure t
+  :straight t
   :init
   (global-diff-hl-mode)
   (diff-hl-flydiff-mode))
@@ -124,7 +124,7 @@
 ;; Is a complete text-based user interface to Git.
 ;; https://magit.vc/
 ;; (use-package magit
-;;   :ensure t)
+;;   :straight t)
 
 ;; ======================================================
 ;; TYPESCRIPT CONFIG
@@ -133,7 +133,7 @@
 ;; `https://emacs-lsp.github.io/lsp-mode/page/lsp-typescript/'
 ;;
 (use-package typescript-mode
-  :ensure t
+  :straight t
   :mode ("\\.ts[x]?\\'")
   :hook (typescript-mode . lsp-deferred)
   :config
@@ -148,7 +148,7 @@
 ;; `https://github.com/fsharp/emacs-fsharp-mode'
 ;;
 (use-package fsharp-mode
-   :ensure t
+   :straight t
    :mode ("\\.fs[x]?[i]?[proj]?\\'")
    :hook ((fsharp-mode      . (lambda () (lsp))))
    :bind
@@ -168,7 +168,7 @@
 ;; `https://www.emacswiki.org/emacs/PythonProgrammingInEmacs'
 ;;
 (use-package python-mode
-  :ensure t
+  :straight t
   :after flycheck
   :mode "\\.py\\'"
   :custom
@@ -180,7 +180,7 @@
 ;; to fix problems: `https://www.higithub.com/jorgenschaefer/issue/elpy/1936'
 ;; M-x elpy-rpc-reinstall-virtualenv
 (use-package elpy
-  :ensure t
+  :straight t
   :init
   (elpy-enable))
 
@@ -188,25 +188,25 @@
 ;; DEVSECOPS
 ;; Used for json files.
 (use-package json-mode
-  :ensure t
+  :straight t
   :mode "\\.json\\'")
 
 ;; Pretty syntax highlight for editing Dockerfiles.
 ;; `https://github.com/spotify/dockerfile-mode'
 ;;
 (use-package dockerfile-mode
-  :ensure t
+  :straight t
   :defer t
   :mode ("\\Dockerfile\\'" "\\.dockerfile\\'"))
 
 (use-package yaml-mode
-  :ensure t
+  :straight t
   :mode ("\\.ya?ml\\'"))
 
 ;; `https://github.com/emacsorphanage/terraform-mode'
 ;;
 (use-package terraform-mode
-  :ensure t
+  :straight t
   :init
   (add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode))
   (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)

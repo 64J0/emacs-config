@@ -26,7 +26,7 @@
 (setq flyspell-issue-message-flag nil) ;; performance improvement
 
 (use-package org
-  :ensure t
+  :straight t
   :bind (("C-c l" . org-store-link)
 	 ("C-c a" . org-agenda)
 	 ("C-c c" . org-capture))
@@ -154,7 +154,7 @@
 ;; templates from:
 ;; https://systemcrafters.net/build-a-second-brain-in-emacs/capturing-notes-efficiently/
 (use-package org-roam
-  :ensure t
+  :straight t
   :init
   (setq org-roam-v2-ack t)
   :custom
@@ -188,7 +188,7 @@
 ;; using org files as sources of facts to be memorised.
 ;; https://orgmode.org/worg/org-contrib/org-drill.html
 (use-package org-drill
-  :ensure t
+  :straight t
   :commands (org-drill)
   :init
   (setq org-drill-add-random-noise-to-intervals-p t)
@@ -199,7 +199,7 @@
 ;; Prettify headings and plain lists in Org mode.
 ;; https://github.com/integral-dw/org-superstar-mode
 (use-package org-superstar
-  :ensure t
+  :straight t
   :init
   (add-hook
    'org-mode-hook (lambda () (org-superstar-mode 1))))
@@ -207,23 +207,27 @@
 ;; This repository contains add-ons to Org.
 ;; https://git.sr.ht/~bzg/org-contrib
 (use-package org-contrib
-  :ensure t)
+  :straight t)
 
 ;; Supercharge your org daily/weekly/agenda
 ;; https://github.com/alphapapa/org-super-agenda
 (use-package org-super-agenda
-  :ensure t)
+  :straight t)
 
 ;; Code evaluation in org-mode
-(use-package ob-fsharp
-  :ensure t)
+(straight-use-package '(ob-fsharp
+                        :type git
+                        :host github
+                        :repo "juergenhoetzel/ob-fsharp"
+                        :branch master))
 
 ;; ======================================================
 ;; Latex + Beamer config
 ;; Beamer is a LaTeX package for writing presentations.
 ;; https://orgmode.org/worg/exporters/beamer/tutorial.html
 ;; sudo apt-get install -f texlive-latex-extra
-(use-package ox-beamer)
+(use-package 'ox-beamer)
+
 ;; https://www.aidanscannell.com/post/org-mode-resume/
 (use-package ox-latex
   :init
@@ -253,4 +257,4 @@
 ;; This package changes the default MD exporter to use the GitHub syntax.
 ;; https://github.com/larstvei/ox-gfm
 (use-package ox-gfm
-  :ensure t)
+  :straight t)
