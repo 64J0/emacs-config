@@ -215,11 +215,12 @@
   :straight t)
 
 ;; Code evaluation in org-mode
-(straight-use-package '(ob-fsharp
-                        :type git
-                        :host github
-                        :repo "juergenhoetzel/ob-fsharp"
-                        :branch master))
+(use-package ob-fsharp
+  :straight (ob-fsharp
+             :type git
+             :host github
+             :repo "juergenhoetzel/ob-fsharp"
+             :branch master))
 
 ;; ======================================================
 ;; Latex + Beamer config
