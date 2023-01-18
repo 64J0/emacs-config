@@ -19,12 +19,11 @@
 (use-package lsp-mode
   :straight t
   :hook ((lsp-mode        . lsp-headerline-breadcrumb-mode)
-         (fsharp-mode     . lsp-deferred)
          (terraform-mode  . lsp-deferred) ;; sudo apt install terraform-ls
          (yaml-mode       . lsp-deferred)
          (dockerfile-mode . lsp-deferred)
          (sh-mode         . lsp-deferred))
-  :init
+  :config
   ;; set prefix for lsp-command-keymap
   (setq lsp-keymap-prefix "C-c l")
   ;; performance tuning
@@ -59,7 +58,6 @@
         lsp-yaml-hover t
         lsp-yaml-single-quote nil
         lsp-yaml-validate t)
-  :config
   (with-eval-after-load 'lsp-mode
     (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)))
 
@@ -96,11 +94,10 @@
 ;;
 (use-package projectile
   :straight t
-  :init
-  (projectile-mode +1)
   :bind (:map projectile-mode-map
               ("s-p" . projectile-command-map)
-              ("C-c p" . projectile-command-map)))
+              ("C-c p" . projectile-command-map))
+  :config (projectile-mode +1))
 
 ;; This mode sets up hooks so that EditorConfig properties will be loaded and
 ;; applied to the new buffers automatically when visiting files.
@@ -109,15 +106,14 @@
 ;;
 (use-package editorconfig
   :straight t
-  :config
-  (editorconfig-mode 1))
+  :config (editorconfig-mode 1))
 
 ;; Highlight uncommited changes on the left side of the window
 ;; area known as the "gutter"
 ;; https://github.com/dgutov/diff-hl
 (use-package diff-hl
   :straight t
-  :init
+  :config
   (global-diff-hl-mode)
   (diff-hl-flydiff-mode))
 
@@ -134,7 +130,7 @@
 ;;
 (use-package typescript-mode
   :straight t
-  :mode ("\\.ts[x]?\\'")
+  :mode ("\\.ts[x]?\\'" . typescript-mode)
   :hook (typescript-mode . lsp-deferred)
   :config
   (setq typescript-indent-level 2))
@@ -149,8 +145,8 @@
 ;;
 (use-package fsharp-mode
    :straight t
-   :mode ("\\.fs[x]?[i]?[proj]?\\'")
-   :hook ((fsharp-mode      . (lambda () (lsp))))
+   :mode ("\\.fs[x]?[i]?[proj]?\\'" . fsharp-mode)
+   :hook (fsharp-mode . lsp-deferred)
    :bind
    (("C-c C-,"     . 'fsharp-shift-region-left)
     ("C-c C-."     . 'fsharp-shift-region-right)
@@ -170,7 +166,7 @@
 (use-package python-mode
   :straight t
   :after flycheck
-  :mode "\\.py\\'"
+  :mode ("\\.py\\'" . python-mode)
   :custom
   (python-indent-offset 4)
   (flycheck-python-pycompile-executable "python3")
@@ -189,7 +185,7 @@
 ;; Used for json files.
 (use-package json-mode
   :straight t
-  :mode "\\.json\\'")
+  :mode ("\\.json\\'" . json-mode))
 
 ;; Pretty syntax highlight for editing Dockerfiles.
 ;; `https://github.com/spotify/dockerfile-mode'
@@ -199,15 +195,20 @@
   :defer t
   :mode ("\\Dockerfile\\'" "\\.dockerfile\\'"))
 
+;; YAML mode to handle YAML manifests.
+;; `https://www.emacswiki.org/emacs/YamlMode'
+;; 
 (use-package yaml-mode
   :straight t
-  :mode ("\\.ya?ml\\'"))
+  :mode ("\\.ya?ml\\'" . yaml-mode))
 
+;; Terraform mode to handle Terraform code.
 ;; `https://github.com/emacsorphanage/terraform-mode'
 ;;
 (use-package terraform-mode
   :straight t
-  :init
-  (add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode))
-  (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
+  :defer t
+  :mode ("\\.tf\\'" . terraform-mode)
+  :hook (terraform-mode-hook . terraform-format-on-save-mode)
+  :config
   (setq terraform-indent-level 2))

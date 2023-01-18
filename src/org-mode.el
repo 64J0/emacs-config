@@ -33,8 +33,9 @@
 	 ("C-c c" . org-capture))
   :preface
   (setq org-export-backends '(moderncv md beamer ascii html latex odt org))
-  :config
-  (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+  :mode
+  ("\\.org\\'" . org-mode)
+  :init
   (setq gajo-org-srs-path "~/org/srs/deck-refile.org"
         gajo-org-notes-path "~/org/notes.org"
         gajo-org-refile-path "~/org/refile.org"
@@ -42,34 +43,20 @@
         gajo-org-todo-path "~/org/todo.org"
         gajo-org-work-path "~/org/work.org"
         gajo-org-meetings-path "~/org/meetings.org")
+  :custom
+  (org-support-shift-select 'always)
+  :config
   ;; Required for PlantUML diagrams
   ;; From: https://plantuml.com/download
   (setq org-plantuml-jar-path
         (expand-file-name (concat-deps-path "plantuml-1.2021.16.jar")))
   (setq org-ditaa-jar-path
         (expand-file-name (concat-deps-path "ditaa0_9.jar")))
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((sql      . t)
-     (latex    . t)
-     (shell    . t)
-     (python   . t)
-     (js       . t)
-     (plantuml . t)
-     (ditaa    . t)
-     (C        . t)
-     (org      . t)
-     (fsharp   . t)))
   (setq org-src-fontify-natively t)
   (setq org-directory "~/org")
-  (setq org-agenda-files (list
-                          gajo-org-agenda-path
-                          gajo-org-work-path
-                          gajo-org-todo-path))
   (setq org-log-done t)
   (setq org-export-backends
-	'(md gfm beamer ascii taskjuggler html latex odt org))
-  (setq org-support-shift-select 'always)
+        '(md gfm beamer ascii taskjuggler html latex odt org))
   (setq org-refile-allow-creating-parent-nodes 'confirm)
   (setq org-refile-use-outline-path 'file)
   (setq org-babel-inline-result-wrap "=%s=")
@@ -77,33 +64,35 @@
   (setq org-export-with-sub-superscripts '{})
   (setq org-duration-format '((special . h:mm)))
   (setq org-goto-interface 'outline-path-completion)
-  ;; AGENDA
   (setq org-agenda-include-diary nil)
   (setq org-agenda-compact-blocks t)
   (setq org-agenda-start-with-log-mode t)
   (setq org-agenda-sticky nil)
   (setq org-agenda-span 21)
-  ;; LaTeX
   (setq org-latex-pdf-process (list "latexmk -silent -f -pdf %f"))
-  (setq org-latex-create-formula-image-program 'dvipng) ; apt install dvipng
+  (setq org-latex-create-formula-image-program 'dvipng) ;; apt install dvipng
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
   (setq org-highlight-latex-and-related '(native))
   (setq org-cite-export-processors '((latex biblatex)
                                      (moderncv basic)
                                      (t basic)))
   (setq org-todo-keywords
-	(quote ((sequence "TODO(t)" "NEXT(n)" "HOLD(h)" "|" "DONE(d)" "CANCELLED(c)"))))
+        (quote ((sequence "TODO(t)" "NEXT(n)" "HOLD(h)" "|" "DONE(d)" "CANCELLED(c)"))))
   (setq org-todo-keyword-faces
-	(quote (("TODO" :foreground "orange" :weight bold)
-		("NEXT" :foreground "blue" :weight bold)
+        (quote (("TODO" :foreground "orange" :weight bold)
+	        ("NEXT" :foreground "blue" :weight bold)
                 ("HOLD" :foreground "magenta" :weight bold)
                 ("DONE" :foreground "forest green" :weight bold)
-		("CANCELLED" :foreground "red" :weight bold))))
+	        ("CANCELLED" :foreground "red" :weight bold))))
   (setq org-refile-targets
         `((nil                     :maxlevel . 9)
           (org-agenda-files        :maxlevel . 2)
           (,gajo-org-srs-path      :maxlevel . 2)
           (,gajo-org-agenda-path   :maxlevel . 2)))
+  (setq org-agenda-files (list
+                          gajo-org-agenda-path
+                          gajo-org-work-path
+                          gajo-org-todo-path))
   (setq org-capture-templates
         `(("t" "To-Do" entry (file gajo-org-todo-path)
            ,(concat "* TODO %^{Title}\n"
@@ -148,7 +137,19 @@
                     ":PROPERTIES:\n"
                     ":drill_card_type: hide2cloze\n"
                     ":END:\n"
-                    "%?\n")))))
+                    "%?\n"))))
+  (setq org-babel-do-load-languages
+        'org-babel-load-languages
+        '((sql      . t)
+          (latex    . t)
+          (shell    . t)
+          (python   . t)
+          (js       . t)
+          (plantuml . t)
+          (ditaa    . t)
+          (C        . t)
+          (org      . t)
+          (fsharp   . t))))
 
 ;; Second brain
 ;; https://www.youtube.com/watch?v=AyhPmypHDEw
