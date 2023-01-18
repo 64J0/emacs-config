@@ -192,7 +192,6 @@
 ;;
 (use-package dockerfile-mode
   :straight t
-  :defer t
   :mode ("\\Dockerfile\\'" "\\.dockerfile\\'"))
 
 ;; YAML mode to handle YAML manifests.
@@ -207,7 +206,6 @@
 ;;
 (use-package terraform-mode
   :straight t
-  :defer t
   :mode ("\\.tf\\'" . terraform-mode)
   :hook (terraform-mode-hook . terraform-format-on-save-mode)
   :config
