@@ -26,17 +26,17 @@
 (setq gajo-dir "~/Desktop/codes/emacs-config/")
 (load-file (concat gajo-dir "src/global.el"))
 (load-file (concat gajo-dir "src/unfill-paragraph.el"))
-(load-file (concat gajo-dir "src/my-org.el"))
-(load-file (concat gajo-dir "src/programming.el"))
+(load-file (concat gajo-dir "src/org-mode.el"))
+(load-file (concat gajo-dir "src/prog-mode.el"))
 
-;; =======================================================================
+;; ============================================
 ;; EMACS THEME
 (use-package dracula-theme
   :straight t
   :init
   (load-theme 'dracula t))
 
-;; =======================================================================
+;; ============================================
 ;; GENERAL USAGE
 ;; Displays the key bindings following your currently entered incomplete
 ;; command (a prefix) in a popup.
@@ -161,3 +161,5 @@
   :custom-face
   (sp-show-pair-match-face ((t (:foreground "White")))) ;; Could also have :background "Grey" for example.
   )
+
+;; END OF GENERAL

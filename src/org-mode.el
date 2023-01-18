@@ -1,3 +1,4 @@
+;; ====================================================
 ;; ORG MODE
 ;;
 ;; A GNU Emacs major mode for keeping notes, authoring documents, computational
