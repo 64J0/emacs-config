@@ -138,18 +138,18 @@
                     ":drill_card_type: hide2cloze\n"
                     ":END:\n"
                     "%?\n"))))
-  (setq org-babel-do-load-languages
-        'org-babel-load-languages
-        '((sql      . t)
-          (latex    . t)
-          (shell    . t)
-          (python   . t)
-          (js       . t)
-          (plantuml . t)
-          (ditaa    . t)
-          (C        . t)
-          (org      . t)
-          (fsharp   . t))))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((sql      . t)
+     (latex    . t)
+     (shell    . t)
+     (python   . t)
+     (js       . t)
+     (plantuml . t)
+     (ditaa    . t)
+     (C        . t)
+     (org      . t)
+     (fsharp   . t))))
 
 ;; Second brain
 ;; https://www.youtube.com/watch?v=AyhPmypHDEw
@@ -229,7 +229,7 @@
 ;; Beamer is a LaTeX package for writing presentations.
 ;; https://orgmode.org/worg/exporters/beamer/tutorial.html
 ;; sudo apt-get install -f texlive-latex-extra
-(use-package 'ox-beamer)
+(use-package ox-beamer)
 
 ;; https://www.aidanscannell.com/post/org-mode-resume/
 (use-package ox-latex
