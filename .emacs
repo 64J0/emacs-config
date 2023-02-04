@@ -31,10 +31,12 @@
 
 ;; ============================================
 ;; EMACS THEME
-(use-package dracula-theme
+;; https://www.reddit.com/r/emacs/comments/j7eruf/favorite_light_themes/
+(use-package doom-themes
   :straight t
   :init
-  (load-theme 'dracula t))
+  (load-theme 'doom-opera-light t))
+;; (load-theme 'modus-operandi t)
 
 ;; ============================================
 ;; GENERAL USAGE
