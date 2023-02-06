@@ -161,7 +161,7 @@
   (show-smartparens-global-mode t)
   (setq sp-show-pair-from-inside t)
   :custom-face
-  (sp-show-pair-match-face ((t (:foreground "Purple")))) ;; Could also have :background "Grey" for example.
+  (sp-show-pair-match-face ((t (:foreground "Purple" :background "Green")))) ;; Could also have :background "Grey" for example.
   )
 
 ;; END OF GENERAL
