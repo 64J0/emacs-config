@@ -148,8 +148,7 @@
      (plantuml . t)
      (ditaa    . t)
      (C        . t)
-     (org      . t)
-     (fsharp   . t))))
+     (org      . t))))
 
 ;; Second brain
 ;; https://www.youtube.com/watch?v=AyhPmypHDEw
@@ -222,7 +221,9 @@
              :type git
              :host github
              :repo "juergenhoetzel/ob-fsharp"
-             :branch master))
+             :branch master)
+  :config
+  (add-to-list 'org-babel-load-languages '(fsharp . t)))
 
 ;; ======================================================
 ;; Latex + Beamer config
