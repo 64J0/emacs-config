@@ -1,12 +1,12 @@
 ;; -*- lexical-binding: t; -*-
 
-;; Based on: https://github.com/bbatsov/prelude
-
-(require 'cl-lib) ;; cl -> common lisp
-
-;; =======================================================================
+;; ============================================
 ;; PACKAGE MANAGEMENT
-(setq package-enable-at-startup nil)
+;;
+;; Straight.el
+;; Next-generation, purely functional package manager for the Emacs hacker.
+;; Repository link: `https://github.com/radian-software/straight.el'
+;; Bootstrap script:
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -19,15 +19,9 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
-(straight-use-package 'use-package)
 
-;; ============================================
-;; Load external configuration
-(setq gajo-dir "~/Desktop/codes/emacs-config/")
-(load-file (concat gajo-dir "src/global.el"))
-(load-file (concat gajo-dir "src/unfill-paragraph.el"))
-(load-file (concat gajo-dir "src/org-mode.el"))
-(load-file (concat gajo-dir "src/prog-mode.el"))
+(straight-use-package 'use-package)
+(setq package-enable-at-startup nil)
 
 ;; ============================================
 ;; EMACS THEME
@@ -36,7 +30,6 @@
   :straight t
   :init
   (load-theme 'doom-opera-light t))
-;; (load-theme 'modus-operandi t)
 
 ;; ============================================
 ;; GENERAL USAGE
@@ -50,10 +43,10 @@
 
 (use-package super-save
   :straight t
-  :config
-  (super-save-mode +1)
   :init
-  (setq super-save-auto-save-when-idle t))
+  (setq super-save-auto-save-when-idle t)
+  :config
+  (super-save-mode +1))
 
 ;; Framework for incremental completions and narrowing selections.
 ;; https://emacs-helm.github.io/helm/
@@ -61,6 +54,12 @@
   :straight t
   :bind (("M-x" . helm-M-x)
 	 ("C-x b" . helm-buffers-list)))
+
+;; lsp -> language server protocol
+;; https://github.com/emacs-lsp/helm-lsp
+(use-package helm-lsp
+  :straight t
+  :commands helm-lsp-workspace-symbol)
 
 ;; Highlight delimiters such as parentheses, brackets or braces
 ;; according to their depth
@@ -124,31 +123,6 @@
   :straight t
   :hook (company-mode . company-box-mode))
 
-;; lsp -> language server protocol
-;; https://github.com/emacs-lsp/helm-lsp
-(use-package helm-lsp
-  :straight t
-  :commands helm-lsp-workspace-symbol)
-
-;; https://github.com/company-mode/company-quickhelp
-(use-package company-quickhelp
-   :straight t
-   :init
-   (setq company-tooltip-limit 10 ; bigger popup window
-	 company-tooltip-minimum-width 15
-	 company-tooltip-align-annotations t ; align annotations to the right tooltip border
-	 company-quickhelp-delay '1.0)
-   :config
-   (company-quickhelp-mode nil)
-   :hook
-   ((emacs-lisp-mode . (lambda () (company-mode)))))
-
-;; https://jblevins.org/projects/markdown-mode/
-(use-package markdown-mode
-  :straight t
-  :mode ("\\.md\\'" . gfm-mode)
-  :init (setq markdown-command "multimarkdown"))
-
 ;; Minor mode for Emacs that deals with parens pairs and tries to be smart about
 ;; it.
 ;; https://github.com/Fuco1/smartparens
@@ -161,7 +135,12 @@
   (show-smartparens-global-mode t)
   (setq sp-show-pair-from-inside t)
   :custom-face
-  (sp-show-pair-match-face ((t (:foreground "Purple" :background "Green")))) ;; Could also have :background "Grey" for example.
-  )
+  (sp-show-pair-match-face ((t (:foreground "Purple" :background "Green")))))
 
-;; END OF GENERAL
+;; ============================================
+;; Load external configuration
+(setq gajo-dir "~/Desktop/codes/emacs-config/")
+(load-file (concat gajo-dir "src/global.el"))
+(load-file (concat gajo-dir "src/unfill-paragraph.el"))
+(load-file (concat gajo-dir "src/org-mode.el"))
+(load-file (concat gajo-dir "src/prog-mode.el"))

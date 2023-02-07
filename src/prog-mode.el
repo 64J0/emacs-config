@@ -194,13 +194,6 @@
   :straight t
   :mode ("\\Dockerfile\\'" "\\.dockerfile\\'"))
 
-;; YAML mode to handle YAML manifests.
-;; `https://www.emacswiki.org/emacs/YamlMode'
-;; 
-(use-package yaml-mode
-  :straight t
-  :mode ("\\.ya?ml\\'" . yaml-mode))
-
 ;; Terraform mode to handle Terraform code.
 ;; `https://github.com/emacsorphanage/terraform-mode'
 ;;
@@ -210,3 +203,18 @@
   :hook (terraform-mode-hook . terraform-format-on-save-mode)
   :config
   (setq terraform-indent-level 2))
+
+;; YAML mode to handle YAML manifests.
+;; `https://www.emacswiki.org/emacs/YamlMode'
+;; 
+(use-package yaml-mode
+  :straight t
+  :mode ("\\.ya?ml\\'" . yaml-mode))
+
+;; Markdown mode with GitHub flavor.
+;; `https://jblevins.org/projects/markdown-mode/'
+;;
+(use-package markdown-mode
+  :straight t
+  :mode ("\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown"))
