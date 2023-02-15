@@ -225,3 +225,16 @@ There is also this reference for GNU Emacs extensions (written in 1997 btw):
 [[https://www.amazon.com/Writing-GNU-Emacs-Extensions-Glickstein/dp/1565922611][Writing GNU Emacs Extensions]].
 
 If you'd like to jump into exercises, check this [[https://exercism.org/tracks/emacs-lisp][Exercism track]].
+
+** Emacs Lisp Code Tips
+
+In this section I'm going to add some links for useful resources that can help
+you in this journey.
+
++ [[https://github.com/bbatsov/emacs-lisp-style-guide][Emacs Lisp code style guide]]
++ My submissions in the Exercism Emacs Lisp track: [[https://github.com/64J0/Exercism-Emacs-Lisp][link]]
+
+About the project structure (along with some comments):
+
++ [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Simple-Packages.html][Simple Packages]]
++ [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Library-Headers.html][Conventional Headers for Emacs libraries]]
