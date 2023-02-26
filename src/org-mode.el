@@ -148,7 +148,8 @@
      (plantuml . t)
      (ditaa    . t)
      (C        . t)
-     (org      . t))))
+     (org      . t)
+     (clojure  . t))))
 
 ;; Second brain
 ;; https://www.youtube.com/watch?v=AyhPmypHDEw
@@ -215,7 +216,7 @@
 (use-package org-super-agenda
   :straight t)
 
-;; Code evaluation in org-mode
+;; F# code evaluation in org-mode
 (use-package ob-fsharp
   :straight (ob-fsharp
              :type git
@@ -224,6 +225,8 @@
              :branch master)
   :config
   (add-to-list 'org-babel-load-languages '(fsharp . t)))
+
+(require 'ob-clojure)
 
 ;; ======================================================
 ;; Latex + Beamer config

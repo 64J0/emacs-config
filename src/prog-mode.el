@@ -181,6 +181,20 @@
   (elpy-enable))
 
 ;; ======================================================
+;; CLOJURE
+;; `https://clojure.org/guides/editors'
+;; `https://www.braveclojure.com/basic-emacs/'
+;;
+(use-package clojure-mode
+  :straight t
+  :mode ("\\.clj\\'" . clojure-mode)
+  :config
+  (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode))
+
+(use-package cider
+  :straight t)
+
+;; ======================================================
 ;; DEVSECOPS
 ;; Used for json files.
 (use-package json-mode
