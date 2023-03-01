@@ -36,28 +36,18 @@
   ;; UI
   (setq lsp-headerline-breadcrumb-enable t)
   ;; F# ---------------------------------
-  (setq lsp-fsharp-auto-workspace-init nil
-        lsp-fsharp-enable-reference-code-lens t
-        lsp-fsharp-external-autocomplete t
-        lsp-fsharp-generate-binlog nil
-        lsp-fsharp-interface-stub-generation t
-        lsp-fsharp-keywords-autocomplete t
-        lsp-fsharp-linter nil
-        lsp-fsharp-record-stub-generation t
-        lsp-fsharp-resolve-namespaces t
-        lsp-fsharp-server-args nil)
+  ;; `https://emacs-lsp.github.io/lsp-mode/page/lsp-fsharp/'
+  (setq lsp-fsharp-enable-reference-code-lens t)
   ;; Terraform --------------------------
-  (setq lsp-terraform-ls-enable-show-reference t
+  ;; `https://emacs-lsp.github.io/lsp-mode/page/lsp-terraform-ls/'
+  (setq lsp-disabled-clients '(tfls)
+        lsp-terraform-ls-enable-show-reference t
         lsp-semantic-tokens-enable t
         lsp-semantic-tokens-honor-refresh-requests t
         lsp-enable-links t)
   ;; YAML -------------------------------
-  (setq lsp-yaml-bracket-spacing t
-        lsp-yaml-completion t
-        lsp-yaml-format-enable t
-        lsp-yaml-hover t
-        lsp-yaml-single-quote nil
-        lsp-yaml-validate t)
+  ;; `https://emacs-lsp.github.io/lsp-mode/page/lsp-yaml/'
+  ;; Only default values
   (with-eval-after-load 'lsp-mode
     (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)))
 
@@ -72,14 +62,6 @@
   :init
   (setq lsp-ui-doc-enable t
         lsp-ui-sideline-diagnostic-max-lines 7))
-
-;; Integration between lsp-mode and treemacs and implementation of treeview
-;; controls using treemacs as a tree renderer.
-;; https://github.com/emacs-lsp/lsp-treemacs
-(use-package lsp-treemacs
-  :straight t
-  :after lsp
-  :commands lsp-treemacs-errors-list)
 
 ;; Search for some string pattern in the project.
 (use-package lsp-ivy
@@ -116,11 +98,6 @@
   :config
   (global-diff-hl-mode)
   (diff-hl-flydiff-mode))
-
-;; Is a complete text-based user interface to Git.
-;; https://magit.vc/
-;; (use-package magit
-;;   :straight t)
 
 ;; ======================================================
 ;; TYPESCRIPT CONFIG
@@ -192,7 +169,9 @@
   (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode))
 
 (use-package cider
-  :straight t)
+  :straight t
+  :config
+  (setq org-babel-clojure-backend 'cider))
 
 ;; ======================================================
 ;; DEVSECOPS
