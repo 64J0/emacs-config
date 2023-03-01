@@ -18,14 +18,9 @@
 ;;
 (use-package lsp-mode
   :straight t
-  :hook ((lsp-mode        . lsp-headerline-breadcrumb-mode)
-         (terraform-mode  . lsp-deferred) ;; sudo apt install terraform-ls
-         (yaml-mode       . lsp-deferred)
-         (dockerfile-mode . lsp-deferred)
-         (sh-mode         . lsp-deferred))
+  :hook ((lsp-mode . lsp-headerline-breadcrumb-mode)
+         (sh-mode  . lsp-deferred))
   :config
-  ;; set prefix for lsp-command-keymap
-  (setq lsp-keymap-prefix "C-c l")
   ;; performance tuning
   (setq gc-cons-threshold 100000000
         ;; warn when opening files bigger than 100MB
@@ -111,16 +106,7 @@
    :straight t
    :mode ("\\.fs[x]?[i]?[proj]?\\'" . fsharp-mode)
    :hook (fsharp-mode . lsp-deferred)
-   :bind
-   (("C-c C-,"     . 'fsharp-shift-region-left)
-    ("C-c C-."     . 'fsharp-shift-region-right)
-    ("C-o"         . 'fsharp-newline-and-indent)
-    ("C-c C-i"     . 'run-fsharp)
-    ("C-c C-a"     . 'fsharp-find-alternate-file)
-    ("M-h"         . 'fsharp-mark-phrase))
    :config
-   ;; (setq compile-command "dotnet watch run")
-   ;; (setq inferior-fsharp-program "dotnet fsi")
    (add-hook 'fsharp-mode-hook 'highlight-indentation-mode))
 
 ;; ======================================================
@@ -132,7 +118,7 @@
   :after flycheck
   :mode ("\\.py\\'" . python-mode)
   :custom
-  (python-indent-offset 4)
+  (python-indent-offset 2)
   (flycheck-python-pycompile-executable "python3")
   (python-shell-interpreter "python3"))
 
@@ -157,12 +143,15 @@
 
 (use-package cider
   :straight t
+  :after clojure-mode
   :config
   (setq org-babel-clojure-backend 'cider))
 
 ;; ======================================================
 ;; DEVSECOPS
 ;; Used for json files.
+;; `https://github.com/joshwnj/json-mode'
+;;
 (use-package json-mode
   :straight t
   :mode ("\\.json\\'" . json-mode))
