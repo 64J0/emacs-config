@@ -100,19 +100,6 @@
   (diff-hl-flydiff-mode))
 
 ;; ======================================================
-;; TYPESCRIPT CONFIG
-;;
-;; `https://github.com/emacs-typescript/typescript.el'
-;; `https://emacs-lsp.github.io/lsp-mode/page/lsp-typescript/'
-;;
-(use-package typescript-mode
-  :straight t
-  :mode ("\\.ts[x]?\\'" . typescript-mode)
-  :hook (typescript-mode . lsp-deferred)
-  :config
-  (setq typescript-indent-level 2))
-
-;; ======================================================
 ;; F# CONFIG
 ;; Got this configuration from Magueta's config
 ;; `https://github.com/MMagueta/MageMacs/blob/macintosh/init.el'
