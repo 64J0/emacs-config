@@ -18,8 +18,12 @@
 ;;
 (use-package lsp-mode
   :straight t
-  :hook ((lsp-mode . lsp-headerline-breadcrumb-mode)
-         (sh-mode  . lsp-deferred))
+  :hook ((lsp-mode       . lsp-headerline-breadcrumb-mode)
+         (fsharp-mode    . lsp-deferred)
+         (yaml-mode      . lsp-deferred)
+         (terraform-mode . lsp-deferred)
+         (python-mode    . lsp-deferred)
+         (sh-mode        . lsp-deferred))
   :config
   ;; performance tuning
   (setq gc-cons-threshold 100000000
