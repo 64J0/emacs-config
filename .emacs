@@ -78,8 +78,8 @@
 
 ;; https://oremacs.com/swiper/#copying
 ;; https://github.com/abo-abo/swiper
-;; Ivy: generic completion mechanism for Emacs
 ;; Counsel: collection of Ivy-enhanced versions of common Emacs commands
+;; Ivy: generic completion mechanism for Emacs
 ;; Swiper: Ivy-enhanced alternative to Isearch
 (use-package counsel
   :straight t
