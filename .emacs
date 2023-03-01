@@ -25,7 +25,8 @@
 
 ;; ============================================
 ;; EMACS THEME
-;; https://www.reddit.com/r/emacs/comments/j7eruf/favorite_light_themes/
+;; `https://www.reddit.com/r/emacs/comments/j7eruf/favorite_light_themes/'
+;;
 (use-package doom-themes
   :straight t
   :init
@@ -75,12 +76,6 @@
   :straight t
   :bind (("C-b" . 'neotree-toggle)))
 
-;; Keybindings to comment line region and single line
-(use-package undo-tree
-  :straight t
-  :init
-  (undo-tree-mode))
-
 ;; https://oremacs.com/swiper/#copying
 ;; https://github.com/abo-abo/swiper
 ;; Ivy: generic completion mechanism for Emacs
@@ -93,15 +88,17 @@
   (global-set-key (kbd "C-s") 'swiper-isearch)
   (global-set-key (kbd "C-x C-f") 'counsel-find-file))
 
+;; FlyCheck
 ;; Puts angry red squiggles on the screen when I do something stupid.
-;; https://www.flycheck.org/en/latest/
+;; `https://github.com/flycheck/flycheck'
+;;
 (use-package flycheck
   :straight t
   :init (global-flycheck-mode))
 
 ;; COMplete ANYthing
-;; Could give wrong completions (orgmode)
-;; http://company-mode.github.io/
+;; `http://company-mode.github.io/'
+;;
 (use-package company
   :straight t
   :hook
