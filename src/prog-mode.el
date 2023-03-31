@@ -1,21 +1,27 @@
-;; ======================================================
+;;; prog-mode.el --- My programming setup -*- lexical-binding: t; -*-
+
+;;; Commentary:
+
 ;; GENERAL PROGRAMMING
+;;
 ;; Language Server Protocol Support for Emacs
-;; Aims to provide IDE-like experience by providing optional integration
-;; with the most popular Emacs packages like comapny, flycheck and
-;; projectile.
 ;;
-;; `https://github.com/emacs-lsp/lsp-mode'
-;; `https://emacs-lsp.github.io/lsp-mode/'
+;; Aims to provide IDE-like experience by providing optional integration with
+;; the most popular Emacs packages like comapny, flycheck and projectile.
 ;;
-;; You need first, `lsp-mode', that is Emacs client for an LSP server. Then
-;; you need to install the specific LSP server for your language. Finally,
-;; call `M-x lsp' or use the corresponding major mode hook to autostart
-;; the server.
+;; + https://github.com/emacs-lsp/lsp-mode
+;; + https://emacs-lsp.github.io/lsp-mode/
+;;
+;; You need first, `lsp-mode', that is Emacs client for an LSP server.  Then you
+;; need to install the specific LSP server for your language.  Finally, call
+;; `M-x lsp' or use the corresponding major mode hook to autostart the server.
 ;;
 ;; Use `M-x lsp-doctor' to validate if your `lsp-mode' is properly
 ;; configured.
 ;;
+
+;;; Code:
+
 (use-package lsp-mode
   :straight t
   :hook ((lsp-mode       . lsp-headerline-breadcrumb-mode)
@@ -23,6 +29,7 @@
          (yaml-mode      . lsp-deferred)
          (terraform-mode . lsp-deferred)
          (python-mode    . lsp-deferred)
+         (go-mode        . lsp-deferred)
          (sh-mode        . lsp-deferred))
   :config
   ;; performance tuning
@@ -152,6 +159,15 @@
   (setq org-babel-clojure-backend 'cider))
 
 ;; ======================================================
+;; GO LANG
+;; `https://github.com/dominikh/go-mode.el'
+;; `https://emacs-lsp.github.io/lsp-mode/manual-language-docs/lsp-gopls/'
+;;
+(use-package go-mode
+  :straight t
+  :mode ("\\.go\\'" . go-mode))
+
+;; ======================================================
 ;; DEVSECOPS
 ;; Used for json files.
 ;; `https://github.com/joshwnj/json-mode'
@@ -191,3 +207,5 @@
   :straight t
   :mode ("\\.md\\'" . gfm-mode)
   :init (setq markdown-command "multimarkdown"))
+
+;;; prog-mode.el ends here

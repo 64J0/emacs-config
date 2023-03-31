@@ -1,4 +1,10 @@
-;; -*- lexical-binding: t; -*-
+;;; .emacs --- My custom Emacs setup -*- lexical-binding: t; -*-
+
+;;; Commentary:
+
+;; This is my Emacs configuration file.
+
+;;; Code:
 
 ;; ============================================
 ;; PACKAGE MANAGEMENT
@@ -149,3 +155,5 @@
 (load-file (concat gajo-dir "src/unfill-paragraph.el"))
 (load-file (concat gajo-dir "src/org-mode.el"))
 (load-file (concat gajo-dir "src/prog-mode.el"))
+
+;;; .emacs ends here

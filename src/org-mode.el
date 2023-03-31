@@ -1,4 +1,7 @@
-;; ====================================================
+;;; org-mode.el --- My org-mode configuration -*- lexical-binding: t; -*-
+
+;;; Commentary:
+
 ;; ORG MODE
 ;;
 ;; A GNU Emacs major mode for keeping notes, authoring documents, computational
@@ -9,9 +12,11 @@
 ;; https://github.com/alphapapa/org-super-agenda/blob/master/examples.org
 ;; https://github.com/ebellani/Emacs.d/blob/master/init.el
 
+;;; Code:
+
 (defun concat-deps-path (filename)
-  "This function helps to avoid repeating the full path for the
-   `deps' folder (dependencies)."
+  "This function receives the `FILENAME' and helps to avoid
+repeating the full path for the deps folder (dependencies)."
   (if (string-empty-p filename)
       (error "[-] File name is empty!")
     (concat "~/org/deps/" filename)))
@@ -138,6 +143,7 @@
                     ":drill_card_type: hide2cloze\n"
                     ":END:\n"
                     "%?\n"))))
+  (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((sql      . t)
@@ -265,3 +271,5 @@
 ;; https://github.com/larstvei/ox-gfm
 (use-package ox-gfm
   :straight t)
+
+;;; org-mode.el ends here

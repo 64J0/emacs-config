@@ -1,7 +1,12 @@
-;; =======================================================================
-;; INITIAL CONFIG
-;; Just used to set some default values to make Emacs look and behave the
-;; way I want.
+;;; global.el --- My global configuration -*- lexical-binding: t; -*-
+
+;;; Commentary:
+
+;; Just used to set some default values to make Emacs look and behave the way I
+;; want.
+
+;;; Code:
+
 (global-linum-mode) ;; show the line number
 (tool-bar-mode -1) ;; remove tool bar
 (menu-bar-mode -1) ;; remove menu bar
@@ -26,3 +31,5 @@
 ;; GLOBAL KEY BINDINGS
 (global-set-key (kbd "C-/") 'comment-line)
 (global-set-key [f5] 'find-alternate-file) ;; reload a file
+
+;;; global.el ends here
