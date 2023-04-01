@@ -37,9 +37,9 @@ repeating the full path for the deps folder (dependencies)."
 	 ("C-c a" . org-agenda)
 	 ("C-c c" . org-capture))
   :preface
-  (setq org-export-backends '(moderncv md beamer ascii html latex odt org))
-  :mode
-  ("\\.org\\'" . org-mode)
+  (setq org-export-backends
+        '(moderncv md beamer ascii html latex odt org))
+  :mode ("\\.org\\'" . org-mode)
   :init
   (setq gajo-org-srs-path "~/org/srs/deck-refile.org"
         gajo-org-notes-path "~/org/notes.org"
@@ -48,8 +48,7 @@ repeating the full path for the deps folder (dependencies)."
         gajo-org-todo-path "~/org/todo.org"
         gajo-org-work-path "~/org/work.org"
         gajo-org-meetings-path "~/org/meetings.org")
-  :custom
-  (org-support-shift-select 'always)
+  :custom (org-support-shift-select 'always)
   :config
   ;; Required for PlantUML diagrams
   ;; From: https://plantuml.com/download
@@ -154,17 +153,17 @@ repeating the full path for the deps folder (dependencies)."
      (plantuml . t)
      (ditaa    . t)
      (C        . t)
-     (org      . t)
-     (clojure  . t))))
+     (org      . t))))
 
-;; Second brain
-;; https://www.youtube.com/watch?v=AyhPmypHDEw
-;; templates from:
-;; https://systemcrafters.net/build-a-second-brain-in-emacs/capturing-notes-efficiently/
+;; Org-roam is a plain-text knowledge management system.  It brings some of
+;; Roam's more powerful features into the Org-mode ecosystem.
+;;
+;; Repository: `https://github.com/org-roam/org-roam'
+;; Video: `https://www.youtube.com/watch?v=AyhPmypHDEw'
+;; Article: `https://systemcrafters.net/build-a-second-brain-in-emacs/capturing-notes-efficiently/'
 (use-package org-roam
   :straight t
-  :init
-  (setq org-roam-v2-ack t)
+  :init (setq org-roam-v2-ack t)
   :custom
   (org-roam-directory "~/org/RoamNotes")
   (org-roam-complete-everywhere t)
@@ -192,37 +191,43 @@ repeating the full path for the deps folder (dependencies)."
   :config
   (org-roam-db-autosync-mode))
 
-;; Spaced repetition algorithm to conduct interactive "drill sessions",
-;; using org files as sources of facts to be memorised.
-;; https://orgmode.org/worg/org-contrib/org-drill.html
+;; Spaced repetition algorithm to conduct interactive "drill sessions", using
+;; org files as sources of facts to be memorised.
+;;
+;; Repository: `https://gitlab.com/phillord/org-drill/'
 (use-package org-drill
   :straight t
   :commands (org-drill)
-  :init
+  :config
   (setq org-drill-add-random-noise-to-intervals-p t)
   (setq org-drill-scope 'directory) ;; file
   (setq org-drill-maximum-items-per-session nil)
   (setq org-drill-maximum-duration 30))
 
 ;; Prettify headings and plain lists in Org mode.
-;; https://github.com/integral-dw/org-superstar-mode
+;;
+;; Repository: `https://github.com/integral-dw/org-superstar-mode'
 (use-package org-superstar
   :straight t
   :init
   (add-hook
    'org-mode-hook (lambda () (org-superstar-mode 1))))
 
-;; This repository contains add-ons to Org.
-;; https://git.sr.ht/~bzg/org-contrib
+;; Unmaintained add-ons for Org-mode.
+;;
+;; Repository: `https://github.com/emacsmirror/org-contrib'
 (use-package org-contrib
   :straight t)
 
-;; Supercharge your org daily/weekly/agenda
-;; https://github.com/alphapapa/org-super-agenda
+;; Supercharge your org daily/weekly agenda by grouping items.
+;;
+;; Repository: `https://github.com/alphapapa/org-super-agenda'
 (use-package org-super-agenda
   :straight t)
 
 ;; F# code evaluation in org-mode
+;;
+;; Repository: `https://github.com/juergenhoetzel/ob-fsharp'
 (use-package ob-fsharp
   :straight (ob-fsharp
              :type git
@@ -232,7 +237,11 @@ repeating the full path for the deps folder (dependencies)."
   :config
   (add-to-list 'org-babel-load-languages '(fsharp . t)))
 
-(require 'ob-clojure)
+;; Docs: `https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-clojure.html'
+(use-package ob-clojure
+  :config
+  (setq org-babel-clojure-backend 'cider)
+  (add-to-list 'org-babel-load-languages '(clojure . t)))
 
 ;; ======================================================
 ;; Latex + Beamer config
@@ -243,10 +252,7 @@ repeating the full path for the deps folder (dependencies)."
 
 ;; https://www.aidanscannell.com/post/org-mode-resume/
 (use-package ox-latex
-  :init
-  ;; code here will run immediately
   :config
-  ;; code here will run after the package is loaded
   (setq org-latex-pdf-process
         '("pdflatex -interaction nonstopmode -output-directory %o %f"
           "bibtex %b"
