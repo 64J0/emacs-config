@@ -24,6 +24,11 @@
       initial-buffer-choice "~/org/activities.org")
 (setq-default indent-tabs-mode nil
               fill-column 80)
+
+;; Delete highlighted text
+;; https://www.gnu.org/software/emacs/manual/html_node/efaq/Replacing-highlighted-text.html
+(delete-selection-mode 1)
+
 (defvar emacs-user (getenv "USER") "Computer user from env.")
 (message "[+] Hello %s. Starting Emacs version %s" emacs-user emacs-version)
 
