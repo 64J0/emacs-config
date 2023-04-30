@@ -229,11 +229,7 @@ repeating the full path for the deps folder (dependencies)."
 ;;
 ;; Repository: `https://github.com/juergenhoetzel/ob-fsharp'
 (use-package ob-fsharp
-  :straight (ob-fsharp
-             :type git
-             :host github
-             :repo "juergenhoetzel/ob-fsharp"
-             :branch master)
+  :straight t
   :config
   (add-to-list 'org-babel-load-languages '(fsharp . t)))
 
@@ -242,6 +238,11 @@ repeating the full path for the deps folder (dependencies)."
   :config
   (setq org-babel-clojure-backend 'cider)
   (add-to-list 'org-babel-load-languages '(clojure . t)))
+
+(use-package ob-rust
+  :straight t
+  :config
+  (add-to-list 'org-babel-load-languages '(rust . t)))
 
 ;; ======================================================
 ;; Latex + Beamer config

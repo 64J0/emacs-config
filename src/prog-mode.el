@@ -30,7 +30,8 @@
          (terraform-mode . lsp-deferred)
          (python-mode    . lsp-deferred)
          (go-mode        . lsp-deferred)
-         (sh-mode        . lsp-deferred))
+         (sh-mode        . lsp-deferred)
+         (rust-mode      . lsp-deferred))
   :config
   ;; performance tuning
   (setq gc-cons-threshold 100000000
@@ -55,7 +56,19 @@
   ;; `https://emacs-lsp.github.io/lsp-mode/page/lsp-yaml/'
   ;; Only default values
   (with-eval-after-load 'lsp-mode
-    (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)))
+    (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
+  :custom
+  ;; RUST -------------------------------
+  ;; `https://robert.kra.hn/posts/rust-emacs-setup/'
+  (lsp-eldoc-render-all t)
+  (lsp-rust-analyzer-cargo-watch-command "clippy")
+  (lsp-rust-analyzer-server-display-inlay-hints t)
+  (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
+  (lsp-rust-analyzer-display-chaining-hints t)
+  (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
+  (lsp-rust-analyzer-display-closure-return-type-hints t)
+  (lsp-rust-analyzer-display-parameter-hints nil)
+  (lsp-rust-analyzer-display-reborrow-hints nil))
 
 ;; This package contains all the higher level UI modules of lsp-mode, like
 ;; flycheck support and code lenses.
@@ -65,6 +78,8 @@
   :hook (lsp-mode . lsp-ui-mode)
   :custom
   (lsp-ui-doc-position 'bottom)
+  (lsp-ui-peek-always-show t)
+  (lsp-ui-sideline-show-hover t)
   :init
   (setq lsp-ui-doc-enable t
         lsp-ui-sideline-diagnostic-max-lines 7))
@@ -157,6 +172,39 @@
   :after clojure-mode
   :config
   (setq org-babel-clojure-backend 'cider))
+
+;; ======================================================
+;; RUST LANG
+;; `https://robert.kra.hn/posts/rust-emacs-setup/'
+(use-package rustic
+  :straight t
+  :bind (:map rustic-mode-map
+              ("M-j" . lsp-ui-imenu)
+              ("M-?" . lsp-find-references)
+              ("C-c C-c l" . flycheck-list-errors)
+              ("C-c C-c a" . lsp-execute-code-action)
+              ("C-c C-c r" . lsp-rename)
+              ("C-c C-c q" . lsp-workspace-restart)
+              ("C-c C-c Q" . lsp-workspace-shutdown)
+              ("C-c C-c s" . lsp-rust-analyzer-status))
+  :config
+  ;; uncomment for less flashiness
+  ;; (setq lsp-eldoc-hook nil)
+  ;; (setq lsp-enable-symbol-highlighting nil)
+  ;; (setq lsp-signature-auto-activate nil)
+
+  ;; comment to disable rustfmt on save
+  (setq rustic-format-on-save t)
+  (add-hook 'rustic-mode-hook 'rk/rustic-mode-hook))
+
+(defun rk/rustic-mode-hook ()
+  ;; so that run C-c C-c C-r works without having to confirm, but don't try to
+  ;; save rust buffers that are not file visiting. Once
+  ;; https://github.com/brotzeit/rustic/issues/253 has been resolved this should
+  ;; no longer be necessary.
+  (when buffer-file-name
+    (setq-local buffer-save-without-query t))
+  (add-hook 'before-save-hook 'lsp-format-buffer nil t))
 
 ;; ======================================================
 ;; GO LANG
