@@ -8,10 +8,8 @@
 
 ;; ============================================
 ;; PACKAGE MANAGEMENT
-
-
-;; Next-generation, purely functional package manager for the Emacs hacker.
 ;;
+;; Next-generation, purely functional package manager for the Emacs hacker.
 ;; Repository: `https://github.com/radian-software/straight.el'
 ;;
 ;; Bootstrap script:
@@ -31,27 +29,13 @@
 (straight-use-package 'use-package)
 (setq package-enable-at-startup nil)
 
-;; ============================================
-;; EMACS THEME
-
-;; `https://www.reddit.com/r/emacs/comments/j7eruf/favorite_light_themes/'
-;;
-(use-package doom-themes
-  :straight t
-  :init
-  (load-theme 'doom-opera-light t))
-
-;; ============================================
-;; GENERAL USAGE
-
 ;; Displays the key bindings following your currently entered incomplete command
 ;; (a prefix) in a popup.
 ;;
 ;; Repository: `https://github.com/justbur/emacs-which-key'
 (use-package which-key
   :straight t
-  :config
-  (which-key-mode))
+  :custom (which-key-mode t))
 
 ;; super-save auto-saves your buffers, when certain events happen - e.g. you
 ;; switch between buffers, an Emacs frame loses focus, etc.
@@ -59,10 +43,10 @@
 ;; Repository: `https://github.com/bbatsov/super-save'
 (use-package super-save
   :straight t
-  :config
+  :custom
   (super-save-mode +1)
-  (setq super-save-auto-save-when-idle t)
-  (setq auto-save-default nil))
+  (super-save-auto-save-when-idle t)
+  (auto-save-default nil))
 
 ;; Helm is an Emacs framework for incremental completions and narrowing
 ;; selections.
@@ -70,8 +54,8 @@
 ;; Repository: `https://github.com/emacs-helm/helm'
 (use-package helm
   :straight t
-  :bind (("M-x" . helm-M-x)
-	 ("C-x b" . helm-buffers-list)))
+  :bind (("C-x b" . helm-buffers-list)
+         ("M-x" . helm-M-x)))
 
 ;; rainbow-delimiters is a "rainbow-parentheses"-like mode which highlight
 ;; delimiters such as parentheses, brackets or braces according to their depth.
@@ -88,9 +72,9 @@
 (use-package smartparens
   :straight t
   :init (require 'smartparens-config)
-  :config
+  :custom
   (smartparens-global-mode t)
-  (setq sp-show-pair-from-inside t)
+  (sp-show-pair-from-inside t)
   :custom-face
   (sp-show-pair-match-face ((t (:foreground "Purple" :background "Green")))))
 
@@ -109,10 +93,9 @@
 ;; Book: https://oremacs.com/swiper/
 (use-package counsel
   :straight t
-  :bind (("C-s" . swiper-isearch)
-         ("C-x C-f" . counsel-find-file))
-  :config
-  (ivy-mode 1))
+  :bind (("C-x C-f" . counsel-find-file)
+         ("C-s" . swiper-isearch))
+  :config (ivy-mode 1))
 
 ;; Modern on-the-fly syntax checking extension for GNU Emacs.
 ;;
@@ -126,34 +109,35 @@
 ;; Repository: `https://github.com/company-mode/company-mode'
 (use-package company
   :straight t
-  :hook
-  (after-init . global-company-mode)
+  :hook (after-init . global-company-mode)
   :bind
   (:map company-active-map
         ("<tab>" . company-complete-selection))
   (:map lsp-mode-map
         ("<tab>" . company-indent-or-complete-common))
-  :commands
-  (company-mode company-indent-or-complete-common)
-  :config
-  (setq company-idle-delay 0.1
-        company-minimum-prefix-length 1
-        company-selection-wrap-around t))
+  :commands (company-mode company-indent-or-complete-common)
+  :custom
+  (company-idle-delay 0.1)
+  (company-minimum-prefix-length 1)
+  (company-selection-wrap-around t))
 
 ;; A company front-end with icons.
 ;;
 ;; Repository: `https://github.com/sebastiencs/company-box'
 (use-package company-box
   :straight t
+  :after (company)
   :hook (company-mode . company-box-mode))
 
 ;; ============================================
 ;; Load external configuration
+(message "Load external configuration")
+(setq gajo--local-dir "~/Desktop/codes/emacs-config/")
 
-(setq gajo-dir "~/Desktop/codes/emacs-config/")
-(load-file (concat gajo-dir "src/global.el"))
-(load-file (concat gajo-dir "src/unfill-paragraph.el"))
-(load-file (concat gajo-dir "src/org-mode.el"))
-(load-file (concat gajo-dir "src/prog-mode.el"))
+(load-file (concat gajo--local-dir "src/theme.el"))
+(load-file (concat gajo--local-dir "src/global.el"))
+(load-file (concat gajo--local-dir "src/unfill-paragraph.el"))
+(load-file (concat gajo--local-dir "src/org-mode.el"))
+(load-file (concat gajo--local-dir "src/prog-mode.el"))
 
 ;;; .emacs ends here
