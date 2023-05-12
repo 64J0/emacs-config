@@ -60,7 +60,7 @@
   :custom
   ;; RUST -------------------------------
   ;; `https://robert.kra.hn/posts/rust-emacs-setup/'
-  (lsp-eldoc-render-all t)
+  (lsp-eldoc-render-all nil)
   (lsp-rust-analyzer-cargo-watch-command "clippy")
   (lsp-rust-analyzer-server-display-inlay-hints t)
   (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
@@ -194,7 +194,7 @@
   ;; (setq lsp-signature-auto-activate nil)
 
   ;; comment to disable rustfmt on save
-  (setq rustic-format-on-save t)
+  ;; (setq rustic-format-on-save t)
   (add-hook 'rustic-mode-hook 'rk/rustic-mode-hook))
 
 (defun rk/rustic-mode-hook ()
