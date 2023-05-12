@@ -14,50 +14,28 @@
 
 ;;; Code:
 
-(defun concat-deps-path (filename)
-  "This function receives the `FILENAME' and helps to avoid
-repeating the full path for the deps folder (dependencies)."
-  (if (string-empty-p filename)
-      (error "[-] File name is empty!")
-    (concat "~/org/deps/" filename)))
-
-;; FlySpell for spell checking
-;; https://www.emacswiki.org/emacs/FlySpell
-(dolist (hook '(text-mode-hook))
-  (add-hook hook (lambda () (flyspell-mode 1))))
-(dolist (hook '(change-log-mode-hook log-edit-mode-hook))
-  (add-hook hook (lambda () (flyspell-mode -1))))
-(dolist (hook '(org-mode-hook))
-  (add-hook hook (lambda () (flyspell-mode 1))))
-(setq flyspell-issue-message-flag nil) ;; performance improvement
-
 (use-package org
   :straight t
+  :mode ("\\.org\\'" . org-mode)
   :bind (("C-c l" . org-store-link)
 	 ("C-c a" . org-agenda)
 	 ("C-c c" . org-capture))
   :preface
   (setq org-export-backends
         '(moderncv md beamer ascii html latex odt org))
-  :mode ("\\.org\\'" . org-mode)
   :init
-  (setq gajo-org-srs-path "~/org/srs/deck-refile.org"
-        gajo-org-notes-path "~/org/notes.org"
-        gajo-org-refile-path "~/org/refile.org"
-        gajo-org-agenda-path "~/org/agenda.org"
-        gajo-org-todo-path "~/org/todo.org"
-        gajo-org-work-path "~/org/work.org"
-        gajo-org-meetings-path "~/org/meetings.org")
-  :custom (org-support-shift-select 'always)
+  (setq gajo--org-srs-path "~/org/srs/deck-refile.org"
+        gajo--org-notes-path "~/org/notes.org"
+        gajo--org-refile-path "~/org/refile.org"
+        gajo--org-agenda-path "~/org/agenda.org"
+        gajo--org-todo-path "~/org/todo.org"
+        gajo--org-work-path "~/org/work.org"
+        gajo--org-meetings-path "~/org/meetings.org")
+  :custom
+  (org-support-shift-select 'always)
+  (org-directory "~/org")
+  (org-src-fontify-natively t)
   :config
-  ;; Required for PlantUML diagrams
-  ;; From: https://plantuml.com/download
-  (setq org-plantuml-jar-path
-        (expand-file-name (concat-deps-path "plantuml-1.2021.16.jar")))
-  (setq org-ditaa-jar-path
-        (expand-file-name (concat-deps-path "ditaa0_9.jar")))
-  (setq org-src-fontify-natively t)
-  (setq org-directory "~/org")
   (setq org-log-done t)
   (setq org-export-backends
         '(md gfm beamer ascii taskjuggler html latex odt org))
@@ -91,14 +69,14 @@ repeating the full path for the deps folder (dependencies)."
   (setq org-refile-targets
         `((nil                     :maxlevel . 9)
           (org-agenda-files        :maxlevel . 2)
-          (,gajo-org-srs-path      :maxlevel . 2)
-          (,gajo-org-agenda-path   :maxlevel . 2)))
+          (,gajo--org-srs-path      :maxlevel . 2)
+          (,gajo--org-agenda-path   :maxlevel . 2)))
   (setq org-agenda-files (list
-                          gajo-org-agenda-path
-                          gajo-org-work-path
-                          gajo-org-todo-path))
+                          gajo--org-agenda-path
+                          gajo--org-work-path
+                          gajo--org-todo-path))
   (setq org-capture-templates
-        `(("t" "To-Do" entry (file gajo-org-todo-path)
+        `(("t" "To-Do" entry (file gajo--org-todo-path)
            ,(concat "* TODO %^{Title}\n"
                     "SCHEDULED: %t\n"
                     ":PROPERTIES:\n"
@@ -108,7 +86,7 @@ repeating the full path for the deps folder (dependencies)."
                     "  %^{Initial log} %?\n"
                     ":END:")
            :jump-to-captured t)
-          ("w" "Work reminder" entry (file+headline gajo-org-work-path "DevSecOps")
+          ("w" "Work reminder" entry (file+headline gajo--org-work-path "DevSecOps")
            ,(concat "* TODO %^{Title}\n"
                     "SCHEDULED: %t\n"
                     ":PROPERTIES:\n"
@@ -118,7 +96,7 @@ repeating the full path for the deps folder (dependencies)."
                     "- Initial note taken on %U \\\n"
                     "%^{Initial note}\n"
                     ":END:\n"))
-          ("m" "Meeting log" entry (file gajo-org-meetings-path)
+          ("m" "Meeting log" entry (file gajo--org-meetings-path)
            ,(concat "* %^{Title}\n"
                     "** Context\n"
                     "%^{Context}\n"
@@ -128,21 +106,20 @@ repeating the full path for the deps folder (dependencies)."
                     "%^{Agenda}\n"
                     "** Ata\n"
                     "%^{Minutes})\n"))
-          ("d" "Drill card with answer" entry (file ,gajo-org-srs-path)
+          ("d" "Drill card with answer" entry (file ,gajo--org-srs-path)
            ,(concat "* Item           :drill:\n"
                     "%^{Question}\n"
                     "** Answer\n"
                     "%^{Answer}\n"))
-          ("z" "Drill" entry (file ,gajo-org-srs-path)
+          ("z" "Drill" entry (file ,gajo--org-srs-path)
            ,(concat "* Item           :drill:\n"
                     "%?\n"))
-          ("x" "Drill cloze 2" entry (file ,gajo-org-srs-path)
+          ("x" "Drill cloze 2" entry (file ,gajo--org-srs-path)
            ,(concat "* Item           :drill:\n"
                     ":PROPERTIES:\n"
                     ":drill_card_type: hide2cloze\n"
                     ":END:\n"
                     "%?\n"))))
-  (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((sql      . t)
@@ -150,10 +127,18 @@ repeating the full path for the deps folder (dependencies)."
      (shell    . t)
      (python   . t)
      (js       . t)
-     (plantuml . t)
-     (ditaa    . t)
      (C        . t)
      (org      . t))))
+
+;; FlySpell for spell checking
+;; https://www.emacswiki.org/emacs/FlySpell
+(dolist (hook '(text-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode 1))))
+(dolist (hook '(change-log-mode-hook log-edit-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode -1))))
+(dolist (hook '(org-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode 1))))
+(setq flyspell-issue-message-flag nil) ;; performance improvement
 
 ;; Org-roam is a plain-text knowledge management system.  It brings some of
 ;; Roam's more powerful features into the Org-mode ecosystem.
