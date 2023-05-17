@@ -95,7 +95,7 @@
   :straight t
   :bind (("C-x C-f" . counsel-find-file)
          ("C-s" . swiper-isearch))
-  :config (ivy-mode 1))
+  :custom (ivy-mode t))
 
 ;; Modern on-the-fly syntax checking extension for GNU Emacs.
 ;;
@@ -134,7 +134,7 @@
 ;; Repository: `https://github.com/magnars/multiple-cursors.el'
 (use-package multiple-cursors
   :straight t
-  :bind (("C-c C-<" . mc/mark-all-like-this)
+  :bind (("C-S-l" . mc/mark-all-like-this)
          ("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)))
 
