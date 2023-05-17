@@ -129,6 +129,15 @@
   :after (company)
   :hook (company-mode . company-box-mode))
 
+;; Multile cursors to make our lifes easier.
+;;                                        ;
+;; Repository: `https://github.com/magnars/multiple-cursors.el'
+(use-package multiple-cursors
+  :straight t
+  :bind (("C-c C-<" . mc/mark-all-like-this)
+         ("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)))
+
 ;; ============================================
 ;; Load external configuration
 (message "Load external configuration")
