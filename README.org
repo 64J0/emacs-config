@@ -171,7 +171,11 @@ Those are the points I think are worth knowing, at least in the beginning.
 + [[https://coredumped.dev/2022/05/19/a-vision-of-a-multi-threaded-emacs/][Core Dumped - A vision of multi-threaded Emacs]]
 + [[http://tilde.town/~ramin_hal9001/emacs-for-professionals/index.html][Emacs for Professionals]]
 + [[http://steve-yegge.blogspot.com/2008/01/emergency-elisp.html][Stevey's Blog Rants - Emergency Elisp]]
-
++ [[http://www.paulgraham.com/wealth.html][Paul Graham - How to Make Wealth]]
++ [[http://www.paulgraham.com/taste.html][Paul Graham - Taste for Makers]]
++ [[http://www.paulgraham.com/avg.html][Paul Graham - Beating the Averages]]
++ [[http://www.paulgraham.com/icad.html][Paul Graham - Revenge of the Nerds]]
+  
 ** Update packages
 
 First, you need to run ~M-x list-packages~, then hit capital "u" (~U~), and
