@@ -25,8 +25,8 @@
 (use-package lsp-mode
   :straight t
   :hook ((lsp-mode       . lsp-headerline-breadcrumb-mode)
-         (fsharp-mode    . lsp-deferred)
          (yaml-mode      . lsp-deferred)
+         (fsharp-mode    . lsp-deferred)
          (terraform-mode . lsp-deferred)
          (python-mode    . lsp-deferred)
          (go-mode        . lsp-deferred)
@@ -130,10 +130,20 @@
 ;;
 (use-package fsharp-mode
    :straight t
-   :mode ("\\.fs[x]?[i]?[proj]?\\'" . fsharp-mode)
+   :mode (("\\.fs$"  .  fsharp-mode)
+	  ("\\.fsx$" .  fsharp-mode)
+	  ("\\.fsi$" .  fsharp-mode))
    :hook (fsharp-mode . lsp-deferred)
+   :bind
+   (("C-c C-,"     . 'fsharp-shift-region-left)
+    ("C-c C-."     . 'fsharp-shift-region-right)
+    ("C-o"         . 'fsharp-newline-and-indent)
+    ("C-c C-i"     . 'run-fsharp)
+    ("C-c C-a"     . 'fsharp-find-alternate-file)
+    ("M-h"         . 'fsharp-mark-phrase))
    :config
-   (add-hook 'fsharp-mode-hook 'highlight-indentation-mode))
+   (setq compile-command "dotnet watch run")
+   (setq inferior-fsharp-program "dotnet fsi"))
 
 ;; ======================================================
 ;; PYTHON
