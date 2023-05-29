@@ -130,9 +130,10 @@
 ;;
 (use-package fsharp-mode
    :straight t
-   :mode (("\\.fs$"  .  fsharp-mode)
-	  ("\\.fsx$" .  fsharp-mode)
-	  ("\\.fsi$" .  fsharp-mode))
+   :mode (("\\.fs$"     .  fsharp-mode)
+	  ("\\.fsx$"    .  fsharp-mode)
+	  ("\\.fsi$"    .  fsharp-mode)
+          ("\\.fsproj$" .  xml-mode))
    :hook (fsharp-mode . lsp-deferred)
    :bind
    (("C-c C-,"     . 'fsharp-shift-region-left)
