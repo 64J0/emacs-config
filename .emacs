@@ -148,5 +148,6 @@
 (load-file (concat gajo--local-dir "src/unfill-paragraph.el"))
 (load-file (concat gajo--local-dir "src/org-mode.el"))
 (load-file (concat gajo--local-dir "src/prog-mode.el"))
+(load-file (concat gajo--local-dir "src/move-buffer.el"))
 
 ;;; .emacs ends here
