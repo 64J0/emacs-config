@@ -257,4 +257,10 @@
 (use-package ox-gfm
   :straight t)
 
+;; Markdown TOC
+;; A simple mode to create TOC in a well-formed markdown file.
+;; https://github.com/ardumont/markdown-toc
+(use-package markdown-toc
+  :straight t)
+
 ;;; org-mode.el ends here
