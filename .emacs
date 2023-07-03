@@ -147,6 +147,7 @@
 (load-file (concat gajo--local-dir "src/global.el"))
 (load-file (concat gajo--local-dir "src/unfill-paragraph.el"))
 (load-file (concat gajo--local-dir "src/org-mode.el"))
+(load-file (concat gajo--local-dir "src/markdown.el"))
 (load-file (concat gajo--local-dir "src/prog-mode.el"))
 (load-file (concat gajo--local-dir "src/move-buffer.el"))
 

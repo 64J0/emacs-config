@@ -35,7 +35,6 @@
   (org-support-shift-select 'always)
   (org-directory "~/org")
   (org-src-fontify-natively t)
-  (org-log-done 'time)
   (org-refile-use-outline-path 'file)
   (org-babel-inline-result-wrap "=%s=")
   (org-use-sub-superscripts '{})
@@ -49,17 +48,19 @@
   (setq org-format-latex-options
         (plist-put org-format-latex-options :scale 2.0))
   (setq org-todo-keywords
-        (quote ((sequence "TODO(t)"
-                          "NEXT(n)"
-                          "HOLD(h)" "|"
-                          "DONE(d)"
-                          "CANCELLED(c)"))))
+        (quote ((sequence "TODO(t!)"
+                          "NEXT(n@)"
+                          "HOLD(h@)" "|"
+                          "DONE(d!)"
+                          "CANCELLED(c@)"))))
   (setq org-todo-keyword-faces
         (quote (("TODO" :foreground "orange" :weight bold)
 	        ("NEXT" :foreground "blue" :weight bold)
                 ("HOLD" :foreground "magenta" :weight bold)
                 ("DONE" :foreground "forest green" :weight bold)
 	        ("CANCELLED" :foreground "red" :weight bold))))
+  (setq org-enforce-todo-dependencies t)
+  (setq org-log-done 'time)
   (setq org-refile-targets
         `((nil                     :maxlevel . 9)
           (org-agenda-files        :maxlevel . 2)
@@ -250,17 +251,5 @@
   (ox-extras-activate '(latex-header-blocks ignore-headlines)))
 
 (use-package oc-biblatex)
-
-;; GitHub Flavored Markdown
-;; This package changes the default MD exporter to use the GitHub syntax.
-;; https://github.com/larstvei/ox-gfm
-(use-package ox-gfm
-  :straight t)
-
-;; Markdown TOC
-;; A simple mode to create TOC in a well-formed markdown file.
-;; https://github.com/ardumont/markdown-toc
-(use-package markdown-toc
-  :straight t)
 
 ;;; org-mode.el ends here
