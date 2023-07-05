@@ -267,4 +267,24 @@
   :mode ("\\.md\\'" . gfm-mode)
   :init (setq markdown-command "multimarkdown"))
 
+;; ===========================================================
+;; Nix
+
+;; Nix Language server, an incremental analysis assistent for writing in Nix.
+;; `https://github.com/oxalica/nil'
+;;
+;; TODO
+;; Wasn't able to find this package. I'm checking with the repository maintainers:
+;; `https://github.com/oxalica/nil/issues/95'
+;; (use-package lsp-nix
+;;   :straight t
+;;   :demand t
+;;   :custom
+;;   (lsp-nix-nil-formatter ["nixpkgs-fmt"]))
+
+(use-package nix-mode
+  :straight t
+  :mode ("\\.nix\\'" . nix-mode)
+  :hook (nix-mode . lsp-deferred))
+
 ;;; prog-mode.el ends here
