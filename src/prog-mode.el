@@ -273,11 +273,10 @@
 ;; Nix Language server, an incremental analysis assistent for writing in Nix.
 ;; `https://github.com/oxalica/nil'
 ;;
-;; TODO
-;; Wasn't able to find this package. I'm checking with the repository maintainers:
 ;; `https://github.com/oxalica/nil/issues/95'
 ;; (use-package lsp-nix
-;;   :straight t
+;;   :ensure lsp-mode
+;;   :after (lsp-mode)
 ;;   :demand t
 ;;   :custom
 ;;   (lsp-nix-nil-formatter ["nixpkgs-fmt"]))
