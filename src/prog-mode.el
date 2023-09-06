@@ -144,7 +144,8 @@
     ("M-h"         . 'fsharp-mark-phrase))
    :config
    (setq compile-command "dotnet watch run")
-   (setq inferior-fsharp-program "dotnet fsi"))
+   ;; https://github.com/fsharp/emacs-fsharp-mode/tree/master#compiler-and-repl-paths
+   (setq inferior-fsharp-program "dotnet fsi --readline-"))
 
 ;; ======================================================
 ;; PYTHON
