@@ -32,13 +32,22 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
+
+(require 'straight)
+
 (straight-use-package 'use-package)
 (setq package-enable-at-startup nil)
+;; https://github.com/radian-software/straight.el#how-do-i-update-melpa-et-al
+(defalias 'straight-update-all-packages 'straight-pull-all)
+;; https://github.com/radian-software/straight.el#how-do-i-uninstall-a-package
+(defalias 'straight-clean-packages 'straight-remove-unused-repos)
 
 ;; ============================================
 ;; Load external configuration
-(message "Load external configuration")
-(setq gajo--local-dir "~/Desktop/codes/emacs-config/")
+(message "Loading external configuration")
+(defvar gajo--local-dir
+  "~/Desktop/codes/emacs-config/"
+  "Base path for the src files.")
 
 (load-file (concat gajo--local-dir "src/helpers.el"))
 (load-file (concat gajo--local-dir "src/theme.el"))
