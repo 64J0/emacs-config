@@ -19,8 +19,30 @@
 ;; Use `M-x lsp-doctor' to validate if your `lsp-mode' is properly
 ;; configured.
 ;;
+;; Table of packages:
+;;
+;; - lsp-mode
+;; - lsp-ui
+;; - lsp-ivy
+;; - projectile
+;; - editorconfig
+;; - diff-hl
+;; - fsharp-mode
+;; - python-mode
+;; - clojure-mode
+;; - cider
+;; - rustic
+;; - go-mode
+;; - json-mode
+;; - dockerfile-mode
+;; - terraform-mode
+;; - yaml-mode
+;; - markdown-mode
+;; - nix-mode
 
 ;;; Code:
+
+(require 'use-package)
 
 (use-package lsp-mode
   :straight t
@@ -159,14 +181,6 @@
   (python-indent-offset 2)
   (flycheck-python-pycompile-executable "python3")
   (python-shell-interpreter "python3"))
-
-;; Python code
-;; to fix problems: `https://www.higithub.com/jorgenschaefer/issue/elpy/1936'
-;; M-x elpy-rpc-reinstall-virtualenv
-(use-package elpy
-  :straight t
-  :init
-  (elpy-enable))
 
 ;; ======================================================
 ;; CLOJURE

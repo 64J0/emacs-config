@@ -11,8 +11,26 @@
 ;; https://orgmode.org/
 ;; https://github.com/alphapapa/org-super-agenda/blob/master/examples.org
 ;; https://github.com/ebellani/Emacs.d/blob/master/init.el
+;;
+;; Table of packages:
+;;
+;; - org
+;; - org-roam
+;; - org-drill
+;; - org-superstar
+;; - org-contrib
+;; - org-super-agenda
+;; - ob-fsharp
+;; - ob-clojure
+;; - ob-rust
+;; - ox-beamer
+;; - ox-latex
+;; - ox-extra
+;; - oc-biblatex
 
 ;;; Code:
+
+(require 'use-package)
 
 (use-package org
   :straight t

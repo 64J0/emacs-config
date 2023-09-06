@@ -6,6 +6,8 @@
 
 ;;; Code:
 
+(require 'use-package)
+
 ;; `https://www.reddit.com/r/emacs/comments/j7eruf/favorite_light_themes/'
 ;;
 (use-package doom-themes
