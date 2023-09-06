@@ -18,6 +18,7 @@
 ;; - company
 ;; - company-box
 ;; - multiple-cursors
+;; - highlight-indent-guides
 
 ;;; Code:
 
@@ -131,5 +132,15 @@
   :bind (("C-S-l" . mc/mark-all-like-this)
          ("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)))
+
+;; Display the indentation level.
+;;
+;; Repository: `https://github.com/DarthFennec/highlight-indent-guides'
+(use-package highlight-indent-guides
+  :straight t
+  :custom
+  (highlight-indent-guides-method 'bitmap)
+  :hook
+  (prog-mode . highlight-indent-guides-mode))
 
 ;;; helpers.el ends here
