@@ -45,6 +45,7 @@
                                 (moderncv basic)
                                 (t basic)))
   :config
+  (setq org-ditaa-jar-path "~/org/deps/ditaa0_9.jar")
   (setq org-format-latex-options
         (plist-put org-format-latex-options :scale 2.0))
   (setq org-todo-keywords
@@ -122,6 +123,7 @@
      (python   . t)
      (js       . t)
      (C        . t)
+     (ditaa    . t)
      (org      . t))))
 
 ;; FlySpell for spell checking
