@@ -42,7 +42,7 @@
  ("nongnu-elpa" . "7be7879e3ea01401ff51a515da882e79148392ea")
  ("ob-fsharp" . "29fe5280de9a93dd35ca7070b5e0753b280264e4")
  ("ob-rust" . "be059d231fafeb24a658db212a55ccdc55c0c500")
- ("org" . "893c5d08513b1c0fb10bf5044dcbcbf6157315b0")
+ ("org" . "8ef6205a560cd3a92f8c5f8fe34953b80121c2cb")
  ("org-contrib" . "3385f15a303d40b4ffed563bc49b567462377751")
  ("org-drill" . "bf8fe812d44a3ce3e84361fb39b8ef28ca10fd0c")
  ("org-roam" . "5c06471c3a11348342719fd9011486455adeb701")
