@@ -49,7 +49,6 @@
          (fsharp-mode    . lsp-deferred)
          (terraform-mode . lsp-deferred)
          (python-mode    . lsp-deferred)
-         (go-mode        . lsp-deferred)
          (sh-mode        . lsp-deferred)
          (rust-mode      . lsp-deferred))
   :config
