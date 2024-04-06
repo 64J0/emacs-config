@@ -29,8 +29,6 @@
 ;; - diff-hl
 ;; - fsharp-mode
 ;; - python-mode
-;; - clojure-mode
-;; - cider
 ;; - rustic
 ;; - json-mode
 ;; - dockerfile-mode
@@ -178,23 +176,6 @@
   (python-indent-offset 2)
   (flycheck-python-pycompile-executable "python3")
   (python-shell-interpreter "python3"))
-
-;; ======================================================
-;; CLOJURE
-;; `https://clojure.org/guides/editors'
-;; `https://www.braveclojure.com/basic-emacs/'
-;;
-(use-package clojure-mode
-  :straight t
-  :mode ("\\.clj\\'" . clojure-mode)
-  :config
-  (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode))
-
-(use-package cider
-  :straight t
-  :after clojure-mode
-  :config
-  (setq org-babel-clojure-backend 'cider))
 
 ;; ======================================================
 ;; RUST LANG
