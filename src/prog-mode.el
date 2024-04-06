@@ -38,7 +38,6 @@
 ;; - terraform-mode
 ;; - yaml-mode
 ;; - markdown-mode
-;; - nix-mode
 
 ;;; Code:
 
@@ -281,24 +280,5 @@
   :straight t
   :mode ("\\.md\\'" . gfm-mode)
   :init (setq markdown-command "multimarkdown"))
-
-;; ===========================================================
-;; Nix
-
-;; Nix Language server, an incremental analysis assistent for writing in Nix.
-;; `https://github.com/oxalica/nil'
-;;
-;; `https://github.com/oxalica/nil/issues/95'
-;; (use-package lsp-nix
-;;   :ensure lsp-mode
-;;   :after (lsp-mode)
-;;   :demand t
-;;   :custom
-;;   (lsp-nix-nil-formatter ["nixpkgs-fmt"]))
-
-(use-package nix-mode
-  :straight t
-  :mode ("\\.nix\\'" . nix-mode)
-  :hook (nix-mode . lsp-deferred))
 
 ;;; prog-mode.el ends here
