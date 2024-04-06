@@ -32,7 +32,6 @@
 ;; - clojure-mode
 ;; - cider
 ;; - rustic
-;; - go-mode
 ;; - json-mode
 ;; - dockerfile-mode
 ;; - terraform-mode
@@ -230,15 +229,6 @@
   (when buffer-file-name
     (setq-local buffer-save-without-query t))
   (add-hook 'before-save-hook 'lsp-format-buffer nil t))
-
-;; ======================================================
-;; GO LANG
-;; `https://github.com/dominikh/go-mode.el'
-;; `https://emacs-lsp.github.io/lsp-mode/manual-language-docs/lsp-gopls/'
-;;
-(use-package go-mode
-  :straight t
-  :mode ("\\.go\\'" . go-mode))
 
 ;; ======================================================
 ;; DEVSECOPS
