@@ -24,9 +24,14 @@
 ;; - lsp-mode
 ;; - lsp-ui
 ;; - lsp-ivy
+;; - lsp-treemacs
+;; - helm-lsp
+;; - hydra
+;; - dap-mode
 ;; - projectile
 ;; - editorconfig
 ;; - diff-hl
+;; - yasnippet
 ;; - fsharp-mode
 ;; - python-mode
 ;; - rustic
@@ -48,14 +53,19 @@
          (terraform-mode . lsp-deferred)
          (python-mode    . lsp-deferred)
          (sh-mode        . lsp-deferred)
-         (rust-mode      . lsp-deferred))
+         (rust-mode      . lsp-deferred)
+         (c-mode         . lsp-deferred)
+         (c++-mode       . lsp-deferred))
   :config
   ;; performance tuning
   (setq gc-cons-threshold 100000000
         ;; warn when opening files bigger than 100MB
         large-file-warning-threshold 100000000
         read-process-output-max (* 1024 1024) ;; 1mb
-        lsp-idle-delay 1.000
+        treemacs-space-between-root-nodes nil
+        company-idle-delay 0.0
+        company-minimum-prefix-length 1
+        lsp-idle-delay 1.0
         lsp-log-io nil) ; if set to true can cause a performance hit
   ;; UI
   (setq lsp-headerline-breadcrumb-enable t)
@@ -105,6 +115,33 @@
 (use-package lsp-ivy
   :straight t)
 
+;; Integration between lsp-mode and treemacs and implementation of treeview
+;; controls using treemacs as a tree rendered.
+;; `https://github.com/emacs-lsp/lsp-treemacs'
+(use-package lsp-treemacs
+  :straight t
+  :config
+  (lsp-treemacs-sync-mode 1))
+
+;; This package provides alternative of the build-in lsp-mode xref-appropos
+;; which provides as you type completion.
+;; `https://github.com/emacs-lsp/helm-lsp'
+(use-package helm-lsp
+  :straight t)
+
+;; This is a package for GNU Emacs that can be used to tie related commands into
+;; a family of short bindings with a common prefix - a Hydra.
+;; `https://github.com/abo-abo/hydra'
+(use-package hydra
+  :straight t)
+
+;; Emacs client/library for Debug Adapter Protocol is a wire protocol for
+;; communication between client and Debug Server. It's similar to the LSP but
+;; provides integration with debug server.
+;; `https://github.com/emacs-lsp/dap-mode'
+(use-package dap-mode
+  :straight t)
+
 ;; Projectile is a project interaction library for Emacs. Its goal is to provide
 ;; a nice set of features operating on a project level without introducing
 ;; external dependencies (when feasible).
@@ -115,7 +152,7 @@
 (use-package projectile
   :straight t
   :bind (:map projectile-mode-map
-              ("s-p" . projectile-command-map)
+              ("s-p"   . projectile-command-map)
               ("C-c p" . projectile-command-map))
   :config (projectile-mode +1))
 
@@ -136,6 +173,21 @@
   :config
   (global-diff-hl-mode)
   (diff-hl-flydiff-mode))
+
+;; YASnippet is a template system for Emacs. It allows you to type an
+;; abbreviation and automatically expand it into function templates.
+;; `https://github.com/joaotavora/yasnippet'
+(use-package yasnippet
+  :straight t
+  :config
+  (yas-global-mode 1))
+
+;; ======================================================
+;; C++ CONFIG
+;; `https://emacs-lsp.github.io/lsp-mode/tutorials/CPP-guide/'
+;; `https://github.com/atilaneves/cmake-ide'
+;;
+;; - LSP server: `clangd'
 
 ;; ======================================================
 ;; F# CONFIG
