@@ -175,6 +175,7 @@ Those are the points I think are worth knowing, at least in the beginning.
 + [[http://www.paulgraham.com/taste.html][Paul Graham - Taste for Makers]]
 + [[http://www.paulgraham.com/avg.html][Paul Graham - Beating the Averages]]
 + [[http://www.paulgraham.com/icad.html][Paul Graham - Revenge of the Nerds]]
++ [[https://tuhdo.github.io/c-ide.html][C/C++ Development Environment for Emacs]]
   
 ** Update packages
 
