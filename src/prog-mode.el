@@ -40,11 +40,14 @@
 ;; - terraform-mode
 ;; - yaml-mode
 ;; - markdown-mode
+;; - sml-mode
 
 ;;; Code:
 
 (require 'use-package)
 
+;; About `lsp-deferred':
+;; https://github.com/emacs-lsp/lsp-mode/discussions/3360
 (use-package lsp-mode
   :straight t
   :hook ((lsp-mode       . lsp-headerline-breadcrumb-mode)
@@ -55,7 +58,9 @@
          (sh-mode        . lsp-deferred)
          (rust-mode      . lsp-deferred)
          (c-mode         . lsp-deferred)
-         (c++-mode       . lsp-deferred))
+         (c++-mode       . lsp-deferred)
+         ;; (sml-mode       . lsp-deferred) ;; there's no sml lsp server
+         )
   :config
   ;; performance tuning
   (setq gc-cons-threshold 100000000
@@ -302,5 +307,10 @@
   :straight t
   :mode ("\\.md\\'" . gfm-mode)
   :init (setq markdown-command "multimarkdown"))
+
+;; SML Mode
+(use-package sml-mode
+  :straight t
+  :mode ("\\.sml\\'" . sml-mode))
 
 ;;; prog-mode.el ends here
