@@ -7,7 +7,8 @@
 
 ;;; Code:
 
-(display-line-numbers-mode t) ;; show the line number
+;; https://www.emacswiki.org/emacs/LineNumbers
+(global-display-line-numbers-mode 1) ;; show the line number
 (tool-bar-mode -1) ;; remove tool bar
 (menu-bar-mode -1) ;; remove menu bar
 (set-face-attribute 'default nil
