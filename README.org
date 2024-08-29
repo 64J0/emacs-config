@@ -28,8 +28,8 @@ install Emacs using this package manager is pretty straigh forward:
 You can find the Emacs versions in this [[https://www.gnu.org/software/emacs/][link]].
 
 #+BEGIN_SRC bash :tangle no
-  # download emacs version 28.2
-  export EMACS_VERSION="28.2"
+  # download emacs version 29.4
+  export EMACS_VERSION="29.4"
   wget https://ftp.gnu.org/pub/gnu/emacs/emacs-${EMACS_VERSION}.tar.gz
 
   # extract the content

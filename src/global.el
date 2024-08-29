@@ -7,7 +7,7 @@
 
 ;;; Code:
 
-(global-linum-mode) ;; show the line number
+(display-line-numbers-mode t) ;; show the line number
 (tool-bar-mode -1) ;; remove tool bar
 (menu-bar-mode -1) ;; remove menu bar
 (set-face-attribute 'default nil
