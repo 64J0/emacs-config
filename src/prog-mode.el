@@ -24,9 +24,7 @@
 ;; - lsp-mode
 ;; - lsp-ui
 ;; - lsp-ivy
-;; - lsp-treemacs
 ;; - helm-lsp
-;; - hydra
 ;; - dap-mode
 ;; - projectile
 ;; - editorconfig
@@ -34,7 +32,6 @@
 ;; - yasnippet
 ;; - fsharp-mode
 ;; - python-mode
-;; - rustic
 ;; - json-mode
 ;; - dockerfile-mode
 ;; - terraform-mode
@@ -56,11 +53,9 @@
          (terraform-mode . lsp-deferred)
          (python-mode    . lsp-deferred)
          (sh-mode        . lsp-deferred)
-         (rust-mode      . lsp-deferred)
+         (sql-mode       . lsp-deferred)
          (c-mode         . lsp-deferred)
-         (c++-mode       . lsp-deferred)
-         ;; (sml-mode       . lsp-deferred) ;; there's no sml lsp server
-         )
+         (c++-mode       . lsp-deferred))
   :config
   ;; performance tuning
   (setq gc-cons-threshold 100000000
@@ -88,19 +83,7 @@
   ;; `https://emacs-lsp.github.io/lsp-mode/page/lsp-yaml/'
   ;; Only default values
   (with-eval-after-load 'lsp-mode
-    (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
-  :custom
-  ;; RUST -------------------------------
-  ;; `https://robert.kra.hn/posts/rust-emacs-setup/'
-  (lsp-eldoc-render-all nil)
-  (lsp-rust-analyzer-cargo-watch-command "clippy")
-  (lsp-rust-analyzer-server-display-inlay-hints t)
-  (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
-  (lsp-rust-analyzer-display-chaining-hints t)
-  (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
-  (lsp-rust-analyzer-display-closure-return-type-hints t)
-  (lsp-rust-analyzer-display-parameter-hints nil)
-  (lsp-rust-analyzer-display-reborrow-hints nil))
+    (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)))
 
 ;; This package contains all the higher level UI modules of lsp-mode, like
 ;; flycheck support and code lenses.
@@ -120,24 +103,10 @@
 (use-package lsp-ivy
   :straight t)
 
-;; Integration between lsp-mode and treemacs and implementation of treeview
-;; controls using treemacs as a tree rendered.
-;; `https://github.com/emacs-lsp/lsp-treemacs'
-(use-package lsp-treemacs
-  :straight t
-  :config
-  (lsp-treemacs-sync-mode 1))
-
 ;; This package provides alternative of the build-in lsp-mode xref-appropos
 ;; which provides as you type completion.
 ;; `https://github.com/emacs-lsp/helm-lsp'
 (use-package helm-lsp
-  :straight t)
-
-;; This is a package for GNU Emacs that can be used to tie related commands into
-;; a family of short bindings with a common prefix - a Hydra.
-;; `https://github.com/abo-abo/hydra'
-(use-package hydra
   :straight t)
 
 ;; Emacs client/library for Debug Adapter Protocol is a wire protocol for
@@ -203,23 +172,24 @@
 ;; `https://github.com/fsharp/emacs-fsharp-mode'
 ;;
 (use-package fsharp-mode
-   :straight t
-   :mode (("\\.fs$"     .  fsharp-mode)
-	  ("\\.fsx$"    .  fsharp-mode)
-	  ("\\.fsi$"    .  fsharp-mode)
-          ("\\.fsproj$" .  xml-mode))
-   :hook (fsharp-mode . lsp-deferred)
-   :bind
-   (("C-c C-,"     . 'fsharp-shift-region-left)
-    ("C-c C-."     . 'fsharp-shift-region-right)
-    ("C-o"         . 'fsharp-newline-and-indent)
-    ("C-c C-i"     . 'run-fsharp)
-    ("C-c C-a"     . 'fsharp-find-alternate-file)
-    ("M-h"         . 'fsharp-mark-phrase))
-   :config
-   (setq compile-command "dotnet watch run")
-   ;; https://github.com/fsharp/emacs-fsharp-mode/tree/master#compiler-and-repl-paths
-   (setq inferior-fsharp-program "dotnet fsi --readline-"))
+  :defer t
+  :straight t
+  :mode (("\\.fs$"     .  fsharp-mode)
+	 ("\\.fsx$"    .  fsharp-mode)
+	 ("\\.fsi$"    .  fsharp-mode)
+         ("\\.fsproj$" .  xml-mode))
+  :hook (fsharp-mode . lsp-deferred)
+  :bind
+  (("C-c C-,"     . 'fsharp-shift-region-left)
+   ("C-c C-."     . 'fsharp-shift-region-right)
+   ("C-o"         . 'fsharp-newline-and-indent)
+   ("C-c C-i"     . 'run-fsharp)
+   ("C-c C-a"     . 'fsharp-find-alternate-file)
+   ("M-h"         . 'fsharp-mark-phrase))
+  :config
+  (setq compile-command "dotnet watch run")
+  ;; https://github.com/fsharp/emacs-fsharp-mode/tree/master#compiler-and-repl-paths
+  (setq inferior-fsharp-program "dotnet fsi --readline-"))
 
 ;; ======================================================
 ;; PYTHON
@@ -233,39 +203,6 @@
   (python-indent-offset 2)
   (flycheck-python-pycompile-executable "python3")
   (python-shell-interpreter "python3"))
-
-;; ======================================================
-;; RUST LANG
-;; `https://robert.kra.hn/posts/rust-emacs-setup/'
-(use-package rustic
-  :straight t
-  :bind (:map rustic-mode-map
-              ("M-j" . lsp-ui-imenu)
-              ("M-?" . lsp-find-references)
-              ("C-c C-c l" . flycheck-list-errors)
-              ("C-c C-c a" . lsp-execute-code-action)
-              ("C-c C-c r" . lsp-rename)
-              ("C-c C-c q" . lsp-workspace-restart)
-              ("C-c C-c Q" . lsp-workspace-shutdown)
-              ("C-c C-c s" . lsp-rust-analyzer-status))
-  :config
-  ;; uncomment for less flashiness
-  ;; (setq lsp-eldoc-hook nil)
-  ;; (setq lsp-enable-symbol-highlighting nil)
-  ;; (setq lsp-signature-auto-activate nil)
-
-  ;; comment to disable rustfmt on save
-  ;; (setq rustic-format-on-save t)
-  (add-hook 'rustic-mode-hook 'rk/rustic-mode-hook))
-
-(defun rk/rustic-mode-hook ()
-  ;; so that run C-c C-c C-r works without having to confirm, but don't try to
-  ;; save rust buffers that are not file visiting. Once
-  ;; https://github.com/brotzeit/rustic/issues/253 has been resolved this should
-  ;; no longer be necessary.
-  (when buffer-file-name
-    (setq-local buffer-save-without-query t))
-  (add-hook 'before-save-hook 'lsp-format-buffer nil t))
 
 ;; ======================================================
 ;; DEVSECOPS
