@@ -12,7 +12,6 @@
 ;; - helm
 ;; - rainbow-delimiters
 ;; - smartparens
-;; - neotree
 ;; - counsel
 ;; - flycheck
 ;; - company
@@ -72,13 +71,6 @@
   (sp-show-pair-from-inside t)
   :custom-face
   (sp-show-pair-match-face ((t (:foreground "Purple" :background "Green")))))
-
-;; Show directory tree on the lateral.
-;;
-;; Repository: `https://github.com/jaypei/emacs-neotree'
-(use-package neotree
-  :straight t
-  :bind (("C-b" . neotree-toggle)))
 
 ;; Ivy: generic completion mechanism for Emacs
 ;; Counsel: collection of Ivy-enhanced versions of common Emacs commands
