@@ -18,8 +18,6 @@
 ;; - org-roam
 ;; - org-drill
 ;; - org-superstar
-;; - org-contrib
-;; - org-super-agenda
 ;; - ob-fsharp
 ;; - ob-clojure
 ;; - ob-rust
@@ -63,7 +61,6 @@
                                 (moderncv basic)
                                 (t basic)))
   :config
-  (setq org-ditaa-jar-path "~/org/deps/ditaa0_9.jar")
   (setq org-format-latex-options
         (plist-put org-format-latex-options :scale 2.0))
   (setq org-todo-keywords
@@ -141,7 +138,6 @@
      (python   . t)
      (js       . t)
      (C        . t)
-     (ditaa    . t)
      (org      . t))))
 
 ;; FlySpell for spell checking
@@ -212,18 +208,6 @@
   (add-hook
    'org-mode-hook (lambda () (org-superstar-mode 1))))
 
-;; Unmaintained add-ons for Org-mode.
-;;
-;; Repository: `https://github.com/emacsmirror/org-contrib'
-(use-package org-contrib
-  :straight t)
-
-;; Supercharge your org daily/weekly agenda by grouping items.
-;;
-;; Repository: `https://github.com/alphapapa/org-super-agenda'
-(use-package org-super-agenda
-  :straight t)
-
 ;; F# code evaluation in org-mode
 ;;
 ;; Repository: `https://github.com/juergenhoetzel/ob-fsharp'
@@ -231,17 +215,6 @@
   :straight t
   :config
   (add-to-list 'org-babel-load-languages '(fsharp . t)))
-
-;; Docs: `https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-clojure.html'
-(use-package ob-clojure
-  :config
-  (setq org-babel-clojure-backend 'cider)
-  (add-to-list 'org-babel-load-languages '(clojure . t)))
-
-(use-package ob-rust
-  :straight t
-  :config
-  (add-to-list 'org-babel-load-languages '(rust . t)))
 
 ;; ======================================================
 ;; Latex + Beamer config
@@ -258,7 +231,7 @@
           "bibtex %b"
           "pdflatex -interaction nonstopmode -output-directory %o %f"
           "pdflatex -interaction nonstopmode -output-directory %o %f"))
-  (setq org-latex-with-hyperref nil) ;; stop org adding hypersetup{author...} to latex export
+  (setq org-latex-hyperref-template nil) ;; stop org adding hypersetup{author...} to latex export
   ;; delete unwanted file extensions after latexMK
   (setq org-latex-logfiles-extensions
         (quote ("lof" "lot" "tex~" "aux" "idx" "log" "out" "toc" "nav" "snm" "vrb" "dvi" "fdb_latexmk" "blg" "brf" "fls" "entoc" "ps" "spl" "bbl" "xmpi" "run.xml" "bcf" "acn" "acr" "alg" "glg" "gls" "ist")))
