@@ -21,7 +21,6 @@
 ;; - ob-fsharp
 ;; - ox-beamer
 ;; - ox-latex
-;; - ox-extra
 ;; - oc-biblatex
 
 ;;; Code:
@@ -236,10 +235,6 @@
   
   (unless (boundp 'org-latex-classes)
     (setq org-latex-classes nil)))
-
-(use-package ox-extra
-  :config
-  (ox-extras-activate '(latex-header-blocks ignore-headlines)))
 
 (use-package oc-biblatex)
 
