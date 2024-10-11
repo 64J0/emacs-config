@@ -19,8 +19,6 @@
 ;; - org-drill
 ;; - org-superstar
 ;; - ob-fsharp
-;; - ob-clojure
-;; - ob-rust
 ;; - ox-beamer
 ;; - ox-latex
 ;; - ox-extra
