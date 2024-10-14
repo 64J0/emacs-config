@@ -18,6 +18,7 @@
 ;; - company-box
 ;; - multiple-cursors
 ;; - highlight-indent-guides
+;; - dired-du
 
 ;;; Code:
 
@@ -134,5 +135,15 @@
   (highlight-indent-guides-method 'bitmap)
   :hook
   (prog-mode . highlight-indent-guides-mode))
+
+;; Display the recursive size of directories in Dired
+;;
+;; `https://elpa.gnu.org/packages/dired-du.html'
+(use-package dired-du
+  :straight t
+  ;; was too slow
+  ;; :hook
+  ;; (dired-mode . dired-du-mode)
+  )
 
 ;;; helpers.el ends here
