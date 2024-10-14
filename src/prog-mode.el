@@ -46,6 +46,7 @@
 ;; About `lsp-deferred':
 ;; https://github.com/emacs-lsp/lsp-mode/discussions/3360
 (use-package lsp-mode
+  :defer t
   :straight t
   :hook ((lsp-mode       . lsp-headerline-breadcrumb-mode)
          (yaml-mode      . lsp-deferred)
@@ -62,7 +63,6 @@
         ;; warn when opening files bigger than 100MB
         large-file-warning-threshold 100000000
         read-process-output-max (* 1024 1024) ;; 1mb
-        treemacs-space-between-root-nodes nil
         company-idle-delay 0.0
         company-minimum-prefix-length 1
         lsp-idle-delay 1.0
@@ -154,6 +154,8 @@
 (use-package yasnippet
   :straight t
   :config
+  (setq yas-snippet-dirs
+        (list (concat gajo--local-dir "yasnippets")))
   (yas-global-mode 1))
 
 ;; ======================================================
