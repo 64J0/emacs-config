@@ -24,6 +24,7 @@
 ;; - lsp-mode
 ;; - lsp-ui
 ;; - lsp-ivy
+;; - lsp-treemacs
 ;; - helm-lsp
 ;; - dap-mode
 ;; - projectile
@@ -38,6 +39,8 @@
 ;; - yaml-mode
 ;; - markdown-mode
 ;; - sml-mode
+;; - clojure-mode
+;; - rider
 
 ;;; Code:
 
@@ -56,17 +59,19 @@
          (sh-mode        . lsp-deferred)
          (sql-mode       . lsp-deferred)
          (c-mode         . lsp-deferred)
-         (c++-mode       . lsp-deferred))
+         (c++-mode       . lsp-deferred)
+         (clojure-mode   . lsp-deferred))
   :config
   ;; performance tuning
-  (setq gc-cons-threshold 100000000
+  (setq gc-cons-threshold (* 100 1024 1024)
         ;; warn when opening files bigger than 100MB
-        large-file-warning-threshold 100000000
+        large-file-warning-threshold (* 100 1024 1024)
         read-process-output-max (* 1024 1024) ;; 1mb
         company-idle-delay 0.0
         company-minimum-prefix-length 1
         lsp-idle-delay 1.0
-        lsp-log-io nil) ; if set to true can cause a performance hit
+        lsp-log-io nil ;; if set to true can cause a performance hit
+        treemacs-space-between-root-nodes nil)
   ;; UI
   (setq lsp-headerline-breadcrumb-enable t)
   ;; F# ---------------------------------
@@ -101,6 +106,12 @@
 
 ;; Search for some string pattern in the project.
 (use-package lsp-ivy
+  :straight t)
+
+;; Integration between lsp-mode and treemacs and implementation of treeview
+;; controls using treemacs as a tree renderer.
+;; https://github.com/emacs-lsp/lsp-treemacs
+(use-package lsp-treemacs
   :straight t)
 
 ;; This package provides alternative of the build-in lsp-mode xref-appropos
@@ -251,5 +262,22 @@
 (use-package sml-mode
   :straight t
   :mode ("\\.sml\\'" . sml-mode))
+
+;; Clojure programming
+;; `https://emacs-lsp.github.io/lsp-mode/tutorials/clojure-guide/'
+;;
+;; To work with the lsp, it is required to install the clojure-server lsp:
+;;
+;; - M-x lsp-install-server => clojure-lsp
+;;
+(use-package clojure-mode
+  :straight t
+  :mode ("\\.clj\\'" . clojure-mode))
+
+;; Clojure REPL
+;; `https://emacs-lsp.github.io/lsp-mode/tutorials/clojure-guide/'
+;;
+(use-package cider
+  :straight t)
 
 ;;; prog-mode.el ends here
