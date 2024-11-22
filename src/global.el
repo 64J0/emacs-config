@@ -28,9 +28,15 @@
 
 ;; Delete highlighted text
 ;; https://www.gnu.org/software/emacs/manual/html_node/efaq/Replacing-highlighted-text.html
-(delete-selection-mode 1)
+(delete-selection-mode t)
 
-(hl-line-mode 1)
+;; https://posts.tonyaldon.com/2022-03-05-i-bet-you-use-hl-line-mode/
+(global-hl-line-mode t)
+
+;; Use the Auto Revert mode to keep a buffer sync with respect to its visited
+;; file on disk, which is useful when the file is changed by another program
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Revert.html
+(global-auto-revert-mode t)
 
 (defvar emacs-user (getenv "USER") "Computer user from env.")
 (message "[+] Hello %s. Starting Emacs version %s" emacs-user emacs-version)
