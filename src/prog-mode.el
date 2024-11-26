@@ -280,4 +280,26 @@
 (use-package cider
   :straight t)
 
+;; Erlang configuration
+;;
+;; Notice that I installed it using `https://github.com/kerl/kerl';
+;;
+;; $ kerl build 27.1.2
+;; $ kerl install 27.1.2 /home/gajo/lib/erlang/27.1.2
+;; $ . /home/gajo/lib/erlang/27.1.2/activate
+;;
+;; About erlang-mode:
+;; `https://www.erlang.org/doc/apps/tools/erlang_mode_chapter.html'
+;;
+;; Another tutorial:
+;; `https://alexott.net/en/writings/emacs-devenv/EmacsErlang.html'
+;;
+(setq load-path (cons "/home/gajo/lib/erlang/27.1.2/lib/tools-4.1/emacs" load-path))
+(setq erlang-root-dir "/home/gajo/lib/erlang/27.1.2")
+(setq exec-path (cons "/home/gajo/lib/erlang/27.1.2/bin" exec-path))
+(setq erlang-man-root-dir "/home/gajo/lib/erlang/27.1.2/man")
+(require 'erlang-start)
+(add-to-list 'auto-mode-alist '("\\.erl?$" . erlang-mode))
+(add-to-list 'auto-mode-alist '("\\.hrl?$" . erlang-mode))
+
 ;;; prog-mode.el ends here
