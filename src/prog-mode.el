@@ -60,6 +60,7 @@
          (sql-mode       . lsp-deferred)
          (c-mode         . lsp-deferred)
          (c++-mode       . lsp-deferred)
+         ;; (erlang-mode    . lsp-deferred)
          (clojure-mode   . lsp-deferred))
   :config
   ;; performance tuning
@@ -88,7 +89,18 @@
   ;; `https://emacs-lsp.github.io/lsp-mode/page/lsp-yaml/'
   ;; Only default values
   (with-eval-after-load 'lsp-mode
-    (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)))
+    (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
+  ;; There's something wrong with the ELP installation through lsp, so it was
+  ;; required to install the package manually from:
+  ;; https://github.com/WhatsApp/erlang-language-platform/releases.
+  ;;
+  ;; https://whatsapp.github.io/erlang-language-platform/docs/get-started/editors/emacs/
+  ;; (lsp-register-client
+  ;;  (make-lsp-client :new-connection (lsp-stdio-connection '("elp" "server"))
+  ;;                   :major-modes '(erlang-mode)
+  ;;                   :priority 0
+  ;;                   :server-id 'erlang-language-platform))
+  )
 
 ;; This package contains all the higher level UI modules of lsp-mode, like
 ;; flycheck support and code lenses.
