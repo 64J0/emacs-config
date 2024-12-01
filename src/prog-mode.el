@@ -60,7 +60,7 @@
          (sql-mode       . lsp-deferred)
          (c-mode         . lsp-deferred)
          (c++-mode       . lsp-deferred)
-         ;; (erlang-mode    . lsp-deferred)
+         (erlang-mode    . lsp-deferred)
          (clojure-mode   . lsp-deferred))
   :config
   ;; performance tuning
@@ -92,14 +92,24 @@
     (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
   ;; There's something wrong with the ELP installation through lsp, so it was
   ;; required to install the package manually from:
-  ;; https://github.com/WhatsApp/erlang-language-platform/releases.
+  ;; `https://github.com/WhatsApp/erlang-language-platform/releases'.
   ;;
-  ;; https://whatsapp.github.io/erlang-language-platform/docs/get-started/editors/emacs/
-  ;; (lsp-register-client
-  ;;  (make-lsp-client :new-connection (lsp-stdio-connection '("elp" "server"))
-  ;;                   :major-modes '(erlang-mode)
-  ;;                   :priority 0
-  ;;                   :server-id 'erlang-language-platform))
+  ;; More informations regarding this tool:
+  ;; `https://whatsapp.github.io/erlang-language-platform/docs/get-started/editors/emacs/'
+  ;;
+  ;; Other tips:
+  ;;
+  ;; 1. After setting this configuration, LSP and ELP were trying to add file
+  ;; watchers to all my files down the Desktop/ folder. I was able to make it
+  ;; work properly; ie look for the files only from my project, using the
+  ;; command `lsp-workspace-remove-all-folders'. Then, after reopeing the Erlang
+  ;; codebase, it asked me for the root directory, which I provided
+  ;; interactively.
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection '("elp" "server"))
+                    :major-modes '(erlang-mode)
+                    :priority 0
+                    :server-id 'erlang-language-platform))
   )
 
 ;; This package contains all the higher level UI modules of lsp-mode, like
