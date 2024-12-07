@@ -206,6 +206,15 @@
 ;; Provides support for the F# language in Emacs
 ;; `https://github.com/fsharp/emacs-fsharp-mode'
 ;;
+;; For LSP to work properly we need to install the fsautocomplete package as a
+;; global package:
+;;
+;; - `dotnet tool install --global fsautocomplete'
+;;
+;; Then, add it to the PATH, for example (.bashrc):
+;;
+;; `export PATH="$PATH:/home/gajo/.dotnet/tools"'
+;;
 (use-package fsharp-mode
   :defer t
   :straight t
