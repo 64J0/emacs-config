@@ -78,6 +78,8 @@
   ;; F# ---------------------------------
   ;; `https://emacs-lsp.github.io/lsp-mode/page/lsp-fsharp/'
   (setq lsp-fsharp-enable-reference-code-lens t)
+  (setq lsp-fsharp-server-install-dir "/home/gajo/.dotnet/tools/")
+  (setq lsp-fsharp-use-dotnet-tool-for-fsac t)
   ;; Terraform --------------------------
   ;; `https://emacs-lsp.github.io/lsp-mode/page/lsp-terraform-ls/'
   (setq lsp-disabled-clients '(tfls)
