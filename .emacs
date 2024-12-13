@@ -22,8 +22,11 @@
 ;; Bootstrap script:
 (defvar bootstrap-version)
 (let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 6))
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
@@ -32,11 +35,11 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
+(setq package-enable-at-startup nil)
 
 (require 'straight)
 
 (straight-use-package 'use-package)
-(setq package-enable-at-startup nil)
 ;; https://github.com/radian-software/straight.el#how-do-i-update-melpa-et-al
 (defalias 'straight-update-all-packages 'straight-pull-all)
 ;; https://github.com/radian-software/straight.el#how-do-i-uninstall-a-package

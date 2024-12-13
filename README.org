@@ -32,6 +32,10 @@ You can find the Emacs versions in this [[https://www.gnu.org/software/emacs/][l
   export EMACS_VERSION="29.4"
   wget https://ftp.gnu.org/pub/gnu/emacs/emacs-${EMACS_VERSION}.tar.gz
 
+  # org-roam demands sqlite, so before running the following commands, if you
+  # intend to use this package, you need to install this package (debian):
+  # sudo apt install libsqlite3-dev
+
   # extract the content
   tar xvzf emacs-${EMACS_VERSION}.tar.gz
   cd emacs-${EMACS_VERSION}/
