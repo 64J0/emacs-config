@@ -15,4 +15,9 @@
   :init
   (load-theme 'doom-opera-light t))
 
+;; `https://github.com/protesilaos/modus-themes'
+;;
+(use-package modus-themes
+  :straight t)
+
 ;;; theme.el ends here
