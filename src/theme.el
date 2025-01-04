@@ -10,14 +10,16 @@
 
 ;; `https://www.reddit.com/r/emacs/comments/j7eruf/favorite_light_themes/'
 ;;
-(use-package doom-themes
-  :straight t
-  :init
-  (load-theme 'doom-opera-light t))
+;; (use-package doom-themes
+;;   :straight t
+;;   :init
+;;   (load-theme 'doom-opera-light t))
 
 ;; `https://github.com/protesilaos/modus-themes'
 ;;
 (use-package modus-themes
-  :straight t)
+  :straight t
+  :init
+  (load-theme 'modus-operandi t))
 
 ;;; theme.el ends here
