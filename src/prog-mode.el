@@ -158,12 +158,23 @@
 ;; `https://github.com/bbatsov/projectile'
 ;; `https://docs.projectile.mx/projectile/installation.html'
 ;;
+;; Some useful commands:
+;;
+;; - Search for patterns at the project: `projectile-grep'
+;; - Remove files from index with `.projectile' file
 (use-package projectile
   :straight t
   :bind (:map projectile-mode-map
               ("s-p"   . projectile-command-map)
               ("C-c p" . projectile-command-map))
-  :config (projectile-mode +1))
+  :config
+  (projectile-mode +1)
+  ;; .NET C# or F# projects
+  (projectile-register-project-type 'dotnet #'projectile-dotnet-project-p
+                                    :project-file '("?*.csproj" "?*.fsproj")
+                                    :compile "dotnet build"
+                                    :run "dotnet run"
+                                    :test "dotnet test"))
 
 ;; This mode sets up hooks so that EditorConfig properties will be loaded and
 ;; applied to the new buffers automatically when visiting files.
