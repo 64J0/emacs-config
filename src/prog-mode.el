@@ -25,6 +25,7 @@
 ;; - lsp-ui
 ;; - lsp-ivy
 ;; - lsp-treemacs
+;; - neotree
 ;; - helm-lsp
 ;; - dap-mode
 ;; - projectile
@@ -138,6 +139,20 @@
 (use-package lsp-treemacs
   :straight t)
 
+;; A Emacs tree plugin like NerdTree for Vim.
+;; https://github.com/jaypei/emacs-neotree
+(use-package neotree
+  :straight t
+  :bind
+  ("C-b" . gajo--neotree-refresh-and-toggle) ;; the same from vs code
+  :config
+  (defun gajo--neotree-refresh-and-toggle ()
+    "Automate the refresh of neotree when it's toggled."
+    (interactive)
+    (if (neo-global--window-exists-p)
+        (neotree-toggle)
+      (neotree-refresh 1))))
+
 ;; This package provides alternative of the build-in lsp-mode xref-appropos
 ;; which provides as you type completion.
 ;; `https://github.com/emacs-lsp/helm-lsp'
@@ -158,17 +173,23 @@
 ;; `https://github.com/bbatsov/projectile'
 ;; `https://docs.projectile.mx/projectile/installation.html'
 ;;
-;; Some useful commands:
+;; Some useful commands and tips:
 ;;
 ;; - Search for patterns at the project: `projectile-grep'
 ;; - Remove files from index with `.projectile' file
+;; - Search for a project with `projectile-find-file'
+;; - Search for a directory `projectile-find-dir'
+;; - Switch projects `projectile-switch-project'
 (use-package projectile
   :straight t
+  :init
+  (projectile-mode +1)
   :bind (:map projectile-mode-map
+              ;; Recommended keymap prefix on macOS
               ("s-p"   . projectile-command-map)
+              ;; Recommended keymap prefix on Windows/Linux
               ("C-c p" . projectile-command-map))
   :config
-  (projectile-mode +1)
   ;; .NET C# or F# projects
   (projectile-register-project-type 'dotnet #'projectile-dotnet-project-p
                                     :project-file '("?*.csproj" "?*.fsproj")
@@ -234,7 +255,8 @@
   :mode (("\\.fs$"     .  fsharp-mode)
 	 ("\\.fsx$"    .  fsharp-mode)
 	 ("\\.fsi$"    .  fsharp-mode)
-         ("\\.fsproj$" .  xml-mode))
+         ("\\.fsproj$" .  xml-mode)
+         ("\\.csproj$" .  xml-mode))
   :hook (fsharp-mode . lsp-deferred)
   :bind
   (("C-c C-,"     . 'fsharp-shift-region-left)
