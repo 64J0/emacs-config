@@ -7,7 +7,7 @@
 ;; Language Server Protocol Support for Emacs
 ;;
 ;; Aims to provide IDE-like experience by providing optional integration with
-;; the most popular Emacs packages like comapny, flycheck and projectile.
+;; the most popular Emacs packages like company, flycheck and projectile.
 ;;
 ;; + https://github.com/emacs-lsp/lsp-mode
 ;; + https://emacs-lsp.github.io/lsp-mode/
@@ -22,6 +22,7 @@
 ;; Table of packages:
 ;;
 ;; - lsp-mode
+;; - flycheck
 ;; - lsp-ui
 ;; - lsp-ivy
 ;; - lsp-treemacs
@@ -116,6 +117,13 @@
                     :priority 0
                     :server-id 'erlang-language-platform))
   )
+
+;; Modern on-the-fly syntax checking extension for GNU Emacs.
+;;
+;; Repository: `https://github.com/flycheck/flycheck'
+(use-package flycheck
+  :straight t
+  :init (global-flycheck-mode +1))
 
 ;; This package contains all the higher level UI modules of lsp-mode, like
 ;; flycheck support and code lenses.

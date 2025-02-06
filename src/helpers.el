@@ -13,7 +13,6 @@
 ;; - rainbow-delimiters
 ;; - smartparens
 ;; - counsel
-;; - flycheck
 ;; - company
 ;; - company-box
 ;; - multiple-cursors
@@ -84,13 +83,6 @@
   :bind (("C-x C-f" . counsel-find-file)
          ("C-s" . swiper-isearch))
   :custom (ivy-mode t))
-
-;; Modern on-the-fly syntax checking extension for GNU Emacs.
-;;
-;; Repository: `https://github.com/flycheck/flycheck'
-(use-package flycheck
-  :straight t
-  :init (global-flycheck-mode))
 
 ;; COMplete ANYthing: modular in-buffer completion framework for Emacs.
 ;;
