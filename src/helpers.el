@@ -97,7 +97,7 @@
         ("<tab>" . company-indent-or-complete-common))
   :commands (company-mode company-indent-or-complete-common)
   :custom
-  (company-idle-delay 0.1)
+  (company-idle-delay 0.0) ; default is 0.2
   (company-minimum-prefix-length 1)
   (company-selection-wrap-around t))
 
