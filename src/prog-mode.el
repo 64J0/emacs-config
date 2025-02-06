@@ -42,6 +42,8 @@
 ;; - sml-mode
 ;; - clojure-mode
 ;; - rider
+;; - local erlang stuff
+;; - magit
 
 ;;; Code:
 
@@ -361,11 +363,21 @@
 ;; `https://alexott.net/en/writings/emacs-devenv/EmacsErlang.html'
 ;;
 (setq load-path (cons "/home/gajo/lib/erlang/27.1.2/lib/tools-4.1/emacs" load-path))
-(setq erlang-root-dir "/home/gajo/lib/erlang/27.1.2")
 (setq exec-path (cons "/home/gajo/lib/erlang/27.1.2/bin" exec-path))
-(setq erlang-man-root-dir "/home/gajo/lib/erlang/27.1.2/man")
-(require 'erlang-start)
+(setq-default erlang-root-dir "/home/gajo/lib/erlang/27.1.2")
+(setq-default erlang-man-root-dir "/home/gajo/lib/erlang/27.1.2/man")
+(require 'erlang-start "/home/gajo/lib/erlang/27.1.2/lib/tools-4.1/emacs/erlang-start.el")
 (add-to-list 'auto-mode-alist '("\\.erl?$" . erlang-mode))
 (add-to-list 'auto-mode-alist '("\\.hrl?$" . erlang-mode))
+
+;; Magit
+;;
+;; Magit is an interface to the version control system Git, implemented as an
+;; Emacs package. Magit aspires to be a complete Git porcelain.
+;;
+;; - `https://magit.vc/manual/magit/index.html'
+;; - `https://emacsair.me/2017/09/01/magit-walk-through/'
+(use-package magit
+  :straight t)
 
 ;;; prog-mode.el ends here
