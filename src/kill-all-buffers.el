@@ -15,7 +15,7 @@
   (let ((internal-too nil)
         (no-ask t))
     (kill-matching-buffers
-     (rx (zero-or-more (not (any "\*scratch\*"))))
+     (rx (zero-or-more (not (any ""))))
      internal-too
      no-ask)))
 
