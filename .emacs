@@ -60,5 +60,6 @@
 (load-file (concat gajo--local-dir "src/markdown.el"))
 (load-file (concat gajo--local-dir "src/prog-mode.el"))
 (load-file (concat gajo--local-dir "src/move-buffer.el"))
+(load-file (concat gajo--local-dir "src/kill-all-buffers.el"))
 
 ;;; .emacs ends here
