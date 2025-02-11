@@ -23,12 +23,27 @@
 
 (require 'use-package)
 
+;; When we diminish a mode, we are saying we want it to continue doing its work
+;; for us, but we no longer want to be reminded of it. It becomes a night
+;; worker, like a janitor; it becomes an invisible man; it remains a component,
+;; perhaps an important one, sometimes an indispensable one, of the mechanism
+;; that maintains the day-people's world, but its place in their thoughts is
+;; diminished, usually to nothing. As we grow old we diminish more and more such
+;; thoughts, such people, usually to nothing. -- Will Mengarini
+;;
+;; Repository: `https://github.com/emacsmirror/diminish'
+;;
+;; Also: `https://www.gnu.org/software/emacs/manual/html_node/use-package/Diminish.html'
+(use-package diminish
+  :straight t)
+
 ;; It's a minor mode for Emacs that displays the key bindings following your
 ;; currently entered incomplete command (a prefix) in a popup.
 ;;
 ;; Repository: `https://github.com/justbur/emacs-which-key'
 (use-package which-key
   :straight t
+  :diminish which-key-mode
   :custom (which-key-mode t))
 
 ;; super-save auto-saves your buffers, when certain events happen - e.g. you
@@ -37,6 +52,7 @@
 ;; Repository: `https://github.com/bbatsov/super-save'
 (use-package super-save
   :straight t
+  :diminish super-save-mode
   :custom
   (super-save-mode +1)
   (super-save-auto-save-when-idle t)
@@ -57,6 +73,7 @@
 ;; Repository: `https://github.com/Fanael/rainbow-delimiters'
 (use-package rainbow-delimiters
   :straight t
+  :diminish rainbow-delimiters-mode
   :hook (prog-mode . rainbow-delimiters-mode))
 
 ;; Minor mode for Emacs that deals with parens pairs and tries to be smart about
@@ -65,6 +82,7 @@
 ;; Repository: `https://github.com/Fuco1/smartparens'
 (use-package smartparens
   :straight t
+  :diminish smartparens-mode
   :init (require 'smartparens-config)
   :custom
   (smartparens-global-mode t)
@@ -80,6 +98,7 @@
 ;; Book: https://oremacs.com/swiper/
 (use-package counsel
   :straight t
+  :diminish ivy-mode
   :bind (("C-x C-f" . counsel-find-file)
          ("C-s" . swiper-isearch))
   :custom (ivy-mode t))
@@ -89,6 +108,7 @@
 ;; Repository: `https://github.com/company-mode/company-mode'
 (use-package company
   :straight t
+  :diminish company-mode
   :hook (after-init . global-company-mode)
   :bind
   (:map company-active-map
@@ -106,6 +126,7 @@
 ;; Repository: `https://github.com/sebastiencs/company-box'
 (use-package company-box
   :straight t
+  :diminish company-box-mode
   :after (company)
   :hook (company-mode . company-box-mode))
 
@@ -123,6 +144,7 @@
 ;; Repository: `https://github.com/DarthFennec/highlight-indent-guides'
 (use-package highlight-indent-guides
   :straight t
+  :diminish highlight-indent-guides-mode
   :custom
   (highlight-indent-guides-method 'bitmap)
   :hook

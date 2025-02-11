@@ -79,6 +79,11 @@
         treemacs-space-between-root-nodes nil)
   ;; UI
   (setq lsp-headerline-breadcrumb-enable t)
+  (setq lsp-modeline-diagnostics-enable t
+        ;; :global/:workspace/:file
+        lsp-modeline-diagnostics-scope :workspace)
+  ;; for checking the compilation `lsp-treemacs-errors-list'
+  (setq lsp-modeline-code-actions-mode nil)
   ;; F# ---------------------------------
   ;; `https://emacs-lsp.github.io/lsp-mode/page/lsp-fsharp/'
   (setq lsp-fsharp-enable-reference-code-lens t)
@@ -192,6 +197,7 @@
 ;; - Switch projects `projectile-switch-project'
 (use-package projectile
   :straight t
+  :diminish projectile-mode
   :init
   (projectile-mode +1)
   :bind (:map projectile-mode-map
@@ -214,6 +220,7 @@
 ;;
 (use-package editorconfig
   :straight t
+  :diminish editorconfig-mode
   :config (editorconfig-mode 1))
 
 ;; Highlight uncommited changes on the left side of the window
@@ -225,11 +232,31 @@
   (global-diff-hl-mode)
   (diff-hl-flydiff-mode))
 
+;; A git blame plugin for emacs inspired by VS Code’s GitLens plugin and Vim
+;; plugin.
+;;
+;; - `https://github.com/Artawower/blamer.el'
+(use-package blamer
+  :straight t
+  :diminish blamer-mode
+  :bind (("s-i" . blamer-show-commit-info))
+  :custom
+  (blamer-idle-time 0.3)
+  (blamer-min-offset 70)
+  :custom-face
+  (blamer-face ((t :foreground "#7a88cf"
+                    :background nil
+                    :height 140
+                    :italic t)))
+  :config
+  (global-blamer-mode 1))
+
 ;; YASnippet is a template system for Emacs. It allows you to type an
 ;; abbreviation and automatically expand it into function templates.
 ;; `https://github.com/joaotavora/yasnippet'
 (use-package yasnippet
   :straight t
+  :diminish yas-minor-mode
   :config
   (setq yas-snippet-dirs
         (list (concat gajo--local-dir "yasnippets")))
@@ -244,8 +271,6 @@
 
 ;; ======================================================
 ;; F# CONFIG
-;; Got this configuration from Magueta's config
-;; `https://github.com/MMagueta/MageMacs/blob/macintosh/init.el'
 ;;
 ;; Provides support for the F# language in Emacs
 ;; `https://github.com/fsharp/emacs-fsharp-mode'
