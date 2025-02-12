@@ -32,6 +32,7 @@
 ;; - projectile
 ;; - editorconfig
 ;; - diff-hl
+;; - blamer
 ;; - yasnippet
 ;; - fsharp-mode
 ;; - python-mode

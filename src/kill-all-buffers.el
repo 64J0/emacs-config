@@ -7,16 +7,21 @@
 
 ;;; Code:
 
-(require 'rx)
-
 (defun gajo--kill-all-buffers ()
-  "Kill all open buffers leaving only SCRATCH open."
+  "Kill all open buffers leaving only SCRATCH open.
+Its code is inspired by the `kill-matching-buffers'."
   (interactive)
-  (let ((internal-too nil)
-        (no-ask t))
-    (kill-matching-buffers
-     (rx (zero-or-more (not (any ""))))
-     internal-too
-     no-ask)))
+  (dolist (buffer (buffer-list))
+    (let ((no-ask 1)
+          (name (buffer-name buffer)))
+      (when (not (string-equal name "*scratch*"))
+        (funcall (if no-ask 'kill-buffer 'kill-buffer-ask) buffer)))))
+
+;; For debugging
+;;
+;; (dolist (buffer (buffer-list))
+;;     (let ((name (buffer-name buffer)))
+;;       (when (not (not (string-equal name "*scratch*")))
+;;         (message "This name is: %s" name))))
 
 ;;; kill-all-buffers.el ends here
