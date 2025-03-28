@@ -52,7 +52,8 @@
   (org-babel-inline-result-wrap "=%s=")
   (org-use-sub-superscripts '{})
   (org-export-with-sub-superscripts '{})
-  (org-latex-create-formula-image-program 'dvipng) ;; apt install dvipng
+  (org-latex-create-formula-image-program 'dvipng) ;; apt install dvipng texlive texlive-latex-recommended
+  ;; (org-preview-latex-process-alist)
   (org-highlight-latex-and-related '(native))
   (org-cite-export-processors '((latex biblatex)
                                 (moderncv basic)
@@ -193,7 +194,7 @@
   :config
   (setq org-drill-add-random-noise-to-intervals-p t)
   (setq org-drill-scope 'directory) ;; file
-  (setq org-drill-maximum-items-per-session nil)
+  (setq org-drill-maximum-items-per-session 30)
   (setq org-drill-maximum-duration 30))
 
 ;; Prettify headings and plain lists in Org mode.

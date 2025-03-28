@@ -46,6 +46,7 @@
 ;; - rider
 ;; - local erlang stuff
 ;; - magit
+;; - go-mode
 
 ;;; Code:
 
@@ -66,7 +67,8 @@
          (c-mode         . lsp-deferred)
          (c++-mode       . lsp-deferred)
          (erlang-mode    . lsp-deferred)
-         (clojure-mode   . lsp-deferred))
+         (clojure-mode   . lsp-deferred)
+         (go-mode        . lsp-deferred))
   :config
   ;; performance tuning
   (setq gc-cons-threshold (* 100 1024 1024)
@@ -246,7 +248,7 @@
   (blamer-min-offset 70)
   :custom-face
   (blamer-face ((t :foreground "#7a88cf"
-                    :background nil
+                    :background unspecified
                     :height 140
                     :italic t)))
   :config
@@ -310,12 +312,20 @@
 ;; PYTHON
 ;; `https://www.emacswiki.org/emacs/PythonProgrammingInEmacs'
 ;;
+;; I decided to use the pylsp lsp server:
+;; `https://github.com/python-lsp/python-lsp-server'. In my local environment it
+;; was installed using
+;;
+;; pip install 'python-lsp-server[all]'
+;;
+;; From within a virtual environment shell.
+;;
 (use-package python-mode
   :straight t
   :after flycheck
   :mode ("\\.py\\'" . python-mode)
   :custom
-  (python-indent-offset 2)
+  (python-indent-offset 4)
   (flycheck-python-pycompile-executable "python3")
   (python-shell-interpreter "python3"))
 
@@ -413,5 +423,23 @@
 ;; - `https://emacsair.me/2017/09/01/magit-walk-through/'
 (use-package magit
   :straight t)
+
+;; ==================================
+;; Go lang
+;;
+;; - `https://github.com/golang/tools/blob/master/gopls/doc/emacs.md'
+;;
+;; It was necessary to update the PATH env var, using this value after
+;; installing the go binary:
+;;
+;; - `export PATH="$PATH:/usr/local/go/bin:/home/gajo/go/bin"'
+(use-package go-mode
+  :straight t
+  :mode ("\\.go\\'" . go-mode))
+
+;; (defun lsp-go-install-save-hooks ()
+;;   (add-hook 'before-save-hook #'lsp-format-buffer t t)
+;;   (add-hook 'before-save-hook #'lsp-organize-imports t t))
+;; (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
 ;;; prog-mode.el ends here
