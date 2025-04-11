@@ -47,6 +47,7 @@
 ;; - local erlang stuff
 ;; - magit
 ;; - go-mode
+;; - nasm-mode for assembly
 
 ;;; Code:
 
@@ -437,9 +438,18 @@
   :straight t
   :mode ("\\.go\\'" . go-mode))
 
-;; (defun lsp-go-install-save-hooks ()
-;;   (add-hook 'before-save-hook #'lsp-format-buffer t t)
-;;   (add-hook 'before-save-hook #'lsp-organize-imports t t))
-;; (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+;; Set up before-save hooks to format buffer and add/delete imports.
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
+;; ===================================
+;; Assembly
+;;
+;; - `https://github.com/skeeto/nasm-mode'
+(use-package nasm-mode
+  :straight t)
+(add-to-list 'auto-mode-alist '("\\.asm$" . nasm-mode))
 
 ;;; prog-mode.el ends here
