@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: nasm-template
+# key: <nasm
+# --
+
+extern printf
+section .data
+$0
+section .bss
+section .text
+global main
+main:
