@@ -10,3 +10,10 @@ section .bss
 section .text
 global main
 main:
+        ; prologue
+        push rbp
+        mov rbp, rsp
+
+        ; epilogue
+        leave
+        ret
