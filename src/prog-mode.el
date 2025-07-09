@@ -69,7 +69,8 @@
          (c++-mode       . lsp-deferred)
          (erlang-mode    . lsp-deferred)
          (clojure-mode   . lsp-deferred)
-         (go-mode        . lsp-deferred))
+         (go-mode        . lsp-deferred)
+         (ada-mode       . lsp-deferred))
   :config
   ;; performance tuning
   (setq gc-cons-threshold (* 100 1024 1024)
@@ -451,5 +452,20 @@
 (use-package nasm-mode
   :straight t)
 (add-to-list 'auto-mode-alist '("\\.asm$" . nasm-mode))
+
+;; ===================================
+;; [NOT WORKING FOR NOW !!!] Ada
+;;
+;; - `https://github.com/emacsmirror/ada-mode'
+;; - `https://elpa.gnu.org/packages/doc/ada-mode.html'
+;; - `https://github.com/AdaCore/ada_language_server#integration-with-emacs-lsp-mode'
+;;
+;; Other IDE
+;;
+;; - `https://github.com/AdaCore/gnatstudio'
+;; (use-package ada-mode
+;;   :straight t)
+;; (add-to-list 'auto-mode-alist '("\\.ads$" . ada-mode))
+;; (add-to-list 'auto-mode-alist '("\\.adb$" . ada-mode))
 
 ;;; prog-mode.el ends here
