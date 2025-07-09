@@ -14,6 +14,7 @@
 ;;
 ;; Table of packages:
 ;;
+;; - plantuml-mode
 ;; - org
 ;; - org-roam
 ;; - org-drill
@@ -26,6 +27,24 @@
 ;;; Code:
 
 (require 'use-package)
+
+(setq-default gajo--plantuml-download-jar "/home/gajo/lib/plantuml/plantuml.jar")
+
+;; PlantUML mode
+;;
+;; - `https://github.com/skuro/plantuml-mode'
+;; - `https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-plantuml.html'
+;;
+(use-package deflate
+  :straight t) ;; necessary for plantuml
+(use-package plantuml-mode
+  :straight t
+  :config
+  ;; download jar -> `plantuml-download-jar'
+  ;; graphviz is necessary -> `https://graphviz.org/download/'
+  (setq plantuml-jar-path gajo--plantuml-download-jar)
+  (setq plantuml-default-exec-mode 'jar)
+  (setq plantuml-output-type "png"))
 
 (use-package org
   :straight t
@@ -59,6 +78,10 @@
                                 (moderncv basic)
                                 (t basic)))
   :config
+  ;; -------------- plantuml setup
+  (setq org-plantuml-jar-path gajo--plantuml-download-jar)
+  (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
+  (setq org-startup-with-inline-images t)
   (setq org-format-latex-options
         (plist-put org-format-latex-options :scale 2.0))
   (setq org-todo-keywords
@@ -136,7 +159,8 @@
      (python   . t)
      (js       . t)
      (C        . t)
-     (org      . t))))
+     (org      . t)
+     (plantuml . t))))
 
 ;; FlySpell for spell checking
 ;; https://www.emacswiki.org/emacs/FlySpell
