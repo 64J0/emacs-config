@@ -91,9 +91,29 @@
   (setq lsp-modeline-code-actions-mode nil)
   ;; F# ---------------------------------
   ;; `https://emacs-lsp.github.io/lsp-mode/page/lsp-fsharp/'
-  (setq lsp-fsharp-enable-reference-code-lens t)
-  (setq lsp-fsharp-server-install-dir "/home/gajo/.dotnet/tools/")
-  (setq lsp-fsharp-use-dotnet-tool-for-fsac t)
+  (setq lsp-fsharp-auto-workspace-init nil                                              ; default
+        lsp-fsharp-enable-reference-code-lens t                                         ; default
+        lsp-fsharp-external-autocomplete t
+        lsp-fsharp-generate-binlog nil                                                  ; default
+        lsp-fsharp-interface-stub-generation t                                          ; default
+        lsp-fsharp-interface-stub-generation-method-body "failwith \"Not Implemented\"" ; default
+        lsp-fsharp-interface-stub-generation-object-identifier "this"                   ; default
+        lsp-fsharp-keywords-autocomplete t                                              ; default
+        lsp-fsharp-linter t                                                             ; default
+        lsp-fsharp-record-stub-generation t                                             ; default
+        lsp-fsharp-record-stub-generation-body "failwith \"Not Implemented\""           ; default
+        lsp-fsharp-resolve-namespaces t                                                 ; default
+        lsp-fsharp-server-args nil                                                      ; default
+        lsp-fsharp-server-install-dir "/home/gajo/.dotnet/tools/"
+        lsp-fsharp-simplify-name-analyzer nil                                           ; default
+        lsp-fsharp-union-case-stub-generation t                                         ; default
+        lsp-fsharp-union-case-stub-generation-body "failwith \"Not Implemented\""       ; default
+        lsp-fsharp-unused-declarations-analyzer t                                       ; default
+        lsp-fsharp-unused-opens-analyzer t                                              ; default
+        lsp-fsharp-use-dotnet-local-tool nil                                            ; default
+        lsp-fsharp-use-dotnet-tool-for-fsac t                                           ; default
+        lsp-fsharp-workspace-extra-exclude-dirs nil                                     ; default
+        )
   ;; Terraform --------------------------
   ;; `https://emacs-lsp.github.io/lsp-mode/page/lsp-terraform-ls/'
   (setq lsp-disabled-clients '(tfls)
