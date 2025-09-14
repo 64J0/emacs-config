@@ -93,7 +93,7 @@
   ;; `https://emacs-lsp.github.io/lsp-mode/page/lsp-fsharp/'
   (setq lsp-fsharp-auto-workspace-init nil                                              ; default
         lsp-fsharp-enable-reference-code-lens t                                         ; default
-        lsp-fsharp-external-autocomplete t
+        lsp-fsharp-external-autocomplete nil                                            ; default (performance impact)
         lsp-fsharp-generate-binlog nil                                                  ; default
         lsp-fsharp-interface-stub-generation t                                          ; default
         lsp-fsharp-interface-stub-generation-method-body "failwith \"Not Implemented\"" ; default
