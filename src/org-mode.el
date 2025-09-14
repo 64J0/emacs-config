@@ -66,6 +66,9 @@
   :custom
   (org-support-shift-select 'always)
   (org-directory "~/org")
+  (setq org-agenda-files (list gajo--org-agenda-path
+                               gajo--org-work-path
+                               gajo--org-todo-path))
   (org-src-fontify-natively t)
   (org-refile-use-outline-path 'file)
   (org-babel-inline-result-wrap "=%s=")
@@ -103,11 +106,12 @@
           (org-agenda-files        :maxlevel . 2)
           (,gajo--org-srs-path      :maxlevel . 2)
           (,gajo--org-agenda-path   :maxlevel . 2)))
-  (setq org-agenda-files (list gajo--org-agenda-path
-                               gajo--org-work-path
-                               gajo--org-todo-path))
   (setq org-capture-templates
-        `(("t" "To-Do" entry (file gajo--org-todo-path)
+        `(("i" "Inbox (Agenda)" entry (file gajo--org-agenda-path)
+           ,(concat "* TODO %?\n"
+                    "- Entered on: %U")
+           :jump-to-captured t)
+          ("t" "To-Do" entry (file gajo--org-todo-path)
            ,(concat "* TODO %^{Title}\n"
                     "SCHEDULED: %t\n"
                     ":PROPERTIES:\n"
@@ -117,7 +121,7 @@
                     "  %^{Initial log} %?\n"
                     ":END:")
            :jump-to-captured t)
-          ("w" "Work reminder" entry (file+headline gajo--org-work-path "DevSecOps")
+          ("w" "Work reminder" entry (file+headline gajo--org-work-path "Motivity SWE")
            ,(concat "* TODO %^{Title}\n"
                     "SCHEDULED: %t\n"
                     ":PROPERTIES:\n"
