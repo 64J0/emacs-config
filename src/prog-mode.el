@@ -4,31 +4,10 @@
 
 ;; GENERAL PROGRAMMING
 ;;
-;; Language Server Protocol Support for Emacs
-;;
-;; Aims to provide IDE-like experience by providing optional integration with
-;; the most popular Emacs packages like company, flycheck and projectile.
-;;
-;; + https://github.com/emacs-lsp/lsp-mode
-;; + https://emacs-lsp.github.io/lsp-mode/
-;;
-;; You need first, `lsp-mode', that is Emacs client for an LSP server.  Then you
-;; need to install the specific LSP server for your language.  Finally, call
-;; `M-x lsp' or use the corresponding major mode hook to autostart the server.
-;;
-;; Use `M-x lsp-doctor' to validate if your `lsp-mode' is properly
-;; configured.
-;;
 ;; Table of packages:
 ;;
-;; - lsp-mode
 ;; - flycheck
-;; - lsp-ui
-;; - lsp-ivy
-;; - lsp-treemacs
 ;; - neotree
-;; - helm-lsp
-;; - dap-mode
 ;; - projectile
 ;; - editorconfig
 ;; - diff-hl
@@ -38,115 +17,16 @@
 ;; - python-mode
 ;; - json-mode
 ;; - dockerfile-mode
-;; - terraform-mode
 ;; - yaml-mode
 ;; - markdown-mode
-;; - sml-mode
-;; - clojure-mode
-;; - rider
 ;; - local erlang stuff
 ;; - magit
 ;; - go-mode
-;; - nasm-mode for assembly
+;; - nasm-mode (ASM)
 
 ;;; Code:
 
 (require 'use-package)
-
-;; About `lsp-deferred':
-;; https://github.com/emacs-lsp/lsp-mode/discussions/3360
-(use-package lsp-mode
-  :defer t
-  :straight t
-  :hook ((lsp-mode       . lsp-headerline-breadcrumb-mode)
-         (yaml-mode      . lsp-deferred)
-         (fsharp-mode    . lsp-deferred)
-         (terraform-mode . lsp-deferred)
-         (python-mode    . lsp-deferred)
-         (sh-mode        . lsp-deferred)
-         (sql-mode       . lsp-deferred)
-         (c-mode         . lsp-deferred)
-         (c++-mode       . lsp-deferred)
-         (erlang-mode    . lsp-deferred)
-         (clojure-mode   . lsp-deferred)
-         (go-mode        . lsp-deferred)
-         (ada-mode       . lsp-deferred))
-  :config
-  ;; performance tuning
-  (setq gc-cons-threshold (* 100 1024 1024)
-        ;; warn when opening files bigger than 100MB
-        large-file-warning-threshold (* 100 1024 1024)
-        read-process-output-max (* 1024 1024) ;; 1mb
-        company-idle-delay 0.0
-        company-minimum-prefix-length 1
-        lsp-idle-delay 1.0
-        lsp-log-io nil ;; if set to true can cause a performance hit
-        treemacs-space-between-root-nodes nil)
-  ;; UI
-  (setq lsp-headerline-breadcrumb-enable t)
-  (setq lsp-modeline-diagnostics-enable t
-        ;; :global/:workspace/:file
-        lsp-modeline-diagnostics-scope :workspace)
-  ;; for checking the compilation `lsp-treemacs-errors-list'
-  (setq lsp-modeline-code-actions-mode nil)
-  ;; F# ---------------------------------
-  ;; `https://emacs-lsp.github.io/lsp-mode/page/lsp-fsharp/'
-  (setq lsp-fsharp-auto-workspace-init nil                                              ; default
-        lsp-fsharp-enable-reference-code-lens t                                         ; default
-        lsp-fsharp-external-autocomplete nil                                            ; default (performance impact)
-        lsp-fsharp-generate-binlog nil                                                  ; default
-        lsp-fsharp-interface-stub-generation t                                          ; default
-        lsp-fsharp-interface-stub-generation-method-body "failwith \"Not Implemented\"" ; default
-        lsp-fsharp-interface-stub-generation-object-identifier "this"                   ; default
-        lsp-fsharp-keywords-autocomplete t                                              ; default
-        lsp-fsharp-linter t                                                             ; default
-        lsp-fsharp-record-stub-generation t                                             ; default
-        lsp-fsharp-record-stub-generation-body "failwith \"Not Implemented\""           ; default
-        lsp-fsharp-resolve-namespaces t                                                 ; default
-        lsp-fsharp-server-args nil                                                      ; default
-        lsp-fsharp-server-install-dir "/home/gajo/.dotnet/tools/"
-        lsp-fsharp-simplify-name-analyzer nil                                           ; default
-        lsp-fsharp-union-case-stub-generation t                                         ; default
-        lsp-fsharp-union-case-stub-generation-body "failwith \"Not Implemented\""       ; default
-        lsp-fsharp-unused-declarations-analyzer t                                       ; default
-        lsp-fsharp-unused-opens-analyzer t                                              ; default
-        lsp-fsharp-use-dotnet-local-tool nil                                            ; default
-        lsp-fsharp-use-dotnet-tool-for-fsac t                                           ; default
-        lsp-fsharp-workspace-extra-exclude-dirs nil                                     ; default
-        )
-  ;; Terraform --------------------------
-  ;; `https://emacs-lsp.github.io/lsp-mode/page/lsp-terraform-ls/'
-  (setq lsp-disabled-clients '(tfls)
-        lsp-terraform-ls-enable-show-reference t
-        lsp-semantic-tokens-enable t
-        lsp-semantic-tokens-honor-refresh-requests t
-        lsp-enable-links t)
-  ;; YAML -------------------------------
-  ;; `https://emacs-lsp.github.io/lsp-mode/page/lsp-yaml/'
-  ;; Only default values
-  (with-eval-after-load 'lsp-mode
-    (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
-  ;; There's something wrong with the ELP installation through lsp, so it was
-  ;; required to install the package manually from:
-  ;; `https://github.com/WhatsApp/erlang-language-platform/releases'.
-  ;;
-  ;; More informations regarding this tool:
-  ;; `https://whatsapp.github.io/erlang-language-platform/docs/get-started/editors/emacs/'
-  ;;
-  ;; Other tips:
-  ;;
-  ;; 1. After setting this configuration, LSP and ELP were trying to add file
-  ;; watchers to all my files down the Desktop/ folder. I was able to make it
-  ;; work properly; ie look for the files only from my project, using the
-  ;; command `lsp-workspace-remove-all-folders'. Then, after reopeing the Erlang
-  ;; codebase, it asked me for the root directory, which I provided
-  ;; interactively.
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection '("elp" "server"))
-                    :major-modes '(erlang-mode)
-                    :priority 0
-                    :server-id 'erlang-language-platform))
-  )
 
 ;; Modern on-the-fly syntax checking extension for GNU Emacs.
 ;;
@@ -154,30 +34,6 @@
 (use-package flycheck
   :straight t
   :init (global-flycheck-mode +1))
-
-;; This package contains all the higher level UI modules of lsp-mode, like
-;; flycheck support and code lenses.
-;; https://emacs-lsp.github.io/lsp-ui/#intro
-(use-package lsp-ui
-  :straight t
-  :hook (lsp-mode . lsp-ui-mode)
-  :custom
-  (lsp-ui-doc-position 'bottom)
-  (lsp-ui-peek-always-show t)
-  (lsp-ui-sideline-show-hover t)
-  :init
-  (setq lsp-ui-doc-enable t
-        lsp-ui-sideline-diagnostic-max-lines 7))
-
-;; Search for some string pattern in the project.
-(use-package lsp-ivy
-  :straight t)
-
-;; Integration between lsp-mode and treemacs and implementation of treeview
-;; controls using treemacs as a tree renderer.
-;; https://github.com/emacs-lsp/lsp-treemacs
-(use-package lsp-treemacs
-  :straight t)
 
 ;; A Emacs tree plugin like NerdTree for Vim.
 ;; https://github.com/jaypei/emacs-neotree
@@ -192,19 +48,6 @@
     (if (neo-global--window-exists-p)
         (neotree-toggle)
       (neotree-refresh 1))))
-
-;; This package provides alternative of the build-in lsp-mode xref-appropos
-;; which provides as you type completion.
-;; `https://github.com/emacs-lsp/helm-lsp'
-(use-package helm-lsp
-  :straight t)
-
-;; Emacs client/library for Debug Adapter Protocol is a wire protocol for
-;; communication between client and Debug Server. It's similar to the LSP but
-;; provides integration with debug server.
-;; `https://github.com/emacs-lsp/dap-mode'
-(use-package dap-mode
-  :straight t)
 
 ;; Projectile is a project interaction library for Emacs. Its goal is to provide
 ;; a nice set of features operating on a project level without introducing
@@ -317,7 +160,6 @@
 	 ("\\.fsi$"    .  fsharp-mode)
          ("\\.fsproj$" .  xml-mode)
          ("\\.csproj$" .  xml-mode))
-  :hook (fsharp-mode . lsp-deferred)
   :bind
   (("C-c C-,"     . 'fsharp-shift-region-left)
    ("C-c C-."     . 'fsharp-shift-region-right)
@@ -367,16 +209,6 @@
   :straight t
   :mode ("\\Dockerfile\\'" "\\.dockerfile\\'"))
 
-;; Terraform mode to handle Terraform code.
-;; `https://github.com/emacsorphanage/terraform-mode'
-;;
-(use-package terraform-mode
-  :straight t
-  :mode ("\\.tf\\'" . terraform-mode)
-  :hook (terraform-mode-hook . terraform-format-on-save-mode)
-  :config
-  (setq terraform-indent-level 2))
-
 ;; YAML mode to handle YAML manifests.
 ;; `https://www.emacswiki.org/emacs/YamlMode'
 ;; 
@@ -391,28 +223,6 @@
   :straight t
   :mode ("\\.md\\'" . gfm-mode)
   :init (setq markdown-command "multimarkdown"))
-
-;; SML Mode
-(use-package sml-mode
-  :straight t
-  :mode ("\\.sml\\'" . sml-mode))
-
-;; Clojure programming
-;; `https://emacs-lsp.github.io/lsp-mode/tutorials/clojure-guide/'
-;;
-;; To work with the lsp, it is required to install the clojure-server lsp:
-;;
-;; - M-x lsp-install-server => clojure-lsp
-;;
-(use-package clojure-mode
-  :straight t
-  :mode ("\\.clj\\'" . clojure-mode))
-
-;; Clojure REPL
-;; `https://emacs-lsp.github.io/lsp-mode/tutorials/clojure-guide/'
-;;
-(use-package cider
-  :straight t)
 
 ;; Erlang configuration
 ;;
