@@ -80,17 +80,9 @@ But, as a rule of thumb, to avoid major problems, always launch your Emacs
 program from a terminal:
 
 #+BEGIN_SRC bash
+  # it will start at the background
   emacs&
 #+END_SRC
-
-How I noticed this?
-
-My LSP in general was very bad. Most of things did not work properly, although I
-had the necessary stuff installed. Then, I went to the [[https://emacs-lsp.github.io/lsp-mode/page/troubleshooting/][troubleshooting page in
-LSP docs]] and tested my $PATH using ~M-: (getenv "PATH")~.
-
-Later I compared with the value of ~echo $PATH~ from a terminal window, and for
-my surprise they were different. Emacs $PATH was lacking several configurations.
 
 ** Load Custom Scripts
 
