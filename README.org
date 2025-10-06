@@ -80,8 +80,9 @@ But, as a rule of thumb, to avoid major problems, always launch your Emacs
 program from a terminal:
 
 #+BEGIN_SRC bash
-  # it will start at the background
-  emacs&
+  # start Emacs process at the background, i.e. don't attach its streams to
+  # the shell that started the process
+  emacs &
 #+END_SRC
 
 ** Load Custom Scripts
