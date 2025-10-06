@@ -44,6 +44,7 @@
 (defalias 'straight-update-all-packages 'straight-pull-all)
 ;; https://github.com/radian-software/straight.el#how-do-i-uninstall-a-package
 (defalias 'straight-clean-packages 'straight-remove-unused-repos)
+(setq straight-built-in-pseudo-packages '(emacs nadvice python image-mode project flymake))
 
 ;; ============================================
 ;; Load external configuration
