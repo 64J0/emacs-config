@@ -158,8 +158,8 @@
   :defer t
   :straight t
   :mode (("\\.fs$"     .  fsharp-mode)
-	 ("\\.fsx$"    .  fsharp-mode)
-	 ("\\.fsi$"    .  fsharp-mode)
+         ("\\.fsx$"    .  fsharp-mode)
+         ("\\.fsi$"    .  fsharp-mode)
          ("\\.fsproj$" .  xml-mode)
          ("\\.csproj$" .  xml-mode)
          ;; ("\\.sln$"    .  fsharp-mode)
