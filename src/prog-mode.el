@@ -27,6 +27,8 @@
 ;;; Code:
 
 (require 'use-package)
+;; (require 'json)
+;; (defalias 'json-parse-buffer 'json-read)
 
 ;; Modern on-the-fly syntax checking extension for GNU Emacs.
 ;;
@@ -159,7 +161,9 @@
 	 ("\\.fsx$"    .  fsharp-mode)
 	 ("\\.fsi$"    .  fsharp-mode)
          ("\\.fsproj$" .  xml-mode)
-         ("\\.csproj$" .  xml-mode))
+         ("\\.csproj$" .  xml-mode)
+         ;; ("\\.sln$"    .  fsharp-mode)
+         )
   :bind
   (("C-c C-,"     . 'fsharp-shift-region-left)
    ("C-c C-."     . 'fsharp-shift-region-right)
@@ -170,7 +174,22 @@
   :config
   (setq compile-command "dotnet watch run")
   ;; https://github.com/fsharp/emacs-fsharp-mode/tree/master#compiler-and-repl-paths
-  (setq inferior-fsharp-program "dotnet fsi --readline-"))
+  (setq inferior-fsharp-program "dotnet fsi --readline-")
+  (setq fsharp-indent-offset 2))
+
+(use-package eglot-fsharp
+  :straight t
+  :after fsharp-mode
+  :config
+  ;; (add-hook 'fsharp-mode-hook #'eglot-ensure)
+  ;; (add-hook 'fsharp-mode-hook #'eglot-fsharp)
+  (setq eglot-fsharp-server-install-dir nil)
+  ;; I need to set this version manually so eglot-fsharp does not try
+  ;; to eval (eglot-fsharp--latest-version), which fails locally due to
+  ;; Symbol’s function definition is void: json-parse-buffer
+  ;; https://github.com/fsharp/emacs-fsharp-mode/issues/353
+  (setq eglot-fsharp-server-version "0.79.2")
+  )
 
 ;; ======================================================
 ;; PYTHON
@@ -282,20 +301,5 @@
 (use-package nasm-mode
   :straight t)
 (add-to-list 'auto-mode-alist '("\\.asm$" . nasm-mode))
-
-;; ===================================
-;; [NOT WORKING FOR NOW !!!] Ada
-;;
-;; - `https://github.com/emacsmirror/ada-mode'
-;; - `https://elpa.gnu.org/packages/doc/ada-mode.html'
-;; - `https://github.com/AdaCore/ada_language_server#integration-with-emacs-lsp-mode'
-;;
-;; Other IDE
-;;
-;; - `https://github.com/AdaCore/gnatstudio'
-;; (use-package ada-mode
-;;   :straight t)
-;; (add-to-list 'auto-mode-alist '("\\.ads$" . ada-mode))
-;; (add-to-list 'auto-mode-alist '("\\.adb$" . ada-mode))
 
 ;;; prog-mode.el ends here
