@@ -65,7 +65,7 @@
 (use-package helm
   :straight t
   :bind (("C-x b" . helm-buffers-list)
-         ("M-x" . helm-M-x)))
+         ("M-x"   . helm-M-x)))
 
 ;; rainbow-delimiters is a "rainbow-parentheses"-like mode which highlight
 ;; delimiters such as parentheses, brackets or braces according to their depth.
@@ -113,8 +113,6 @@
   :bind
   (:map company-active-map
         ("<tab>" . company-complete-selection))
-  (:map lsp-mode-map
-        ("<tab>" . company-indent-or-complete-common))
   :commands (company-mode company-indent-or-complete-common)
   :custom
   (company-idle-delay 0.0) ; default is 0.2
