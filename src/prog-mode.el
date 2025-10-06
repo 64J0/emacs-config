@@ -175,7 +175,10 @@
   (setq compile-command "dotnet watch run")
   ;; https://github.com/fsharp/emacs-fsharp-mode/tree/master#compiler-and-repl-paths
   (setq inferior-fsharp-program "dotnet fsi --readline-")
-  (setq fsharp-indent-offset 2))
+  (setq fsharp-indent-offset 2)
+  ;; Tip from Caleb:
+  ;; fsharp-mode-project-root function can consider a different emacs project for each fsharp project
+  (remove-hook 'project-find-functions #'fsharp-mode-project-root))
 
 (use-package eglot-fsharp
   :straight t
@@ -188,8 +191,7 @@
   ;; to eval (eglot-fsharp--latest-version), which fails locally due to
   ;; Symbol’s function definition is void: json-parse-buffer
   ;; https://github.com/fsharp/emacs-fsharp-mode/issues/353
-  (setq eglot-fsharp-server-version "0.79.2")
-  )
+  (setq eglot-fsharp-server-version "0.79.2"))
 
 ;; ======================================================
 ;; PYTHON
