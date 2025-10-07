@@ -53,6 +53,8 @@
   "~/Desktop/codes/emacs-config/"
   "Base path for the src files.")
 
+(setq debug-on-error t)
+
 (load-file (concat gajo--local-dir "src/helpers.el"))
 (load-file (concat gajo--local-dir "src/theme.el"))
 (load-file (concat gajo--local-dir "src/global.el"))
