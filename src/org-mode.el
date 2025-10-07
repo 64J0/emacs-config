@@ -1,5 +1,4 @@
 ;;; org-mode.el --- My org-mode configuration -*- lexical-binding: t; -*-
-
 ;;; Commentary:
 
 ;; ORG MODE
@@ -54,7 +53,7 @@
 	 ("C-c c" . org-capture))
   :preface
   (setq org-export-backends
-        '(moderncv md gfm beamer ascii html latex odt org))
+        '(md beamer ascii html latex odt org))
   :init
   (setq gajo--org-srs-path "~/org/srs/deck-refile.org"
         gajo--org-notes-path "~/org/notes.org"
