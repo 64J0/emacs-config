@@ -23,6 +23,8 @@
 ;; - magit
 ;; - go-mode
 ;; - nasm-mode (ASM)
+;;
+;; We don't need to install Eglot given that it's distributed within Emacs.
 
 ;;; Code:
 
@@ -133,11 +135,13 @@
   (yas-global-mode 1))
 
 ;; ======================================================
-;; C++ CONFIG
+;; C/C++ CONFIG
 ;; `https://emacs-lsp.github.io/lsp-mode/tutorials/CPP-guide/'
 ;; `https://github.com/atilaneves/cmake-ide'
 ;;
 ;; - LSP server: `clangd'
+(add-hook 'c-mode-hook 'eglot-ensure)
+(add-hook 'c++-mode-hook 'eglot-ensure)
 
 ;; ======================================================
 ;; F# CONFIG

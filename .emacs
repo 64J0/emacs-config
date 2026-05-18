@@ -49,20 +49,32 @@
 ;; ============================================
 ;; Load external configuration
 (message "Loading external configuration")
-(defvar gajo--local-dir
-  "~/Desktop/codes/emacs-config/"
-  "Base path for the src files.")
 
 (setq debug-on-error t)
 
-(load-file (concat gajo--local-dir "src/helpers.el"))
-(load-file (concat gajo--local-dir "src/theme.el"))
-(load-file (concat gajo--local-dir "src/global.el"))
-(load-file (concat gajo--local-dir "src/unfill-paragraph.el"))
-(load-file (concat gajo--local-dir "src/org-mode.el"))
-(load-file (concat gajo--local-dir "src/markdown.el"))
-(load-file (concat gajo--local-dir "src/prog-mode.el"))
-(load-file (concat gajo--local-dir "src/move-buffer.el"))
-(load-file (concat gajo--local-dir "src/kill-all-buffers.el"))
+(defconst gajo--local-dir
+  "~/Desktop/codes/emacs-config/"
+  "Base path for the src files.")
+
+(defconst gajo--file-paths
+  '("src/helpers.el"
+    "src/theme.el"
+    "src/global.el"
+    "src/unfill-paragraph.el"
+    "src/org-mode.el"
+    "src/org-mode.ext.el"
+    "src/markdown.el"
+    "src/prog-mode.el"
+    "src/move-buffer.el"
+    "src/kill-all-buffers.el")
+  "My custom configuration file paths.")
+
+(defun gajo--load-files ()
+  "Load my custom configuration files."
+  (dolist (gajo--file-path gajo--file-paths)
+    (message "Loading file at: %s" gajo--file-path)
+    (load-file (concat gajo--local-dir gajo--file-path))))
+
+(gajo--load-files)
 
 ;;; .emacs ends here
