@@ -7,12 +7,10 @@
 ;;
 ;; Table of packages:
 ;;
-;; - which-key
 ;; - super-save
 ;; - helm
 ;; - rainbow-delimiters
 ;; - smartparens
-;; - counsel
 ;; - company
 ;; - company-box
 ;; - multiple-cursors
@@ -37,15 +35,6 @@
 (use-package diminish
   :straight t)
 
-;; It's a minor mode for Emacs that displays the key bindings following your
-;; currently entered incomplete command (a prefix) in a popup.
-;;
-;; Repository: `https://github.com/justbur/emacs-which-key'
-(use-package which-key
-  :straight t
-  :diminish which-key-mode
-  :custom (which-key-mode t))
-
 ;; super-save auto-saves your buffers, when certain events happen - e.g. you
 ;; switch between buffers, an Emacs frame loses focus, etc.
 ;;
@@ -65,6 +54,7 @@
 (use-package helm
   :straight t
   :bind (("C-x b" . helm-buffers-list)
+         ("C-x C-f" . helm-find-files)
          ("M-x"   . helm-M-x)))
 
 ;; rainbow-delimiters is a "rainbow-parentheses"-like mode which highlight
@@ -89,19 +79,6 @@
   (sp-show-pair-from-inside t)
   :custom-face
   (sp-show-pair-match-face ((t (:foreground "Purple" :background "Green")))))
-
-;; Ivy: generic completion mechanism for Emacs
-;; Counsel: collection of Ivy-enhanced versions of common Emacs commands
-;; Swiper: Ivy-enhanced alternative to Isearch
-;;
-;; Repository: `https://github.com/abo-abo/swiper'
-;; Book: https://oremacs.com/swiper/
-(use-package counsel
-  :straight t
-  :diminish ivy-mode
-  :bind (("C-x C-f" . counsel-find-file)
-         ("C-s" . swiper-isearch))
-  :custom (ivy-mode t))
 
 ;; COMplete ANYthing: modular in-buffer completion framework for Emacs.
 ;;
