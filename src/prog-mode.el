@@ -29,6 +29,11 @@
 ;;; Code:
 
 (require 'use-package)
+(require 'eglot)
+
+(require 'editorconfig)
+(editorconfig-mode 1)
+
 ;; (require 'json)
 ;; (defalias 'json-parse-buffer 'json-read)
 
@@ -38,6 +43,9 @@
 (use-package flycheck
   :straight t
   :init (global-flycheck-mode +1))
+
+(add-hook 'eglot-managed-mode-hook
+  (lambda () (flycheck-mode -1)))
 
 ;; A Emacs tree plugin like NerdTree for Vim.
 ;; https://github.com/jaypei/emacs-neotree
@@ -84,16 +92,6 @@
                                     :compile "dotnet build"
                                     :run "dotnet run"
                                     :test "dotnet test"))
-
-;; This mode sets up hooks so that EditorConfig properties will be loaded and
-;; applied to the new buffers automatically when visiting files.
-;;
-;; `https://github.com/editorconfig/editorconfig-emacs'
-;;
-(use-package editorconfig
-  :straight t
-  :diminish editorconfig-mode
-  :config (editorconfig-mode 1))
 
 ;; Highlight uncommited changes on the left side of the window
 ;; area known as the "gutter"
@@ -218,6 +216,8 @@
   (flycheck-python-pycompile-executable "python3")
   (python-shell-interpreter "python3"))
 
+(add-hook 'python-mode-hook #'eglot-ensure)
+
 ;; ======================================================
 ;; DEVSECOPS
 ;; Used for json files.
@@ -270,6 +270,7 @@
 (require 'erlang-start "/home/gajo/lib/erlang/27.1.2/lib/tools-4.1/emacs/erlang-start.el")
 (add-to-list 'auto-mode-alist '("\\.erl?$" . erlang-mode))
 (add-to-list 'auto-mode-alist '("\\.hrl?$" . erlang-mode))
+(add-hook 'erlang-mode-hook #'eglot-ensure)
 
 ;; Magit
 ;;
@@ -295,10 +296,12 @@
   :mode ("\\.go\\'" . go-mode))
 
 ;; Set up before-save hooks to format buffer and add/delete imports.
-(defun lsp-go-install-save-hooks ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
-(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+(add-hook 'go-mode-hook #'eglot-ensure)
+(add-hook 'before-save-hook
+  (lambda ()
+    (when (eglot-managed-p)
+      (eglot-format-buffer)
+      (call-interactively #'eglot-code-action-organize-imports))))
 
 ;; ===================================
 ;; Assembly
