@@ -11,8 +11,8 @@
 ;; - helm
 ;; - rainbow-delimiters
 ;; - smartparens
-;; - company
-;; - company-box
+;; - counsel
+;; - corfu
 ;; - multiple-cursors
 ;; - highlight-indent-guides
 ;; - dired-du
@@ -53,9 +53,9 @@
 ;; Repository: `https://github.com/emacs-helm/helm'
 (use-package helm
   :straight t
-  :bind (("C-x b" . helm-buffers-list)
+  :bind (("C-x b"   . helm-buffers-list)
          ("C-x C-f" . helm-find-files)
-         ("M-x"   . helm-M-x)))
+         ("M-x"     . helm-M-x)))
 
 ;; rainbow-delimiters is a "rainbow-parentheses"-like mode which highlight
 ;; delimiters such as parentheses, brackets or braces according to their depth.
@@ -80,30 +80,33 @@
   :custom-face
   (sp-show-pair-match-face ((t (:foreground "Purple" :background "Green")))))
 
-;; COMplete ANYthing: modular in-buffer completion framework for Emacs.
+;; Ivy: generic completion mechanism for Emacs
+;; Counsel: collection of Ivy-enhanced versions of common Emacs commands
+;; Swiper: Ivy-enhanced alternative to Isearch
 ;;
-;; Repository: `https://github.com/company-mode/company-mode'
-(use-package company
+;; Repository: `https://github.com/abo-abo/swiper'
+;; Book: https://oremacs.com/swiper/
+(use-package counsel
   :straight t
-  :diminish company-mode
-  :hook (after-init . global-company-mode)
-  :bind
-  (:map company-active-map
-        ("<tab>" . company-complete-selection))
-  :commands (company-mode company-indent-or-complete-common)
-  :custom
-  (company-idle-delay 0.0) ; default is 0.2
-  (company-minimum-prefix-length 1)
-  (company-selection-wrap-around t))
+  :diminish ivy-mode
+  :bind (("C-x C-f" . counsel-find-file)
+         ("C-s"     . swiper-isearch))
+  :custom (ivy-mode t))
 
-;; A company front-end with icons.
+;; Corfu enhances in-buffer completion with a small completion popup.
 ;;
-;; Repository: `https://github.com/sebastiencs/company-box'
-(use-package company-box
+;; Repository: `https://github.com/minad/corfu'
+(require 'compat)
+(unless (fboundp 'set-local)
+  (defun set-local (variable value)
+    "Runtime function fallback for byte-code expecting the Emacs 31 macro."
+    (set (make-local-variable variable) value)))
+(use-package corfu
   :straight t
-  :diminish company-box-mode
-  :after (company)
-  :hook (company-mode . company-box-mode))
+  :hook
+  (prog-mode . (lambda () (setq-local corfu-auto t)))
+  :init
+  (global-corfu-mode))
 
 ;; Multile cursors to make our lifes easier.
 ;;                                        ;
