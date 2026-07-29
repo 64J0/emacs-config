@@ -1,12 +1,18 @@
-;;; .emacs --- My custom Emacs setup -*- lexical-binding: t; -*-
+;;; init.el --- My custom Emacs setup -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
 ;; This is my personal Emacs configuration file.
 ;;
-;; Notice that it's splitted among several files in order to make it easier to
-;; understand and segregate their configuration.  Other than that, I have added
-;; some short documentation to describe each package.
+;; Structure is Prelude-inspired (`https://github.com/bbatsov/prelude'):
+;;
+;; - `core/'    always-loaded config: completion, UI, editor, general
+;;   programming tooling.  Not optional.
+;; - `modules/' one file per language/topic.  Toggle a language on/off by
+;;   (un)commenting its entry in `modules/modules-list.el' -- no need to
+;;   delete the file itself.
+;;
+;; Each file documents its own packages in its `;;; Commentary:' header.
 
 ;;; Code:
 
@@ -40,6 +46,14 @@
 (require 'straight)
 
 (straight-use-package 'use-package)
+
+;; Pull in the newer `org' from straight before anything else has a chance
+;; to trigger loading Emacs's built-in Org first -- otherwise `use-package
+;; org' in modules/lang-org.el loads too late and every Org buffer starts
+;; with an "Org version mismatch" warning.
+;; https://orgmode.org/worg/org-faq.html#mixed-installation
+(straight-use-package 'org)
+
 ;; https://github.com/radian-software/straight.el#how-do-i-update-melpa-et-al
 (defalias 'straight-update-all-packages 'straight-pull-all)
 ;; https://github.com/radian-software/straight.el#how-do-i-uninstall-a-package
@@ -53,28 +67,27 @@
 (setq debug-on-error t)
 
 (defconst gajo--local-dir
-  "~/Desktop/codes/emacs-config/"
-  "Base path for the src files.")
+  (file-name-directory (or load-file-name buffer-file-name))
+  "Base path for this config, computed from this file's own location.")
 
-(defconst gajo--file-paths
-  '("src/helpers.el"
-    "src/theme.el"
-    "src/global.el"
-    "src/unfill-paragraph.el"
-    "src/org-mode.el"
-    "src/org-mode.ext.el"
-    "src/markdown.el"
-    "src/prog-mode.el"
-    "src/move-buffer.el"
-    "src/kill-all-buffers.el")
-  "My custom configuration file paths.")
+(defconst gajo--core-files
+  '("core/core-completion.el"
+    "core/core-ui.el"
+    "core/core-editor.el"
+    "core/core-programming.el")
+  "Always-loaded config files, in load order.")
 
-(defun gajo--load-files ()
-  "Load my custom configuration files."
-  (dolist (gajo--file-path gajo--file-paths)
+(defun gajo--load-files (file-paths)
+  "Load each of FILE-PATHS, relative to `gajo--local-dir', in order."
+  (dolist (gajo--file-path file-paths)
     (message "Loading file at: %s" gajo--file-path)
     (load-file (concat gajo--local-dir gajo--file-path))))
 
-(gajo--load-files)
+(gajo--load-files gajo--core-files)
 
-;;; .emacs ends here
+;; `modules/modules-list.el' defines `gajo--module-files', the toggleable
+;; per-language module list -- comment out an entry there to disable it.
+(load-file (concat gajo--local-dir "modules/modules-list.el"))
+(gajo--load-files gajo--module-files)
+
+;;; init.el ends here

@@ -71,9 +71,25 @@ One can find the project repository in this [[https://github.com/radian-software
 Also, there is this cool video from System Crafter regarding this package
 manager: YouTube [[https://www.youtube.com/watch?v=UmbVeqphGlc&ab_channel=SystemCrafters][link]].
 
+* Project Structure
+
+This config is organized Prelude-style (`https://github.com/bbatsov/prelude'):
+
++ ~init.el~ bootstraps ~straight.el~/~use-package~ and loads everything else.
++ ~core/~ holds config that's always loaded: completion, UI/theme, editor
+  defaults, and general programming tooling (Eglot, Flycheck, Projectile,
+  Treemacs, Magit, etc.). Not optional.
++ ~modules/~ holds one file per language/topic (F#, Python, Go, org-mode,
+  ...). Enable or disable a module by (un)commenting its entry in
+  ~modules/modules-list.el~ -- no need to delete the file.
++ ~yasnippets/~ holds snippet templates, unchanged by the file layout above.
+
+Each file documents its own packages and common commands in its
+~;;; Commentary:~ header -- that's the reference, no separate docs folder.
+
 * Launching Emacs
 
-In my experience I noticed that the Emacs $PATH is different based on how you
+In my experience I noticed that the Emacs *$PATH* is different based on how you
 launch it. ~This is something I still want to research more to understand.~
 
 But, as a rule of thumb, to avoid major problems, always launch your Emacs
@@ -93,6 +109,14 @@ order to do it, you can use this function:
 
 #+BEGIN_SRC elisp
   (load-file "~/Desktop/codes/custom-emacs/my-cool-script.el")
+#+END_SRC
+
+I use this feature to tell Emacs where to find this project by adding this line
+of code to the beginning of ~~/.emacs.d/init.el~:
+
+#+BEGIN_SRC elisp
+  ;; ~/.emacs.d/init.el
+  (load-file "~/Desktop/codes/emacs-config/init.el")
 #+END_SRC
 
 * Learning Emacs
@@ -154,7 +178,7 @@ Those are the points I think are worth knowing, at least in the beginning.
 + [[https://github.com/MatthewZMD/.emacs.d][MatthewZMD/.emacs.d]]
 + [[https://github.com/redguardtoo/mastering-emacs-in-one-year-guide/blob/master/guide-en.org][redguardtoo/mastering-emacs-in-one-year-guide]]
 + [[https://planet.emacslife.com/][Planet Emacslife]]
-+ [[https://emacs-lsp.github.io/lsp-mode/][LSP Mode - Language Server Protocol support for Emacs]]
++ [[https://www.gnu.org/software/emacs/manual/html_node/eglot/][Eglot manual - the built-in LSP client this config uses]]
 + [[https://github.com/daviwil/emacs-from-scratch][daviwil - Emacs From Scratch]]
 + [[https://www.oreilly.com/library/view/writing-gnu-emacs/9781449395056/][(Book) Writing GNU Emacs Extensions]]
 + [[https://www.labri.fr/perso/nrougier/GTD/index.html][Nicolas P. Rougier - Get Things Done with Emacs]]
