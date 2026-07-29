@@ -1,4 +1,4 @@
-;;; org-mode.ext.el --- Custom org-mode extensions -*- lexical-binding: t; -*-
+;;; lang-org-ext.el --- Custom org-mode extensions -*- lexical-binding: t; -*-
 ;;; Commentary:
 
 ;; ORG MODE EXTENSIONS
@@ -69,4 +69,4 @@
 (advice-add 'read-char-exclusive :around #'gajo--org-drill-input-interceptor)
 (advice-add 'read-key :around #'gajo--org-drill-input-interceptor)
 
-;;; org-mode.ext.el ends here
+;;; lang-org-ext.el ends here

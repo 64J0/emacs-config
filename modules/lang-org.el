@@ -1,4 +1,4 @@
-;;; org-mode.el --- My org-mode configuration -*- lexical-binding: t; -*-
+;;; lang-org.el --- My org-mode configuration -*- lexical-binding: t; -*-
 ;;; Commentary:
 
 ;; ORG MODE
@@ -260,10 +260,10 @@
   ;; delete unwanted file extensions after latexMK
   (setq org-latex-logfiles-extensions
         (quote ("lof" "lot" "tex~" "aux" "idx" "log" "out" "toc" "nav" "snm" "vrb" "dvi" "fdb_latexmk" "blg" "brf" "fls" "entoc" "ps" "spl" "bbl" "xmpi" "run.xml" "bcf" "acn" "acr" "alg" "glg" "gls" "ist")))
-  
+
   (unless (boundp 'org-latex-classes)
     (setq org-latex-classes nil)))
 
 (use-package oc-biblatex)
 
-;;; org-mode.el ends here
+;;; lang-org.el ends here

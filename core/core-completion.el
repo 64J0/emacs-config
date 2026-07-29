@@ -1,18 +1,22 @@
-;;; helpers.el --- Some helper packages -*- lexical-binding: t; -*-
+;;; core-completion.el --- Completion and editing helpers -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
-;; At this file I put the helper packages which are not related to the other
-;; categories.
+;; Minibuffer completion, in-buffer completion, and small editing helpers
+;; that aren't tied to a specific language.
 ;;
 ;; Table of packages:
 ;;
+;; - diminish
 ;; - super-save
-;; - helm
 ;; - rainbow-delimiters
 ;; - smartparens
-;; - counsel
+;; - counsel (ivy + swiper)
+;; - ivy-rich
+;; - ivy-prescient
 ;; - corfu
+;; - corfu-prescient
+;; - which-key
 ;; - multiple-cursors
 ;; - highlight-indent-guides
 ;; - dired-du
@@ -46,16 +50,6 @@
   (super-save-mode +1)
   (super-save-auto-save-when-idle t)
   (auto-save-default nil))
-
-;; Helm is an Emacs framework for incremental completions and narrowing
-;; selections.
-;;
-;; Repository: `https://github.com/emacs-helm/helm'
-(use-package helm
-  :straight t
-  :bind (("C-x b"   . helm-buffers-list)
-         ("C-x C-f" . helm-find-files)
-         ("M-x"     . helm-M-x)))
 
 ;; rainbow-delimiters is a "rainbow-parentheses"-like mode which highlight
 ;; delimiters such as parentheses, brackets or braces according to their depth.
@@ -93,6 +87,26 @@
          ("C-s"     . swiper-isearch))
   :custom (ivy-mode t))
 
+;; Richer annotations (docstrings, key bindings, file sizes, etc.) next to
+;; Ivy candidates -- closer to VS Code's command palette descriptions.
+;;
+;; Repository: `https://github.com/Yevgnen/ivy-rich'
+(use-package ivy-rich
+  :straight t
+  :after counsel
+  :init (ivy-rich-mode 1))
+
+;; Sort Ivy candidates by frecency (frequency + recency), like VS Code's
+;; "most recently used" ordering in the command palette / quick open.
+;;
+;; Repository: `https://github.com/raxod502/prescient.el'
+(use-package ivy-prescient
+  :straight t
+  :after counsel
+  :config
+  (ivy-prescient-mode 1)
+  (prescient-persist-mode 1))
+
 ;; Corfu enhances in-buffer completion with a small completion popup.
 ;;
 ;; Repository: `https://github.com/minad/corfu'
@@ -108,6 +122,25 @@
   :init
   (global-corfu-mode))
 
+;; Frecency-based sorting for Corfu candidates, same idea as `ivy-prescient'
+;; but for in-buffer completion.
+;;
+;; Repository: `https://github.com/raxod502/prescient.el'
+(use-package corfu-prescient
+  :straight t
+  :after corfu
+  :config
+  (corfu-prescient-mode 1))
+
+;; Shows the available key bindings for the prefix you just pressed in a
+;; popup -- the closest thing Emacs has to VS Code's command-palette hints.
+;;
+;; Repository: `https://github.com/justbur/emacs-which-key'
+(use-package which-key
+  :straight t
+  :diminish which-key-mode
+  :init (which-key-mode))
+
 ;; Multile cursors to make our lifes easier.
 ;;                                        ;
 ;; Repository: `https://github.com/magnars/multiple-cursors.el'
@@ -119,12 +152,21 @@
 
 ;; Display the indentation level.
 ;;
+;; `character' instead of the default `bitmap': bitmap draws into the
+;; fringe and can end up invisible depending on fringe width/theme, whereas
+;; a colored character column reliably shows up regardless of frame setup.
+;; The face color is set explicitly so it doesn't depend on a theme's
+;; automatic guess either.
+;;
 ;; Repository: `https://github.com/DarthFennec/highlight-indent-guides'
 (use-package highlight-indent-guides
   :straight t
   :diminish highlight-indent-guides-mode
   :custom
-  (highlight-indent-guides-method 'bitmap)
+  (highlight-indent-guides-method 'character)
+  (highlight-indent-guides-responsive 'top)
+  :custom-face
+  (highlight-indent-guides-character-face ((t (:foreground "gray70"))))
   :hook
   (prog-mode . highlight-indent-guides-mode))
 
@@ -138,4 +180,4 @@
   ;; (dired-mode . dired-du-mode)
   )
 
-;;; helpers.el ends here
+;;; core-completion.el ends here
